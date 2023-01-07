@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/styles/colors.dart';
-import 'package:wheere/styles/text_styles.dart';
+import 'package:wheere/styles/screens.dart';
 import 'package:wheere/view/common/custom_radio/custom_radio_button.dart';
 
-import '../../../styles/border_radius.dart';
 
 class CustomRadioListTitle<T> extends StatelessWidget {
   final T? value;

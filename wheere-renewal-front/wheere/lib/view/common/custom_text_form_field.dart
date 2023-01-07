@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/styles/border_radius.dart';
-import 'package:wheere/styles/colors.dart';
-
-import '../../styles/text_styles.dart';
+import 'package:wheere/styles/screens.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String? labelText;

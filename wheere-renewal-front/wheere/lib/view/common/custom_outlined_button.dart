@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/styles/text_styles.dart';
-
-import '../../styles/border_radius.dart';
-import '../../styles/colors.dart';
+import 'package:wheere/styles/screens.dart';
 
 class CustomOutlinedButton extends StatelessWidget {
   final void Function()? onPressed;

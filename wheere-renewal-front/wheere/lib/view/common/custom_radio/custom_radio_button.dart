@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/styles/colors.dart';
+import 'package:wheere/styles/screens.dart';
 
 class CustomRadioButton<T> extends StatefulWidget {
   final T? value;
