@@ -3,6 +3,8 @@ import 'package:wheere/styles/colors.dart';
 import 'package:wheere/styles/text_styles.dart';
 import 'package:wheere/view/common/custom_radio/custom_radio_button.dart';
 
+import '../../../styles/border_radius.dart';
+
 class CustomRadioListTitle<T> extends StatelessWidget {
   final T? value;
   final T? groupValue;
@@ -26,7 +28,7 @@ class CustomRadioListTitle<T> extends StatelessWidget {
       height: const Size.fromHeight(50).height,
       decoration: BoxDecoration(
           color: CustomColor.textFormMainColor,
-          borderRadius: BorderRadius.circular(9)),
+          borderRadius: BorderRadius.circular(kBorderRadius)),
       child: Row(
         children: [
           Padding(

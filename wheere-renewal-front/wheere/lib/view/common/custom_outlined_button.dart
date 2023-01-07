@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/styles/text_styles.dart';
 
+import '../../styles/border_radius.dart';
 import '../../styles/colors.dart';
 
 class CustomOutlinedButton extends StatelessWidget {
@@ -19,7 +20,7 @@ class CustomOutlinedButton extends StatelessWidget {
       style: OutlinedButton.styleFrom(
           backgroundColor: CustomColor.itemSubColor,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(kBorderRadius)),
           minimumSize: const Size.fromHeight(50),
           side: BorderSide.none),
       child: Text(
