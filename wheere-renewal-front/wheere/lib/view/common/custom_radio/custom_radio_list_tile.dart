@@ -24,7 +24,7 @@ class CustomRadioListTitle<T> extends StatelessWidget {
       width: double.infinity,
       height: kContainerSize.height,
       decoration: BoxDecoration(
-        color: CustomColor.textFormMainColor,
+        color: CustomColor.backGroundSubColor,
         borderRadius: BorderRadius.circular(kBorderRadiusSize),
       ),
       child: Row(

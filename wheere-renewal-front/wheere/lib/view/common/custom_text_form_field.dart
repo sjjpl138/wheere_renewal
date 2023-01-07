@@ -26,7 +26,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: CustomColor.textFormMainColor,
+          color: CustomColor.backGroundSubColor,
           borderRadius: BorderRadius.circular(kBorderRadiusSize)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -53,7 +53,7 @@ class CustomTextFormField extends StatelessWidget {
           TextFormField(
             controller: controller,
             validator: validator,
-            cursorColor: CustomColor.textFormMainColor,
+            cursorColor: CustomColor.backGroundSubColor,
             keyboardType: keyboardType,
             style: kTextMainStyleMiddle,
             decoration: InputDecoration(
@@ -65,7 +65,7 @@ class CustomTextFormField extends StatelessWidget {
               hintText: "Enter $hintText",
               hintStyle: kTextMainStyleMiddle,
               filled: true,
-              fillColor: CustomColor.textFormMainColor,
+              fillColor: CustomColor.backGroundSubColor,
               border: InputBorder.none,
             ),
           ),

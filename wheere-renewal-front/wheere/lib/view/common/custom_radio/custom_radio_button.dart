@@ -26,8 +26,8 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
           widget.onChanged != null ? widget.onChanged!(widget.value) : null,
       style: OutlinedButton.styleFrom(
         backgroundColor: widget.value == widget.groupValue
-            ? CustomColor.itemSubColor
-            : CustomColor.itemDisabledColor,
+            ? CustomColor.buttonSubColor
+            : CustomColor.buttonDisabledColor,
         shape: const CircleBorder(),
         side: BorderSide.none,
         padding: EdgeInsets.zero,
@@ -35,7 +35,7 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
       ),
       child: const Icon(
         Icons.check,
-        color: CustomColor.textReverseColor,
+        color: CustomColor.backGroundSubColor,
         size: kIconMainSize,
       ),
     );
