@@ -27,7 +27,7 @@ class CustomTextFormField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: CustomColor.textFormMainColor,
-          borderRadius: BorderRadius.circular(20)),
+          borderRadius: BorderRadius.circular(12)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
