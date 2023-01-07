@@ -7,6 +7,8 @@ class CustomTextFormField extends StatelessWidget {
 
   final IconData? prefixIcon;
 
+  final TextInputType keyboardType;
+
   final String? Function(String?)? validator;
   final TextEditingController? controller;
 
@@ -15,6 +17,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.labelText,
     required this.hintText,
     required this.prefixIcon,
+    required this.keyboardType,
     required this.validator,
     required this.controller,
   }) : super(key: key);
@@ -52,6 +55,7 @@ class CustomTextFormField extends StatelessWidget {
             controller: controller,
             validator: validator,
             cursorColor: CustomColor.textFormMainColor,
+            keyboardType: keyboardType,
             style: const TextStyle(
               color: CustomColor.textMainColor,
               fontWeight: FontWeight.bold,
@@ -63,7 +67,7 @@ class CustomTextFormField extends StatelessWidget {
               contentPadding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
               hintText: "Enter $hintText",
               hintStyle: const TextStyle(
-                color: CustomColor.textMainColor,
+                color: CustomColor.textSubColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0,
                 overflow: TextOverflow.ellipsis,
