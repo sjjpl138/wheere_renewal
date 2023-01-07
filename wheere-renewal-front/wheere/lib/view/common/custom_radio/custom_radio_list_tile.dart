@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/styles/screens.dart';
+import 'package:wheere/styles/styles.dart';
 import 'package:wheere/view/common/custom_radio/custom_radio_button.dart';
 
 class CustomRadioListTitle<T> extends StatelessWidget {

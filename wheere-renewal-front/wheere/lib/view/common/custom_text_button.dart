@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/styles/screens.dart';
+import 'package:wheere/styles/styles.dart';
 
 class CustomTextButton extends StatelessWidget {
   final void Function()? onPressed;
