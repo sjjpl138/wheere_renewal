@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wheere/styles/screens.dart';
 import 'package:wheere/view/common/custom_radio/custom_radio_button.dart';
 
-
 class CustomRadioListTitle<T> extends StatelessWidget {
   final T? value;
   final T? groupValue;
@@ -23,21 +22,29 @@ class CustomRadioListTitle<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: const Size.fromHeight(50).height,
+      height: kContainerSize.height,
       decoration: BoxDecoration(
-          color: CustomColor.textFormMainColor,
-          borderRadius: BorderRadius.circular(kBorderRadius)),
+        color: CustomColor.textFormMainColor,
+        borderRadius: BorderRadius.circular(kBorderRadiusSize),
+      ),
       child: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.symmetric(horizontal: kPaddingSize),
             child: Text(
               title,
               style: kTextMainStyleMiddle,
             ),
           ),
           const Spacer(),
-          CustomRadioButton<T>(value: value, groupValue: groupValue, onChanged: onChanged),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: kPaddingSize),
+            child: CustomRadioButton<T>(
+              value: value,
+              groupValue: groupValue,
+              onChanged: onChanged,
+            ),
+          ),
         ],
       ),
     );

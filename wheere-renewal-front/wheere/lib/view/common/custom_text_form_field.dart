@@ -27,21 +27,22 @@ class CustomTextFormField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: CustomColor.textFormMainColor,
-          borderRadius: BorderRadius.circular(kBorderRadius)),
+          borderRadius: BorderRadius.circular(kBorderRadiusSize)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                padding: const EdgeInsets.all(kPaddingSize),
                 child: Icon(
                   prefixIcon,
+                  size: kIconSubSize,
                   color: CustomColor.itemSubColor,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                padding: const EdgeInsets.symmetric(vertical: kPaddingSize),
                 child: Text(
                   labelText ?? "",
                   style: kTextMainStyleSmall,
@@ -57,7 +58,10 @@ class CustomTextFormField extends StatelessWidget {
             style: kTextMainStyleMiddle,
             decoration: InputDecoration(
               isDense: true,
-              contentPadding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+              contentPadding: const EdgeInsets.only(
+                left: kPaddingSize,
+                bottom: kPaddingSize,
+              ),
               hintText: "Enter $hintText",
               hintStyle: kTextMainStyleMiddle,
               filled: true,

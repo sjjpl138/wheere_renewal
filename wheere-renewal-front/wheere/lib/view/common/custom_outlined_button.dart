@@ -15,11 +15,13 @@ class CustomOutlinedButton extends StatelessWidget {
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
-          backgroundColor: CustomColor.itemSubColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(kBorderRadius)),
-          minimumSize: const Size.fromHeight(50),
-          side: BorderSide.none),
+        backgroundColor: CustomColor.itemSubColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(kBorderRadiusSize),
+        ),
+        minimumSize: kContainerSize,
+        side: BorderSide.none,
+      ),
       child: Text(
         text,
         style: kTextReverseStyleMiddle,
