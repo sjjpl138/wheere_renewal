@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wheere/styles/text_styles.dart';
 
 import '../../styles/colors.dart';
 
@@ -23,10 +24,7 @@ class CustomOutlinedButton extends StatelessWidget {
           side: BorderSide.none),
       child: Text(
         text,
-        style: const TextStyle(
-            color: CustomColor.textReverseColor,
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold),
+        style: kTextReverseStyleMiddle,
       ),
     );
   }

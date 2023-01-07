@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/styles/colors.dart';
 
+import '../../styles/text_styles.dart';
+
 class CustomTextFormField extends StatelessWidget {
   final String? labelText;
   final String? hintText;
@@ -44,9 +46,7 @@ class CustomTextFormField extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                 child: Text(
                   labelText ?? "",
-                  style: const TextStyle(
-                      color: CustomColor.textMainColor,
-                      fontWeight: FontWeight.bold),
+                  style: kTextMainStyleSmall,
                 ),
               ),
             ],
@@ -56,22 +56,12 @@ class CustomTextFormField extends StatelessWidget {
             validator: validator,
             cursorColor: CustomColor.textFormMainColor,
             keyboardType: keyboardType,
-            style: const TextStyle(
-              color: CustomColor.textMainColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0,
-              overflow: TextOverflow.ellipsis,
-            ),
+            style: kTextMainStyleMiddle,
             decoration: InputDecoration(
               isDense: true,
               contentPadding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
               hintText: "Enter $hintText",
-              hintStyle: const TextStyle(
-                color: CustomColor.textSubColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-                overflow: TextOverflow.ellipsis,
-              ),
+              hintStyle: kTextMainStyleMiddle,
               filled: true,
               fillColor: CustomColor.textFormMainColor,
               border: InputBorder.none,

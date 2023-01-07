@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/styles/colors.dart';
+import 'package:wheere/styles/text_styles.dart';
 import 'package:wheere/view/common/custom_radio/custom_radio_button.dart';
 
 class CustomRadioListTitle<T> extends StatelessWidget {
@@ -32,11 +33,7 @@ class CustomRadioListTitle<T> extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Text(
               title,
-              style: const TextStyle(
-                color: CustomColor.textMainColor,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
+              style: kTextMainStyleMiddle,
             ),
           ),
           const Spacer(),
