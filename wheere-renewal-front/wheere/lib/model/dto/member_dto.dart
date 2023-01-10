@@ -13,9 +13,9 @@ class MemberDTO {
     required this.mNum,
   });
 
-  factory MemberDTO.fromJson(String mId, Map<String, dynamic> json) {
+  factory MemberDTO.fromJson(Map<String, dynamic> json) {
     return MemberDTO(
-      mId: mId,
+      mId: json["mId"],
       mName: json["mName"],
       mSex: json["mSex"],
       mBrithDate: json["mBrithDate"],
