@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/styles/styles.dart';
 import 'package:wheere/view/common/commons.dart';
+import 'package:wheere/view_model/login_view_model.dart';
+import 'package:wheere/util/utils.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -10,6 +12,15 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  final LoginViewModel _loginViewModel = LoginViewModel();
+
+  final loginKey = GlobalKey<FormState>();
+
+  final TextEditingController _emailController =
+      TextEditingController(text: '');
+  final TextEditingController _passwordController =
+      TextEditingController(text: '');
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -21,47 +32,60 @@ class _LoginViewState extends State<LoginView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.min,
-              children: const [
+              children: [
+                const SizedBox(height: kPaddingSize),
                 //TODO : App Icon 그림자 추가 필요
-                Icon(
+                const Icon(
                   Icons.directions_bus,
                   color: CustomColor.itemSubColor,
                   size: 200.0,
                 ),
-                Text(
+                const Text(
                   "WHEERE",
                   style: kTextMainStyleLarge,
                 ),
-                CustomTextFormField(
-                  labelText: "이메일",
-                  hintText: "Email",
-                  prefixIcon: Icons.email,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: null,
-                  controller: null,
+                const SizedBox(height: kPaddingSize),
+                Form(
+                  key: loginKey,
+                  child: Column(
+                    children: [
+                      CustomTextFormField(
+                        labelText: "이메일",
+                        hintText: "Email",
+                        prefixIcon: Icons.email,
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) => validateEmail(value),
+                        controller: _emailController,
+                      ),
+                      const SizedBox(height: kPaddingSize),
+                      CustomTextFormField(
+                        labelText: "비밀번호",
+                        hintText: "Password",
+                        prefixIcon: Icons.lock,
+                        keyboardType: TextInputType.visiblePassword,
+                        validator: (value) => validatePassword(value),
+                        controller: _passwordController,
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(
-                  height: kPaddingSize,
-                ),
-                CustomTextFormField(
-                  labelText: "비밀번호",
-                  hintText: "Password",
-                  prefixIcon: Icons.lock,
-                  keyboardType: TextInputType.visiblePassword,
-                  validator: null,
-                  controller: null,
-                ),
-                SizedBox(
-                  height: kPaddingSize,
-                ),
+                const SizedBox(height: kPaddingSize),
                 CustomOutlinedButton(
-                  onPressed: null,
+                  onPressed: () async {
+                    if (loginKey.currentState!.validate()) {
+                      await _loginViewModel.login(
+                        _emailController.text,
+                        _passwordController.text,
+                      );
+                    }
+                  },
                   text: "로그인",
                 ),
-                SizedBox(
-                  height: kPaddingSize,
-                ),
-                CustomTextButton(text: "회원이 아니신가요?")
+                const SizedBox(height: kPaddingSize),
+                const CustomTextButton(
+                  onPressed: null,
+                  text: "회원이 아니신가요?",
+                )
               ],
             ),
           ),
