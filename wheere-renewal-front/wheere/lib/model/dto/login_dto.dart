@@ -1,9 +1,13 @@
 class LoginDTO {
-  String email;
-  String password;
+  String mId;
 
   LoginDTO({
-    required this.email,
-    required this.password,
+    required this.mId,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      "mId": mId,
+    };
+  }
 }
