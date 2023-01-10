@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "62899042835",
+    "project_id": "wheere-abb78",
+    "storage_bucket": "wheere-abb78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62899042835:android:b217aaaf6833a18660dde6",
+        "android_client_info": {
+          "package_name": "kr.ac.kumoh.sjjpl138.wheere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62899042835-qhredio3f8qmofuqr43aok3qq3edmma6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ-WzjSJ31rN0-Vk3MOI9coaOljuHyK2Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "62899042835-qhredio3f8qmofuqr43aok3qq3edmma6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
