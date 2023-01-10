@@ -1,5 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bus {
 
     @Id @Column(name = "BUS_ID")
