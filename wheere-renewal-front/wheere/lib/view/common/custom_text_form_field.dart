@@ -55,6 +55,7 @@ class CustomTextFormField extends StatelessWidget {
             validator: validator,
             cursorColor: CustomColor.backGroundSubColor,
             keyboardType: keyboardType,
+            obscureText: keyboardType == TextInputType.visiblePassword,
             style: kTextMainStyleMiddle,
             decoration: InputDecoration(
               isDense: true,

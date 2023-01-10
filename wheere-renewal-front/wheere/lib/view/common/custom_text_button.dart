@@ -6,7 +6,7 @@ class CustomTextButton extends StatelessWidget {
 
   final String text;
 
-  const CustomTextButton({Key? key, this.onPressed, required this.text})
+  const CustomTextButton({Key? key, required this.onPressed, required this.text})
       : super(key: key);
 
   @override
