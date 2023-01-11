@@ -35,13 +35,13 @@ class _LoginViewState extends State<LoginView> {
               FocusScope.of(context).unfocus();
             },
             child: Padding(
-              padding: const EdgeInsets.all(kPaddingSize),
+              padding: const EdgeInsets.all(kPaddingLargeSize),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: kPaddingSize),
+                  const SizedBox(height: kPaddingLargeSize),
                   //TODO : App Icon 그림자 추가 필요
                   Flexible(
                       child: Column(
@@ -57,7 +57,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ],
                   )),
-                  const SizedBox(height: kPaddingSize),
+                  const SizedBox(height: kPaddingLargeSize),
                   Form(
                     key: loginKey,
                     child: Column(
@@ -70,7 +70,7 @@ class _LoginViewState extends State<LoginView> {
                           validator: (value) => validateEmail(value),
                           controller: _emailController,
                         ),
-                        const SizedBox(height: kPaddingSize),
+                        const SizedBox(height: kPaddingLargeSize),
                         CustomTextFormField(
                           labelText: "비밀번호",
                           hintText: "Password",
@@ -82,7 +82,7 @@ class _LoginViewState extends State<LoginView> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: kPaddingSize),
+                  const SizedBox(height: kPaddingLargeSize),
                   CustomOutlinedButton(
                     onPressed: () async {
                       if (loginKey.currentState!.validate()) {
@@ -94,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
                     },
                     text: "로그인",
                   ),
-                  const SizedBox(height: kPaddingSize),
+                  const SizedBox(height: kPaddingLargeSize),
                   const CustomTextButton(
                     onPressed: null,
                     text: "회원이 아니신가요?",

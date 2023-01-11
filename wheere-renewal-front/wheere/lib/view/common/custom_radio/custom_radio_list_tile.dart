@@ -30,7 +30,7 @@ class CustomRadioListTitle<T> extends StatelessWidget {
       child: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kPaddingSize),
+            padding: const EdgeInsets.symmetric(horizontal: kPaddingLargeSize),
             child: Text(
               title,
               style: kTextMainStyleMiddle,
@@ -38,7 +38,7 @@ class CustomRadioListTitle<T> extends StatelessWidget {
           ),
           const Spacer(),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: kPaddingSize),
+            padding: const EdgeInsets.symmetric(vertical: kPaddingLargeSize),
             child: CustomRadioButton<T>(
               value: value,
               groupValue: groupValue,

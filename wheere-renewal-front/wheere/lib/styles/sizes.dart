@@ -8,5 +8,6 @@ const Size kTextButtonSize = Size.fromHeight(14);
 const double kIconMainSize = 28.0;
 const double kIconSubSize = 24.0;
 
-const double kPaddingSize = 10.0;
+const double kPaddingLargeSize = 16.0;
+const double kPaddingSmallSize = 8.0;
 
