@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/service/services.dart';
-import 'package:wheere/model/type/types.dart';
+import 'type/types.dart';
 
 class HomeViewModel extends ChangeNotifier {
   late final LoginService _loginService;
