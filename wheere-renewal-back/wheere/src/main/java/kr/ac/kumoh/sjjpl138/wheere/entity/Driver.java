@@ -18,7 +18,7 @@ public class Driver {
     @Id @Column(name = "DRIVER_ID")
     private String id;
 
-    private String name;
+    private String username;
 
     private double ratingScore;
 
