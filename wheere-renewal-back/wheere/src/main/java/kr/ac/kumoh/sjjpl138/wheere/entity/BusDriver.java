@@ -17,11 +17,11 @@ public class BusDriver extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "BUS_ID")
+    @JoinColumn(name = "BUS_ID")
     private Bus bus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "DRIVER_ID")
+    @JoinColumn(name = "DRIVER_ID")
     private Driver driver;
 
     private LocalDate operationDate;
