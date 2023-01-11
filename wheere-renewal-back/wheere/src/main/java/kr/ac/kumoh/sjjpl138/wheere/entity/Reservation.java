@@ -1,5 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.entity;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Reservation extends BaseTimeEntity {
 
@@ -26,7 +27,7 @@ public class Reservation extends BaseTimeEntity {
     private Bus bus;
 
     @Enumerated(EnumType.STRING)
-    private ReservationState reservationState;
+    private ReservationStatus reservationStatus;
 
     private int busCount; // 탑승해야하는 버스 개수 (환승 구분)
 
