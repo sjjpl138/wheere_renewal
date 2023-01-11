@@ -63,7 +63,7 @@ class CustomTextFormField extends StatelessWidget {
                 left: kPaddingSize,
                 bottom: kPaddingSize,
               ),
-              hintText: "Enter $hintText",
+              hintText: hintText,
               hintStyle: kTextMainStyleMiddle,
               filled: true,
               fillColor: CustomColor.backGroundSubColor,
