@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/view/search/search_page.dart';
+import 'package:wheere/view/main/main_page.dart';
 import 'package:wheere/view_model/home_view_model.dart';
-
-import '../login/login_page.dart';
+import 'package:wheere/view/login/login_page.dart';
 
 class HomeView extends StatefulWidget {
   final HomeViewModel homeViewModel;
@@ -18,6 +17,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return _homeViewModel.member == null ? const LoginPage() : const SearchPage();
+    return _homeViewModel.member == null ? const LoginPage() : const MainPage();
   }
 }

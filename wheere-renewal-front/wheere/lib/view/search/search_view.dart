@@ -15,19 +15,9 @@ class SearchView extends StatefulWidget {
 class _SearchViewState extends State<SearchView> {
   late final SearchViewModel _searchViewModel = widget.searchViewModel;
 
-  bool isNewAlarm = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.build(
-        context,
-        title: 'WHEERE',
-        leading: AlarmIconButton(isNewAlarm: isNewAlarm),
-        actions: [
-          const SettingIconButton(),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Container(
           color: CustomColor.backgroundMainColor,
