@@ -26,5 +26,5 @@ public class Operation {
 
     private LocalDate operationDate;
 
-    private BusDriverStatus status; // 버스 배정 상태
+    private OperationStatus status; // 버스 배정 상태
 }
