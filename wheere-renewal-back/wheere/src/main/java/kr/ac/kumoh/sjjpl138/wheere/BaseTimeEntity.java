@@ -1,4 +1,4 @@
-package kr.ac.kumoh.sjjpl138.wheere.entity;
+package kr.ac.kumoh.sjjpl138.wheere;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

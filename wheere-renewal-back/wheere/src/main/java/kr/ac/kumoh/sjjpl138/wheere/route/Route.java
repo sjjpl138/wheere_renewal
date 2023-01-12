@@ -1,12 +1,12 @@
-package kr.ac.kumoh.sjjpl138.wheere.entity;
+package kr.ac.kumoh.sjjpl138.wheere.route;
 
+import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalTime;
 
 @Entity
 @Getter

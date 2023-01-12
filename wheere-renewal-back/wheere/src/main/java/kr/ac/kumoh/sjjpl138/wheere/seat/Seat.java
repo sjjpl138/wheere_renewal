@@ -1,5 +1,6 @@
-package kr.ac.kumoh.sjjpl138.wheere.entity;
+package kr.ac.kumoh.sjjpl138.wheere.seat;
 
+import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

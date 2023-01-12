@@ -1,5 +1,8 @@
-package kr.ac.kumoh.sjjpl138.wheere.entity;
+package kr.ac.kumoh.sjjpl138.wheere.reservation;
 
+import kr.ac.kumoh.sjjpl138.wheere.BaseTimeEntity;
+import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
+import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
