@@ -16,7 +16,7 @@ import java.util.List;
 public class Bus {
 
     @Id @Column(name = "BUS_ID")
-    private String id;
+    private Long id;
 
     private String vehicleNo; //차량 번호
 
