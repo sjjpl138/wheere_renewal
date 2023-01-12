@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Driver {
+public class Driver extends BaseTimeEntity {
 
     @Id @Column(name = "DRIVER_ID")
     private String id;
