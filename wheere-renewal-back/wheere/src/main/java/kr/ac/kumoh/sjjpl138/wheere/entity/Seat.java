@@ -1,6 +1,5 @@
 package kr.ac.kumoh.sjjpl138.wheere.entity;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,7 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class Seat {
 
@@ -26,5 +25,5 @@ public class Seat {
 
     private int leftSeatsNum;     // 예약 가능한 남은 좌석 수
 
-    private LocalDate reservationDate;
+    private LocalDate operationDate;
 }

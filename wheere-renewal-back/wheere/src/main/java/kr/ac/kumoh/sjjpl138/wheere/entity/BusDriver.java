@@ -1,6 +1,5 @@
 package kr.ac.kumoh.sjjpl138.wheere.entity;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +8,7 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class BusDriver extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +16,11 @@ public class BusDriver extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "BUS_ID")
+    @JoinColumn(name = "BUS_ID")
     private Bus bus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "DRIVER_ID")
+    @JoinColumn(name = "DRIVER_ID")
     private Driver driver;
 
     private LocalDate operationDate;
