@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Route {
 
     @Id @Column(name = "ROUTE_ID")
-    private String id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BUS_ID")
