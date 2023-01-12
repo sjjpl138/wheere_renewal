@@ -1,5 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,8 +9,8 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@NoArgsConstructor
-public class Operation extends BaseTimeEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Operation {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BUS_DRIVER_ID")
