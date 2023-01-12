@@ -19,12 +19,4 @@ public class Route {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BUS_ID")
     private Bus bus;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "STATION_ID")
-    private Station station;
-
-    private int stationSeq; //정류장 순서
-
-    private LocalTime arrivalTime; // 예상 도착 시간
 }
