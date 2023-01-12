@@ -25,5 +25,5 @@ public class Seat {
 
     private int leftSeatsNum;     // 예약 가능한 남은 좌석 수
 
-    private LocalDate operationDate;
+    private LocalDate seatDate;
 }
