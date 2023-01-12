@@ -1,4 +1,4 @@
-package kr.ac.kumoh.sjjpl138.wheere.entity;
+package kr.ac.kumoh.sjjpl138.wheere.station;
 
 import lombok.AccessLevel;
 import lombok.Getter;

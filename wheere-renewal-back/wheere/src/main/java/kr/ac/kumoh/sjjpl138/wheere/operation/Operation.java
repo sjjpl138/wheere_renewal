@@ -1,5 +1,7 @@
-package kr.ac.kumoh.sjjpl138.wheere.entity;
+package kr.ac.kumoh.sjjpl138.wheere.operation;
 
+import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
+import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
