@@ -18,8 +18,8 @@ public class Seat {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ROUTE_ID")
-    private Route route;
+    @JoinColumn(name = "PLATFORM_ID")
+    private Platform platform;
 
     private int totalSeatsNum;     // 예약 가능한 총 좌석 수
 
