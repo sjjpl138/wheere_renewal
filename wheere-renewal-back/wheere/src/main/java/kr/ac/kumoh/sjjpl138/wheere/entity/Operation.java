@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Operation extends BaseTimeEntity {
+public class Operation {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BUS_DRIVER_ID")
