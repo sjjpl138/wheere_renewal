@@ -1,11 +1,11 @@
 import 'bus_dto.dart';
 
 class RouteDTO {
+  String sWalkingTime;
   List<BusDTO> buses;
-  String eWalkingTime;
 
   RouteDTO({
     required this.buses,
-    required this.eWalkingTime,
+    required this.sWalkingTime,
   });
 }

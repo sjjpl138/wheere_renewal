@@ -8,8 +8,3 @@ class SelectTabViewModel extends ChangeNotifier {
     required this.routes,
   });
 }
-
-
-
-
-

@@ -26,6 +26,7 @@ class CustomOutlinedMiniButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: kPaddingSmallSize),
         child: Text(
           text,
+          textAlign: TextAlign.center,
           style: kTextReverseStyleSmall,
         ),
       ),
