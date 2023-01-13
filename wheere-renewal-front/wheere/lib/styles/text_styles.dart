@@ -44,3 +44,17 @@ const TextStyle kTextReverseStyleSmall = TextStyle(
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
 );
+
+const TextStyle kTextMainStyleMini = TextStyle(
+  color: CustomColor.textMainColor,
+  fontSize: kTextMiniSize,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.ellipsis,
+);
+
+const TextStyle kTextReverseStyleMini = TextStyle(
+  color: CustomColor.textReverseColor,
+  fontSize: kTextMiniSize,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.ellipsis,
+);

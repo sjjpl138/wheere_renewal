@@ -31,15 +31,23 @@ class _SelectTabViewState extends State<SelectTabView> {
               color: CustomColor.backGroundSubColor,
               borderRadius: BorderRadius.circular(kBorderRadiusSize),
             ),
-            child: Row(
+            child: Column(
               children: [
-                Flexible(
-                  child: Column(
-                    children: [
-                      CustomSeparator(
-                        text: "도보 이동 : ${routeDTO.sWalkingTime}",
+                Row(
+                  children: [
+                    const SizedBox(width: kPaddingMiddleSize),
+                    Flexible(
+                      child: RouteInfo(
+                        route: routeDTO,
                       ),
-                      ListView.separated(
+                    ),
+                    const SizedBox(width: kPaddingMiddleSize),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Flexible(
+                      child: ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.only(top: kPaddingMiddleSize),
@@ -52,37 +60,21 @@ class _SelectTabViewState extends State<SelectTabView> {
                             ),
                             child: CustomListItem(
                               bNo: busDTo.bNo,
-                              sStation:
-                                  "${busDTo.sTime}\n${busDTo.sStationName}",
-                              eStation:
-                                  "${busDTo.eTime}\n${busDTo.eStationName}",
+                              sStation: "${busDTo.sTime}\n${busDTo.sStationName}",
+                              eStation: "${busDTo.eTime}\n${busDTo.eStationName}",
                               leftSeats: "${busDTo.leftSeats} 개",
                             ),
                           );
                         },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: kPaddingMiddleSize,
-                            ),
-                            child: CustomSeparator(
-                              text:
-                                  "도보 이동 : ${routeDTO.buses[index].eWalkingTime}",
-                            ),
-                          );
-                        },
                       ),
-                      CustomSeparator(
-                        text: "도보 이동 : ${routeDTO.buses[index].eWalkingTime}",
-                      ),
-                    ],
-                  ),
+                    ),
+                    const CustomOutlinedMiniButton(
+                      onPressed: null,
+                      text: "예약",
+                    ),
+                    const SizedBox(width: kPaddingMiddleSize),
+                  ],
                 ),
-                const CustomOutlinedMiniButton(
-                  onPressed: null,
-                  text: "예약",
-                ),
-                const SizedBox(width: kPaddingMiddleSize),
               ],
             ),
           ),

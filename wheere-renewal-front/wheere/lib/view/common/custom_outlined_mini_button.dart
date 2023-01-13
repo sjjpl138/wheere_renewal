@@ -15,7 +15,7 @@ class CustomOutlinedMiniButton extends StatelessWidget {
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
-        backgroundColor: CustomColor.buttonSubColor,
+        backgroundColor: CustomColor.buttonMainColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kBorderRadiusSize),
         ),
@@ -23,7 +23,7 @@ class CustomOutlinedMiniButton extends StatelessWidget {
         side: BorderSide.none,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: kPaddingSmallSize),
+        padding: const EdgeInsets.symmetric(vertical: kPaddingMiniSize),
         child: Text(
           text,
           textAlign: TextAlign.center,
