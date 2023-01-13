@@ -10,13 +10,13 @@ class CustomRadioListTitle<T> extends StatelessWidget {
 
   final void Function(T?)? onChanged;
 
-  const CustomRadioListTitle(
-      {Key? key,
-      required this.value,
-      required this.groupValue,
-      required this.title,
-      required this.onChanged})
-      : super(key: key);
+  const CustomRadioListTitle({
+    Key? key,
+    required this.value,
+    required this.groupValue,
+    required this.title,
+    required this.onChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

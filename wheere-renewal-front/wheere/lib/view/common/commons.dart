@@ -8,3 +8,4 @@ export 'custom_dialog_button.dart';
 export 'custom_outlined_mini_button.dart';
 export 'custom_list_item/custom_list_item.dart';
 export 'route_info/route_info.dart';
+export 'reservation_info/reservation_info.dart';

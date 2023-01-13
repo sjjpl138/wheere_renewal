@@ -65,7 +65,7 @@ class _SearchViewState extends State<SearchView> {
                   onPressed: null,
                   labelText: "탑승 날짜",
                   text: "탑승 날짜",
-                  prefixIcon: Icons.calendar_month,
+                  prefixIcon: Icons.event_note,
                 ),
                 const SizedBox(height: kPaddingLargeSize),
                 const CustomOutlinedButton(
