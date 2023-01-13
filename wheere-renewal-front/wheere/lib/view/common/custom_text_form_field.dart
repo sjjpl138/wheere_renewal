@@ -26,15 +26,16 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: CustomColor.backGroundSubColor,
-          borderRadius: BorderRadius.circular(kBorderRadiusSize)),
+        color: CustomColor.backGroundSubColor,
+        borderRadius: BorderRadius.circular(kBorderRadiusSize),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.all(kPaddingSize),
+                padding: const EdgeInsets.all(kPaddingMiddleSize),
                 child: Icon(
                   prefixIcon,
                   size: kIconSubSize,
@@ -42,7 +43,8 @@ class CustomTextFormField extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: kPaddingSize),
+                padding:
+                    const EdgeInsets.symmetric(vertical: kPaddingMiddleSize),
                 child: Text(
                   labelText ?? "",
                   style: kTextMainStyleSmall,
@@ -60,10 +62,10 @@ class CustomTextFormField extends StatelessWidget {
             decoration: InputDecoration(
               isDense: true,
               contentPadding: const EdgeInsets.only(
-                left: kPaddingSize,
-                bottom: kPaddingSize,
+                left: kPaddingMiddleSize,
+                bottom: kPaddingMiddleSize,
               ),
-              hintText: "Enter $hintText",
+              hintText: hintText,
               hintStyle: kTextMainStyleMiddle,
               filled: true,
               fillColor: CustomColor.backGroundSubColor,

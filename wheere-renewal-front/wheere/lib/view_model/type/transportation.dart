@@ -1,0 +1,4 @@
+enum Transportation {
+  walk,
+  bus,
+}

@@ -9,6 +9,12 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<LoginViewModel>(
-        create: (_) => LoginViewModel(), child: const LoginView());
+      create: (_) => LoginViewModel(),
+      child: Consumer<LoginViewModel>(
+        builder: (context, provider, child) => LoginView(
+          loginViewModel: provider,
+        ),
+      ),
+    );
   }
 }

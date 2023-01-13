@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wheere/styles/styles.dart';
 import 'package:wheere/view/common/commons.dart';
-import 'package:wheere/view_model/home_view_model.dart';
 import 'package:wheere/view_model/login_view_model.dart';
 import 'package:wheere/util/utils.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+  final LoginViewModel loginViewModel;
+
+  const LoginView({Key? key, required this.loginViewModel}) : super(key: key);
 
   @override
   State<LoginView> createState() => _LoginViewState();
 }
 
 class _LoginViewState extends State<LoginView> {
-  late HomeViewModel _homeViewModel;
-  late LoginViewModel _loginViewModel;
+  late final LoginViewModel _loginViewModel = widget.loginViewModel;
 
   final loginKey = GlobalKey<FormState>();
 
@@ -26,32 +25,39 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    _loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
-    _homeViewModel = Provider.of<HomeViewModel>(context, listen: false);
-
-    return Center(
-      child: SingleChildScrollView(
-        child: Consumer<LoginViewModel>(
-          builder: (context, provider, child) => Container(
-            color: CustomColor.backgroundMainColor,
+    return Scaffold(
+      appBar: CustomAppBar.build(context, title: ""),
+      body: SingleChildScrollView(
+        child: Container(
+          color: CustomColor.backgroundMainColor,
+          child: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
             child: Padding(
-              padding: const EdgeInsets.all(kPaddingSize),
+              padding: const EdgeInsets.all(kPaddingLargeSize),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: kPaddingSize),
+                  const SizedBox(height: kPaddingLargeSize),
                   //TODO : App Icon 그림자 추가 필요
-                  const Icon(
-                    Icons.directions_bus,
-                    color: CustomColor.itemSubColor,
-                    size: 200.0,
-                  ),
-                  const Text(
-                    "WHEERE",
-                    style: kTextMainStyleLarge,
-                  ),
-                  const SizedBox(height: kPaddingSize),
+                  Flexible(
+                      child: Column(
+                    children: const [
+                      Icon(
+                        Icons.directions_bus,
+                        color: CustomColor.itemSubColor,
+                        size: 200.0,
+                      ),
+                      Text(
+                        "WHEERE",
+                        style: kTextMainStyleLarge,
+                      ),
+                    ],
+                  )),
+                  const SizedBox(height: kPaddingLargeSize),
                   Form(
                     key: loginKey,
                     child: Column(
@@ -64,7 +70,7 @@ class _LoginViewState extends State<LoginView> {
                           validator: (value) => validateEmail(value),
                           controller: _emailController,
                         ),
-                        const SizedBox(height: kPaddingSize),
+                        const SizedBox(height: kPaddingLargeSize),
                         CustomTextFormField(
                           labelText: "비밀번호",
                           hintText: "Password",
@@ -76,11 +82,11 @@ class _LoginViewState extends State<LoginView> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: kPaddingSize),
+                  const SizedBox(height: kPaddingLargeSize),
                   CustomOutlinedButton(
                     onPressed: () async {
                       if (loginKey.currentState!.validate()) {
-                        await _homeViewModel.login(
+                        await _loginViewModel.login(
                           _emailController.text,
                           _passwordController.text,
                         );
@@ -88,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
                     },
                     text: "로그인",
                   ),
-                  const SizedBox(height: kPaddingSize),
+                  const SizedBox(height: kPaddingLargeSize),
                   const CustomTextButton(
                     onPressed: null,
                     text: "회원이 아니신가요?",
