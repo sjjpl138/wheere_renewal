@@ -28,5 +28,4 @@ public class Operation {
 
     private LocalDate operationDate;
 
-    private OperationStatus status; // 버스 배정 상태
 }
