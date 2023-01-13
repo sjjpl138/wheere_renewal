@@ -20,7 +20,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
   @override
   void initState() {
     _tabController = TabController(
-      length: _mainViewModel.tabItems.length,
+      length: _mainViewModel.tabs.length,
       vsync: this,
     );
     super.initState();
@@ -42,14 +42,14 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: _mainViewModel.tabItems,
+              children: _mainViewModel.tabs.values.toList(),
             ),
           ),
           Container(
             color: CustomColor.itemMainColor,
             child: TabBar(
               controller: _tabController,
-              tabs: _mainViewModel.tabs,
+              tabs: _mainViewModel.tabs.keys.toList(),
               indicatorColor: Colors.transparent,
               labelColor: CustomColor.textReverseColor,
               unselectedLabelColor: CustomColor.textReverseDisabledColor,

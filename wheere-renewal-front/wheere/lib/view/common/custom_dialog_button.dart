@@ -28,7 +28,7 @@ class CustomDialogButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kBorderRadiusSize),
         ),
-        minimumSize: kContainerSize,
+        minimumSize: kOutlinedButtonSize,
         side: BorderSide.none,
       ),
       child: Column(
@@ -38,7 +38,7 @@ class CustomDialogButton extends StatelessWidget {
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.all(kPaddingSmallSize),
+                padding: const EdgeInsets.all(kPaddingMiddleSize),
                 child: Icon(
                   prefixIcon,
                   size: kIconSubSize,
@@ -47,7 +47,7 @@ class CustomDialogButton extends StatelessWidget {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: kPaddingSmallSize),
+                    const EdgeInsets.symmetric(vertical: kPaddingMiddleSize),
                 child: Text(
                   labelText ?? "",
                   style: kTextMainStyleSmall,
@@ -57,8 +57,8 @@ class CustomDialogButton extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(
-              left: kPaddingSmallSize,
-              bottom: kPaddingSmallSize,
+              left: kPaddingMiddleSize,
+              bottom: kPaddingMiddleSize,
             ),
             child: Text(
               text ?? "",

@@ -34,7 +34,7 @@ class CustomTextFormField extends StatelessWidget {
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.all(kPaddingSmallSize),
+                padding: const EdgeInsets.all(kPaddingMiddleSize),
                 child: Icon(
                   prefixIcon,
                   size: kIconSubSize,
@@ -42,7 +42,7 @@ class CustomTextFormField extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: kPaddingSmallSize),
+                padding: const EdgeInsets.symmetric(vertical: kPaddingMiddleSize),
                 child: Text(
                   labelText ?? "",
                   style: kTextMainStyleSmall,
@@ -60,8 +60,8 @@ class CustomTextFormField extends StatelessWidget {
             decoration: InputDecoration(
               isDense: true,
               contentPadding: const EdgeInsets.only(
-                left: kPaddingSmallSize,
-                bottom: kPaddingSmallSize,
+                left: kPaddingMiddleSize,
+                bottom: kPaddingMiddleSize,
               ),
               hintText: hintText,
               hintStyle: kTextMainStyleMiddle,

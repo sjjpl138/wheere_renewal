@@ -22,7 +22,7 @@ class CustomRadioListTitle<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: kContainerSize.height,
+      height: kOutlinedButtonSize.height,
       decoration: BoxDecoration(
         color: CustomColor.backGroundSubColor,
         borderRadius: BorderRadius.circular(kBorderRadiusSize),
