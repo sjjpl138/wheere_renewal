@@ -29,8 +29,13 @@ class _SelectViewState extends State<SelectView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.build(context,
-          title: "조회하기", leading: const BackIconButton()),
+      appBar: CustomAppBar.build(
+        context,
+        title: "조회하기",
+        leading: BackIconButton(
+          onPressed: _selectViewModel.navigatePop,
+        ),
+      ),
       body: Container(
         color: CustomColor.backgroundMainColor,
         child: Column(

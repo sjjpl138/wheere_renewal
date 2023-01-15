@@ -22,7 +22,7 @@ class _SearchViewState extends State<SearchView> {
         child: Container(
           color: CustomColor.backgroundMainColor,
           child: Padding(
-            padding: const EdgeInsets.all(kPaddingLargeSize),
+            padding: const EdgeInsets.symmetric(horizontal: kPaddingLargeSize),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.min,

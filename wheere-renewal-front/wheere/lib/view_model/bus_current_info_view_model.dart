@@ -39,4 +39,6 @@ class BusCurrentInfoViewModel extends ChangeNotifier {
       stationName: "stationName",
     ),
   ];
+
+  void navigatePop() {}
 }

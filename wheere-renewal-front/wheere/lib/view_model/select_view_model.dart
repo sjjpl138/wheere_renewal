@@ -81,4 +81,6 @@ class SelectViewModel extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void navigatePop() {}
 }

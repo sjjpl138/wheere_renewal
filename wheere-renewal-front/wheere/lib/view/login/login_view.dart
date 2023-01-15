@@ -16,13 +16,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final LoginViewModel _loginViewModel = widget.loginViewModel;
 
-  final loginKey = GlobalKey<FormState>();
-
-  final TextEditingController _emailController =
-      TextEditingController(text: '');
-  final TextEditingController _passwordController =
-      TextEditingController(text: '');
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +30,9 @@ class _LoginViewState extends State<LoginView> {
             child: Padding(
               padding: const EdgeInsets.all(kPaddingLargeSize),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: kPaddingLargeSize),
                   //TODO : App Icon 그림자 추가 필요
@@ -59,7 +52,7 @@ class _LoginViewState extends State<LoginView> {
                   )),
                   const SizedBox(height: kPaddingLargeSize),
                   Form(
-                    key: loginKey,
+                    key: _loginViewModel.loginKey,
                     child: Column(
                       children: [
                         CustomTextFormField(
@@ -68,7 +61,7 @@ class _LoginViewState extends State<LoginView> {
                           prefixIcon: Icons.email,
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) => validateEmail(value),
-                          controller: _emailController,
+                          controller: _loginViewModel.emailController,
                         ),
                         const SizedBox(height: kPaddingLargeSize),
                         CustomTextFormField(
@@ -77,21 +70,14 @@ class _LoginViewState extends State<LoginView> {
                           prefixIcon: Icons.lock,
                           keyboardType: TextInputType.visiblePassword,
                           validator: (value) => validatePassword(value),
-                          controller: _passwordController,
+                          controller: _loginViewModel.passwordController,
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(height: kPaddingLargeSize),
                   CustomOutlinedButton(
-                    onPressed: () async {
-                      if (loginKey.currentState!.validate()) {
-                        await _loginViewModel.login(
-                          _emailController.text,
-                          _passwordController.text,
-                        );
-                      }
-                    },
+                    onPressed: () => _loginViewModel.login(),
                     text: "로그인",
                   ),
                   const SizedBox(height: kPaddingLargeSize),
