@@ -6,10 +6,11 @@ import 'type/types.dart';
 
 class PaymentViewModel extends ChangeNotifier {
   final List<BusDTO> reservations;
+  final String rTIme;
 
   Payment payment = Payment.kakaoPay;
 
-  PaymentViewModel({required this.reservations});
+  PaymentViewModel({required this.reservations, required this.rTIme});
 
   List<ReservationInfo> get reservationInfoList {
     List<ReservationInfo> reservationInfoList = [];
@@ -17,7 +18,7 @@ class PaymentViewModel extends ChangeNotifier {
       reservationInfoList.add(
         ReservationInfo(
           bNo: element.bNo,
-          rTime: "rTime",
+          rTime: rTIme,
           sStationName: element.sStationName,
           sStationTime: element.sTime,
           eStationName: element.eStationName,

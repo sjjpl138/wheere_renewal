@@ -38,7 +38,7 @@ class _CheckViewState extends State<CheckView> {
                   shrinkWrap: true,
                   itemCount: _checkViewModel.reservations.length,
                   itemBuilder: (BuildContext context, int index) {
-                    ReservationDTO reservationDTO =
+                    ReservationDTO reservation =
                         _checkViewModel.reservations[index];
                     return Padding(
                       padding: const EdgeInsets.only(
@@ -52,14 +52,18 @@ class _CheckViewState extends State<CheckView> {
                             border: Border.all(
                                 width: 2.0, color: CustomColor.itemSubColor)),
                         child: Column(
-                          children: const [
-                            ReservationInfo(
-                              bNo: 'bNo',
-                              rTime: 'rTime',
-                              sStationName: 'sStationName',
-                              sStationTime: 'sStationTime',
-                              eStationName: 'eStationName',
-                              eStationTime: 'eStationTime',
+                          children: [
+                            InkWell(
+                              onTap: () => _checkViewModel
+                                  .navigateToBusCurrentInfoPage(reservation),
+                              child: ReservationInfo(
+                                bNo: reservation.bNo,
+                                rTime: reservation.rTime,
+                                sStationName: reservation.sStationName,
+                                sStationTime: reservation.sTime,
+                                eStationName: reservation.eStationName,
+                                eStationTime: reservation.eTime,
+                              ),
                             ),
                           ],
                         ),
