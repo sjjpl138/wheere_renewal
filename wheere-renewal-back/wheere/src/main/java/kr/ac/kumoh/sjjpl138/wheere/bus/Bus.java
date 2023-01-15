@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Getter
@@ -26,6 +25,7 @@ public class Bus {
 
     private LocalTime departureTime;  // 버스 출발 시간
 
-    @OneToMany(mappedBy = "bus", cascade = CascadeType.REMOVE)
-    private List<Route> routes = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ROUTE_ID")
+    private Route route;
 }
