@@ -5,3 +5,4 @@ export 'bus_dto.dart';
 export 'route_dto.dart';
 export 'select_dto.dart';
 export 'search_dto.dart';
+export 'reservation_dto.dart';
