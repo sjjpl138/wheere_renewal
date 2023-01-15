@@ -22,7 +22,7 @@ class _CheckViewState extends State<CheckView> {
       body: Container(
         color: CustomColor.backgroundMainColor,
         child: Padding(
-          padding: const EdgeInsets.all(kPaddingLargeSize),
+          padding: const EdgeInsets.symmetric(horizontal: kPaddingLargeSize),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.min,
@@ -32,6 +32,7 @@ class _CheckViewState extends State<CheckView> {
                 "예약확인",
                 style: kTextMainStyleLarge,
               ),
+              const SizedBox(height: kPaddingLargeSize),
               Flexible(
                 child: ListView.builder(
                   shrinkWrap: true,
@@ -40,8 +41,8 @@ class _CheckViewState extends State<CheckView> {
                     ReservationDTO reservationDTO =
                         _checkViewModel.reservations[index];
                     return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: kPaddingMiddleSize,
+                      padding: const EdgeInsets.only(
+                        bottom: kPaddingMiddleSize,
                       ),
                       child: Container(
                         decoration: BoxDecoration(

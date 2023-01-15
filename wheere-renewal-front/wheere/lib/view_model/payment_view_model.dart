@@ -32,4 +32,6 @@ class PaymentViewModel extends ChangeNotifier {
     this.payment = payment ?? this.payment;
     notifyListeners();
   }
+
+  void navigatePop() {}
 }

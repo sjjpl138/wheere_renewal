@@ -10,3 +10,4 @@ export 'custom_list_item/custom_list_item.dart';
 export 'route_info/route_info.dart';
 export 'reservation_info/reservation_info.dart';
 export 'bus_current_info/bus_current_info.dart';
+export 'member_info/member_info.dart';
