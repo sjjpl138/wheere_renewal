@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/styles/styles.dart';
 
-class CustomOutlinedButton extends StatelessWidget {
+class CustomOutlinedMiniButton extends StatelessWidget {
   final void Function()? onPressed;
 
   final String text;
 
-  const CustomOutlinedButton(
+  const CustomOutlinedMiniButton(
       {Key? key, required this.onPressed, required this.text})
       : super(key: key);
 
@@ -19,12 +19,16 @@ class CustomOutlinedButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kBorderRadiusSize),
         ),
-        minimumSize: kOutlinedButtonSize,
+        minimumSize: kOutlinedSmallButtonSize,
         side: BorderSide.none,
       ),
-      child: Text(
-        text,
-        style: kTextReverseStyleMiddle,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: kPaddingMiniSize),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: kTextReverseStyleSmall,
+        ),
       ),
     );
   }
