@@ -2,6 +2,7 @@ package kr.ac.kumoh.sjjpl138.wheere.platform;
 
 import kr.ac.kumoh.sjjpl138.wheere.route.Route;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.time.LocalTime;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Platform {
 

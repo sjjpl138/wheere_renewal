@@ -1,6 +1,7 @@
 package kr.ac.kumoh.sjjpl138.wheere.driver;
 
 import kr.ac.kumoh.sjjpl138.wheere.BaseTimeEntity;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Driver extends BaseTimeEntity {
 
     @Id @Column(name = "DRIVER_ID")
