@@ -1,7 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.route;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,7 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class Route {
 
