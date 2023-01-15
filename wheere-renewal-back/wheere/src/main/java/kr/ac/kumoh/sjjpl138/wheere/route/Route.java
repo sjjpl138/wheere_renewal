@@ -17,6 +17,6 @@ public class Route {
     @Id @Column(name = "ROUTE_ID")
     private Long id;
 
-    @OneToMany(mappedBy = "route", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "route")
     private List<Route> buses = new ArrayList<>();
 }
