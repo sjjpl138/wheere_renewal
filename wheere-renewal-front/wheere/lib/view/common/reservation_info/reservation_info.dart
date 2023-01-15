@@ -57,9 +57,7 @@ class ReservationInfo extends StatelessWidget {
               contents: eStationTime,
               subContents: eStationName,
             ),
-            const SizedBox(
-              height: kPaddingMiddleSize,
-            ),
+            const SizedBox(height: kPaddingMiddleSize),
           ],
         ),
       ),

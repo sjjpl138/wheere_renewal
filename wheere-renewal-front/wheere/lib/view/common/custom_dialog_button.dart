@@ -41,7 +41,7 @@ class CustomDialogButton extends StatelessWidget {
                 padding: const EdgeInsets.all(kPaddingMiddleSize),
                 child: Icon(
                   prefixIcon,
-                  size: kIconSubSize,
+                  size: kIconMiddleSize,
                   color: CustomColor.itemSubColor,
                 ),
               ),

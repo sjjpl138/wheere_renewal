@@ -17,8 +17,22 @@ const TextStyle kTextReverseStyleLarge = TextStyle(
   overflow: TextOverflow.ellipsis,
 );
 
+const TextStyle kTextPointStyleLarge = TextStyle(
+  color: CustomColor.pointColor,
+  fontSize: kTextLargeSize,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.ellipsis,
+);
+
 const TextStyle kTextMainStyleMiddle = TextStyle(
   color: CustomColor.textMainColor,
+  fontSize: kTextMiddleSize,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.ellipsis,
+);
+
+const TextStyle kTextPointStyleMiddle = TextStyle(
+  color: CustomColor.pointColor,
   fontSize: kTextMiddleSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
