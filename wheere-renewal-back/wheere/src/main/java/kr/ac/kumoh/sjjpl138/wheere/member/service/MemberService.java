@@ -57,8 +57,9 @@ public class MemberService {
      * @return
      */
     public Member logIn(String memberId) {
+        Member member = memberRepository.findMemberById(memberId);
 
-        return new Member("1", "1", LocalDate.now(), "1", "1");
+        return member;
     }
 
     /**
