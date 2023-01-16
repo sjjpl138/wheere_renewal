@@ -8,10 +8,7 @@ class LoginService{
 
   Future<MemberDTO?> login(FirebaseLoginDTO firebaseLoginDTO) async {
     var fcmToken = await FirebaseMessaging.instance.getToken(vapidKey: dotenv.env['FIREBASE_WEB_PUSH']);
-    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) async {
-      // TODO : save token to server
-      print("token : ${fcmToken ?? 'token NULL!'}");
-    });
+    print("token : ${fcmToken ?? 'token NULL!'}");
     return await _loginRepository.login(firebaseLoginDTO);
   }
 }

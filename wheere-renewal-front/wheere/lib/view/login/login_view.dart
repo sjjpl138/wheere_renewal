@@ -78,7 +78,6 @@ class _LoginViewState extends State<LoginView> {
                   const SizedBox(height: kPaddingLargeSize),
                   CustomOutlinedButton(
                     onPressed: () async {
-                      print("token : onPressed");
                       await _loginViewModel.login();
                     },
                     text: "로그인",

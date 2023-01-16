@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/view/main/main_page.dart';
-import 'package:wheere/view_model/home_view_model.dart';
 import 'package:wheere/view/login/login_page.dart';
+import 'package:wheere/view_model/type/types.dart';
 
 class HomeView extends StatefulWidget {
-  final HomeViewModel homeViewModel;
+  final Member member;
 
-  const HomeView({Key? key, required this.homeViewModel}) : super(key: key);
+  const HomeView({Key? key, required this.member}) : super(key: key);
 
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
-  late final HomeViewModel _homeViewModel = widget.homeViewModel;
+  late final Member _member = widget.member;
 
   @override
   Widget build(BuildContext context) {
-    return _homeViewModel.member == null ? const LoginPage() : const MainPage();
+    return _member.member == null ? const LoginPage() : const MainPage();
   }
 }
