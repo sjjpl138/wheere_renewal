@@ -11,3 +11,4 @@ export 'route_info/route_info.dart';
 export 'reservation_info/reservation_info.dart';
 export 'bus_current_info/bus_current_info.dart';
 export 'member_info/member_info.dart';
+export 'alarm.dart';
