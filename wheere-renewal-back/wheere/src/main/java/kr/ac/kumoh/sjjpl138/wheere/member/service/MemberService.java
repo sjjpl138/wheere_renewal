@@ -67,7 +67,9 @@ public class MemberService {
      */
     @Transactional
     public void update(MemberDto memberDto) {
-
+        String id = memberDto.getMId();
+        Member findMember = memberRepository.findMemberById(id);
+        findMember.updateMemberInfo(memberDto);
     }
 
     /**
