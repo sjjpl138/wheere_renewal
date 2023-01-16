@@ -22,4 +22,19 @@ class ReservationDTO {
     required this.eStationName,
     required this.eTime,
   });
+
+  factory ReservationDTO.fromJson(Map<String, dynamic> json) {
+    return ReservationDTO(
+      rId: json["rId"],
+      routeId: json["routeId"],
+      bNo: json['bNo'],
+      rTime: json['rTime'],
+      sStationId: json['sStationId'],
+      sStationName: json['sStationName'],
+      sTime: json['sTime'],
+      eStationId: json['eStationId'],
+      eStationName: json['eStationName'],
+      eTime: json['eTime'],
+    );
+  }
 }
