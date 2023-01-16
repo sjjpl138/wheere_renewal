@@ -53,4 +53,27 @@ class MemberServiceTest {
         assertThat(findMember.getBirthDate()).isEqualTo(LocalDate.of(2001, 8, 20));
         assertThat(findMember.getPhoneNumber()).isEqualTo("01012341234");
     }
+
+    @Test
+    void logIn() {
+        //given
+        MemberDto member = new MemberDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
+
+        //when
+        String id = member.getMId();
+        memberService.join(member);
+        memberService.logIn(id);
+
+        em.flush();
+        em.clear();
+
+        Member findMember = memberRepository.findMemberById(id);
+
+        //then
+        assertThat(findMember.getId()).isEqualTo("1234");
+        assertThat(findMember.getUsername()).isEqualTo("사용자");
+        assertThat(findMember.getSex()).isEqualTo("F");
+        assertThat(findMember.getBirthDate()).isEqualTo(LocalDate.of(2001, 8, 20));
+        assertThat(findMember.getPhoneNumber()).isEqualTo("01012341234");
+    }
 }
