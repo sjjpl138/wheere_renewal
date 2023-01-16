@@ -36,20 +36,25 @@ class _LoginViewState extends State<LoginView> {
                 children: [
                   const SizedBox(height: kPaddingLargeSize),
                   //TODO : App Icon 그림자 추가 필요
-                  Flexible(
-                      child: Column(
-                    children: const [
-                      Icon(
-                        Icons.directions_bus,
-                        color: CustomColor.itemSubColor,
-                        size: 200.0,
-                      ),
-                      Text(
-                        "WHEERE",
-                        style: kTextMainStyleLarge,
-                      ),
-                    ],
-                  )),
+                  Center(
+                    child: Flexible(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.directions_bus,
+                          color: CustomColor.itemSubColor,
+                          size: 200.0,
+                        ),
+                        Text(
+                          "WHEERE",
+                          style: kTextMainStyleLarge,
+                        ),
+                      ],
+                    )),
+                  ),
                   const SizedBox(height: kPaddingLargeSize),
                   Form(
                     key: _loginViewModel.loginKey,
