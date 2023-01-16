@@ -1,14 +1,19 @@
 package kr.ac.kumoh.sjjpl138.wheere.member.service;
 
+import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
+import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
+import kr.ac.kumoh.sjjpl138.wheere.operation.Operation;
+import kr.ac.kumoh.sjjpl138.wheere.operation.repository.OperationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,6 +24,8 @@ public class MemberService {
     private final String apiKey;
 
     private final MemberRepository memberRepository;
+    private final OperationRepository operationRepository;
+    private final DriverRepository driverRepository;
 
     /**
      * 사용자 추가 (회원가입)
@@ -27,8 +34,21 @@ public class MemberService {
      */
     @Transactional
     public Member join(MemberDto memberDto) {
+        Member member = changeMemberEntity(memberDto);
+        memberRepository.save(member);
 
-        return new Member("1", "1", LocalDate.now(), "1", "1");
+        return member;
+    }
+
+    private Member changeMemberEntity(MemberDto memberDto) {
+        String id = memberDto.getMId();
+        String name = memberDto.getMName();
+        LocalDate birthDate = memberDto.getMBirthDate();
+        String sex = memberDto.getMSex();
+        String  num = memberDto.getMNum();
+        Member member = new Member(id, name, birthDate, sex, num);
+
+        return member;
     }
 
     /**
