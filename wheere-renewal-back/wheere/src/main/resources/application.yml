@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: API-KEY
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/wheere_v2?serverTimezone=Asia/Seoul
