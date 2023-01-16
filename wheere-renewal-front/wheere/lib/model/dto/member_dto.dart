@@ -4,6 +4,7 @@ class MemberDTO {
   String mSex;
   String mBrithDate;
   String mNum;
+  String fcmToken;
 
   MemberDTO({
     required this.mId,
@@ -11,6 +12,7 @@ class MemberDTO {
     required this.mSex,
     required this.mBrithDate,
     required this.mNum,
+    required this.fcmToken,
   });
 
   factory MemberDTO.fromJson(Map<String, dynamic> json) {
@@ -18,8 +20,9 @@ class MemberDTO {
       mId: json["mId"],
       mName: json["mName"],
       mSex: json["mSex"],
-      mBrithDate: json["mBrithDate"],
+      mBrithDate: json["mBirthDate"],
       mNum: json["mNum"],
+      fcmToken: json['fcmToken'],
     );
   }
 
@@ -30,6 +33,7 @@ class MemberDTO {
       "mSex": mSex,
       "mBirthDate": mBrithDate,
       "mNum": mNum,
+      "fcmToken": fcmToken,
     };
   }
 }

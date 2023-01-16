@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wheere/model/dto/dtos.dart';
-import 'package:wheere/model/repository/remote_data_sources/base_data_source.dart';
+import 'package:wheere/model/repository/remote_data_sources/base_remote_data_source.dart';
 
-class LoginDataSource implements BaseDataSource {
+class RemoteLoginDataSource implements BaseRemoteDataSource {
   @override
   String path = "/api/members/login";
 
@@ -13,17 +15,20 @@ class LoginDataSource implements BaseDataSource {
         password: loginDTO.password,
       );
       String? mId = FirebaseAuth.instance.currentUser?.uid;
-      return mId != null ? LoginDTO(mId: mId) : null;
+      var fcmToken = await FirebaseMessaging.instance
+          .getToken(vapidKey: dotenv.env['FIREBASE_WEB_PUSH']);
+      if(fcmToken == null) throw Exception();
+      return mId != null ? LoginDTO(mId: mId, fcmToken: fcmToken) : null;
     } catch (e) {
       return null;
     }
   }
 
-  Future<MemberDTO?> login(FirebaseLoginDTO firebaseLoginDTO) async {
+  Future<MemberDTO?> readWithRemote(FirebaseLoginDTO firebaseLoginDTO) async {
     try {
       LoginDTO? loginDTO = await _firebaseLogin(firebaseLoginDTO);
       Map<String, dynamic>? res = loginDTO != null
-          ? await BaseDataSource.post(path, loginDTO.toJson())
+          ? await BaseRemoteDataSource.post(path, loginDTO.toJson())
           : null;
       return res != null ? MemberDTO.fromJson(res) : null;
     } catch (e) {
