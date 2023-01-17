@@ -1,13 +1,12 @@
 package kr.ac.kumoh.sjjpl138.wheere.route;
 
-import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,11 +15,8 @@ import java.time.LocalDate;
 public class Route {
 
     @Id @Column(name = "ROUTE_ID")
-    private Long id;
+    private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BUS_ID")
-    private Bus bus;
-
-    private LocalDate routeDate;
+    @OneToMany(mappedBy = "route")
+    private List<Route> buses = new ArrayList<>();
 }

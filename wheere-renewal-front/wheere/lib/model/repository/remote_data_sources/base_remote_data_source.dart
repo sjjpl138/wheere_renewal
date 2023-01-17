@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-abstract class BaseDataSource {
+abstract class BaseRemoteDataSource {
   static const _baseUrl = "";
   static const _headers = {"Accept": "application/json"};
 

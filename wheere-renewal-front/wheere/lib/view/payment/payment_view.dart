@@ -23,7 +23,9 @@ class _PaymentViewState extends State<PaymentView> {
       appBar: CustomAppBar.build(
         context,
         title: "예약하기",
-        leading: const BackIconButton(),
+        leading: BackIconButton(
+          onPressed: _paymentViewModel.navigatePop,
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

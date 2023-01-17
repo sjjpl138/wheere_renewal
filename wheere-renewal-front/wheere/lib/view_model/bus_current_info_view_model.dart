@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/model/dto/bus_dto.dart';
+import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/view/common/commons.dart';
 import 'type/types.dart';
 
 class BusCurrentInfoViewModel extends ChangeNotifier {
-  final BusDTO reservation;
+  final ReservationDTO reservation;
 
   BusCurrentInfoViewModel({required this.reservation});
 
@@ -39,4 +39,6 @@ class BusCurrentInfoViewModel extends ChangeNotifier {
       stationName: "stationName",
     ),
   ];
+
+  void navigatePop() {}
 }
