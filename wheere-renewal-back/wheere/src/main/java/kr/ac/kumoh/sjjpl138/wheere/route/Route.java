@@ -15,7 +15,7 @@ import java.util.List;
 public class Route {
 
     @Id @Column(name = "ROUTE_ID")
-    private Long id;
+    private String id;
 
     @OneToMany(mappedBy = "route")
     private List<Route> buses = new ArrayList<>();
