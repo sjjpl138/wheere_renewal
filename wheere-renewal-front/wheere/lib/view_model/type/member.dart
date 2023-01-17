@@ -21,7 +21,6 @@ class Member extends ChangeNotifier {
   MemberDTO? _memberDTO;
 
   Future login(FirebaseLoginDTO firebaseLoginDTO) async {
-    print("token : login");
     // TODO : test code 삭제
     var fcmToken = await FirebaseMessaging.instance
         .getToken(vapidKey: dotenv.env['FIREBASE_WEB_PUSH']);

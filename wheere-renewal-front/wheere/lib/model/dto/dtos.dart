@@ -6,3 +6,5 @@ export 'route_dto.dart';
 export 'select_dto.dart';
 export 'search_dto.dart';
 export 'reservation_dto.dart';
+export 'alarm_dto.dart';
+export 'alarm_list_dto.dart';

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:wheere/model/dto/dtos.dart';
+import 'package:wheere/model/service/services.dart';
 import 'package:wheere/view/common/commons.dart';
 
 class AlarmViewModel extends ChangeNotifier {
+  final AlarmService _alarmService = AlarmService();
+
+  late AlarmListDTO _alarmListDTO;
+
   late List<Alarm> todayAlarms;
   late List<Alarm> thisWeekAlarms;
   late List<Alarm> lastAlarms;
