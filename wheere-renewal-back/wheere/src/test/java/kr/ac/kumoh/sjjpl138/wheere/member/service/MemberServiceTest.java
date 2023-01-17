@@ -97,4 +97,24 @@ class MemberServiceTest {
         assertThat(findMember.getBirthDate()).isEqualTo(LocalDate.of(1999, 8, 24));
         assertThat(findMember.getPhoneNumber()).isEqualTo("01099999999");
     }
+
+    @Test
+    void delete() {
+        //given
+        MemberDto member = new MemberDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
+
+        //when
+        Member joinMember = memberService.join(member);
+        memberService.delete(joinMember);
+
+        em.flush();
+        em.clear();
+
+        Member findMember = memberRepository.findMemberById(member.getMId());
+
+        //then
+        assertThrows(NullPointerException.class, () -> {
+            System.out.println("username = " + findMember.getUsername());
+        });
+    }
 }
