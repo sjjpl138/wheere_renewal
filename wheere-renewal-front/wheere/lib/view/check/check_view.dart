@@ -36,10 +36,10 @@ class _CheckViewState extends State<CheckView> {
               Flexible(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: _checkViewModel.reservations.length,
+                  itemCount: _checkViewModel.reservationList.length,
                   itemBuilder: (BuildContext context, int index) {
                     ReservationDTO reservation =
-                        _checkViewModel.reservations[index];
+                        _checkViewModel.reservationList[index];
                     return Padding(
                       padding: const EdgeInsets.only(
                         bottom: kPaddingMiddleSize,

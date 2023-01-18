@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wheere/model/dto/dtos.dart';
 
 class CheckViewModel extends ChangeNotifier {
-  List<ReservationDTO> reservations = [
+  late List<ReservationDTO> reservationList = [
     ReservationDTO(
       rId: 1,
       routeId: 'routeId',
