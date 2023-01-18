@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wheere/model/dto/dtos.dart';
+import 'package:wheere/model/service/services.dart';
 
 class SignUpViewModel extends ChangeNotifier {
+  final SignUpService _signUpService = SignUpService();
+
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   late final TextEditingController nameController;
@@ -16,11 +20,24 @@ class SignUpViewModel extends ChangeNotifier {
     passwordController = TextEditingController();
     nameController = TextEditingController();
     phoneNumberController = TextEditingController();
-    sex = "남성";
+    sex = "성별";
     birthDate = "생년월일";
   }
 
-  Future signUp() async {}
+  Future signUp() async {
+    if (signUpKey.currentState!.validate()) {
+      await _signUpService.signUpWithRemote(
+        FirebaseSignUpDTO(
+          email: emailController.text,
+          password: passwordController.text,
+          mName: nameController.text,
+          mSex: sex,
+          mBirthDate: birthDate,
+          mNum: phoneNumberController.text,
+        ),
+      );
+    }
+  }
 
   void navigatePop() {}
 }
