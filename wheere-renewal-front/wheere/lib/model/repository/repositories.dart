@@ -1,2 +1,9 @@
 export 'login_repository.dart';
 export 'logout_repository.dart';
+export 'make_reservation_repository.dart';
+export 'request_route_repository.dart';
+export 'update_member_repository.dart';
+export 'delete_member_repository.dart';
+export 'rating_repository.dart';
+export 'check_reservation_repository.dart';
+export 'delete_reservation_repository.dart';
