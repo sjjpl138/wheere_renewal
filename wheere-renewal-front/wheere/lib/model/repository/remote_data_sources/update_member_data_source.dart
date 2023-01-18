@@ -1,5 +1,5 @@
 import 'package:wheere/model/dto/dtos.dart';
-import 'package:wheere/model/repository/remote_data_sources/base_data_source.dart';
+import 'base_remote_data_source.dart';
 
 class UpdateMemberDataSource implements BaseRemoteDataSource {
   @override
