@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 class ReservationDTO {
   int rId;
   String rDate;
@@ -11,7 +9,6 @@ class ReservationDTO {
   int eStationId;
   String eStationName;
   String rState;
-  String rTime;
   String sTime;
   String eTime;
 
@@ -26,7 +23,6 @@ class ReservationDTO {
     required this.eStationId,
     required this.eStationName,
     required this.rState,
-    required this.rTime,
     required this.sTime,
     required this.eTime,
   });
@@ -43,7 +39,6 @@ class ReservationDTO {
         eStationId: json['eStationId'],
         eStationName: json['eStationName'],
         rState: json['rState'],
-        rTime: json['rTime'],
         sTime: json['sTime'],
         eTime: json['eTime'],
     );

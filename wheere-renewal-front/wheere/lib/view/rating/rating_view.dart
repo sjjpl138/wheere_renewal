@@ -44,7 +44,7 @@ class _RatingViewState extends State<RatingView> {
                 const SizedBox(height: kPaddingLargeSize),
                 ReservationInfo(
                   bNo: _ratingViewModel.reservation.bNo,
-                  rTime: _ratingViewModel.reservation.rTime,
+                  rTime: _ratingViewModel.reservation.rDate,
                   sStationName: _ratingViewModel.reservation.sStationName,
                   sStationTime: _ratingViewModel.reservation.sTime,
                   eStationName: _ratingViewModel.reservation.eStationName,
