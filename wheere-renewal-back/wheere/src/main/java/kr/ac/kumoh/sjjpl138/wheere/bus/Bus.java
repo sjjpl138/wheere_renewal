@@ -1,5 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.bus;
 
+import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,10 @@ public class Bus {
 
     @OneToMany(mappedBy = "bus")
     private List<Platform> platforms = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "DRIVER_ID")
+    private Driver driver;
 
     private String routeId;
 
