@@ -21,10 +21,6 @@ public class Platform {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ROUTE_ID")
-    private Route route;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STATION_ID")
     private Station station;
 

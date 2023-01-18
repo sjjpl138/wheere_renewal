@@ -29,8 +29,4 @@ public class Bus {
     private LocalTime departureTime;  // 버스 출발 시간
 
     private LocalDate busDate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ROUTE_ID")
-    private Route route;
 }
