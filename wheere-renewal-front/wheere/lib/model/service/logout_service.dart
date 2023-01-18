@@ -7,6 +7,7 @@ class LogoutService{
 
   Future<MemberDTO?> logout() async {
     FirebaseMessaging.instance.deleteToken();
-    return await _logoutRepository.logout();
+    await _logoutRepository.deleteMemberWithLocal();
+    return await _logoutRepository.deleteMemberWithRemote();
   }
 }

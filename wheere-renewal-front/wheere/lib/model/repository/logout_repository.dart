@@ -1,10 +1,17 @@
+import 'local_data_sources/local_data_sources.dart';
 import 'remote_data_sources/remote_data_sources.dart';
 import 'package:wheere/model/dto/dtos.dart';
 
 class LogoutRepository {
-  final LogoutDataSource _logoutDataSource = LogoutDataSource();
+  final RemoteLogoutDataSource _logoutRemoteDataSource =
+      RemoteLogoutDataSource();
+  final LocalLogoutDataSource _localLogoutDataSource = LocalLogoutDataSource();
 
-  Future<MemberDTO?> logout() async {
-    return await _logoutDataSource.logout();
+  Future<MemberDTO?> deleteMemberWithRemote() async {
+    return await _logoutRemoteDataSource.deleteWithRemote();
+  }
+
+  Future deleteMemberWithLocal() async {
+    await _localLogoutDataSource.deleteWithLocal();
   }
 }

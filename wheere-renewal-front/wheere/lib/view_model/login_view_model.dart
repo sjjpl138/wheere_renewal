@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'type/types.dart';
 
+
 class LoginViewModel extends ChangeNotifier {
   late Member _member;
 

@@ -23,9 +23,18 @@ class Member extends ChangeNotifier {
   Future login(FirebaseLoginDTO firebaseLoginDTO) async {
     print("token : login");
     // TODO : test code 삭제
-    _memberDTO = MemberDTO(mId: "mId", mName: "mName", mSex: "mSex", mBrithDate: "mBrithDate", mNum: "mNum");
-    var fcmToken = await FirebaseMessaging.instance.getToken(vapidKey: dotenv.env['FIREBASE_WEB_PUSH']);
+    var fcmToken = await FirebaseMessaging.instance
+        .getToken(vapidKey: dotenv.env['FIREBASE_WEB_PUSH']);
     print("token : ${fcmToken ?? 'token NULL!'}");
+    if (fcmToken != null) {
+      _memberDTO = MemberDTO(
+          mId: "mId",
+          mName: "mName",
+          mSex: "mSex",
+          mBrithDate: "mBrithDate",
+          mNum: "mNum",
+          fcmToken: fcmToken);
+    }
 /*    await _loginService
         .login(firebaseLoginDTO)
         .then((value) => _memberDTO = value);*/
@@ -33,8 +42,11 @@ class Member extends ChangeNotifier {
   }
 
   Future logout() async {
-//    _memberDTO = null;
     await _logoutService.logout().then((value) => _memberDTO = value);
     notifyListeners();
+  }
+
+  Future loginByAuto() async {
+    await _loginService.loginWithLocal().then((value) => _memberDTO = value);
   }
 }
