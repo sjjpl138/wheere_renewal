@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
@@ -31,8 +30,4 @@ public class Platform {
     private LocalTime arrivalTime; // 예상 도착 시간
 
     private int stationSeq; //정류장 순서
-
-    private LocalDate platformDate;
-
-    private String vehicleNo;
 }
