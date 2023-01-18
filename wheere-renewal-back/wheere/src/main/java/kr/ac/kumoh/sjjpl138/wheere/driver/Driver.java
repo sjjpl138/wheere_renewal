@@ -1,14 +1,13 @@
 package kr.ac.kumoh.sjjpl138.wheere.driver;
 
 import kr.ac.kumoh.sjjpl138.wheere.BaseTimeEntity;
+import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -18,6 +17,10 @@ public class Driver extends BaseTimeEntity {
 
     @Id @Column(name = "DRIVER_ID")
     private String id;
+
+    @OneToOne
+    @JoinColumn(name = "BUS_ID")
+    private Bus bus;
 
     private String username;
 
