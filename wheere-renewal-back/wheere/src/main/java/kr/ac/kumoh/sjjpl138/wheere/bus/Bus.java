@@ -25,13 +25,13 @@ public class Bus {
     @OneToMany(mappedBy = "bus")
     private List<Platform> platforms = new ArrayList<>();
 
+    private String routeId;
+
     private String vehicleNo; //차량 번호
 
     private int busAllocationSeq; //버스 배차 순번
 
     private String busNo; //버스 번호
-
-    private LocalTime departureTime;  // 버스 출발 시간
 
     private LocalDate busDate;
 }
