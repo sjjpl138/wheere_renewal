@@ -47,5 +47,6 @@ class Member extends ChangeNotifier {
 
   Future loginByAuto() async {
     await _loginService.loginWithLocal().then((value) => _memberDTO = value);
+    notifyListeners();
   }
 }

@@ -37,4 +37,19 @@ class ReservationDTO {
       eTime: json['eTime'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "rId": rId,
+      "routeId": routeId,
+      "bNo": bNo,
+      "rTime": rTime,
+      "sStationId": sStationId,
+      "sStationName": sStationName,
+      "sTime": sTime,
+      "eStationId": eStationId,
+      "eStationName": eStationName,
+      "eTime": eTime,
+    };
+  }
 }

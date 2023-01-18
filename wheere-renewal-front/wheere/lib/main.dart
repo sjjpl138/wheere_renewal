@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:wheere/model/dto/alarm_dto.dart';
 import 'package:wheere/model/service/alarm_service.dart';
 import 'package:wheere/test.dart';
@@ -71,7 +72,6 @@ class MyApp extends StatelessWidget {
   MyApp({super.key}) {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
       var androidNotifyDetails = AndroidNotificationDetails(
         channel.id,
         channel.name,
@@ -104,6 +104,15 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Flutter Demo',
       home: Test(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('ko', 'KR'),
+      ],
+      locale: Locale('ko'),
     );
   }
 }

@@ -1,103 +1,167 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/service/services.dart';
+import 'package:wheere/util/utils.dart';
 import 'package:wheere/view/common/commons.dart';
+
+import 'type/types.dart';
 
 class AlarmViewModel extends ChangeNotifier {
   final AlarmService _alarmService = AlarmService();
+  final Member _member = Member();
 
-  late AlarmListDTO _alarmListDTO;
+  late List<AlarmDTO> _alarmList;
 
-  late List<Alarm> todayAlarms;
-  late List<Alarm> thisWeekAlarms;
-  late List<Alarm> lastAlarms;
+  List<Alarm> todayAlarms = [];
+  List<Alarm> thisWeekAlarms = [];
+  List<Alarm> lastAlarms = [];
 
   AlarmViewModel() {
     getAlarms();
   }
 
-  void getAlarms() {
-    _getTodayAlarms();
-    _getThisWeekAlarms();
-    _getLastAlarms();
+  Future getAlarms() async {
+    await _member.logout();
+//    await _member.getReservationList();
+    await _alarmService.addAlarmWithLocal(
+      AlarmDTO(
+        alarmType: "rating",
+        aTime: "2022-12-31 11:00",
+        reservation: ReservationDTO(
+          rId: 3,
+          routeId: "routeId",
+          bNo: "bNo",
+          rTime: "2022-12-31",
+          sStationId: 3,
+          sStationName: "sStationName",
+          sTime: "sTime",
+          eStationId: 1,
+          eStationName: "eStationName",
+          eTime: "eTime",
+        ),
+      ),
+    );
+    await _alarmService.addAlarmWithLocal(
+      AlarmDTO(
+        alarmType: "rating",
+        aTime: "2023-01-01 11:00",
+        reservation: ReservationDTO(
+          rId: 5,
+          routeId: "routeId",
+          bNo: "bNo",
+          rTime: "2023-01-01",
+          sStationId: 3,
+          sStationName: "sStationName",
+          sTime: "sTime",
+          eStationId: 1,
+          eStationName: "eStationName",
+          eTime: "eTime",
+        ),
+      ),
+    );
+    await _alarmService.addAlarmWithLocal(
+      AlarmDTO(
+        alarmType: "rating",
+        aTime: "2023-01-13 11:00",
+        reservation: ReservationDTO(
+          rId: 2,
+          routeId: "routeId",
+          bNo: "bNo",
+          rTime: "2023-01-13",
+          sStationId: 2,
+          sStationName: "sStationName",
+          sTime: "sTime",
+          eStationId: 1,
+          eStationName: "eStationName",
+          eTime: "eTime",
+        ),
+      ),
+    );
+    await _alarmService.addAlarmWithLocal(
+      AlarmDTO(
+        alarmType: "rating",
+        aTime: "2023-01-17 15:00",
+        reservation: ReservationDTO(
+          rId: 4,
+          routeId: "routeId",
+          bNo: "bNo",
+          rTime: "2023-01-17",
+          sStationId: 4,
+          sStationName: "sStationName",
+          sTime: "sTime",
+          eStationId: 1,
+          eStationName: "eStationName",
+          eTime: "eTime",
+        ),
+      ),
+    );
+    await _alarmService.addAlarmWithLocal(
+      AlarmDTO(
+        alarmType: "rating",
+        aTime: "2023-01-18 07:00",
+        reservation: ReservationDTO(
+          rId: 1,
+          routeId: "routeId",
+          bNo: "bNo",
+          rTime: "2023-01-18",
+          sStationId: 1,
+          sStationName: "sStationName",
+          sTime: "sTime",
+          eStationId: 1,
+          eStationName: "eStationName",
+          eTime: "eTime",
+        ),
+      ),
+    );
+    await _alarmService.getAlarmWithLocal().then((e) {
+      _alarmList = e.alarms;
+    });
+    for (var element in _alarmList) {
+      if (DateTime.parse(element.aTime).compareTo(DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+          )) >
+          0) {
+        Alarm? alarm = _classifyAlarms(element);
+        if (alarm != null) {
+          todayAlarms.add(alarm);
+        }
+      } else if (DateTime.parse(element.aTime).compareTo(DateTime(
+              DateTime.now().subtract(const Duration(days: 7)).year,
+              DateTime.now().subtract(const Duration(days: 7)).month,
+              DateTime.now().subtract(const Duration(days: 7)).day)) >
+          0) {
+        Alarm? alarm = _classifyAlarms(element);
+        if (alarm != null) {
+          thisWeekAlarms.add(alarm);
+        }
+      } else {
+        Alarm? alarm = _classifyAlarms(element);
+        if (alarm != null) {
+          lastAlarms.add(alarm);
+        }
+      }
+    }
+    notifyListeners();
   }
 
-  void _getTodayAlarms() {
-    todayAlarms  = [
-      const Alarm(
-        labelText: "labelText",
-        prefixIcon: Icons.star,
-        contents: "2023년 01월 06일 (금) 오후 10시 30분\n(금오공대 → 구미역)",
-        aTime: "aTime",
-        isNewAlarm: true,
-      ),
-      const Alarm(
-        labelText: "labelText",
-        prefixIcon: Icons.star,
-        contents: "2023년 01월 06일 (금) 오후 10시 30분\n(금오공대 → 구미역)",
-        aTime: "aTime",
-        isNewAlarm: true,
-      ),
-      const Alarm(
-        labelText: "labelText",
-        prefixIcon: Icons.star,
-        contents: "2023년 01월 06일 (금) 오후 10시 30분\n(금오공대 → 구미역)",
-        aTime: "aTime",
-        isNewAlarm: true,
-      ),
-    ];
-  }
-
-  void _getThisWeekAlarms() {
-    thisWeekAlarms = [
-      const Alarm(
-        labelText: "labelText",
-        prefixIcon: Icons.star,
-        contents: "2023년 01월 06일 (금) 오후 10시 30분\n(금오공대 → 구미역)",
-        aTime: "aTime",
-        isNewAlarm: true,
-      ),
-      const Alarm(
-        labelText: "labelText",
-        prefixIcon: Icons.star,
-        contents: "2023년 01월 06일 (금) 오후 10시 30분\n(금오공대 → 구미역)",
-        aTime: "aTime",
-        isNewAlarm: true,
-      ),
-      const Alarm(
-        labelText: "labelText",
-        prefixIcon: Icons.star,
-        contents: "2023년 01월 06일 (금) 오후 10시 30분\n(금오공대 → 구미역)",
-        aTime: "aTime",
-        isNewAlarm: true,
-      ),
-    ];
-  }
-
-  void _getLastAlarms() {
-    lastAlarms = [
-      const Alarm(
-        labelText: "labelText",
-        prefixIcon: Icons.star,
-        contents: "2023년 01월 06일 (금) 오후 10시 30분\n(금오공대 → 구미역)",
-        aTime: "aTime",
-        isNewAlarm: true,
-      ),
-      const Alarm(
-        labelText: "labelText",
-        prefixIcon: Icons.star,
-        contents: "2023년 01월 06일 (금) 오후 10시 30분\n(금오공대 → 구미역)",
-        aTime: "aTime",
-        isNewAlarm: true,
-      ),
-      const Alarm(
-        labelText: "labelText",
-        prefixIcon: Icons.star,
-        contents: "2023년 01월 06일 (금) 오후 10시 30분\n(금오공대 → 구미역)",
-        aTime: "aTime",
-        isNewAlarm: true,
-      ),
-    ];
+  Alarm? _classifyAlarms(AlarmDTO element) {
+    switch (element.alarmType) {
+      case "rating":
+        ReservationDTO? reservation =
+            element.reservation; //_member.reservationMap[element.rId];
+        return Alarm(
+          labelText: "평점 작성 요청",
+          prefixIcon: Icons.star,
+          contents:
+              "${reservation.rTime} ${reservation.sTime}\n(${reservation.sStationName} → ${reservation.eStationName})",
+          aTime: dateFormat.format(DateTime.parse(element.aTime)),
+          isNewAlarm: false,
+        );
+      default:
+        return null;
+    }
   }
 
   void navigatePop() {}
