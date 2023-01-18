@@ -1,40 +1,52 @@
+import 'package:intl/intl.dart';
+
 class ReservationDTO {
   int rId;
-  String routeId;
+  String rDate;
   String bNo;
-  String rTime;
+  String routeId;
+  String vNo;
   int sStationId;
   String sStationName;
-  String sTime;
   int eStationId;
   String eStationName;
+  String rState;
+  String rTime;
+  String sTime;
   String eTime;
 
   ReservationDTO({
     required this.rId,
-    required this.routeId,
+    required this.rDate,
     required this.bNo,
-    required this.rTime,
+    required this.routeId,
+    required this.vNo,
     required this.sStationId,
     required this.sStationName,
-    required this.sTime,
     required this.eStationId,
     required this.eStationName,
+    required this.rState,
+    required this.rTime,
+    required this.sTime,
     required this.eTime,
   });
 
   factory ReservationDTO.fromJson(Map<String, dynamic> json) {
     return ReservationDTO(
-      rId: json["rId"],
-      routeId: json["routeId"],
-      bNo: json['bNo'],
-      rTime: json['rTime'],
-      sStationId: json['sStationId'],
-      sStationName: json['sStationName'],
-      sTime: json['sTime'],
-      eStationId: json['eStationId'],
-      eStationName: json['eStationName'],
-      eTime: json['eTime'],
+        rId: json['rId'],
+        rDate: json['rDate'],
+        bNo: json['bNo'],
+        routeId: json['routeId'],
+        vNo: json['vNo'],
+        sStationId: json['sStationId'],
+        sStationName: json['sStationName'],
+        eStationId: json['eStationId'],
+        eStationName: json['eStationName'],
+        rState: json['rState'],
+        rTime: json['rTime'],
+        sTime: json['sTime'],
+        eTime: json['eTime'],
     );
   }
+
 }

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wheere/model/repository/remote_data_sources/base_data_source.dart';
 
-class LogoutDataSource implements BaseDataSource {
+class LogoutDataSource implements BaseRemoteDataSource {
   @override
   String path = "";
 

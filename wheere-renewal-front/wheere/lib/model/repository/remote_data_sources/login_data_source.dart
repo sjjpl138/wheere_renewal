@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/repository/remote_data_sources/base_data_source.dart';
 
-class LoginDataSource implements BaseDataSource {
+class LoginDataSource implements BaseRemoteDataSource {
   @override
   String path = "/api/members/login";
 
@@ -23,7 +23,7 @@ class LoginDataSource implements BaseDataSource {
     try {
       LoginDTO? loginDTO = await _firebaseLogin(firebaseLoginDTO);
       Map<String, dynamic>? res = loginDTO != null
-          ? await BaseDataSource.post(path, loginDTO.toJson())
+          ? await BaseRemoteDataSource.post(path, loginDTO.toJson())
           : null;
       return res != null ? MemberDTO.fromJson(res) : null;
     } catch (e) {

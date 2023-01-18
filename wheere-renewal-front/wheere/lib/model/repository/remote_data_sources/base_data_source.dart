@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-abstract class BaseDataSource {
+abstract class BaseRemoteDataSource {
   static const _baseUrl = "";
   static const _headers = {"Accept": "application/json"};
 
@@ -52,10 +52,10 @@ abstract class BaseDataSource {
   }
 
   static Future<Map<String, dynamic>?> delete(
-      String path, Map<String, dynamic> body) async {
+      String path) async {
     try {
       final res = await http.delete(Uri.parse(_baseUrl + path),
-          headers: _headers, body: body);
+          headers: _headers);
       switch (res.statusCode) {
         case 200:
           return json.decode(utf8.decode(res.bodyBytes));
