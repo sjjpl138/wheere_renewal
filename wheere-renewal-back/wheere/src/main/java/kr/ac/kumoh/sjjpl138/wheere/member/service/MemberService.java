@@ -372,29 +372,35 @@ public class MemberService {
         return searchType != 0;
     }
 
-    private String extractJson(URL url) throws IOException {
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-type", "application/json");
-        log.debug("Response code = {}", conn.getResponseCode());
+    private String extractJson(URL url) {
 
-        BufferedReader rd;
-        if (isOK(conn)) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        try {
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-type", "application/json");
+            log.debug("Response code = {}", conn.getResponseCode());
+
+            BufferedReader rd;
+            if (isOK(conn)) {
+                rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            } else {
+                rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            }
+
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+
+            rd.close();
+            conn.disconnect();
+
+            return sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return e.getMessage();
         }
-
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-
-        rd.close();
-        conn.disconnect();
-
-        return sb.toString();
     }
 
     private boolean isOK(HttpURLConnection conn) throws IOException {
