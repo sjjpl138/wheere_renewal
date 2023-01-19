@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -134,7 +133,7 @@ public class MemberService {
             String jsonResult = extractJson(url);
 
             // json 파싱
-            return extractRetrieveRoutesResult(jsonResult);
+            return extractAllCourseCase(jsonResult);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -145,7 +144,7 @@ public class MemberService {
         }
     }
 
-    private Optional<AllCourseCase> extractRetrieveRoutesResult(String jsonResult) {
+    private Optional<AllCourseCase> extractAllCourseCase(String jsonResult) {
 
         AllCourseCase allCourseCase = new AllCourseCase();
 
