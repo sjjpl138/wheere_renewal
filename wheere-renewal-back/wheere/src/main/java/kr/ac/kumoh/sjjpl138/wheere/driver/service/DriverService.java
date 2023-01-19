@@ -29,6 +29,21 @@ public class DriverService {
      * @return
      */
     public DriverLoginResponseDto logIn(DriverLogInRequestDto logInRequestDto) {
+        String driverId = logInRequestDto.getDriverId();
+        String vehicleNo = logInRequestDto.getVehicleNo();
+        String busNo = logInRequestDto.getBusNo();
+        LocalDate operationDate = LocalDate.now();
+
+        Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDate(vehicleNo, busNo, operationDate);
+        Driver findDriver = driverRepository.findDriverById(driverId);
+
+        // 버스 배정
+        findDriver.assignBus(findBus);
+
+        DriverLoginResponseDto result = new DriverLoginResponseDto();
+        result.setDName(findDriver.getUsername());
+        result.setBId(findBus.getId());
+        result.setVNo(vehicleNo);
 
         return new DriverLoginResponseDto();
     }
