@@ -8,3 +8,4 @@ export 'rating_service.dart';
 export 'check_reservation_service.dart';
 export 'delete_reservation_service.dart';
 export 'alarm_service.dart';
+export 'sign_in_service.dart';

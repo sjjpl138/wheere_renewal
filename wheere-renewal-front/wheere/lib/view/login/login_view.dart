@@ -87,8 +87,8 @@ class _LoginViewState extends State<LoginView> {
                     text: "로그인",
                   ),
                   const SizedBox(height: kPaddingLargeSize),
-                  const CustomTextButton(
-                    onPressed: null,
+                  CustomTextButton(
+                    onPressed: _loginViewModel.navigateToSignUpPage,
                     text: "회원이 아니신가요?",
                   )
                 ],

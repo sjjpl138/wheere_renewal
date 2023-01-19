@@ -28,7 +28,7 @@ class CustomDialogButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kBorderRadiusSize),
         ),
-        minimumSize: kOutlinedButtonSize,
+        minimumSize: Size.zero,
         side: BorderSide.none,
       ),
       child: Column(
@@ -58,6 +58,7 @@ class CustomDialogButton extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(
               left: kPaddingMiddleSize,
+              right:  kPaddingMiddleSize,
               bottom: kPaddingMiddleSize,
             ),
             child: Text(
