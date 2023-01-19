@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/service/services.dart';
+import 'package:wheere/util/utils.dart';
 
 class SignUpViewModel extends ChangeNotifier {
   final SignUpService _signUpService = SignUpService();
@@ -10,8 +11,8 @@ class SignUpViewModel extends ChangeNotifier {
   late final TextEditingController nameController;
   late final TextEditingController phoneNumberController;
 
-  late final String sex;
-  late final String birthDate;
+  late String sex;
+  late String birthDate;
 
   final signUpKey = GlobalKey<FormState>();
 
@@ -20,7 +21,7 @@ class SignUpViewModel extends ChangeNotifier {
     passwordController = TextEditingController();
     nameController = TextEditingController();
     phoneNumberController = TextEditingController();
-    sex = "성별";
+    sex = "남성";
     birthDate = "생년월일";
   }
 
@@ -37,6 +38,16 @@ class SignUpViewModel extends ChangeNotifier {
         ),
       );
     }
+  }
+
+  void onSexChanged(String value) {
+    sex = value;
+    notifyListeners();
+  }
+
+  void onBirthDateChanged(DateTime value) {
+    birthDate = birthDateFormat.format(value);
+    notifyListeners();
   }
 
   void navigatePop() {}

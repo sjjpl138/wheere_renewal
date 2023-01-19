@@ -10,19 +10,24 @@ class CustomRadioListTitle<T> extends StatelessWidget {
 
   final void Function(T?)? onChanged;
 
+  final double contentsPadding;
+
   const CustomRadioListTitle({
     Key? key,
     required this.value,
     required this.groupValue,
     required this.title,
     required this.onChanged,
+    this.contentsPadding = kPaddingLargeSize,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: kOutlinedButtonSize.height,
+      height: contentsPadding == kPaddingLargeSize
+          ? kOutlinedButtonSize.height
+          : null,
       decoration: BoxDecoration(
         color: CustomColor.backGroundSubColor,
         borderRadius: BorderRadius.circular(kBorderRadiusSize),
@@ -30,7 +35,7 @@ class CustomRadioListTitle<T> extends StatelessWidget {
       child: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kPaddingLargeSize),
+            padding: EdgeInsets.symmetric(horizontal: contentsPadding),
             child: Text(
               title,
               style: kTextMainStyleMiddle,
@@ -38,7 +43,7 @@ class CustomRadioListTitle<T> extends StatelessWidget {
           ),
           const Spacer(),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: kPaddingLargeSize),
+            padding: EdgeInsets.symmetric(vertical: contentsPadding),
             child: CustomRadioButton<T>(
               value: value,
               groupValue: groupValue,

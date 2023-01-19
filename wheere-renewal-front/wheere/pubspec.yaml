@@ -45,6 +45,9 @@ dependencies:
   # secure_storage
   flutter_secure_storage: ^7.0.1
 
+  # rounded_date_picker
+  flutter_rounded_date_picker: ^3.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

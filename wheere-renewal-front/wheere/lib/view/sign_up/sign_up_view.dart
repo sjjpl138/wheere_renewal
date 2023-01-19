@@ -70,18 +70,15 @@ class _SignUpViewState extends State<SignUpView> {
                           controller: _signUpViewModel.nameController,
                         ),
                         const SizedBox(height: kPaddingLargeSize),
-                        CustomDialogButton(
-                          onPressed: null,
-                          labelText: "성별",
-                          text: _signUpViewModel.sex,
-                          prefixIcon: Icons.face,
+                        SexRadioField(
+                          groupValue: _signUpViewModel.sex,
+                          onChanged: _signUpViewModel.onSexChanged,
                         ),
                         const SizedBox(height: kPaddingLargeSize),
-                        CustomDialogButton(
-                          onPressed: null,
-                          labelText: "생년월일",
-                          text: _signUpViewModel.birthDate,
-                          prefixIcon: Icons.date_range,
+                        CustomDatePicker(
+                          onDateTimeChanged:
+                              _signUpViewModel.onBirthDateChanged,
+                          initDate: DateTime.now(),
                         ),
                         const SizedBox(height: kPaddingLargeSize),
                         CustomTextFormField(

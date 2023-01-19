@@ -19,7 +19,6 @@ class CustomOutlinedMiniButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kBorderRadiusSize),
         ),
-        minimumSize: kOutlinedSmallButtonSize,
         side: BorderSide.none,
       ),
       child: Padding(
