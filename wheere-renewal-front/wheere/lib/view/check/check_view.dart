@@ -22,7 +22,7 @@ class _CheckViewState extends State<CheckView> {
       body: Container(
         color: CustomColor.backgroundMainColor,
         child: Padding(
-          padding: const EdgeInsets.all(kPaddingLargeSize),
+          padding: const EdgeInsets.symmetric(horizontal: kPaddingLargeSize),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.min,
@@ -32,16 +32,17 @@ class _CheckViewState extends State<CheckView> {
                 "예약확인",
                 style: kTextMainStyleLarge,
               ),
+              const SizedBox(height: kPaddingLargeSize),
               Flexible(
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: _checkViewModel.reservations.length,
                   itemBuilder: (BuildContext context, int index) {
-                    ReservationDTO reservationDTO =
+                    ReservationDTO reservation =
                         _checkViewModel.reservations[index];
                     return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: kPaddingMiddleSize,
+                      padding: const EdgeInsets.only(
+                        bottom: kPaddingMiddleSize,
                       ),
                       child: Container(
                         decoration: BoxDecoration(
@@ -51,14 +52,18 @@ class _CheckViewState extends State<CheckView> {
                             border: Border.all(
                                 width: 2.0, color: CustomColor.itemSubColor)),
                         child: Column(
-                          children: const [
-                            ReservationInfo(
-                              bNo: 'bNo',
-                              rTime: 'rTime',
-                              sStationName: 'sStationName',
-                              sStationTime: 'sStationTime',
-                              eStationName: 'eStationName',
-                              eStationTime: 'eStationTime',
+                          children: [
+                            InkWell(
+                              onTap: () => _checkViewModel
+                                  .navigateToBusCurrentInfoPage(reservation),
+                              child: ReservationInfo(
+                                bNo: reservation.bNo,
+                                rTime: reservation.rDate,
+                                sStationName: reservation.sStationName,
+                                sStationTime: reservation.sTime,
+                                eStationName: reservation.eStationName,
+                                eStationTime: reservation.eTime,
+                              ),
                             ),
                           ],
                         ),

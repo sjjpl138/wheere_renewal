@@ -62,23 +62,25 @@ class SelectViewModel extends ChangeNotifier {
       ),
     ];
 
-    SearchDTO searchDTO = SearchDTO(selects: [
-      SelectDTO(selectTIme: "15시", routes: routes),
-      SelectDTO(selectTIme: "16시", routes: routes),
-      SelectDTO(selectTIme: "17시", routes: routes),
-      SelectDTO(selectTIme: "18시", routes: routes),
-      SelectDTO(selectTIme: "19시", routes: routes),
-      SelectDTO(selectTIme: "20시", routes: routes),
-      SelectDTO(selectTIme: "21시", routes: routes),
-      SelectDTO(selectTIme: "22시", routes: routes),
-      SelectDTO(selectTIme: "23시", routes: routes),
+    RouteFullListDTO routeFullListDTO = RouteFullListDTO(routeFullList: [
+      RoutesByHoursDTO(selectTime: "15시", routes: routes),
+      RoutesByHoursDTO(selectTime: "16시", routes: routes),
+      RoutesByHoursDTO(selectTime: "17시", routes: routes),
+      RoutesByHoursDTO(selectTime: "18시", routes: routes),
+      RoutesByHoursDTO(selectTime: "19시", routes: routes),
+      RoutesByHoursDTO(selectTime: "20시", routes: routes),
+      RoutesByHoursDTO(selectTime: "21시", routes: routes),
+      RoutesByHoursDTO(selectTime: "22시", routes: routes),
+      RoutesByHoursDTO(selectTime: "23시", routes: routes),
     ]);
 
-    for (SelectDTO element in searchDTO.selects) {
-      tabs[Tab(text: element.selectTIme)] = SelectTabPage(
+    for (RoutesByHoursDTO element in routeFullListDTO.routeFullList) {
+      tabs[Tab(text: element.selectTime)] = SelectTabPage(
         routes: element.routes,
       );
     }
     notifyListeners();
   }
+
+  void navigatePop() {}
 }

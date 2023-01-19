@@ -1,6 +1,5 @@
 package kr.ac.kumoh.sjjpl138.wheere.platform;
 
-import kr.ac.kumoh.sjjpl138.wheere.route.Route;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,14 +19,10 @@ public class Platform {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ROUTE_ID")
-    private Route route;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STATION_ID")
     private Station station;
 
-    private int stationSeq; //정류장 순서
-
     private LocalTime arrivalTime; // 예상 도착 시간
+
+    private int stationSeq; //정류장 순서
 }

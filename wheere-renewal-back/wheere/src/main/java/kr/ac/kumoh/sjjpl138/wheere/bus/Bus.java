@@ -1,22 +1,30 @@
 package kr.ac.kumoh.sjjpl138.wheere.bus;
 
-import kr.ac.kumoh.sjjpl138.wheere.route.Route;
+import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bus {
 
     @Id @Column(name = "BUS_ID")
     private Long id;
+
+    @OneToMany(mappedBy = "bus")
+    private List<Platform> platforms = new ArrayList<>();
+
+    private String routeId;
 
     private String vehicleNo; //차량 번호
 
@@ -24,8 +32,5 @@ public class Bus {
 
     private String busNo; //버스 번호
 
-    private LocalTime departureTime;  // 버스 출발 시간
-
-    @OneToMany(mappedBy = "bus", cascade = CascadeType.REMOVE)
-    private List<Route> routes = new ArrayList<>();
+    private LocalDate busDate;
 }

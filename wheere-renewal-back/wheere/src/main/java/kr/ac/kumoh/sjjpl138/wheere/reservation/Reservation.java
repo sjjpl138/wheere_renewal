@@ -3,6 +3,7 @@ package kr.ac.kumoh.sjjpl138.wheere.reservation;
 import kr.ac.kumoh.sjjpl138.wheere.BaseTimeEntity;
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Reservation extends BaseTimeEntity {
 
