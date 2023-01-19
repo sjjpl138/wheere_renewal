@@ -1,6 +1,7 @@
 package kr.ac.kumoh.sjjpl138.wheere.member;
 
 import kr.ac.kumoh.sjjpl138.wheere.BaseTimeEntity;
+import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,5 +37,13 @@ public class Member extends BaseTimeEntity implements Persistable<String> {
     @Override
     public boolean isNew() {
         return getCreatedDate() == null;
+    }
+
+    public void updateMemberInfo(MemberDto memberDto) {
+        this.id = memberDto.getMId();
+        this.username = memberDto.getMName();
+        this.birthDate = memberDto.getMBirthDate();
+        this.sex = memberDto.getMSex();
+        this.phoneNumber = memberDto.getMNum();
     }
 }
