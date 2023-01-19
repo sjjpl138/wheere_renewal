@@ -2,19 +2,14 @@ package kr.ac.kumoh.sjjpl138.wheere.platform.repository;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
-import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
-import kr.ac.kumoh.sjjpl138.wheere.driver.service.DriverService;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
-import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationDto;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
-import kr.ac.kumoh.sjjpl138.wheere.station.service.StationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -24,8 +19,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

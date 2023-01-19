@@ -11,12 +11,10 @@ import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.service.PlatformService;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationDto;
-import kr.ac.kumoh.sjjpl138.wheere.station.service.StationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
