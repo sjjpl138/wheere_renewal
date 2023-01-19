@@ -6,7 +6,7 @@ class RemoteSignUpDataSource implements BaseRemoteDataSource {
   @override
   String path = "/api/members";
 
-  Future<SignUpDTO?> _firebaseSignUp(FirebaseSignUpDTO signUpDTO) async {
+  Future<MemberInfoDTO?> _firebaseSignUp(FirebaseSignUpDTO signUpDTO) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: signUpDTO.email,
@@ -14,7 +14,7 @@ class RemoteSignUpDataSource implements BaseRemoteDataSource {
       );
       String? mId = FirebaseAuth.instance.currentUser?.uid;
       return mId != null
-          ? SignUpDTO(
+          ? MemberInfoDTO(
         mId: mId,
         mName: signUpDTO.mName,
         mSex: signUpDTO.mSex,
@@ -29,7 +29,7 @@ class RemoteSignUpDataSource implements BaseRemoteDataSource {
 
   Future writeWithRemote(FirebaseSignUpDTO firebaseSignUpDTO) async {
     try {
-      SignUpDTO? signUpDTO = await _firebaseSignUp(firebaseSignUpDTO);
+      MemberInfoDTO? signUpDTO = await _firebaseSignUp(firebaseSignUpDTO);
       if (signUpDTO != null) {
         await BaseRemoteDataSource.post(path, signUpDTO.toJson());
       }

@@ -12,5 +12,5 @@ export 'rating_dto.dart';
 export 'reservation_list_dto.dart';
 export 'alarm_dto.dart';
 export 'alarm_list_dto.dart';
-export 'sign_up_dto.dart';
+export 'member_info_dto.dart';
 export 'firebase_sign_up_dto.dart';

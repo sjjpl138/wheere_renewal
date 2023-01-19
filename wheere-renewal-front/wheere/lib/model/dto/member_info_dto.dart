@@ -1,11 +1,11 @@
-class SignUpDTO {
+class MemberInfoDTO {
   String mId;
   String mName;
   String mSex;
   String mBirthDate;
   String mNum;
 
-  SignUpDTO({
+  MemberInfoDTO({
     required this.mId,
     required this.mName,
     required this.mSex,

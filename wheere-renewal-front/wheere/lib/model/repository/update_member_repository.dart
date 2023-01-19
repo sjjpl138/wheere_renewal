@@ -4,7 +4,7 @@ import 'package:wheere/model/dto/dtos.dart';
 class UpdateMemberRepository {
   final UpdateMemberDataSource _updateMemberDataSource = UpdateMemberDataSource();
 
-  Future updateMember(MemberDTO updateMemberDTO) async {
+  Future updateMember(MemberInfoDTO updateMemberDTO) async {
     return await _updateMemberDataSource.writeWithRemote(updateMemberDTO);
   }
 }

@@ -5,7 +5,7 @@ class UpdateMemberDataSource implements BaseRemoteDataSource {
   @override
   String path = "/api/members";
 
-  Future writeWithRemote(MemberDTO updateMemberDTO) async {
+  Future writeWithRemote(MemberInfoDTO updateMemberDTO) async {
     try {
       return await BaseRemoteDataSource.put(path, updateMemberDTO.toJson()); //여기 반환값 200 뿐인데..!!
     } catch (e) {

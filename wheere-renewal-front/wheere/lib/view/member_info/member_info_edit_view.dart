@@ -24,70 +24,71 @@ class _MemberInfoEditViewState extends State<MemberInfoEditView> {
         context,
         title: "마이 페이지",
         leading: BackIconButton(
-          onPressed: _memberInfoEditViewModel.navigatePop,
+          onPressed: () => _memberInfoEditViewModel.navigatePop(context),
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kPaddingLargeSize),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: kPaddingLargeSize),
-              const Text(
-                "사용자 정보 수정",
-                style: kTextMainStyleLarge,
-              ),
-              const SizedBox(height: kPaddingLargeSize),
-              Form(
-                key: _memberInfoEditViewModel.editKey,
-                child: Column(
-                  children: [
-                    CustomTextFormField(
-                      labelText: "이름",
-                      hintText: "이름",
-                      prefixIcon: Icons.person,
-                      keyboardType: TextInputType.text,
-                      validator: validateName,
-                      controller: _memberInfoEditViewModel.nameController,
-                    ),
-                    const SizedBox(height: kPaddingLargeSize),
-                    CustomDialogButton(
-                      onPressed: null,
-                      labelText: "성별",
-                      text: _memberInfoEditViewModel.sex,
-                      prefixIcon: Icons.face,
-                    ),
-                    const SizedBox(height: kPaddingLargeSize),
-                    CustomDialogButton(
-                      onPressed: null,
-                      labelText: "생년월일",
-                      text: _memberInfoEditViewModel.birthDate,
-                      prefixIcon: Icons.date_range,
-                    ),
-                    const SizedBox(height: kPaddingLargeSize),
-                    CustomTextFormField(
-                      labelText: "전화번호",
-                      hintText: "전화번호",
-                      prefixIcon: Icons.call,
-                      keyboardType: TextInputType.phone,
-                      validator: validatePhoneNumber,
-                      controller:
-                          _memberInfoEditViewModel.phoneNumberController,
-                    ),
-                    const SizedBox(height: kPaddingLargeSize),
-                    CustomOutlinedButton(
-                      onPressed: () =>
-                          _memberInfoEditViewModel.editMemberInfo(),
-                      text: "수정하기",
-                    ),
-                    const SizedBox(height: kPaddingLargeSize),
-                  ],
+        child: Container(
+          color: CustomColor.backgroundMainColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kPaddingLargeSize),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Text(
+                  "사용자 정보 수정",
+                  style: kTextMainStyleLarge,
                 ),
-              ),
-            ],
+                const SizedBox(height: kPaddingLargeSize),
+                Form(
+                  key: _memberInfoEditViewModel.editKey,
+                  child: Column(
+                    children: [
+                      CustomTextFormField(
+                        labelText: "이름",
+                        hintText: "이름",
+                        prefixIcon: Icons.person,
+                        keyboardType: TextInputType.text,
+                        validator: validateName,
+                        controller: _memberInfoEditViewModel.nameController,
+                      ),
+                      const SizedBox(height: kPaddingLargeSize),
+                      SexRadioField(
+                        groupValue: _memberInfoEditViewModel.sex,
+                        onChanged: _memberInfoEditViewModel.onSexChanged,
+                      ),
+                      const SizedBox(height: kPaddingLargeSize),
+                      CustomDatePicker(
+                        onDateTimeChanged:
+                            _memberInfoEditViewModel.onBirthDateChanged,
+                        initDate: birthDateFormat.parse(
+                          _memberInfoEditViewModel.birthDate,
+                        ),
+                      ),
+                      const SizedBox(height: kPaddingLargeSize),
+                      CustomTextFormField(
+                        labelText: "전화번호",
+                        hintText: "전화번호",
+                        prefixIcon: Icons.call,
+                        keyboardType: TextInputType.phone,
+                        validator: validatePhoneNumber,
+                        controller:
+                            _memberInfoEditViewModel.phoneNumberController,
+                      ),
+                      const SizedBox(height: kPaddingLargeSize),
+                      CustomOutlinedButton(
+                        onPressed: () =>
+                            _memberInfoEditViewModel.editMemberInfo(context),
+                        text: "수정하기",
+                      ),
+                      const SizedBox(height: kPaddingLargeSize),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

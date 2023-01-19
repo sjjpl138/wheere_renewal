@@ -2,8 +2,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wheere/model/dto/dtos.dart';
-import 'package:wheere/model/service/login_service.dart';
-import 'package:wheere/model/service/logout_service.dart';
+import 'package:wheere/model/service/services.dart';
+import 'package:wheere/util/utils.dart';
 
 class Member extends ChangeNotifier {
   Member._privateConstructor();
@@ -16,6 +16,7 @@ class Member extends ChangeNotifier {
 
   late final LoginService _loginService = LoginService();
   late final LogoutService _logoutService = LogoutService();
+  late final UpdateMemberService _updateMemberService = UpdateMemberService();
 
   MemberDTO? get member => _memberDTO;
   MemberDTO? _memberDTO;
@@ -29,9 +30,9 @@ class Member extends ChangeNotifier {
       _memberDTO = MemberDTO(
           mId: "mId",
           mName: "mName",
-          mSex: "mSex",
-          mBrithDate: "mBrithDate",
-          mNum: "mNum",
+          mSex: "남성",
+          mBirthDate: birthDateFormat.format(DateTime.now()),
+          mNum: "01000000000",
           fcmToken: fcmToken);
     }
 /*    await _loginService
@@ -47,6 +48,19 @@ class Member extends ChangeNotifier {
 
   Future loginByAuto() async {
     await _loginService.loginWithLocal().then((value) => _memberDTO = value);
+    notifyListeners();
+  }
+
+  Future updateInfo(MemberInfoDTO updateMemberDTO) async {
+    await _updateMemberService.updateMember(updateMemberDTO);
+    _memberDTO = MemberDTO(
+      mId: updateMemberDTO.mId,
+      mName: updateMemberDTO.mName,
+      mSex: updateMemberDTO.mSex,
+      mBirthDate: updateMemberDTO.mBirthDate,
+      mNum: updateMemberDTO.mNum,
+      fcmToken: _memberDTO!.fcmToken,
+    );
     notifyListeners();
   }
 }
