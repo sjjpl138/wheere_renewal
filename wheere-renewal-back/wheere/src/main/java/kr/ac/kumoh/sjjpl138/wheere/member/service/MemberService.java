@@ -129,7 +129,6 @@ public class MemberService {
         StringBuilder urlBuilder = setUrl(requestDto);
 
         // GET 방식으로 전송해서 파라미터 받아오기
-        // @TODO("예외처리 필요 (MalformedURLException)")
         URL url = createUrl(urlBuilder);
 
         String jsonResult = extractJson(url);
@@ -140,7 +139,6 @@ public class MemberService {
     private Optional<AllCourseCase> extractRetrieveRoutesResult(String jsonResult) {
 
         AllCourseCase allCourseCase = new AllCourseCase();
-
 
         /* json parsing */
         JSONObject rootJsonObject = getJsonObject(jsonResult);
@@ -402,7 +400,9 @@ public class MemberService {
             return sb.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            return e.getMessage();
+            String message = e.getMessage();
+            log.error("message = {}", message);
+            return null;
         }
     }
 
@@ -410,8 +410,16 @@ public class MemberService {
         return conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300;
     }
 
-    private URL createUrl(StringBuilder urlBuilder) throws MalformedURLException {
-        return new URL(urlBuilder.toString());
+    private URL createUrl(StringBuilder urlBuilder) {
+
+        try {
+            return new URL(urlBuilder.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            String message = e.getMessage();
+            log.error("message = {}", message);
+            return null;
+        }
     }
 
     private StringBuilder setUrl(RetrieveRoutesRequest requestDto) throws UnsupportedEncodingException {
