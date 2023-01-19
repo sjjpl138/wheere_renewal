@@ -6,7 +6,11 @@ import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
+import kr.ac.kumoh.sjjpl138.wheere.member.dto.RetrieveRoutesRequest;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
+import kr.ac.kumoh.sjjpl138.wheere.member.sub.AllCourseCase;
+import kr.ac.kumoh.sjjpl138.wheere.member.sub.Course;
+import kr.ac.kumoh.sjjpl138.wheere.member.sub.SubCourse;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
@@ -21,10 +25,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -187,8 +193,39 @@ class MemberServiceTest {
         memberService.rateDriver(1L, 1L, rating);
 
         Driver findDriver = driverRepository.findByBusId(1L);
-        Assertions.assertThat(findDriver.getRatingScore()).isEqualTo(4.5);
+        assertThat(findDriver.getRatingScore()).isEqualTo(4.5);
 
+    }
+
+    @Test
+    void 경로조회_도시내() {
+
+        // Given
+        String sx = "128.7077189612571";
+        String sy = "35.83024605453422";
+        String ex = "128.67410033572702";
+        String ey = "35.82704251894367";
+
+        RetrieveRoutesRequest retrieveRoutesRequest = new RetrieveRoutesRequest(sx, sy, ex, ey, null);
+
+        Optional<AllCourseCase> allCase = memberService.checkRoutes(retrieveRoutesRequest);
+
+        AllCourseCase allCourseCase = allCase.get();
+        List<Course> courses = allCourseCase.getCourses();
+
+        Course course1 = courses.get(0);
+
+        List<SubCourse> subCourses = course1.getSubCourses();
+
+        SubCourse subCourse = subCourses.get(0);
+
+        // Then
+        assertThat(allCourseCase.getOutTrafficCheck()).isEqualTo(0);
+        assertThat(courses).extracting("busTransitCount").containsExactly(1, 2);
+        assertThat(courses).extracting("payment").containsExactly(1250, 1250);
+        assertThat(subCourses).extracting("trafficType").containsExactly(3, 2, 3);
+        assertThat(subCourses).extracting("sectionTime").containsExactly(3, 15, 9);
+        assertThat(subCourse.getBusLane()).isNull();
     }
 
 }
