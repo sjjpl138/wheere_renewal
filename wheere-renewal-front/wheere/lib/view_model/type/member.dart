@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wheere/model/dto/dtos.dart';
+import 'package:wheere/model/repository/login_repository.dart';
 import 'package:wheere/model/service/services.dart';
 import 'package:wheere/util/utils.dart';
 
@@ -34,6 +35,7 @@ class Member extends ChangeNotifier {
           mBirthDate: birthDateFormat.format(DateTime.now()),
           mNum: "01000000000",
           fcmToken: fcmToken);
+      await LoginRepository().saveMemberWithLocal(_memberDTO!);
     }
 /*    await _loginService
         .login(firebaseLoginDTO)
