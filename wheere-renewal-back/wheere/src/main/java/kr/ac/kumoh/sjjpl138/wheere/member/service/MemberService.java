@@ -15,9 +15,9 @@ import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.dto.RetrieveRoutesRequest;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
-import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -141,7 +141,6 @@ public class MemberService {
 
         AllCourseCase allCourseCase = new AllCourseCase();
 
-        List<Course> courses = new ArrayList<>();
 
         /* json parsing */
         JSONObject rootJsonObject = getJsonObject(jsonResult);
@@ -154,19 +153,25 @@ public class MemberService {
             return Optional.empty();
         }
 
-        // 도시간 '직통' 탐색 결과 유무
-        // 0: 직통, 1: 직통 없음
+        // 도시간 '직통' 탐색 결과 유무 (0: 직통, 1: 직통 없음)
         int outTrafficCheck = getOutTrafficCheck(rootJsonObject);
         allCourseCase.setOutTrafficCheck(outTrafficCheck);
+
+        List<Course> courses = createCourses(rootJsonObject);
+
+        allCourseCase.setCourses(courses);
+
+        return Optional.of(allCourseCase);
+    }
+
+    private List<Course> createCourses(JSONObject rootJsonObject) {
+        List<Course> courses = new ArrayList<>();
 
         // 결과 리스트 확장 노드
         JSONArray path = getPath(rootJsonObject);
 
         addCourse(courses, path);
-
-        allCourseCase.setCourses(courses);
-
-        return Optional.of(allCourseCase);
+        return courses;
     }
 
     private JSONArray getPath(JSONObject rootJsonObject) {
