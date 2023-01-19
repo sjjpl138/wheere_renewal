@@ -132,7 +132,6 @@ public class MemberService {
         // @TODO("예외처리 필요 (MalformedURLException)")
         URL url = createUrl(urlBuilder);
 
-        // @TODO("예외처리 필요 (IOException)")
         String jsonResult = extractJson(url);
 
         return extractRetrieveRoutesResult(jsonResult);
@@ -170,23 +169,22 @@ public class MemberService {
         return Optional.of(allCourseCase);
     }
 
-    private static JSONArray getPath(JSONObject rootJsonObject) {
-        JSONArray path = rootJsonObject.getJSONArray("path");
-        return path;
+    private JSONArray getPath(JSONObject rootJsonObject) {
+        return rootJsonObject.getJSONArray("path");
     }
 
-    private static JSONObject getJsonObject(String jsonResult) {
+    private JSONObject getJsonObject(String jsonResult) {
         JSONObject jsonObj = new JSONObject(jsonResult);
         return jsonObj.getJSONObject("result");
     }
 
-    private static int getSearchType(JSONObject rootJsonObject) {
+    private int getSearchType(JSONObject rootJsonObject) {
         int searchType = rootJsonObject.getInt("searchType");
         log.debug("searchType = {}", searchType);
         return searchType;
     }
 
-    private static int getOutTrafficCheck(JSONObject rootJsonObject) {
+    private int getOutTrafficCheck(JSONObject rootJsonObject) {
         int outTrafficCheck = rootJsonObject.getInt("outTrafficCheck");
         log.debug("outTrafficCheck = {}", outTrafficCheck);
         return outTrafficCheck;
@@ -224,27 +222,27 @@ public class MemberService {
         }
     }
 
-    private static JSONObject getPathObj(JSONArray path, int i) {
+    private JSONObject getPathObj(JSONArray path, int i) {
         return path.getJSONObject(i);
     }
 
-    private static JSONObject getInfo(JSONObject pathObj) {
+    private JSONObject getInfo(JSONObject pathObj) {
         return pathObj.getJSONObject("info");
     }
 
-    private static int getBusTransitCount(JSONObject info) {
+    private int getBusTransitCount(JSONObject info) {
         int busTransitCount = info.getInt("busTransitCount");
         log.debug("busTransitCount = {}", busTransitCount);
         return busTransitCount;
     }
 
-    private static int getPayment(JSONObject info) {
+    private int getPayment(JSONObject info) {
         int payment = info.getInt("payment");
         log.debug("payment = {}", payment);
         return payment;
     }
 
-    private static JSONArray getSubPath(JSONObject pathObj) {
+    private JSONArray getSubPath(JSONObject pathObj) {
         return pathObj.getJSONArray("subPath");
     }
 
@@ -264,14 +262,16 @@ public class MemberService {
             int sectionTime = getSectionTime(subPathObj);
             subCourse.setSectionTime(sectionTime);
 
-            ifPresentBusLane(subCourse, subPathObj, trafficType);
+            if (trafficType == 2) {
+                createBusLane(subCourse, subPathObj);
+            }
 
             subCourses.add(subCourse);
         }
     }
 
-    private static JSONObject getSubPathObj(JSONArray subPath, int k) {
-        return subPath.getJSONObject(k);
+    private JSONObject getSubPathObj(JSONArray subPath, int index) {
+        return subPath.getJSONObject(index);
     }
 
     private int getTrafficType(JSONObject subPathObj) {
@@ -286,41 +286,38 @@ public class MemberService {
         return sectionTime;
     }
 
-    private void ifPresentBusLane(SubCourse subCourse, JSONObject subPathObj, int trafficType) {
-        if (trafficType == 2) {
+    private void createBusLane(SubCourse subCourse, JSONObject subPathObj) {
+        List<String> busNoList = new ArrayList<>();
 
-            List<String> busNoList = new ArrayList<>();
+        // 교통 수단 정보 확장 노드
+        addBusNo(subPathObj, busNoList);
 
-            // 교통 수단 정보 확장 노드
-            addBusNo(subPathObj, busNoList);
+        // 경로 상세구간 정보 확장 노드
+        JSONObject passStopList = getPassStopList(subPathObj);
 
-            // 경로 상세구간 정보 확장 노드
-            JSONObject passStopList = getPassStopList(subPathObj);
+        // 정류장 정보 그룹 노드
+        JSONArray stations = getStations(passStopList);
 
-            // 정류장 정보 그룹 노드
-            JSONArray stations = getStations(passStopList);
+        // 첫번째 정류소 정보
+        JSONObject firstPassStopObj = getPassStopObj(stations, 0);
 
-            // 첫번째 정류소 정보
-            JSONObject firstPassStopObj = getPassStopObj(stations, 0);
+        // 첫번째 정류장 ID
+        int firstStationID = getStationID(firstPassStopObj);
 
-            // 첫번째 정류장 ID
-            int firstStationID = getStationID(firstPassStopObj);
+        // 첫번째 정류장 명칭
+        String firstStationName = getStationName(firstPassStopObj);
 
-            // 첫번째 정류장 명칭
-            String firstStationName = getStationName(firstPassStopObj);
+        // 마지막 정류소 정보
+        JSONObject lastPassStopObj = getPassStopObj(stations, stations.length() - 1);
 
-            // 마지막 정류소 정보
-            JSONObject lastPassStopObj = getPassStopObj(stations, stations.length() - 1);
+        // 마지막 정류장 ID
+        int lastStationID = getStationID(lastPassStopObj);
 
-            // 마지막 정류장 ID
-            int lastStationID = getStationID(lastPassStopObj);
+        // 마지막 정류장 명칭
+        String lastStationName = getStationName(lastPassStopObj);
 
-            // 마지막 정류장 명칭
-            String lastStationName = getStationName(lastPassStopObj);
-
-            BusLane busLane = BusLane.createBusLane(busNoList, firstStationID, firstStationName, lastStationID, lastStationName);
-            subCourse.setBusLane(Optional.of(busLane));
-        }
+        BusLane busLane = BusLane.createBusLane(busNoList, firstStationID, firstStationName, lastStationID, lastStationName);
+        subCourse.setBusLane(Optional.of(busLane));
     }
 
     private void addBusNo(JSONObject subPathObj, List<String> busNoList) {
@@ -331,8 +328,8 @@ public class MemberService {
         }
     }
 
-    private JSONObject getLaneObj(JSONArray lane, int r) {
-        return lane.getJSONObject(r);
+    private JSONObject getLaneObj(JSONArray lane, int index) {
+        return lane.getJSONObject(index);
     }
 
     private JSONArray getLane(JSONObject subPathObj) {
