@@ -13,8 +13,10 @@ import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.dto.RetrieveRoutesRequest;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +45,7 @@ public class MemberService {
     private String apiKey;
     private final MemberRepository memberRepository;
     private final DriverRepository driverRepository;
+    private final ReservationRepository reservationRepository;
 
     /**
      * 사용자 추가 (회원가입)
@@ -107,8 +110,11 @@ public class MemberService {
      * @param rating
      */
     @Transactional
-    public void rateDriver(double rating) {
-
+    public void rateDriver(Long rId, Long bId, double rating) {
+        Reservation resv = reservationRepository.findResvById(rId);
+        Driver driver = driverRepository.findByBusId(bId);
+        driver.calculateRating(rating);
+        resv.changeResvStatus();
     }
 
     /**

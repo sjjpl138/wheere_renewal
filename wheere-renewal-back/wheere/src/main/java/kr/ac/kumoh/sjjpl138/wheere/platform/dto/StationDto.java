@@ -1,4 +1,4 @@
-package kr.ac.kumoh.sjjpl138.wheere.driver.dto;
+package kr.ac.kumoh.sjjpl138.wheere.platform.dto;
 
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import lombok.Data;
