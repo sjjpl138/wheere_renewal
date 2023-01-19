@@ -32,8 +32,6 @@ public class Reservation extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
 
-    private int busCount; // 탑승해야하는 버스 개수 (환승 구분)
-
     private String startStation;
 
     private String endStation;
