@@ -10,4 +10,11 @@ class LoginDTO{
     required this.bOutNo,
     required this.bNo
   });
+
+  Map<String, dynamic> toJson() => {
+    'bId': bId,
+    'vNo': vNo,
+    'bOutNo': bOutNo,
+    'bNo': bNo,
+  };
 }
