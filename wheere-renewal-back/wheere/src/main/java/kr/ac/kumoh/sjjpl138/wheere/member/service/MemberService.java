@@ -122,18 +122,27 @@ public class MemberService {
      * 출발지, 도착지 좌표를 입력 받아
      * 대중교통 길찾기 api를 사용해 선택지 제공
      */
-    public Optional<AllCourseCase> checkRoutes(RetrieveRoutesRequest requestDto) throws IOException {
+    public Optional<AllCourseCase> checkRoutes(RetrieveRoutesRequest requestDto) {
 
         // 대주교통 길차지 API Url 설정
-        // @TODO("예외처리 필요 (UnsupportedEncodingException)")
         StringBuilder urlBuilder = setUrl(requestDto);
 
         // GET 방식으로 전송해서 파라미터 받아오기
-        URL url = createUrl(urlBuilder);
+        try {
+            URL url = createUrl(urlBuilder);
 
-        String jsonResult = extractJson(url);
+            String jsonResult = extractJson(url);
 
-        return extractRetrieveRoutesResult(jsonResult);
+            // json 파싱
+            return extractRetrieveRoutesResult(jsonResult);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            String message = e.getMessage();
+            log.error("message = {}", message);
+
+            return Optional.empty();
+        }
     }
 
     private Optional<AllCourseCase> extractRetrieveRoutesResult(String jsonResult) {
@@ -410,19 +419,12 @@ public class MemberService {
         return conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300;
     }
 
-    private URL createUrl(StringBuilder urlBuilder) {
+    private URL createUrl(StringBuilder urlBuilder) throws MalformedURLException {
 
-        try {
-            return new URL(urlBuilder.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            String message = e.getMessage();
-            log.error("message = {}", message);
-            return null;
-        }
+        return new URL(urlBuilder.toString());
     }
 
-    private StringBuilder setUrl(RetrieveRoutesRequest requestDto) throws UnsupportedEncodingException {
+    private StringBuilder setUrl(RetrieveRoutesRequest requestDto){
         String apiUrl = "https://api.odsay.com/v1/api/searchPubTransPathT";
 
         StringBuilder urlBuilder = new StringBuilder(apiUrl);
