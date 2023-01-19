@@ -11,4 +11,6 @@ import java.util.List;
 public interface BusRepository extends JpaRepository<Bus, Long> {
     Bus findBusByVehicleNoAndBusNoAndBusDate(String vehicleNo, String busNo, LocalDate operationDate);
 
+    Bus findBusByVehicleNo(String VehicleNo);
+
 }
