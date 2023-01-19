@@ -6,13 +6,21 @@ import 'package:wheere/view_model/select_view_model.dart';
 
 class SelectPage extends StatelessWidget {
   final RouteFullListDTO routeFullListDTO;
+  final String rDate;
 
-  const SelectPage({super.key, required this.routeFullListDTO});
+  const SelectPage({
+    super.key,
+    required this.routeFullListDTO,
+    required this.rDate,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SelectViewModel>(
-      create: (_) => SelectViewModel(routeFullListDTO: routeFullListDTO),
+      create: (_) => SelectViewModel(
+        routeFullListDTO: routeFullListDTO,
+        rDate: rDate,
+      ),
       child: Consumer<SelectViewModel>(
         builder: (context, provider, child) => SelectView(
           selectViewModel: provider,

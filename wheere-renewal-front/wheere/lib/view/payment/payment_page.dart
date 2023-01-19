@@ -5,19 +5,19 @@ import 'package:wheere/view_model/payment_view_model.dart';
 import 'payment_view.dart';
 
 class PaymentPage extends StatelessWidget {
-  final List<BusDTO> reservations;
-  final String rTime;
+  final RouteDTO routeDTO;
+  final String rDate;
 
   const PaymentPage({
     super.key,
-    required this.reservations,
-    required this.rTime,
+    required this.routeDTO,
+    required this.rDate,
   });
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PaymentViewModel>(
-      create: (_) => PaymentViewModel(reservations: reservations, rTIme: rTime),
+      create: (_) => PaymentViewModel(routeDTO: routeDTO, rDate: rDate),
       child: Consumer<PaymentViewModel>(
         builder: (context, provider, child) => PaymentView(
           paymentViewModel: provider,

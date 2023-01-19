@@ -107,7 +107,11 @@ class SearchViewModel extends ChangeNotifier {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => SelectPage(routeFullListDTO: routeFullListDTO)),
+        builder: (context) => SelectPage(
+          routeFullListDTO: routeFullListDTO,
+          rDate: rDate,
+        ),
+      ),
     );
 
 /*    if (sPlaceInfo == null || ePlaceInfo == null) return;
