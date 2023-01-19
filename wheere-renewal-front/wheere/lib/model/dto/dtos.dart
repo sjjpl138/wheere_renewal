@@ -10,3 +10,5 @@ export 'request_reservation_dto.dart';
 export 'request_route_dto.dart';
 export 'rating_dto.dart';
 export 'reservation_list_dto.dart';
+export 'alarm_dto.dart';
+export 'alarm_list_dto.dart';

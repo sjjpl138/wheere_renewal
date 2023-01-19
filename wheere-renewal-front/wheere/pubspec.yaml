@@ -12,6 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # date format 'ko'
+  flutter_localizations:
+    sdk: flutter
+
   cupertino_icons: ^1.0.2
 
   # firebase

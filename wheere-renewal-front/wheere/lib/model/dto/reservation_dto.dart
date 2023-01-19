@@ -29,19 +29,35 @@ class ReservationDTO {
 
   factory ReservationDTO.fromJson(Map<String, dynamic> json) {
     return ReservationDTO(
-        rId: json['rId'],
-        rDate: json['rDate'],
-        bNo: json['bNo'],
-        routeId: json['routeId'],
-        vNo: json['vNo'],
-        sStationId: json['sStationId'],
-        sStationName: json['sStationName'],
-        eStationId: json['eStationId'],
-        eStationName: json['eStationName'],
-        rState: json['rState'],
-        sTime: json['sTime'],
-        eTime: json['eTime'],
+      rId: json['rId'],
+      rDate: json['rDate'],
+      bNo: json['bNo'],
+      routeId: json['routeId'],
+      vNo: json['vNo'],
+      sStationId: json['sStationId'],
+      sStationName: json['sStationName'],
+      eStationId: json['eStationId'],
+      eStationName: json['eStationName'],
+      rState: json['rState'],
+      sTime: json['sTime'],
+      eTime: json['eTime'],
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      "rId": rId,
+      "rDate": rDate,
+      "bNo": bNo,
+      "routeId": routeId,
+      "vNo": vNo,
+      "sStationId": sStationId,
+      "sStationName": sStationName,
+      "eStationId": eStationId,
+      "eStationName": eStationName,
+      "rState": rState,
+      "sTime": sTime,
+      "eTime": eTime,
+    };
+  }
 }

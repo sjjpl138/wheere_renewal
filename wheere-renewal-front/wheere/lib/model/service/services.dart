@@ -7,3 +7,4 @@ export 'delete_member_service.dart';
 export 'rating_service.dart';
 export 'check_reservation_service.dart';
 export 'delete_reservation_service.dart';
+export 'alarm_service.dart';

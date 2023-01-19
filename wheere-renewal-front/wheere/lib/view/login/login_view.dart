@@ -37,9 +37,8 @@ class _LoginViewState extends State<LoginView> {
                   const SizedBox(height: kPaddingLargeSize),
                   //TODO : App Icon 그림자 추가 필요
                   Center(
-                    child: Flexible(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
@@ -53,7 +52,7 @@ class _LoginViewState extends State<LoginView> {
                           style: kTextMainStyleLarge,
                         ),
                       ],
-                    )),
+                    ),
                   ),
                   const SizedBox(height: kPaddingLargeSize),
                   Form(
