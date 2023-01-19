@@ -33,4 +33,8 @@ public class Driver extends BaseTimeEntity {
         this.ratingCnt++;
         this.ratingScore = sum / ratingCnt;
     }
+
+    public void assignBus(Bus bus) {
+        this.bus = bus;
+    }
 }
