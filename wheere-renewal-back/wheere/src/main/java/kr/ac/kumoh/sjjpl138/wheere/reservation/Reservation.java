@@ -39,4 +39,8 @@ public class Reservation extends BaseTimeEntity {
     private String endStation;
 
     private LocalDate reservationDate;
+
+    public void changeResvStatus() {
+        this.reservationStatus = ReservationStatus.RVW_COMP;
+    }
 }
