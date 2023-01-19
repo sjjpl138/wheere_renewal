@@ -4,7 +4,7 @@ import 'package:wheere/model/dto/dtos.dart';
 class UpdateMemberService {
   final UpdateMemberRepository _updateMemberRepository = UpdateMemberRepository();
 
-  Future updateMember(MemberDTO updateMemberDTO) async {
+  Future updateMember(MemberInfoDTO updateMemberDTO) async {
     return await _updateMemberRepository.updateMember(updateMemberDTO);
   }
 }

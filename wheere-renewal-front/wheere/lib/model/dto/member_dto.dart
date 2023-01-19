@@ -2,7 +2,7 @@ class MemberDTO {
   String mId;
   String mName;
   String mSex;
-  String mBrithDate;
+  String mBirthDate;
   String mNum;
   String fcmToken;
 
@@ -10,7 +10,7 @@ class MemberDTO {
     required this.mId,
     required this.mName,
     required this.mSex,
-    required this.mBrithDate,
+    required this.mBirthDate,
     required this.mNum,
     required this.fcmToken,
   });
@@ -20,7 +20,7 @@ class MemberDTO {
       mId: json["mId"],
       mName: json["mName"],
       mSex: json["mSex"],
-      mBrithDate: json["mBirthDate"],
+      mBirthDate: json["mBirthDate"],
       mNum: json["mNum"],
       fcmToken: json['fcmToken'],
     );
@@ -31,7 +31,7 @@ class MemberDTO {
       "mId": mId,
       "mName": mName,
       "mSex": mSex,
-      "mBirthDate": mBrithDate,
+      "mBirthDate": mBirthDate,
       "mNum": mNum,
       "fcmToken": fcmToken,
     };

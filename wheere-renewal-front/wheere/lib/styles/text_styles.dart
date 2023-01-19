@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/styles/sizes.dart';
-
 import 'colors.dart';
 
 const TextStyle kTextMainStyleLarge = TextStyle(

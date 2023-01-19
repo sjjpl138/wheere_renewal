@@ -7,3 +7,4 @@ export 'delete_member_repository.dart';
 export 'rating_repository.dart';
 export 'check_reservation_repository.dart';
 export 'delete_reservation_repository.dart';
+export 'sign_up_repository.dart';
