@@ -27,4 +27,10 @@ public class Driver extends BaseTimeEntity {
     private double ratingScore;
 
     private int ratingCnt;
+
+    public void calculateRating(double rating) {
+        double sum = ratingCnt * ratingScore + rating;
+        this.ratingCnt++;
+        this.ratingScore = sum / ratingCnt;
+    }
 }
