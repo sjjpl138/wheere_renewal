@@ -53,9 +53,9 @@ public class DriverService {
      * @return
      */
     @Transactional
-    public Bus changeBus(String driverId, String vehicleNo) {
+    public Bus changeBus(String driverId, String vehicleNo, LocalDate busDate) {
         Driver findDriver = driverRepository.findById(driverId).get();
-        Bus findBus = busRepository.findBusByVehicleNo(vehicleNo);
+        Bus findBus = busRepository.findBusByVehicleNoAndBusDate(vehicleNo,busDate).get();
         findDriver.assignBus(findBus);
 
         return findBus;
