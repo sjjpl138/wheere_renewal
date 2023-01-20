@@ -47,6 +47,8 @@ class ReservationList extends ChangeNotifier {
   }
 
   Future checkReservation(String order, String rState) async {
+    print("checkReservation");
+    await Future.delayed(const Duration(seconds: 1));
     // TODO : test code 삭제
     ReservationListDTO value = ReservationListDTO([
       ReservationDTO(
@@ -108,6 +110,7 @@ class ReservationList extends ChangeNotifier {
     ]);
     if (currentPage == 0) {
       _reservationListDTO = value;
+      currentPage++;
     } else {
       if (value.reservationsList != null) {
         _reservationListDTO!.reservationsList!.addAll(value.reservationsList!);
