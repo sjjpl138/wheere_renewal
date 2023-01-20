@@ -24,7 +24,7 @@ class _PaymentViewState extends State<PaymentView> {
         context,
         title: "예약하기",
         leading: BackIconButton(
-          onPressed: _paymentViewModel.navigatePop,
+          onPressed: () => _paymentViewModel.navigatePop(context),
         ),
       ),
       body: SingleChildScrollView(
@@ -77,7 +77,7 @@ class _PaymentViewState extends State<PaymentView> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      "${1400 * _paymentViewModel.reservationInfoList.length} 원",
+                      "${_paymentViewModel.routeDTO.price} 원",
                       style: kTextMainStyleLarge,
                       textAlign: TextAlign.end,
                     ),

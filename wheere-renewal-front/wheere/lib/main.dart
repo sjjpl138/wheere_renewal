@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:wheere/model/dto/alarm_dto.dart';
+import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/service/alarm_service.dart';
 import 'package:wheere/test.dart';
 
@@ -12,9 +15,6 @@ import 'firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
-  AlarmService().addAlarmWithLocal(
-    AlarmDTO.fromJson(message.data['alarm']),
-  );
 }
 
 late AndroidNotificationChannel channel;
@@ -87,14 +87,34 @@ class MyApp extends StatelessWidget {
           notification.body,
           details,
         );
+
+        print(json.encode(message.data));
+        AlarmService().addAlarmWithLocal(
+//        AlarmDTO.fromJson(message.data['alarm']),
+          AlarmDTO(
+            alarmType: message.data['alarmType'],
+            aTime: message.data['aTime'],
+            reservation: ReservationDTO(
+              rId: message.data['rId'],
+              rDate: message.data['rDate'],
+              bNo: message.data['bNo'],
+              routeId: message.data['routeId'],
+              vNo: message.data['vNo'],
+              sStationId: message.data['sStationId'],
+              sStationName: message.data['sStationName'],
+              eStationId: message.data['eStationId'],
+              eStationName: message.data['eStationName'],
+              rState: message.data['rState'],
+              sTime: message.data['sTime'],
+              eTime: message.data['eTime'],
+            ),
+          ),
+        );
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       print(message);
-      AlarmService().addAlarmWithLocal(
-        AlarmDTO.fromJson(message.data['alarm']),
-      );
     });
   }
 

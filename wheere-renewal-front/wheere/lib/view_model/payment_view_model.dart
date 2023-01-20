@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/model/dto/bus_dto.dart';
 import 'package:wheere/model/dto/dtos.dart';
+import 'package:wheere/model/service/make_reservation_service.dart';
 import 'package:wheere/view/common/commons.dart';
 
 import 'type/types.dart';
 
 class PaymentViewModel extends ChangeNotifier {
+  final MakeReservationService _makeReservationService =
+      MakeReservationService();
   final RouteDTO routeDTO;
   final String rDate;
+
+  MemberDTO? get member => _member.member;
+  final Member _member = Member();
 
   Payment payment = Payment.kakaoPay;
 
@@ -35,5 +40,13 @@ class PaymentViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void navigatePop() {}
+  void navigatePop(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+  Future payForReservations() async {}
+
+  Future makeReservation() async {
+//    _makeReservationService.makeReservation(RequestReservationDTO(mId: member!.mId, bId: bId, sStationId: sStationId, eStationId: eStationId, rDate: rDate))
+  }
 }
