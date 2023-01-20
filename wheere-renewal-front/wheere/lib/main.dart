@@ -112,10 +112,6 @@ class MyApp extends StatelessWidget {
         );
       }
     });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print(message);
-    });
   }
 
   // This widget is the root of your application.
