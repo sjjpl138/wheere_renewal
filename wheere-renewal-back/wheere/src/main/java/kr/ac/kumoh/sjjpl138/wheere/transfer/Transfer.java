@@ -27,4 +27,8 @@ public class Transfer {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BUS_ID")
     private Bus bus;
+
+    private String boardStation;
+
+    private String alightStation;
 }
