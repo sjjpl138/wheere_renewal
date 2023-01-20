@@ -5,12 +5,14 @@ import '../../../styles/styles.dart';
 class AlarmIconButton extends StatelessWidget {
   final bool isNewAlarm;
 
-  const AlarmIconButton({Key? key, required this.isNewAlarm}) : super(key: key);
+  final void Function() onPressed;
+
+  const AlarmIconButton({Key? key, required this.isNewAlarm, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {},
+      onPressed: onPressed,
       icon: Stack(
         alignment: Alignment.topRight,
         children: [

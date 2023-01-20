@@ -14,3 +14,4 @@ export 'alarm_dto.dart';
 export 'alarm_list_dto.dart';
 export 'member_info_dto.dart';
 export 'firebase_sign_up_dto.dart';
+export 'has_new_alarm_dto.dart';

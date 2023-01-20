@@ -32,7 +32,10 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
       appBar: CustomAppBar.build(
         context,
         title: 'WHEERE',
-        leading: AlarmIconButton(isNewAlarm: _mainViewModel.isNewAlarm),
+        leading: AlarmIconButton(
+          isNewAlarm: _mainViewModel.hasNewAlarm,
+          onPressed: () => _mainViewModel.navigateToAlarmPage(context),
+        ),
         actions: [
           const SettingIconButton(),
         ],

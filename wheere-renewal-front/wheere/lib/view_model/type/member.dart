@@ -18,9 +18,14 @@ class Member extends ChangeNotifier {
   late final LoginService _loginService = LoginService();
   late final LogoutService _logoutService = LogoutService();
   late final UpdateMemberService _updateMemberService = UpdateMemberService();
+  late final AlarmService _alarmService = AlarmService();
 
   MemberDTO? get member => _memberDTO;
   MemberDTO? _memberDTO;
+
+  bool get hasNewAlarm =>
+      _hasNewAlarmDTO == null ? false : _hasNewAlarmDTO!.hasNewAlarm;
+  HasNewAlarmDTO? _hasNewAlarmDTO;
 
   Future login(FirebaseLoginDTO firebaseLoginDTO) async {
     // TODO : test code 삭제
@@ -40,6 +45,9 @@ class Member extends ChangeNotifier {
 /*    await _loginService
         .login(firebaseLoginDTO)
         .then((value) => _memberDTO = value);*/
+    await _alarmService
+        .getHasNewAlarmWithLocal()
+        .then((value) => _hasNewAlarmDTO = value);
     notifyListeners();
   }
 
@@ -50,6 +58,9 @@ class Member extends ChangeNotifier {
 
   Future loginByAuto() async {
     await _loginService.loginWithLocal().then((value) => _memberDTO = value);
+    await _alarmService
+        .getHasNewAlarmWithLocal()
+        .then((value) => _hasNewAlarmDTO = value);
     notifyListeners();
   }
 

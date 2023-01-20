@@ -25,5 +25,7 @@ class SelectViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void navigatePop() {}
+  void navigatePop(BuildContext context) {
+    Navigator.pop(context);
+  }
 }
