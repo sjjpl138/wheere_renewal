@@ -15,7 +15,7 @@ class AlarmDTO {
     return AlarmDTO(
       alarmType: json["alarmType"],
       aTime: json["aTime"],
-      reservation: ReservationDTO.fromJson(json["rId"]),
+      reservation: ReservationDTO.fromJson(json["reservation"]),
     );
   }
 
@@ -23,7 +23,7 @@ class AlarmDTO {
     return {
       "alarmType": alarmType,
       "aTime": aTime,
-      "rId": reservation.toJson(),
+      "reservation": reservation.toJson(),
     };
   }
 }
