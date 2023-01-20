@@ -24,7 +24,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -65,7 +64,7 @@ class MemberServiceTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L, null, "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now());
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
@@ -76,14 +75,6 @@ class MemberServiceTest {
         em.persist(platform2);
         em.persist(platform3);
         em.persist(platform4);
-
-        List<Platform> platformList = new ArrayList<>();
-        platformList.add(platform1);
-        platformList.add(platform2);
-        platformList.add(platform3);
-        platformList.add(platform4);
-
-        bus.selectPlatforms(platformList);
 
         Driver driver = new Driver("driver1", bus, "버스기사1" , 0, 0);
         em.persist(driver);
