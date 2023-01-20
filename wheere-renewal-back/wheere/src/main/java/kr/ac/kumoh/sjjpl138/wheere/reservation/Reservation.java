@@ -33,5 +33,11 @@ public class Reservation extends BaseTimeEntity {
 
     private LocalDate reservationDate;
 
+
     private int busCount; // 탑승할 버스 개수
+
+    public void changeResvStatus() {
+        this.reservationStatus = ReservationStatus.RVW_COMP;
+    }
+
 }

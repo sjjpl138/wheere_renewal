@@ -19,7 +19,7 @@ class CustomOutlinedButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kBorderRadiusSize),
         ),
-        minimumSize: kContainerSize,
+        minimumSize: kOutlinedButtonSize,
         side: BorderSide.none,
       ),
       child: Text(
