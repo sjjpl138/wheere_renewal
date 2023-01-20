@@ -1,7 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.reservation;
 
 import kr.ac.kumoh.sjjpl138.wheere.BaseTimeEntity;
-import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -33,4 +32,6 @@ public class Reservation extends BaseTimeEntity {
     private String endStation;
 
     private LocalDate reservationDate;
+
+    private int busCount; // 탑승할 버스 개수
 }
