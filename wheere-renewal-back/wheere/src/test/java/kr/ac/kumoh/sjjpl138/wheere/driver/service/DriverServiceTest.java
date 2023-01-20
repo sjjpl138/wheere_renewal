@@ -23,7 +23,6 @@ import javax.persistence.PersistenceContext;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -59,8 +58,8 @@ class DriverServiceTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus1 = new Bus(1L, null, "route1", "138안 1234", 1, "430", LocalDate.now());
-        Bus bus2 = new Bus(2L, null, "route1", "139형 5678", 2, "430", LocalDate.now());
+        Bus bus1 = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus2 = new Bus(2L,  "route1", "139형 5678", 2, "430", LocalDate.now());
         em.persist(bus1);
         em.persist(bus2);
 
@@ -81,22 +80,6 @@ class DriverServiceTest {
         em.persist(bus2_platform2);
         em.persist(bus2_platform3);
         em.persist(bus2_platform4);
-
-        List<Platform> platformList = new ArrayList<>();
-        platformList.add(platform1);
-        platformList.add(platform2);
-        platformList.add(platform3);
-        platformList.add(platform4);
-
-        bus1.selectPlatforms(platformList);
-
-        List<Platform> platformList2 = new ArrayList<>();
-        platformList2.add(bus2_platform1);
-        platformList2.add(bus2_platform2);
-        platformList2.add(bus2_platform3);
-        platformList2.add(bus2_platform4);
-
-        bus2.selectPlatforms(platformList2);
 
         Driver driver = new Driver("driver1", bus1, "버스기사1" , 0, 0);
         em.persist(driver);
