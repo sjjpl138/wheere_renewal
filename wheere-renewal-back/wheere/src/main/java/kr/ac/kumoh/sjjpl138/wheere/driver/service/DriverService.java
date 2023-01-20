@@ -31,7 +31,7 @@ public class DriverService {
         String busNo = logInRequestDto.getBusNo();
         LocalDate operationDate = LocalDate.now();
 
-        Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDate(vehicleNo, busNo, operationDate);
+        Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDate(vehicleNo, busNo, operationDate).get();
         Driver findDriver = driverRepository.findById(driverId).get();
 
         // 버스 배정
