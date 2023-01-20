@@ -6,7 +6,6 @@ import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationDto;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,5 +86,14 @@ class PlatformRepositoryTest {
 
         assertThat(result.get(0)).isEqualTo(2);
         assertThat(result.get(1)).isEqualTo(4);
+    }
+
+    @Test
+    void findPlatformByBusIdAndStationIdTest() {
+        List<Long> stationIds = List.of(1L, 3L);
+        List<Platform> platforms = platformRepository.findPlatformByBusIdAndStationId(1L, stationIds);
+
+        assertThat(platforms).extracting("id").containsExactly(1L, 3L);
+        assertThat(platforms).extracting("stationSeq").containsExactly(1, 3);
     }
 }
