@@ -12,11 +12,14 @@ class SearchView extends StatefulWidget {
   State<SearchView> createState() => _SearchViewState();
 }
 
-class _SearchViewState extends State<SearchView> {
+class _SearchViewState extends State<SearchView>
+    with AutomaticKeepAliveClientMixin {
   late final SearchViewModel _searchViewModel = widget.searchViewModel;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    print("searchView is created");
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -84,4 +87,7 @@ class _SearchViewState extends State<SearchView> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

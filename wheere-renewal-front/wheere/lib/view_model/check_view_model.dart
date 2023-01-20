@@ -1,57 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/model/dto/dtos.dart';
+import 'package:wheere/view/bus_current_info/bus_current_info_page.dart';
+
+import 'type/types.dart';
 
 class CheckViewModel extends ChangeNotifier {
-  late List<ReservationDTO> reservationList = [
-    ReservationDTO(
-      rId: 1,
-      routeId: 'routeId',
-      bNo: 'bNo',
-      rDate: 'rDate',
-      sStationId: 1,
-      sStationName: 'sStationName',
-      sTime: 'sTime',
-      eStationId: 1,
-      eStationName: 'eStationName',
-      eTime: 'eTime', vNo: 'vNo', rState: 'rState',
-    ),
-    ReservationDTO(
-      rId: 1,
-      routeId: 'routeId',
-      bNo: 'bNo',
-      rDate: 'rDate',
-      sStationId: 1,
-      sStationName: 'sStationName',
-      sTime: 'sTime',
-      eStationId: 1,
-      eStationName: 'eStationName',
-      eTime: 'eTime', vNo: 'vNo', rState: 'rState',
-    ),
-    ReservationDTO(
-      rId: 1,
-      routeId: 'routeId',
-      bNo: 'bNo',
-      rDate: 'rDate',
-      sStationId: 1,
-      sStationName: 'sStationName',
-      sTime: 'sTime',
-      eStationId: 1,
-      eStationName: 'eStationName',
-      eTime: 'eTime', vNo: 'vNo', rState: 'rState',
-    ),
-    ReservationDTO(
-      rId: 1,
-      routeId: 'routeId',
-      bNo: 'bNo',
-      rDate: 'rDate',
-      sStationId: 1,
-      sStationName: 'sStationName',
-      sTime: 'sTime',
-      eStationId: 1,
-      eStationName: 'eStationName',
-      eTime: 'eTime', vNo: 'vNo', rState: 'rState',
-    ),
-  ];
+  CheckViewModel() {
+    print("checkViewModel is created");
+    ReservationList().checkReservation("", "");
+  }
 
-  void navigateToBusCurrentInfoPage(ReservationDTO reservation) {}
+  void navigateToBusCurrentInfoPage(
+      BuildContext context, ReservationDTO reservation) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BusCurrentInfoPage(reservation: reservation),
+      ),
+    );
+  }
 }

@@ -3,21 +3,29 @@ import 'package:wheere/styles/styles.dart';
 import 'package:wheere/view/common/commons.dart';
 import 'package:wheere/view_model/check_view_model.dart';
 import 'package:wheere/model/dto/dtos.dart';
+import 'package:wheere/view_model/type/types.dart';
 
 class CheckView extends StatefulWidget {
   final CheckViewModel checkViewModel;
+  final ReservationList reservationList;
 
-  const CheckView({Key? key, required this.checkViewModel}) : super(key: key);
+  const CheckView(
+      {Key? key, required this.checkViewModel, required this.reservationList})
+      : super(key: key);
 
   @override
   State<CheckView> createState() => _CheckViewState();
 }
 
-class _CheckViewState extends State<CheckView> {
+class _CheckViewState extends State<CheckView>
+    with AutomaticKeepAliveClientMixin {
+  late final ReservationList _reservationList = widget.reservationList;
   late final CheckViewModel _checkViewModel = widget.checkViewModel;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    print("checkView is created");
     return Scaffold(
       body: Container(
         color: CustomColor.backgroundMainColor,
@@ -36,10 +44,10 @@ class _CheckViewState extends State<CheckView> {
               Flexible(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: _checkViewModel.reservationList.length,
+                  itemCount: _reservationList.reservationList.length,
                   itemBuilder: (BuildContext context, int index) {
                     ReservationDTO reservation =
-                        _checkViewModel.reservationList[index];
+                        _reservationList.reservationList[index];
                     return Padding(
                       padding: const EdgeInsets.only(
                         bottom: kPaddingMiddleSize,
@@ -54,8 +62,11 @@ class _CheckViewState extends State<CheckView> {
                         child: Column(
                           children: [
                             InkWell(
-                              onTap: () => _checkViewModel
-                                  .navigateToBusCurrentInfoPage(reservation),
+                              onTap: () =>
+                                  _checkViewModel.navigateToBusCurrentInfoPage(
+                                context,
+                                reservation,
+                              ),
                               child: ReservationInfo(
                                 bNo: reservation.bNo,
                                 rDate: reservation.rDate,
@@ -78,4 +89,7 @@ class _CheckViewState extends State<CheckView> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

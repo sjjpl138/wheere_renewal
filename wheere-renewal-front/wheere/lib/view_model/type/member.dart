@@ -15,17 +15,20 @@ class Member extends ChangeNotifier {
     return _instance;
   }
 
-  late final LoginService _loginService = LoginService();
-  late final LogoutService _logoutService = LogoutService();
-  late final UpdateMemberService _updateMemberService = UpdateMemberService();
-  late final AlarmService _alarmService = AlarmService();
+  final LoginService _loginService = LoginService();
+  final LogoutService _logoutService = LogoutService();
+  final UpdateMemberService _updateMemberService = UpdateMemberService();
 
-  MemberDTO? get member => _memberDTO;
+  MemberDTO get member =>
+      _memberDTO ??
+      MemberDTO(
+          mId: "mId",
+          mName: "mName",
+          mSex: "남성",
+          mBirthDate: birthDateFormat.format(DateTime.now()),
+          mNum: "01000000000",
+          fcmToken: "");
   MemberDTO? _memberDTO;
-
-  bool get hasNewAlarm =>
-      _hasNewAlarmDTO == null ? false : _hasNewAlarmDTO!.hasNewAlarm;
-  HasNewAlarmDTO? _hasNewAlarmDTO;
 
   Future login(FirebaseLoginDTO firebaseLoginDTO) async {
     // TODO : test code 삭제
@@ -45,9 +48,6 @@ class Member extends ChangeNotifier {
 /*    await _loginService
         .login(firebaseLoginDTO)
         .then((value) => _memberDTO = value);*/
-    await _alarmService
-        .getHasNewAlarmWithLocal()
-        .then((value) => _hasNewAlarmDTO = value);
     notifyListeners();
   }
 
@@ -58,9 +58,6 @@ class Member extends ChangeNotifier {
 
   Future loginByAuto() async {
     await _loginService.loginWithLocal().then((value) => _memberDTO = value);
-    await _alarmService
-        .getHasNewAlarmWithLocal()
-        .then((value) => _hasNewAlarmDTO = value);
     notifyListeners();
   }
 
@@ -72,7 +69,7 @@ class Member extends ChangeNotifier {
       mSex: updateMemberDTO.mSex,
       mBirthDate: updateMemberDTO.mBirthDate,
       mNum: updateMemberDTO.mNum,
-      fcmToken: _memberDTO!.fcmToken,
+      fcmToken: member.fcmToken,
     );
     notifyListeners();
   }

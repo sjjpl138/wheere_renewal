@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/model/dto/dtos.dart';
-import 'package:wheere/model/service/make_reservation_service.dart';
 import 'package:wheere/view/common/commons.dart';
 
 import 'type/types.dart';
 
 class PaymentViewModel extends ChangeNotifier {
-  final MakeReservationService _makeReservationService =
-      MakeReservationService();
   final RouteDTO routeDTO;
   final String rDate;
 
@@ -41,12 +38,13 @@ class PaymentViewModel extends ChangeNotifier {
   }
 
   void navigatePop(BuildContext context) {
-    Navigator.pop(context);
+    Navigator.pop(context, false);
   }
 
   Future payForReservations() async {}
 
-  Future makeReservation() async {
+  Future makeReservation(BuildContext context) async {
 //    _makeReservationService.makeReservation(RequestReservationDTO(mId: member!.mId, bId: bId, sStationId: sStationId, eStationId: eStationId, rDate: rDate))
+    Navigator.pop(context, true);
   }
 }

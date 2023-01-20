@@ -14,11 +14,13 @@ class MemberInfoView extends StatefulWidget {
   State<MemberInfoView> createState() => _MemberInfoViewState();
 }
 
-class _MemberInfoViewState extends State<MemberInfoView> {
+class _MemberInfoViewState extends State<MemberInfoView>
+    with AutomaticKeepAliveClientMixin {
   late final _userInfoViewModel = widget.userInfoViewModel;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
         color: CustomColor.backgroundMainColor,
@@ -56,4 +58,7 @@ class _MemberInfoViewState extends State<MemberInfoView> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
