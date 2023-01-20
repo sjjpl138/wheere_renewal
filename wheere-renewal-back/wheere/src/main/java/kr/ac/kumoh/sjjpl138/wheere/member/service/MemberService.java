@@ -79,7 +79,7 @@ public class MemberService {
      * @return
      */
     public Member logIn(String memberId) {
-        Member member = memberRepository.findMemberById(memberId);
+        Member member = memberRepository.findById(memberId).get();
 
         return member;
     }
@@ -90,7 +90,7 @@ public class MemberService {
     @Transactional
     public void update(MemberDto memberDto) {
         String id = memberDto.getMId();
-        Member findMember = memberRepository.findMemberById(id);
+        Member findMember = memberRepository.findById(id).get();
         findMember.updateMemberInfo(memberDto);
     }
 
@@ -112,7 +112,7 @@ public class MemberService {
     @Transactional
     public void rateDriver(Long rId, Long bId, double rating) {
         Reservation resv = reservationRepository.findResvById(rId);
-        Driver driver = driverRepository.findByBusId(bId);
+        Driver driver = driverRepository.findByBusId(bId).get();
         driver.calculateRating(rating);
         resv.changeResvStatus();
     }

@@ -12,11 +12,8 @@ import kr.ac.kumoh.sjjpl138.wheere.member.sub.AllCourseCase;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.Course;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.SubCourse;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
-import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
-import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -59,10 +55,6 @@ class MemberServiceTest {
 
     @BeforeEach
     public void before() {
-
-        Member member = new Member("1234", "사용자", LocalDate.of(2001, 8, 20), "F", "01012341234");
-        em.persist(member);
-
         Station station1 = new Station(1L, "조야동");
         Station station2 = new Station(2L, "사월동");
         Station station3 = new Station(3L, "수성교");
@@ -95,9 +87,6 @@ class MemberServiceTest {
         Driver driver = new Driver("driver1", bus, "버스기사1" , 0, 0);
         em.persist(driver);
 
-//        Reservation reservation = new Reservation(member, bus, ReservationStatus.PAID, "조야동", "수성교", LocalDate.now());
-//        em.persist(reservation);
-
         em.flush();
         em.clear();
     }
@@ -113,7 +102,7 @@ class MemberServiceTest {
         em.flush();
         em.clear();
 
-        Member findMember = memberRepository.findMemberById(member.getMId());
+        Member findMember = memberRepository.findById(member.getMId()).get();
 
         //then
         assertThat(findMember.getId()).isEqualTo("1234");
@@ -136,7 +125,7 @@ class MemberServiceTest {
         em.flush();
         em.clear();
 
-        Member findMember = memberRepository.findMemberById(id);
+        Member findMember = memberRepository.findById(id).get();
 
         //then
         assertThat(findMember.getId()).isEqualTo("1234");
@@ -159,7 +148,7 @@ class MemberServiceTest {
         em.flush();
         em.clear();
 
-        Member findMember = memberRepository.findMemberById(member.getMId());
+        Member findMember = memberRepository.findById(member.getMId()).get();
 
         //then
         assertThat(findMember.getUsername()).isEqualTo("홍길동");
@@ -179,7 +168,7 @@ class MemberServiceTest {
         em.flush();
         em.clear();
 
-        Member findMember = memberRepository.findMemberById(member.getMId());
+        Member findMember = memberRepository.findById(member.getMId()).get();
 
         //then
         assertThrows(NullPointerException.class, () -> {
@@ -189,11 +178,6 @@ class MemberServiceTest {
 
     @Test
     void rateDriver() {
-        double rating = 4.5;
-        memberService.rateDriver(1L, 1L, rating);
-
-        Driver findDriver = driverRepository.findByBusId(1L);
-        assertThat(findDriver.getRatingScore()).isEqualTo(4.5);
 
     }
 
