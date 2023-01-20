@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wheere/view_model/type/types.dart';
 import 'member_info_view.dart';
 import 'package:wheere/view_model/member_info_view_model.dart';
 
@@ -8,11 +9,16 @@ class MemberInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<MemberInfoViewModel>(
-      create: (_) => MemberInfoViewModel(),
-      child: Consumer<MemberInfoViewModel>(
-        builder: (context, provider, child) => MemberInfoView(
-          userInfoViewModel: provider,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => MemberInfoViewModel()),
+        ChangeNotifierProvider(create: (_) => Member()),
+      ],
+      child: Consumer2<MemberInfoViewModel, Member>(
+        builder: (context, memberInfoViewModel, member, child) =>
+            MemberInfoView(
+          memberInfoViewModel: memberInfoViewModel,
+          member: member,
         ),
       ),
     );
