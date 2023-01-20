@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -168,11 +169,9 @@ class MemberServiceTest {
         em.flush();
         em.clear();
 
-        Member findMember = memberRepository.findById(member.getMId()).get();
-
         //then
-        assertThrows(NullPointerException.class, () -> {
-            System.out.println("username = " + findMember.getUsername());
+        assertThrows(NoSuchElementException.class, () -> {
+            memberRepository.findById(member.getMId()).get();
         });
     }
 
