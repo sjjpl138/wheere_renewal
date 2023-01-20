@@ -75,7 +75,10 @@ class DriverRepositoryTest {
 
     @Test
     void findByBusId() {
-        Driver findDriver = driverRepository.findByBusId(1L);
+        //when
+        Driver findDriver = driverRepository.findByBusId(1L).get();
+
+        //then
         Assertions.assertThat(findDriver.getUsername()).isEqualTo("버스기사1");
     }
 }
