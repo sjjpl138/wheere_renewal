@@ -16,7 +16,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +43,7 @@ class PlatformRepositoryTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L, null, "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now());
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
@@ -55,14 +54,6 @@ class PlatformRepositoryTest {
         em.persist(platform2);
         em.persist(platform3);
         em.persist(platform4);
-
-        List<Platform> platformList = new ArrayList<>();
-        platformList.add(platform1);
-        platformList.add(platform2);
-        platformList.add(platform3);
-        platformList.add(platform4);
-
-        bus.selectPlatforms(platformList);
 
         Driver driver = new Driver("driver1", bus, "버스기사1" , 0, 0);
         em.persist(driver);
@@ -75,15 +66,12 @@ class PlatformRepositoryTest {
     void findPlatformsByBus() {
 
         List<Platform> platformsByBus = platformRepository.findPlatformsByBus("430", "138안 1234");
-        for (Platform byBus : platformsByBus) {
-            System.out.println("byBus.getStation().getName() = " + byBus.getStation().getName());
-        }
+
         List<StationDto> route = platformsByBus.stream().map(s -> new StationDto(s)).collect(Collectors.toList());
         for (StationDto stationDto : route) {
-            System.out.println("stationDto = " + stationDto.getSName());
-            System.out.println("stationDto.getSId() = " + stationDto.getSId());
-            System.out.println("stationDto.getSSeq() = " + stationDto.getSSeq());
+            System.out.println("id = " + stationDto.getSId());
+            System.out.println("name = " + stationDto.getSName());
+            System.out.println("seq = " + stationDto.getSSeq());
         }
-
     }
 }
