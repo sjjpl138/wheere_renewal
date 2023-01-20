@@ -10,7 +10,7 @@ class BusCurrentInfoViewModel extends ChangeNotifier {
 
   ReservationInfo get reservationInfo => ReservationInfo(
         bNo: reservation.bNo,
-        rTime: "rTime",
+        rDate: "rTime",
         sStationName: reservation.sStationName,
         sStationTime: reservation.sTime,
         eStationName: reservation.eStationName,

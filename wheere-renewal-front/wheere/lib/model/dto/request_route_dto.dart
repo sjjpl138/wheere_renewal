@@ -1,8 +1,8 @@
 class RequestRouteDTO{
-  int sx;
-  int sy;
-  int ex;
-  int ey;
+  double sx;
+  double sy;
+  double ex;
+  double ey;
   String rDate;
 
   RequestRouteDTO({

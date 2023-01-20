@@ -21,9 +21,9 @@ class _SelectTabViewState extends State<SelectTabView> {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: _selectTabViewModel.routes.length,
+      itemCount: _selectTabViewModel.routesByHoursDTO.routes.length,
       itemBuilder: (BuildContext context, int index) {
-        RouteDTO routeDTO = _selectTabViewModel.routes[index];
+        RouteDTO routeDTO = _selectTabViewModel.routesByHoursDTO.routes[index];
         return Padding(
           padding: const EdgeInsets.only(bottom: kPaddingMiddleSize),
           child: Container(
@@ -60,16 +60,22 @@ class _SelectTabViewState extends State<SelectTabView> {
                             ),
                             child: CustomListItem(
                               bNo: busDTo.bNo,
-                              sStation: "${busDTo.sTime}\n${busDTo.sStationName}",
-                              eStation: "${busDTo.eTime}\n${busDTo.eStationName}",
+                              sStation:
+                                  "${busDTo.sTime}\n${busDTo.sStationName}",
+                              eStation:
+                                  "${busDTo.eTime}\n${busDTo.eStationName}",
                               leftSeats: "${busDTo.leftSeats} 개",
                             ),
                           );
                         },
                       ),
                     ),
-                    const CustomOutlinedMiniButton(
-                      onPressed: null,
+                    CustomOutlinedMiniButton(
+                      onPressed: () =>
+                          _selectTabViewModel.navigateToPaymentPage(
+                        context,
+                        routeDTO,
+                      ),
                       text: "예약",
                     ),
                     const SizedBox(width: kPaddingMiddleSize),

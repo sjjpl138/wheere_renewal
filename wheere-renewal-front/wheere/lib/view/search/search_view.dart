@@ -35,26 +35,28 @@ class _SearchViewState extends State<SearchView> {
                 const SizedBox(height: kPaddingLargeSize),
                 // TODO : CustomDialogButton onPressed 추가
                 Row(
-                  children: const [
+                  children: [
                     Flexible(
                       child: CustomDialogButton(
-                        onPressed: null,
+                        onPressed: () =>
+                            _searchViewModel.searchStartPlaces(context),
                         labelText: "출발지",
-                        text: "출발지",
+                        text: _searchViewModel.sPlaceInfo?.placeName ?? "출발지",
                         prefixIcon: Icons.location_on_outlined,
                       ),
                     ),
-                    SizedBox(width: kPaddingLargeSize),
-                    Icon(
+                    const SizedBox(width: kPaddingLargeSize),
+                    const Icon(
                       Icons.arrow_right_alt,
                       color: CustomColor.itemSubColor,
                     ),
-                    SizedBox(width: kPaddingLargeSize),
+                    const SizedBox(width: kPaddingLargeSize),
                     Flexible(
                       child: CustomDialogButton(
-                        onPressed: null,
+                        onPressed: () =>
+                            _searchViewModel.searchEndPlaces(context),
                         labelText: "도착지",
-                        text: "도착지",
+                        text: _searchViewModel.ePlaceInfo?.placeName ?? "도착지",
                         prefixIcon: Icons.location_on,
                       ),
                     ),
@@ -68,8 +70,8 @@ class _SearchViewState extends State<SearchView> {
                   prefixIcon: Icons.event_note,
                 ),
                 const SizedBox(height: kPaddingLargeSize),
-                const CustomOutlinedButton(
-                  onPressed: null,
+                CustomOutlinedButton(
+                  onPressed: () => _searchViewModel.searchRoutes(context),
                   text: "조회 하기",
                 ),
                 const SizedBox(height: kPaddingLargeSize),

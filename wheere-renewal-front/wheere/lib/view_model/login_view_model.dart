@@ -15,6 +15,11 @@ class LoginViewModel extends ChangeNotifier {
     _member = Member();
     emailController = TextEditingController(text: '');
     passwordController = TextEditingController(text: '');
+    _loginByAuto();
+  }
+
+  Future _loginByAuto() async {
+    await _member.loginByAuto();
   }
 
   Future login() async {
@@ -27,4 +32,6 @@ class LoginViewModel extends ChangeNotifier {
       );
     }
   }
+
+  void navigateToSignUpPage() {}
 }

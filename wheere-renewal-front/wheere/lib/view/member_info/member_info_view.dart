@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/styles/styles.dart';
+import 'package:wheere/util/utils.dart';
 import 'package:wheere/view/common/commons.dart';
 import 'package:wheere/view_model/member_info_view_model.dart';
 
@@ -36,7 +37,8 @@ class _MemberInfoViewState extends State<MemberInfoView> {
                   ),
                   const Spacer(),
                   EditIconButton(
-                    onPressed: _userInfoViewModel.navigateToMemberInfoEditPage,
+                    onPressed: () => _userInfoViewModel
+                        .navigateToMemberInfoEditPage(context),
                   ),
                 ],
               ),
@@ -44,9 +46,10 @@ class _MemberInfoViewState extends State<MemberInfoView> {
             const SizedBox(height: kPaddingLargeSize),
             MemberInfo(
               name: _userInfoViewModel.member?.mName ?? "mName",
-              sex: _userInfoViewModel.member?.mSex ?? "mSex",
-              birthdate: _userInfoViewModel.member?.mBrithDate ?? "mBirthDate",
-              phoneNumber: _userInfoViewModel.member?.mNum ?? "mNum",
+              sex: _userInfoViewModel.member?.mSex ?? "남성",
+              birthdate: _userInfoViewModel.member?.mBirthDate ??
+                  birthDateFormat.format(DateTime.now()),
+              phoneNumber: _userInfoViewModel.member?.mNum ?? "01000000000",
             )
           ],
         ),

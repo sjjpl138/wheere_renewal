@@ -30,13 +30,13 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
             : CustomColor.buttonDisabledColor,
         shape: const CircleBorder(),
         side: BorderSide.none,
-        padding: EdgeInsets.zero,
+        minimumSize: Size.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
       child: const Icon(
         Icons.check,
         color: CustomColor.backGroundSubColor,
-        size: kIconMainSize,
+        size: kIconMiddleSize,
       ),
     );
   }

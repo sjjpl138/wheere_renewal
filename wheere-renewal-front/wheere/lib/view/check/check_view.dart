@@ -58,7 +58,7 @@ class _CheckViewState extends State<CheckView> {
                                   .navigateToBusCurrentInfoPage(reservation),
                               child: ReservationInfo(
                                 bNo: reservation.bNo,
-                                rTime: reservation.rDate,
+                                rDate: reservation.rDate,
                                 sStationName: reservation.sStationName,
                                 sStationTime: reservation.sTime,
                                 eStationName: reservation.eStationName,

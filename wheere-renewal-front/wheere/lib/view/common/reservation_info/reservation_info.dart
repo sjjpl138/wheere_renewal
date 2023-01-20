@@ -4,7 +4,7 @@ import 'reservation_info_item.dart';
 
 class ReservationInfo extends StatelessWidget {
   final String bNo;
-  final String rTime;
+  final String rDate;
   final String sStationName;
   final String sStationTime;
   final String eStationName;
@@ -13,7 +13,7 @@ class ReservationInfo extends StatelessWidget {
   const ReservationInfo({
     Key? key,
     required this.bNo,
-    required this.rTime,
+    required this.rDate,
     required this.sStationName,
     required this.sStationTime,
     required this.eStationName,
@@ -42,7 +42,7 @@ class ReservationInfo extends StatelessWidget {
             ReservationInfoItem(
               prefixIcon: Icons.event_note,
               title: "날짜",
-              contents: rTime,
+              contents: rDate,
               subContents: null,
             ),
             ReservationInfoItem(
