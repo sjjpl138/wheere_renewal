@@ -50,7 +50,7 @@ class _MemberInfoViewState extends State<MemberInfoView>
                 ],
               ),
             ),
-            const SizedBox(height: kPaddingLargeSize),
+            const SizedBox(height: kPaddingMiddleSize),
             MemberInfo(
               name: _member.member.mName,
               sex: _member.member.mSex,
