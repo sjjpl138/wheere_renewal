@@ -1,7 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.reservation;
 
 import kr.ac.kumoh.sjjpl138.wheere.BaseTimeEntity;
-import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -25,14 +24,8 @@ public class Reservation extends BaseTimeEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BUS_ID")
-    private Bus bus;
-
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
-
-    private int busCount; // 탑승해야하는 버스 개수 (환승 구분)
 
     private String startStation;
 
@@ -40,7 +33,11 @@ public class Reservation extends BaseTimeEntity {
 
     private LocalDate reservationDate;
 
+
+    private int busCount; // 탑승할 버스 개수
+
     public void changeResvStatus() {
         this.reservationStatus = ReservationStatus.RVW_COMP;
     }
+
 }
