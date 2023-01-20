@@ -4,9 +4,9 @@ import 'package:wheere/model/dto/dtos.dart';
 class CheckReservationService {
   final CheckReservationRepository _checkReservationRepository = CheckReservationRepository();
 
-  Future<ReservationListDTO?> checkReservation(int mId, String order, int size, String rState) async {
+  Future<ReservationListDTO?> checkReservation(RequestReservationCheckDTO requestDTO) async {
     ReservationListDTO? reservationListDTO =
-    await _checkReservationRepository.checkReservation(mId, order, size, rState);
+    await _checkReservationRepository.checkReservation(requestDTO);
     return reservationListDTO;
   }
 }
