@@ -65,10 +65,11 @@ class StationRepositoryTest {
     @Test
     void findStationByPlatformId() {
         //when
-        Station findStation = stationRepository.findStationByPlatformId(1L);
+        List<Station> stations = stationRepository.findStationByPlatformId(List.of(1L, 2L));
 
         //then
-        assertThat(findStation.getId()).isEqualTo(1L);
-        assertThat(findStation.getName()).isEqualTo("조야동");
+        assertThat(stations).extracting("id").containsExactly(1L, 2L);
+        assertThat(stations).extracting("name").containsExactly("조야동", "사월동");
+
     }
 }
