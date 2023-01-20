@@ -84,7 +84,10 @@ class _PaymentViewState extends State<PaymentView> {
                   ],
                 ),
                 const SizedBox(height: kPaddingMiddleSize),
-                const CustomOutlinedButton(onPressed: null, text: "결제하기"),
+                CustomOutlinedButton(
+                  onPressed: () => _paymentViewModel.makeReservation(context),
+                  text: "결제하기",
+                ),
               ],
             ),
           ),
