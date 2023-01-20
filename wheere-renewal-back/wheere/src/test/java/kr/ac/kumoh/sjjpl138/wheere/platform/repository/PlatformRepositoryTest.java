@@ -6,6 +6,7 @@ import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationDto;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,5 +75,15 @@ class PlatformRepositoryTest {
             System.out.println("name = " + stationDto.getSName());
             System.out.println("seq = " + stationDto.getSSeq());
         }
+    }
+
+    @Test
+    void findAllocationSeqByBusIdAndStationIdListTest() {
+
+        List<Long> stationIDs = Arrays.asList(4L, 2L);
+        List<Integer> result = platformRepository.findAllocationSeqByBusIdAndStationIdList(1L, stationIDs);
+
+        Assertions.assertThat(result.get(0)).isEqualTo(2);
+        Assertions.assertThat(result.get(1)).isEqualTo(4);
     }
 }
