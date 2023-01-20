@@ -12,6 +12,8 @@ import kr.ac.kumoh.sjjpl138.wheere.member.sub.AllCourseCase;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.Course;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.SubCourse;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import org.junit.jupiter.api.BeforeEach;
@@ -168,7 +170,25 @@ class MemberServiceTest {
 
     @Test
     void rateDriver() {
+        //given
+        Member member = new Member("member1", "user", LocalDate.of(1999, 02, 27), "M", "01077777777");
+        em.persist(member);
 
+        Reservation reservation = new Reservation(member, ReservationStatus.PAID, "조야동", "수성교", LocalDate.now(), 1);
+        em.persist(reservation);
+
+        double rating = 4.5;
+
+        //when
+        memberService.rateDriver(reservation.getId(), 1L, 4.5);
+
+        em.flush();
+        em.clear();
+
+        Driver findDriver = driverRepository.findByBusId(1L).get();
+
+        //then
+        assertThat(findDriver.getRatingScore()).isEqualTo(rating);
     }
 
     @Test
