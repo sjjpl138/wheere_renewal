@@ -38,7 +38,6 @@ class _CheckViewState extends State<CheckView>
             children: [
               Row(
                 mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
@@ -58,6 +57,11 @@ class _CheckViewState extends State<CheckView>
                     onChanged: (value) =>
                         _checkViewModel.onRStateChanged(value),
                   ),
+                  const SizedBox(width: kPaddingSmallSize),
+                  CustomOutlinedMiniButton(
+                    onPressed: () => _checkViewModel.checkReservation(),
+                    text: "조회",
+                  )
                 ],
               ),
               const SizedBox(height: kPaddingMiddleSize),
@@ -68,6 +72,7 @@ class _CheckViewState extends State<CheckView>
                 },
                 child: Flexible(
                   child: ListView.builder(
+                    controller: _checkViewModel.scrollController,
                     shrinkWrap: true,
                     itemCount: _reservationList.reservationList.length,
                     itemBuilder: (BuildContext context, int index) {

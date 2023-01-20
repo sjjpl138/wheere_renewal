@@ -9,7 +9,15 @@ class CheckViewModel extends ChangeNotifier {
   String order = "latest";
   String rState = "RESERVED";
   List<String> orderList = ["latest", "oldest"];
-  List<String> rStateList = ["RESERVED", "PAID", "CANCEL", "RVW_WAIT", "RVW_COMP"];
+  List<String> rStateList = [
+    "RESERVED",
+    "PAID",
+    "CANCEL",
+    "RVW_WAIT",
+    "RVW_COMP"
+  ];
+
+  final ScrollController scrollController = ScrollController();
 
   CheckViewModel() {
     print("checkViewModel is created");
@@ -34,6 +42,18 @@ class CheckViewModel extends ChangeNotifier {
         builder: (context) => BusCurrentInfoPage(reservation: reservation),
       ),
     );
+  }
+
+  void checkReservation() async {
+    await ReservationList().checkReservation(
+      order,
+      rState,
+      isNew: true,
+    );
+    scrollController.jumpTo(
+      scrollController.position.minScrollExtent,
+    );
+    notifyListeners();
   }
 
   //스크롤 이벤트 처리
