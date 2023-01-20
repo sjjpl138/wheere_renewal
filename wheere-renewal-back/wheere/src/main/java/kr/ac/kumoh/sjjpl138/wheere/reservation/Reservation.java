@@ -25,10 +25,6 @@ public class Reservation extends BaseTimeEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BUS_ID")
-    private Bus bus;
-
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
 
