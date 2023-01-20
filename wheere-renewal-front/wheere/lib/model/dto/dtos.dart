@@ -15,4 +15,5 @@ export 'alarm_list_dto.dart';
 export 'member_info_dto.dart';
 export 'firebase_sign_up_dto.dart';
 export 'has_new_alarm_dto.dart';
-export 'reqeust_reservation_check_dto.dart';
+export 'request_reservation_check_dto.dart';
+export 'request_reservation_bus_dto.dart';
