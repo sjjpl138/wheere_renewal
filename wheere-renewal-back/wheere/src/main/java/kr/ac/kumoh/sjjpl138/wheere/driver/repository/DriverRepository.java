@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface DriverRepository extends JpaRepository<Driver, String> {
-    Driver findDriverById(String driverId);
-
     @Query("select d from Driver d join d.bus b on b.id = :busId")
     Driver findByBusId(@Param("busId")Long busId);
 }
