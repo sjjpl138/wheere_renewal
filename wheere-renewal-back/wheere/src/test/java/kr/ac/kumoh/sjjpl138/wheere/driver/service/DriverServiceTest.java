@@ -1,6 +1,7 @@
 package kr.ac.kumoh.sjjpl138.wheere.driver.service;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
+import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.driver.dto.DriverLogInRequestDto;
 import kr.ac.kumoh.sjjpl138.wheere.driver.dto.DriverLoginResponseDto;
@@ -25,6 +26,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
+
 @SpringBootTest
 @Transactional
 class DriverServiceTest {
@@ -38,6 +41,8 @@ class DriverServiceTest {
     PlatformService platformService;
     @Autowired
     MemberRepository memberRepository;
+    @Autowired
+    BusRepository busRepository;
 
     @BeforeEach
     public void before() {
@@ -54,17 +59,28 @@ class DriverServiceTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L, null, "route1", "138안 1234", 1, "430", LocalDate.now());
-        em.persist(bus);
+        Bus bus1 = new Bus(1L, null, "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus2 = new Bus(2L, null, "route1", "139형 5678", 2, "430", LocalDate.now());
+        em.persist(bus1);
+        em.persist(bus2);
 
-        Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
-        Platform platform2 = new Platform(2L, station2, bus, LocalTime.of(5, 40), 2);
-        Platform platform3= new Platform(3L, station3, bus, LocalTime.of(5, 50), 3);
-        Platform platform4 = new Platform(4L, station4, bus, LocalTime.of(6, 0), 4);
+        Platform platform1 = new Platform(1L, station1, bus1, LocalTime.of(5, 30), 1);
+        Platform platform2 = new Platform(2L, station2, bus1, LocalTime.of(5, 40), 2);
+        Platform platform3= new Platform(3L, station3, bus1, LocalTime.of(5, 50), 3);
+        Platform platform4 = new Platform(4L, station4, bus1, LocalTime.of(6, 0), 4);
         em.persist(platform1);
         em.persist(platform2);
         em.persist(platform3);
         em.persist(platform4);
+
+        Platform bus2_platform1 = new Platform(5L, station1, bus1, LocalTime.of(5, 30), 1);
+        Platform bus2_platform2 = new Platform(6L, station2, bus1, LocalTime.of(5, 40), 2);
+        Platform bus2_platform3= new Platform(7L, station3, bus1, LocalTime.of(5, 50), 3);
+        Platform bus2_platform4 = new Platform(8L, station4, bus1, LocalTime.of(6, 0), 4);
+        em.persist(bus2_platform1);
+        em.persist(bus2_platform2);
+        em.persist(bus2_platform3);
+        em.persist(bus2_platform4);
 
         List<Platform> platformList = new ArrayList<>();
         platformList.add(platform1);
@@ -72,9 +88,17 @@ class DriverServiceTest {
         platformList.add(platform3);
         platformList.add(platform4);
 
-        bus.selectPlatforms(platformList);
+        bus1.selectPlatforms(platformList);
 
-        Driver driver = new Driver("driver1", bus, "버스기사1" , 0, 0);
+        List<Platform> platformList2 = new ArrayList<>();
+        platformList2.add(bus2_platform1);
+        platformList2.add(bus2_platform2);
+        platformList2.add(bus2_platform3);
+        platformList2.add(bus2_platform4);
+
+        bus2.selectPlatforms(platformList2);
+
+        Driver driver = new Driver("driver1", bus1, "버스기사1" , 0, 0);
         em.persist(driver);
 
         em.flush();
@@ -83,11 +107,12 @@ class DriverServiceTest {
 
     @Test
     public void 버스기사_로그인() {
-
-        Driver driver = driverRepository.findDriverById("driver1");
+        //given
         DriverLogInRequestDto driverLoginDto = new DriverLogInRequestDto("driver1", "138안 1234", 1, "430");
-        DriverLoginResponseDto logIn = driverService.logIn(driverLoginDto);
 
+        //when
+        Driver driver = driverRepository.findById("driver1").get();
+        DriverLoginResponseDto logIn = driverService.logIn(driverLoginDto);
         List<StationDto> route = platformService.findRoute(driverLoginDto.getBusNo(), driverLoginDto.getVehicleNo());
         logIn.setRoute(route);
 
