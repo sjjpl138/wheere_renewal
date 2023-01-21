@@ -19,15 +19,7 @@ class Member extends ChangeNotifier {
   final LogoutService _logoutService = LogoutService();
   final UpdateMemberService _updateMemberService = UpdateMemberService();
 
-  MemberDTO get member =>
-      _memberDTO ??
-      MemberDTO(
-          mId: "mId",
-          mName: "mName",
-          mSex: "남성",
-          mBirthDate: birthDateFormat.format(DateTime.now()),
-          mNum: "01000000000",
-          fcmToken: "");
+  MemberDTO? get member => _memberDTO;
   MemberDTO? _memberDTO;
 
   Future login(FirebaseLoginDTO firebaseLoginDTO) async {
@@ -69,7 +61,7 @@ class Member extends ChangeNotifier {
       mSex: updateMemberDTO.mSex,
       mBirthDate: updateMemberDTO.mBirthDate,
       mNum: updateMemberDTO.mNum,
-      fcmToken: member.fcmToken,
+      fcmToken: member!.fcmToken,
     );
     notifyListeners();
   }
