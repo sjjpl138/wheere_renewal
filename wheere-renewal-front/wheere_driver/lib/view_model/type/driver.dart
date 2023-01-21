@@ -2,8 +2,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wheere_driver/model/dto/dtos.dart';
+import 'package:wheere_driver/model/service/login_service.dart';
 
 class Driver extends ChangeNotifier {
+  final LoginService _loginService = LoginService();
+
   Driver._privateConstructor();
 
   static final Driver _instance = Driver._privateConstructor();
@@ -32,6 +35,8 @@ class Driver extends ChangeNotifier {
         ReservationDTO(rId: 1, startSeq: 1, endSeq: 2),
       ],
     );
+
+    _loginService.loginWithRemote(firebaseLoginDTO);
     notifyListeners();
   }
 }

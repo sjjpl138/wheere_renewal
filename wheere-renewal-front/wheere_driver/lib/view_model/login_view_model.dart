@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wheere_driver/model/dto/dtos.dart';
 import 'package:wheere_driver/view_model/type/types.dart';
 
-class LoginViewModel extends ChangeNotifier{
+class LoginViewModel extends ChangeNotifier {
   final Driver _driver = Driver();
 
   final loginKey = GlobalKey<FormState>();
@@ -10,6 +10,7 @@ class LoginViewModel extends ChangeNotifier{
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController vehicleNoController = TextEditingController();
+  final TextEditingController busNoController = TextEditingController();
   final TextEditingController outNoController = TextEditingController();
 
   Future login() async {
@@ -18,6 +19,9 @@ class LoginViewModel extends ChangeNotifier{
         FirebaseLoginDTO(
           email: emailController.text,
           password: passwordController.text,
+          vNo: vehicleNoController.text,
+          bOutNo: int.parse(outNoController.text),
+          bNo: busNoController.text,
         ),
       );
     }

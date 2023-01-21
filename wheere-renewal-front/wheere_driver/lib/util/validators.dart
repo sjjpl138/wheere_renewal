@@ -22,6 +22,14 @@ String? validatePassword(String? value) {
   }
 }
 
+String? validateBusNo(String? value) {
+  if (value!.isEmpty) {
+    return "공백이 들어갈 수 없습니다.";
+  } else {
+    return null;
+  }
+}
+
 String? validateVehicleNo(String? value) {
   if (value!.isEmpty) {
     return "공백이 들어갈 수 없습니다.";
