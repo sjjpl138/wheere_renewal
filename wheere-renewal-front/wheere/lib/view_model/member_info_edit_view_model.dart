@@ -17,10 +17,10 @@ class MemberInfoEditViewModel extends ChangeNotifier {
 
   MemberInfoEditViewModel() {
     _member = Member();
-    nameController = TextEditingController(text: _member.member.mName);
-    phoneNumberController = TextEditingController(text: _member.member.mNum);
-    sex = _member.member.mSex;
-    birthDate = _member.member.mBirthDate;
+    nameController = TextEditingController(text: _member.member!.mName);
+    phoneNumberController = TextEditingController(text: _member.member!.mNum);
+    sex = _member.member!.mSex;
+    birthDate = _member.member!.mBirthDate;
   }
 
   Future editMemberInfo(BuildContext context) async {

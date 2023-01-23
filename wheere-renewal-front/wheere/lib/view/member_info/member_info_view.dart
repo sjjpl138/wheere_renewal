@@ -52,10 +52,10 @@ class _MemberInfoViewState extends State<MemberInfoView>
             ),
             const SizedBox(height: kPaddingMiddleSize),
             MemberInfo(
-              name: _member.member.mName,
-              sex: _member.member.mSex,
-              birthdate: _member.member.mBirthDate,
-              phoneNumber: _member.member.mNum,
+              name: _member.member!.mName,
+              sex: _member.member!.mSex,
+              birthdate: _member.member!.mBirthDate,
+              phoneNumber: _member.member!.mNum,
             )
           ],
         ),

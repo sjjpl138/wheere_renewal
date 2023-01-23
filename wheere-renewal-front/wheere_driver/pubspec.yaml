@@ -23,6 +23,15 @@ dependencies:
   firebase_messaging: ^14.2.1
   flutter_local_notifications: ^13.0.0
 
+  # Validator
+  validators: ^3.0.0
+
+  # provider
+  provider: ^6.0.5
+
+  # dotenv
+  flutter_dotenv: ^5.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -31,3 +40,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - .env
