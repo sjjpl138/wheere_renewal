@@ -42,7 +42,7 @@ public class DriverService {
         result.setBId(findBus.getId());
         result.setVNo(vehicleNo);
 
-        return new DriverLoginResponseDto();
+        return result;
     }
 
     /**
