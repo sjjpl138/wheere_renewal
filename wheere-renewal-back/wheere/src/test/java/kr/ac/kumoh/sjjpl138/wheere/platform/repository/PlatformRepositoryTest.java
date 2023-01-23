@@ -90,10 +90,22 @@ class PlatformRepositoryTest {
 
     @Test
     void findPlatformByBusIdAndStationIdTest() {
+        // when
         List<Long> stationIds = List.of(1L, 3L);
         List<Platform> platforms = platformRepository.findPlatformByBusIdAndStationId(1L, stationIds);
 
+        //then
         assertThat(platforms).extracting("id").containsExactly(1L, 3L);
         assertThat(platforms).extracting("stationSeq").containsExactly(1, 3);
+    }
+
+    @Test
+    void findPlatformByBusTest() {
+        //when
+        List<Platform> platforms = platformRepository.findPlatformByBusId(1L);
+
+        //then
+        assertThat(platforms).extracting("id").containsExactly(1L, 2L, 3L, 4L);
+        assertThat(platforms).extracting("stationSeq").containsExactly(1, 2, 3, 4);
     }
 }
