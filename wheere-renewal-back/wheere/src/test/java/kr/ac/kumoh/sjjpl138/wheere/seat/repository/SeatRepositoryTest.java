@@ -2,11 +2,9 @@ package kr.ac.kumoh.sjjpl138.wheere.seat.repository;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
-import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.seat.Seat;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -85,5 +82,16 @@ class SeatRepositoryTest {
         Optional<Integer> min = seatRepository.findMinLeftSeatsByStation(1L, seqList, LocalDate.of(2022, 1, 22));
         Integer minLeftSeatNo = min.get();
         assertThat(minLeftSeatNo).isEqualTo(0);
+    }
+
+    @Test
+   void findSeatByBIdAndDateTest() {
+        // when
+        List<Integer> seqList = Arrays.asList(1, 2, 3);
+        List<Seat> findSeats = seatRepository.findSeatByBIdAndDate(1L, LocalDate.of(2022    , 1, 22), seqList);
+
+        // then
+        assertThat(findSeats).extracting("totalSeatsNum").containsExactly(2, 2, 2);
+        assertThat(findSeats).extracting("leftSeatsNum").containsExactly(2, 0, 2);
     }
 }
