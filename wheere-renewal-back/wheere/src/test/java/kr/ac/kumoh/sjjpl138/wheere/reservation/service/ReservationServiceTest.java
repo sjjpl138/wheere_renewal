@@ -103,15 +103,17 @@ class ReservationServiceTest {
 
     @Test
     void 예약하기() {
-        // when
+        // given
         SaveResvDto save1 = new SaveResvDto(1L, 1L, 3L);
         List<SaveResvDto> busInfo1= new ArrayList<>();
         busInfo1.add(save1);
-        Reservation reservation1 = reservationService.saveReservation("member1", 1L, 3L, ReservationStatus.PAID, LocalDate.of(2023, 1, 24), busInfo1);
 
         SaveResvDto save2 = new SaveResvDto(1L, 2L, 4L);
         List<SaveResvDto> busInfo2 = new ArrayList<>();
         busInfo2.add(save2);
+
+        // when
+        Reservation reservation1 = reservationService.saveReservation("member1", 1L, 3L, ReservationStatus.PAID, LocalDate.of(2023, 1, 24), busInfo1);
         Reservation reservation2 = reservationService.saveReservation("member2", 2L, 4L, ReservationStatus.PAID, LocalDate.of(2023, 1, 24), busInfo2);
 
         Reservation findResv1 = reservationRepository.findResvById(reservation1.getId());
@@ -132,32 +134,27 @@ class ReservationServiceTest {
         assertThat(findResv2.getReservationDate()).isEqualTo(LocalDate.of(2023, 1, 24));
 
         // 좌석 차감 테스트
-        Seat findSeat1 = seatRepository.findById(1L).get();
-        Seat findSeat2 = seatRepository.findById(2L).get();
-        Seat findSeat3 = seatRepository.findById(3L).get();
-        Seat findSeat4 = seatRepository.findById(4L).get();
-
-        assertThat(findSeat1.getLeftSeatsNum()).isEqualTo(1);
-        assertThat(findSeat2.getLeftSeatsNum()).isEqualTo(0);
-        assertThat(findSeat3.getLeftSeatsNum()).isEqualTo(1);
-        assertThat(findSeat4.getLeftSeatsNum()).isEqualTo(2);
+        List<Seat> seats = seatRepository.findAll();
+        assertThat(seats).extracting("leftSeatsNum").containsExactly(1,0,1,2);
     }
 
     @Test
     void 예약하기_환승() {
-        // when
+        // given
         List<SaveResvDto> busInfo= new ArrayList<>();
         SaveResvDto save1 = new SaveResvDto(1L, 1L, 2L);
         SaveResvDto save2 = new SaveResvDto(2L, 5L, 8L);
         busInfo.add(save1);
         busInfo.add(save2);
-        Reservation reservation = reservationService.saveReservation("member3", 1L, 8L, ReservationStatus.PAID, LocalDate.of(2023, 1, 24), busInfo);
 
         List<SaveResvDto> busInfo2= new ArrayList<>();
         SaveResvDto saveA = new SaveResvDto(1L, 1L, 2L);
         SaveResvDto saveB = new SaveResvDto(2L, 5L, 6L);
         busInfo2.add(saveA);
         busInfo2.add(saveB);
+
+        // when
+        Reservation reservation = reservationService.saveReservation("member3", 1L, 8L, ReservationStatus.PAID, LocalDate.of(2023, 1, 24), busInfo);
         Reservation reservation2 = reservationService.saveReservation("member4", 1L, 6L, ReservationStatus.RVW_WAIT, LocalDate.of(2023, 1, 24), busInfo2);
 
         Reservation findResv = reservationRepository.findResvById(reservation.getId());
@@ -177,18 +174,8 @@ class ReservationServiceTest {
         assertThat(findResv2.getReservationDate()).isEqualTo(LocalDate.of(2023, 1,24));
         assertThat(findResv2.getBusCount()).isEqualTo(2);
 
-        Seat findSeat1 = seatRepository.findById(1L).get();
-        Seat findSeat2 = seatRepository.findById(2L).get();
-        Seat findSeat3 = seatRepository.findById(5L).get();
-        Seat findSeat4 = seatRepository.findById(6L).get();
-        Seat findSeat5 = seatRepository.findById(7L).get();
-        Seat findSeat6 = seatRepository.findById(8L).get();
+        List<Seat> seats = seatRepository.findAll();
+        assertThat(seats).extracting("leftSeatsNum").containsExactly(0, 2, 2, 2, 0, 1, 1, 2);
 
-        assertThat(findSeat1.getLeftSeatsNum()).isEqualTo(0);
-        assertThat(findSeat2.getLeftSeatsNum()).isEqualTo(2);
-        assertThat(findSeat3.getLeftSeatsNum()).isEqualTo(0);
-        assertThat(findSeat4.getLeftSeatsNum()).isEqualTo(1);
-        assertThat(findSeat5.getLeftSeatsNum()).isEqualTo(1);
-        assertThat(findSeat6.getLeftSeatsNum()).isEqualTo(2);
     }
 }
