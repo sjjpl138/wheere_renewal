@@ -72,8 +72,8 @@ class ReservationServiceTest {
         em.persist(station7);
         em.persist(station8);
 
-        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.of(2023, 1, 23));
-        Bus bus2 = new Bus(2L, "route2", "139안 5678", 1, "840", LocalDate.of(2023, 1, 23));
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.of(2023, 1, 24));
+        Bus bus2 = new Bus(2L, "route2", "139안 5678", 1, "840", LocalDate.of(2023, 1, 24));
         em.persist(bus);
         em.persist(bus2);
 
@@ -107,12 +107,12 @@ class ReservationServiceTest {
         SaveResvDto save1 = new SaveResvDto(1L, 1L, 3L);
         List<SaveResvDto> busInfo1= new ArrayList<>();
         busInfo1.add(save1);
-        Reservation reservation1 = reservationService.saveReservation("member1", 1L, 3L, ReservationStatus.PAID, LocalDate.of(2023, 1, 23), busInfo1);
+        Reservation reservation1 = reservationService.saveReservation("member1", 1L, 3L, ReservationStatus.PAID, LocalDate.of(2023, 1, 24), busInfo1);
 
         SaveResvDto save2 = new SaveResvDto(1L, 2L, 4L);
         List<SaveResvDto> busInfo2 = new ArrayList<>();
         busInfo2.add(save2);
-        Reservation reservation2 = reservationService.saveReservation("member2", 2L, 4L, ReservationStatus.PAID, LocalDate.of(2023, 1, 23), busInfo2);
+        Reservation reservation2 = reservationService.saveReservation("member2", 2L, 4L, ReservationStatus.PAID, LocalDate.of(2023, 1, 24), busInfo2);
 
         Reservation findResv1 = reservationRepository.findResvById(reservation1.getId());
         Reservation findResv2 = reservationRepository.findResvById(reservation2.getId());
@@ -124,12 +124,12 @@ class ReservationServiceTest {
         assertThat(findResv1.getStartStation()).isEqualTo("조야동");
         assertThat(findResv1.getEndStation()).isEqualTo("수성교");
         assertThat(findResv1.getReservationStatus()).isEqualTo(ReservationStatus.PAID);
-        assertThat(findResv1.getReservationDate()).isEqualTo(LocalDate.of(2023, 1, 23));
+        assertThat(findResv1.getReservationDate()).isEqualTo(LocalDate.of(2023, 1, 24));
 
         assertThat(findResv2.getStartStation()).isEqualTo("사월동");
         assertThat(findResv2.getEndStation()).isEqualTo("조야동");
         assertThat(findResv2.getReservationStatus()).isEqualTo(ReservationStatus.PAID);
-        assertThat(findResv2.getReservationDate()).isEqualTo(LocalDate.of(2023, 1, 23));
+        assertThat(findResv2.getReservationDate()).isEqualTo(LocalDate.of(2023, 1, 24));
 
         // 좌석 차감 테스트
         Seat findSeat1 = seatRepository.findById(1L).get();
@@ -151,14 +151,14 @@ class ReservationServiceTest {
         SaveResvDto save2 = new SaveResvDto(2L, 5L, 8L);
         busInfo.add(save1);
         busInfo.add(save2);
-        Reservation reservation = reservationService.saveReservation("member3", 1L, 8L, ReservationStatus.PAID, LocalDate.of(2023, 1, 23), busInfo);
+        Reservation reservation = reservationService.saveReservation("member3", 1L, 8L, ReservationStatus.PAID, LocalDate.of(2023, 1, 24), busInfo);
 
         List<SaveResvDto> busInfo2= new ArrayList<>();
         SaveResvDto saveA = new SaveResvDto(1L, 1L, 2L);
         SaveResvDto saveB = new SaveResvDto(2L, 5L, 6L);
         busInfo2.add(saveA);
         busInfo2.add(saveB);
-        Reservation reservation2 = reservationService.saveReservation("member4", 1L, 6L, ReservationStatus.RVW_WAIT, LocalDate.of(2023, 1, 23), busInfo2);
+        Reservation reservation2 = reservationService.saveReservation("member4", 1L, 6L, ReservationStatus.RVW_WAIT, LocalDate.of(2023, 1, 24), busInfo2);
 
         Reservation findResv = reservationRepository.findResvById(reservation.getId());
         Reservation findResv2 = reservationRepository.findResvById(reservation2.getId());
@@ -169,12 +169,12 @@ class ReservationServiceTest {
         // then
         assertThat(findResv.getMember().getId()).isEqualTo("member3");
         assertThat(findResv.getReservationStatus()).isEqualTo(ReservationStatus.PAID);
-        assertThat(findResv.getReservationDate()).isEqualTo(LocalDate.of(2023, 1,23));
+        assertThat(findResv.getReservationDate()).isEqualTo(LocalDate.of(2023, 1,24));
         assertThat(findResv.getBusCount()).isEqualTo(2);
 
         assertThat(findResv2.getMember().getId()).isEqualTo("member4");
         assertThat(findResv2.getReservationStatus()).isEqualTo(ReservationStatus.RVW_WAIT);
-        assertThat(findResv2.getReservationDate()).isEqualTo(LocalDate.of(2023, 1,23));
+        assertThat(findResv2.getReservationDate()).isEqualTo(LocalDate.of(2023, 1,24));
         assertThat(findResv2.getBusCount()).isEqualTo(2);
 
         Seat findSeat1 = seatRepository.findById(1L).get();
