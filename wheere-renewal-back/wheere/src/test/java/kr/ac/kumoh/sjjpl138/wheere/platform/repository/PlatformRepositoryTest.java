@@ -6,7 +6,6 @@ import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationDto;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,8 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -66,15 +67,15 @@ class PlatformRepositoryTest {
 
     @Test
     void findPlatformsByBus() {
-
+        //when
         List<Platform> platformsByBus = platformRepository.findPlatformsByBus("430", "138안 1234");
 
         List<StationDto> route = platformsByBus.stream().map(s -> new StationDto(s)).collect(Collectors.toList());
-        for (StationDto stationDto : route) {
-            System.out.println("id = " + stationDto.getSId());
-            System.out.println("name = " + stationDto.getSName());
-            System.out.println("seq = " + stationDto.getSSeq());
-        }
+
+        //then
+        assertThat(route).extracting("sId").containsExactly(1L, 2L, 3L, 4L);
+        assertThat(route).extracting("sName").containsExactly("조야동", "사월동", "수성교", "조야동");
+        assertThat(route).extracting("sSeq").containsExactly(1, 2, 3, 4);
     }
 
     @Test
@@ -83,7 +84,16 @@ class PlatformRepositoryTest {
         List<Long> stationIDs = Arrays.asList(4L, 2L);
         List<Integer> result = platformRepository.findAllocationSeqByBusIdAndStationIdList(1L, stationIDs);
 
-        Assertions.assertThat(result.get(0)).isEqualTo(2);
-        Assertions.assertThat(result.get(1)).isEqualTo(4);
+        assertThat(result.get(0)).isEqualTo(2);
+        assertThat(result.get(1)).isEqualTo(4);
+    }
+
+    @Test
+    void findPlatformByBusIdAndStationIdTest() {
+        List<Long> stationIds = List.of(1L, 3L);
+        List<Platform> platforms = platformRepository.findPlatformByBusIdAndStationId(1L, stationIds);
+
+        assertThat(platforms).extracting("id").containsExactly(1L, 3L);
+        assertThat(platforms).extracting("stationSeq").containsExactly(1, 3);
     }
 }
