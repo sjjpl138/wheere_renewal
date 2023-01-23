@@ -6,7 +6,7 @@ import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
-import kr.ac.kumoh.sjjpl138.wheere.member.dto.RetrieveRoutesRequest;
+import kr.ac.kumoh.sjjpl138.wheere.member.RetrieveRoutesRequest;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.AllCourseCase;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.Course;
@@ -219,7 +219,6 @@ class MemberServiceTest {
         assertThat(courses).extracting("payment").containsExactly(1250, 1250);
         assertThat(subCourses).extracting("trafficType").containsExactly(3, 2, 3);
         assertThat(subCourses).extracting("sectionTime").containsExactly(3, 15, 9);
-        assertThat(subCourse.getBusLane()).isNull();
+        assertThat(subCourse.getBusLane()).isEmpty();
     }
-
 }
