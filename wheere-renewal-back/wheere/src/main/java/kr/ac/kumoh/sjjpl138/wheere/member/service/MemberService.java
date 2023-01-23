@@ -1,18 +1,22 @@
 package kr.ac.kumoh.sjjpl138.wheere.member.service;
 
+import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
+import kr.ac.kumoh.sjjpl138.wheere.member.SubRoute;
+import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
+import kr.ac.kumoh.sjjpl138.wheere.member.*;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.AllCourseCase;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.BusLane;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.Course;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.SubCourse;
+import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
+import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
-import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
-import kr.ac.kumoh.sjjpl138.wheere.member.dto.RetrieveRoutesRequest;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
@@ -29,9 +33,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.*;
 
@@ -46,6 +53,10 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final DriverRepository driverRepository;
     private final ReservationRepository reservationRepository;
+    private final BusRepository busRepository;
+    private final PlatformRepository platformRepository;
+
+    private final SeatRepository seatRepository;
 
     /**
      * 사용자 추가 (회원가입)
@@ -275,6 +286,8 @@ public class MemberService {
 
             if (trafficType == 2) {
                 createBusLane(subCourse, subPathObj);
+            } else {
+                subCourse.setBusLane(Optional.ofNullable(null));
             }
 
             subCourses.add(subCourse);
@@ -423,7 +436,7 @@ public class MemberService {
         return new URL(urlBuilder.toString());
     }
 
-    private StringBuilder setUrl(RetrieveRoutesRequest requestDto){
+    private StringBuilder setUrl(RetrieveRoutesRequest requestDto) {
         String apiUrl = "https://api.odsay.com/v1/api/searchPubTransPathT";
 
         StringBuilder urlBuilder = new StringBuilder(apiUrl);
@@ -446,5 +459,142 @@ public class MemberService {
         urlBuilder.append("&").append(URLEncoder.encode("SearchPathType", UTF_8)).append("=").append(2);
 
         return urlBuilder;
+    }
+
+    /**
+     * 대중교통 길찾기 API로 추출한 버스 시간표 조회
+     */
+    public RetrieveRoutesResult checkBusTime(AllCourseCase allRouteCase, LocalDate rDate) {
+
+        // 모든 경우의 수
+        List<Course> courses = allRouteCase.getCourses();
+
+        RetrieveRoutesResult retrieveRoutesResult = new RetrieveRoutesResult();
+        retrieveRoutesResult.setOutTrafficCheck(allRouteCase.getOutTrafficCheck());
+
+        List<CoursePerHour> selects = new ArrayList<>();
+
+        for (int i = 0; i < 24; i++) {
+
+            CoursePerHour coursePerHour = new CoursePerHour();
+            coursePerHour.setSelectTime(i);
+
+            List<Route> routes = new ArrayList<>();
+
+            // 경우의 수 중 하나
+            for (Course course : courses) {
+
+                Route route = new Route();
+                route.setPayment(course.getPayment());
+                route.setBusTransitCount(course.getBusTransitCount());
+
+                List<SubRoute> subRoutes = new ArrayList<>();
+
+                List<SubCourse> subCourses = course.getSubCourses();
+                for (SubCourse subCourse : subCourses) {
+
+                    SubRoute subRoute = new SubRoute();
+                    subRoute.setTrafficType(subCourse.getTrafficType());
+                    subRoute.setSectionTime(subCourse.getSectionTime());
+
+                    Optional<BusLane> busLane = subCourse.getBusLane();
+
+
+                    // ================================================================================ //
+
+                    busLane.ifPresent(b -> {
+
+                        List<String> busNoList = b.getBusNoList();
+                        for (String busNo : busNoList) {
+
+                            BusRoute busRoute = new BusRoute();
+
+                            int boardStationID = b.getBoardStationID();
+                            int alightStationID = b.getAlightStationID();
+
+                            busRoute.setBNo(busNo);
+                            busRoute.setSStationId(boardStationID);
+                            busRoute.setSStationName(b.getBoardStationName());
+                            busRoute.setEStationId(alightStationID);
+                            busRoute.setEStationName(b.getAlightStationName());
+
+                            List<Bus> findBusList = busRepository.findByBusNo(busNo);
+
+                            List<Long> findBusIDs = findBusList.stream().map(Bus::getId).collect(Collectors.toList());
+
+                            for (Long findBusID : findBusIDs) {
+
+                                busRoute.setBusId(findBusID);
+
+                                List<Long> stationIdList = Arrays.asList((long) boardStationID, (long) alightStationID);
+                                List<LocalTime> arrivalTimes = platformRepository.searchArrivalTime(findBusID, stationIdList);
+
+                                busRoute.setSTime(arrivalTimes.get(0));
+                                busRoute.setETime(arrivalTimes.get(1));
+
+                                List<Integer> findSeq = platformRepository.findAllocationSeqByBusIdAndStationIdList(findBusID, stationIdList);
+
+                                Integer firstStationSeq = findSeq.get(0);
+                                Integer lastStationSeq = findSeq.get(0);
+
+                                List<Integer> seqList = new ArrayList<>();
+                                for (int j = firstStationSeq; j <= lastStationSeq; j++) {
+                                    seqList.add(j);
+                                }
+
+                                Optional<Integer> minLeftSeatsNo = seatRepository.findMinLeftSeatsByStation(findBusID, seqList, rDate);
+                                if (minLeftSeatsNo.isEmpty()) {
+                                    busRoute.setLeftSeats(2);
+                                } else {
+                                    busRoute.setLeftSeats(minLeftSeatsNo.get());
+                                }
+                            }
+                            subRoute.setBusRoute(busRoute);
+                        }
+                    });
+
+                    // ================================================================================ //
+
+                    subRoutes.add(subRoute);
+                }
+                // 둘이 분리시켜야 할듯
+                route.setSubRoutes(subRoutes);
+                routes.add(route);
+            }
+            coursePerHour.setRoutes(routes);
+            selects.add(coursePerHour);
+        }
+        retrieveRoutesResult.setSelects(selects);
+        return retrieveRoutesResult;
+    }
+
+    private List<Long> extractBusIdList(String busNo) {
+        List<Bus> findBusList = busRepository.findByBusNo(busNo);
+
+        return findBusList.stream().map(Bus::getId).collect(Collectors.toList());
+    }
+
+    private void setArrivalTimes(BusRoute busRoute, Long findBusID, List<Long> stationIdList) {
+        List<LocalTime> arrivalTimes = platformRepository.searchArrivalTime(findBusID, stationIdList);
+
+        busRoute.setSTime(arrivalTimes.get(0));
+        busRoute.setETime(arrivalTimes.get(1));
+    }
+
+    private void setLeftSeats(LocalDate rDate, BusRoute busRoute, Long findBusID, List<Integer> findSeq) {
+        Integer firstStationSeq = findSeq.get(0);
+        Integer lastStationSeq = findSeq.get(0);
+
+        List<Integer> seqList = new ArrayList<>();
+        for (int j = firstStationSeq; j <= lastStationSeq; j++) {
+            seqList.add(j);
+        }
+
+        Optional<Integer> minLeftSeatsNo = seatRepository.findMinLeftSeatsByStation(findBusID, seqList, rDate);
+        if (minLeftSeatsNo.isEmpty()) {
+            busRoute.setLeftSeats(2);
+        } else {
+            busRoute.setLeftSeats(minLeftSeatsNo.get());
+        }
     }
 }
