@@ -45,6 +45,10 @@ public class Reservation extends BaseTimeEntity {
         this.busCount = busCount;
     }
 
+    public static Reservation createReservation(Member member, ReservationStatus status, String startStation, String endStation, LocalDate resvDate, int busCount) {
+        return new Reservation(member, status, startStation, endStation, resvDate, busCount);
+    }
+
     public void changeResvStatus() {
         this.reservationStatus = ReservationStatus.RVW_COMP;
     }
