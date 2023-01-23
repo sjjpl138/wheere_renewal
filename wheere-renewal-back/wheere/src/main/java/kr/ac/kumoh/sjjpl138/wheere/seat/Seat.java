@@ -1,5 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.seat;
 
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -32,5 +33,17 @@ public class Seat {
         this.totalSeatsNum = totalSeatsNum;
         this.leftSeatsNum = leftSeatsNum;
         this.seatDate = seatDate;
+    }
+
+    public static Seat createSeat(Platform platform, int totalSeatsNum, LocalDate seatDate) {
+        return new Seat(platform, totalSeatsNum, totalSeatsNum, seatDate);
+    }
+
+    public void subSeats() {
+        int restSeats = this.leftSeatsNum - 1;
+        if (restSeats < 0)
+            throw new NotEnoughSeatsException("남은 좌석이 없습니다.");
+
+        this.leftSeatsNum = restSeats;
     }
 }
