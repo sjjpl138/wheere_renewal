@@ -72,15 +72,6 @@ class DriverServiceTest {
         em.persist(platform3);
         em.persist(platform4);
 
-        Platform bus2_platform1 = new Platform(5L, station1, bus1, LocalTime.of(5, 30), 1);
-        Platform bus2_platform2 = new Platform(6L, station2, bus1, LocalTime.of(5, 40), 2);
-        Platform bus2_platform3= new Platform(7L, station3, bus1, LocalTime.of(5, 50), 3);
-        Platform bus2_platform4 = new Platform(8L, station4, bus1, LocalTime.of(6, 0), 4);
-        em.persist(bus2_platform1);
-        em.persist(bus2_platform2);
-        em.persist(bus2_platform3);
-        em.persist(bus2_platform4);
-
         Driver driver = new Driver("driver1", bus1, "버스기사1" , 0, 0);
         em.persist(driver);
 
@@ -99,13 +90,10 @@ class DriverServiceTest {
         List<StationDto> route = platformService.findRoute(driverLoginDto.getBusNo(), driverLoginDto.getVehicleNo());
         logIn.setRoute(route);
 
-        for (StationDto stationDto : route) {
-            System.out.println("================================");
-            System.out.println("stationDto.getSId() = " + stationDto.getSId());
-            System.out.println("stationDto.getSName() = " + stationDto.getSName());
-            System.out.println("stationDto.getSSeq() = " + stationDto.getSSeq());
-            System.out.println("================================");
-        }
+        // then
+        assertThat(route).extracting("sId").containsExactly(1L, 2L, 3L, 4L);
+        assertThat(route).extracting("sName").containsExactly("조야동", "사월동", "수성교", "조야동");
+        assertThat(route).extracting("sSeq").containsExactly(1, 2, 3, 4);
     }
 
     @Test
