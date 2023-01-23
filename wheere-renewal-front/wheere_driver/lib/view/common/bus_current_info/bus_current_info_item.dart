@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:wheere_driver/styles/styles.dart';
+import 'package:wheere_driver/view/common/commons.dart';
 import 'package:wheere_driver/view_model/type/bus_current_station.dart';
 
 class BusCurrentInfoItem extends StatelessWidget {
-  final BusStation busStation;
-  final BusCurrentLocation busCurrentLocation;
-  final String stationName;
+  final BusStationInfo busStationInfo;
 
-  late final TextStyle _textStyle;
+  late final TextStyle _stationNameTextStyle;
+  late final TextStyle _ridePeopleTextStyle;
+  late final TextStyle _quitPeopleTextStyle;
   late final double _headSize;
   late final double _headPadding;
   late final Color _headBoarderColor;
@@ -16,59 +17,12 @@ class BusCurrentInfoItem extends StatelessWidget {
 
   BusCurrentInfoItem({
     super.key,
-    required this.busStation,
-    required this.busCurrentLocation,
-    required this.stationName,
+    required this.busStationInfo,
   }) {
-    _textStyle = busCurrentLocation == BusCurrentLocation.current
+    _stationNameTextStyle = busStationInfo.isCurrentStation
         ? kTextPointStyleMiddle
         : kTextMainStyleMiddle;
-    switch (busStation) {
-      case BusStation.base:
-        _headBoarderColor = busCurrentLocation == BusCurrentLocation.current
-            ? CustomColor.pointColor
-            : CustomColor.itemSubColor;
-        _headBackgroundColor = busCurrentLocation == BusCurrentLocation.current
-            ? CustomColor.pointColor
-            : CustomColor.backGroundSubColor;
-        _headSize = busCurrentLocation == BusCurrentLocation.current
-            ? kIconMainSize + kPaddingSmallSize
-            : kIconSmallSize;
-        _headPadding = busCurrentLocation == BusCurrentLocation.current
-            ? (kPaddingLargeSize - kPaddingSmallSize) / 2
-            : (kIconMainSize + kPaddingLargeSize - kIconSmallSize) / 2;
-        _headChild = busCurrentLocation == BusCurrentLocation.current
-            ? const Icon(
-                Icons.directions_bus,
-                color: CustomColor.backGroundSubColor,
-                size: kIconSmallSize,
-              )
-            : Container();
-        break;
-      case BusStation.ride:
-        _headBoarderColor = busCurrentLocation == BusCurrentLocation.current
-            ? CustomColor.pointColor
-            : CustomColor.itemSubColor;
-        _headBackgroundColor = busCurrentLocation == BusCurrentLocation.current
-            ? CustomColor.pointColor
-            : CustomColor.itemSubColor;
-        _headSize = kIconMainSize + kPaddingSmallSize;
-        _headPadding = (kPaddingLargeSize - kPaddingSmallSize) / 2;
-        _headChild = busCurrentLocation == BusCurrentLocation.current
-            ? const Icon(
-                Icons.directions_bus,
-                color: CustomColor.backGroundSubColor,
-                size: kIconSmallSize,
-              )
-            : const Text(
-                "승차",
-                style: kTextReverseStyleMini,
-                textAlign: TextAlign.center,
-              );
-        break;
-      default:
-        break;
-    }
+    // TODO : 각종 style 정의 필요
   }
 
   @override
@@ -102,10 +56,42 @@ class BusCurrentInfoItem extends StatelessWidget {
           ),
           const SizedBox(width: kPaddingLargeSize),
           Expanded(
-            child: Text(
-              stationName,
-              style: _textStyle,
-              textAlign: TextAlign.start,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  busStationInfo.stationName,
+                  style: _stationNameTextStyle,
+                  textAlign: TextAlign.start,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "탑승 인원: ",
+                      style: kTextMainStyleSmall,
+                      textAlign: TextAlign.start,
+                    ),
+                    Spacer(),
+                    Text(
+                      "하차 인원: ",
+                      style: kTextMainStyleSmall,
+                      textAlign: TextAlign.start,
+                    ),
+                    Spacer(),
+                    Text(
+                      "남은 좌석: ",
+                      style: kTextMainStyleSmall,
+                      textAlign: TextAlign.start,
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              ],
             ),
           ),
         ],

@@ -37,7 +37,8 @@ class BusCurrentInfo extends StatelessWidget {
                   width: kLineSize,
                   height: (kIconSmallSize +
                           kPaddingSmallSize +
-                          kPaddingMiddleSize * 2) *
+                          kPaddingMiddleSize * 2 +
+                          kTextSmallSize) *
                       busStationInfoList.length,
                   color: CustomColor.itemSubColor,
                 ),
@@ -49,10 +50,7 @@ class BusCurrentInfo extends StatelessWidget {
                 itemCount: busStationInfoList.length,
                 itemBuilder: (BuildContext context, int index) =>
                     BusCurrentInfoItem(
-                  busStation: busStationInfoList[index].busStation,
-                  busCurrentLocation:
-                      busStationInfoList[index].busCurrentLocation,
-                  stationName: busStationInfoList[index].stationName,
+                      busStationInfo: busStationInfoList[index],
                 ),
               ),
             ],
@@ -64,13 +62,15 @@ class BusCurrentInfo extends StatelessWidget {
 }
 
 class BusStationInfo {
-  final BusStation busStation;
-  final BusCurrentLocation busCurrentLocation;
   final String stationName;
+  bool isCurrentStation;
+  int ridePeople;
+  int quitPeople;
 
   BusStationInfo({
-    required this.busStation,
-    required this.busCurrentLocation,
     required this.stationName,
+    this.isCurrentStation = false,
+    this.ridePeople = 0,
+    this.quitPeople = 0,
   });
 }

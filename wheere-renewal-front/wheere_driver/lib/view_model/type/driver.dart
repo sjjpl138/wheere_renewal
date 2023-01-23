@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wheere_driver/model/dto/dtos.dart';
 import 'package:wheere_driver/model/service/login_service.dart';
+import 'package:wheere_driver/model/service/logout_service.dart';
 
 class Driver extends ChangeNotifier {
   final LoginService _loginService = LoginService();
+  final LogoutService _logoutService = LogoutService();
 
   Driver._privateConstructor();
 
@@ -36,7 +38,12 @@ class Driver extends ChangeNotifier {
       ],
     );
 
-    _loginService.loginWithRemote(firebaseLoginDTO);
+    //await _loginService.loginWithRemote(firebaseLoginDTO);
+    notifyListeners();
+  }
+
+  Future logout() async {
+    await _logoutService.logoutWithRemote().then((value) => _driverDTO = value);
     notifyListeners();
   }
 }
