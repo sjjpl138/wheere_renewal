@@ -6,8 +6,10 @@ import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationListDto;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.seat.Seat;
 import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
@@ -16,6 +18,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -304,5 +309,68 @@ class ReservationServiceTest {
         // then
         assertThat(findResv.getReservationStatus()).isEqualTo(ReservationStatus.CANCEL);
         assertThat(seats).extracting("leftSeatsNum").containsExactly(2, 2, 2, 2, 2, 2, 2, 2);
+    }
+
+    @Test
+    void 예약조회() {
+
+        // given
+        Member member100 = new Member("member100", "사용자100", LocalDate.of(2000, 8, 26), "F", "01012342345");
+        em.persist(member100);
+
+        LocalDate testDate1 = LocalDate.now().minusDays(30);
+        LocalDate testDate2 = LocalDate.now().minusDays(25);
+        LocalDate testDate3 = LocalDate.now().minusDays(20);
+        LocalDate testDate4 = LocalDate.now().minusDays(19);
+        LocalDate testDate5 = LocalDate.now().minusDays(18);
+        LocalDate testDate6 = LocalDate.now().minusDays(17);
+        LocalDate testDate7 = LocalDate.now().minusDays(16);
+        LocalDate testDate8 = LocalDate.now().minusDays(6);
+        LocalDate testDate9 = LocalDate.now().minusDays(4);
+
+        Reservation reservation1 = new Reservation(member100, ReservationStatus.RESERVED, "test1", "test2", testDate1, 2);
+        Reservation reservation2 = new Reservation(member100, ReservationStatus.CANCEL, "test1", "test2", testDate2, 2);
+        Reservation reservation3 = new Reservation(member100, ReservationStatus.RVW_COMP, "test1", "test2", testDate3, 2);
+        Reservation reservation4 = new Reservation(member100, ReservationStatus.RVW_WAIT, "test1", "test2", testDate4, 2);
+        Reservation reservation5 = new Reservation(member100, ReservationStatus.RVW_COMP, "test1", "test2", testDate5, 2);
+        Reservation reservation6 = new Reservation(member100, ReservationStatus.RVW_COMP, "test1", "test2", testDate6, 2);
+        Reservation reservation7 = new Reservation(member100, ReservationStatus.RESERVED, "test1", "test2", testDate7, 2);
+        Reservation reservation8 = new Reservation(member100, ReservationStatus.CANCEL, "test1", "test2", testDate8, 2);
+        Reservation reservation9 = new Reservation(member100, ReservationStatus.PAID, "test1", "test2", testDate9, 2);
+
+        em.persist(reservation1);
+        em.persist(reservation2);
+        em.persist(reservation3);
+        em.persist(reservation4);
+        em.persist(reservation5);
+        em.persist(reservation6);
+        em.persist(reservation7);
+        em.persist(reservation8);
+        em.persist(reservation9);
+
+        ReservationSearchCondition condition1 = new ReservationSearchCondition("RESERVED");
+        ReservationSearchCondition condition2 = new ReservationSearchCondition("PAID");
+        ReservationSearchCondition condition3 = new ReservationSearchCondition(null);
+
+        PageRequest page1 = PageRequest.of(0, 4);
+        PageRequest page2 = PageRequest.of(0, 1, Sort.by(Sort.Direction.ASC, "reservationDate"));
+
+        // when
+        Slice<ReservationListDto> slice1 = reservationService.findPartForMemberByCond("member100", condition1, page1);
+        List<ReservationListDto> result1 = slice1.getContent();
+
+        Slice<ReservationListDto> slice2 = reservationService.findPartForMemberByCond("member100", condition2, page2);
+        List<ReservationListDto> result2 = slice2.getContent();
+
+        Slice<ReservationListDto> slice3 = reservationService.findPartForMemberByCond("member100", condition3, page2);
+        List<ReservationListDto> result3 = slice3.getContent();
+
+        // then
+        assertThat(result1).extracting("rId").containsExactly(reservation1.getId(), reservation7.getId());
+        assertThat(result2).extracting("rId").containsExactly(reservation9.getId());
+        assertThat(result3).extracting("rId").containsExactly(reservation1.getId());
+
+
+
     }
 }
