@@ -36,12 +36,12 @@ class StationRepositoryTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus = new Bus(1L, "route1", "138안 1234", 1, "430", LocalDate.now());
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
         Platform platform2 = new Platform(2L, station2, bus, LocalTime.of(5, 40), 2);
-        Platform platform3= new Platform(3L, station3, bus, LocalTime.of(5, 50), 3);
+        Platform platform3 = new Platform(3L, station3, bus, LocalTime.of(5, 50), 3);
         Platform platform4 = new Platform(4L, station4, bus, LocalTime.of(6, 0), 4);
         em.persist(platform1);
         em.persist(platform2);
@@ -70,6 +70,15 @@ class StationRepositoryTest {
         //then
         assertThat(stations).extracting("id").containsExactly(1L, 2L);
         assertThat(stations).extracting("name").containsExactly("조야동", "사월동");
+    }
 
+    @Test
+    void findStationByBusIdTest() {
+        // when
+        List<Station> stations = stationRepository.findStationByBusId(1L);
+
+        // then
+        assertThat(stations).extracting("id").containsExactly(1L, 2L, 3L, 4L);
+        assertThat(stations).extracting("name").containsExactly("조야동", "사월동", "수성교", "조야동");
     }
 }
