@@ -170,7 +170,7 @@ public class ReservationService {
     @Transactional
     public void cancelReservation(Long rId) {
         Reservation findResv = reservationRepository.findResvById(rId);
-        findResv.changeResvStatus(ReservationStatus.RESERVED);
+        findResv.changeResvStatus(ReservationStatus.CANCEL);
     }
 
     /**
@@ -180,7 +180,10 @@ public class ReservationService {
      * @return 조회된 Reservation
      */
     public Reservation findReservationById(Long reservationId) {
-
+        Reservation findResv = reservationRepository.findResvById(reservationId);
+        if (findResv == null) {
+            throw new IllegalStateException("예약이 존재하지 않습니다.");
+        }
         return null;
     }
 
