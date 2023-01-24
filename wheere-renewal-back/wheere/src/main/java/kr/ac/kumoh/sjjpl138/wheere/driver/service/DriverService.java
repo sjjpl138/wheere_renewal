@@ -6,11 +6,14 @@ import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.driver.dto.DriverLogInRequestDto;
 import kr.ac.kumoh.sjjpl138.wheere.driver.dto.DriverLoginResponseDto;
 import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
+import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationDto;
+import kr.ac.kumoh.sjjpl138.wheere.platform.service.PlatformService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,6 +22,7 @@ public class DriverService {
 
     private final DriverRepository driverRepository;
     private final BusRepository busRepository;
+    private final PlatformService platformService;
 
     /**
      * 버스 기사 로그인
@@ -41,6 +45,12 @@ public class DriverService {
         result.setDName(findDriver.getUsername());
         result.setBId(findBus.getId());
         result.setVNo(vehicleNo);
+        result.setBNo(busNo);
+        result.setRouteId(findBus.getRouteId());
+        result.setTotalSeats(2);
+
+        List<StationDto> route = platformService.findRoute(busNo, vehicleNo);
+        result.setRoute(route);
 
         return result;
     }
@@ -53,9 +63,9 @@ public class DriverService {
      * @return
      */
     @Transactional
-    public Bus changeBus(String driverId, String vehicleNo, LocalDate busDate) {
+    public Bus changeBus(String driverId, String vehicleNo, String busNo, LocalDate busDate) {
         Driver findDriver = driverRepository.findById(driverId).get();
-        Bus findBus = busRepository.findBusByVehicleNoAndBusDate(vehicleNo,busDate).get();
+        Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDate(vehicleNo, busNo, busDate).get();
         findDriver.assignBus(findBus);
 
         return findBus;
