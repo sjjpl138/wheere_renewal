@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -61,7 +62,7 @@ class ReservationServiceTest {
         Station station1 = new Station(1L, "조야동");
         Station station2 = new Station(2L, "사월동");
         Station station3 = new Station(3L, "수성교");
-        Station station4 = new Station(4L, "조야동");
+        Station station4 = new Station(4L, "노원네거리");
 
         Station station5 = new Station(5L, "사월역(4번출구)");
         Station station6 = new Station(6L, "경산시장");
@@ -181,7 +182,7 @@ class ReservationServiceTest {
         assertThat(findResv1.getReservationDate()).isEqualTo(resvDate);
 
         assertThat(findResv2.getStartStation()).isEqualTo("사월동");
-        assertThat(findResv2.getEndStation()).isEqualTo("조야동");
+        assertThat(findResv2.getEndStation()).isEqualTo("노원네거리");
         assertThat(findResv2.getReservationStatus()).isEqualTo(ReservationStatus.PAID);
         assertThat(findResv2.getReservationDate()).isEqualTo(resvDate);
 
@@ -280,24 +281,28 @@ class ReservationServiceTest {
     @Test
     void 예약_취소() {
         // given
-        ReservationBusInfo save = new ReservationBusInfo(1L, 1L, 3L);
         List<ReservationBusInfo> busInfo= new ArrayList<>();
-        busInfo.add(save);
+        ReservationBusInfo save1 = new ReservationBusInfo(1L, 2L, 4L);
+        ReservationBusInfo save2 = new ReservationBusInfo(2L, 5L, 8L);
+        busInfo.add(save1);
+        busInfo.add(save2);
 
         LocalDate resvDate = LocalDate.now().plusDays(1);
 
-        Reservation reservation = reservationService.saveReservation("member5", 1L, 3L, ReservationStatus.RVW_WAIT, resvDate, busInfo);
+        Reservation reservation = reservationService.saveReservation("member5", 2L, 8L, ReservationStatus.RVW_WAIT, resvDate, busInfo);
 
         // when
-
         Long rId = reservation.getId();
-        reservationService.cancelReservation(rId);
+        reservationService.cancelReservation(rId, List.of(1L, 2L));
 
         em.flush();
         em.clear();
 
-        // then
         Reservation findResv = reservationRepository.findResvById(rId);
+        List<Seat> seats  = seatRepository.findAll();
+
+        // then
         assertThat(findResv.getReservationStatus()).isEqualTo(ReservationStatus.CANCEL);
+        assertThat(seats).extracting("leftSeatsNum").containsExactly(2, 2, 2, 2, 2, 2, 2, 2);
     }
 }
