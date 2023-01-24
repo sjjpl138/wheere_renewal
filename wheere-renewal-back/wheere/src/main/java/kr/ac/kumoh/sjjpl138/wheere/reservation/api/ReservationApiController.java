@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReservationApiController {
 
     private final ReservationService reservationService;
-    private final ReservationRepository reservationRepository;
 
     /**
      * 예약 조회
@@ -37,7 +36,7 @@ public class ReservationApiController {
             ReservationSearchCondition condition,
             @PageableDefault(size=10, sort="reservationDate", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Slice<ReservationListDto> reservations = reservationRepository.searchSlice(mId, condition, pageable);
+        Slice<ReservationListDto> reservations = reservationService.findPartForMemberByCond(mId, condition, pageable);
 
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
