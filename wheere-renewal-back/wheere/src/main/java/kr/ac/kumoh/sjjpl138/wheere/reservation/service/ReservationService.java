@@ -7,8 +7,10 @@ import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationListDto;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.seat.Seat;
 import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
@@ -17,6 +19,8 @@ import kr.ac.kumoh.sjjpl138.wheere.station.repository.StationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.Transfer;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.repository.TransferRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -214,9 +218,9 @@ public class ReservationService {
      * @param memberId
      * @return
      */
-    public List<Reservation> findPartForMemberByCond(String memberId) {
+    public Slice<ReservationListDto> findPartForMemberByCond(String memberId, ReservationSearchCondition condition, Pageable pageable) {
 
-        return new ArrayList<Reservation>();
+        return reservationRepository.searchSlice(memberId, condition, pageable);
     }
 
     public List<Reservation> findPartForDriver() {
