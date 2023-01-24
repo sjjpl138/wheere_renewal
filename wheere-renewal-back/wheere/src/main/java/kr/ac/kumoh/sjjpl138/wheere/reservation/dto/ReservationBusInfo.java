@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SaveResvDto {
+public class ReservationBusInfo {
     private Long bId;
     private Long sStationId;
     private Long eStationId;
