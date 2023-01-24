@@ -8,7 +8,7 @@ import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
-import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.SaveResvDto;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.seat.Seat;
 import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,7 @@ public class ReservationService {
      */
     @Transactional
     public Reservation saveReservation(String memberId, Long startStationId , Long endStationId,
-                                       ReservationStatus resvStatus, LocalDate resvDate,  List<SaveResvDto> busInfo) {
+                                       ReservationStatus resvStatus, LocalDate resvDate,  List<ReservationBusInfo> busInfo) {
         Member findMember = memberRepository.findById(memberId).get();
 
         int busCount = busInfo.size();
@@ -59,16 +60,25 @@ public class ReservationService {
         Map<Long, List<Platform>> platformMap = new HashMap<>(); // bId - 출발 정류장, 도착 정류장
 
         // 환승 플랫폼 조회
-        for (SaveResvDto dto : busInfo) {
+        for (ReservationBusInfo dto : busInfo) {
             Long bId = dto.getBId();
             List<Long> sIdList = List.of(dto.getSStationId(), dto.getEStationId());
             List<Platform> findPlatforms = getPlatformsBySIds(bId, sIdList);
             platformMap.put(bId, findPlatforms);
-        }
 
-        /*
-        버스 제약 사항 추가
-         */
+            Bus findBus = busRepository.findById(bId).get();
+            // 예약하려는 버스 출발 시간이 현재 시간 이전이라면 예약 불가
+            compareBusDepartureTime(findBus.getBusDate(), resvDate, findPlatforms);
+
+            // 동일 버스에 대한 기존 예약이 존재하고 기존 예약의 상태가 취소 상태가 아니라면 예약 불가
+            List<Transfer> transfers = transferRepository.findByReservation_Member_IdAndBus_IdAndReservation_ReservationDate(memberId, bId, resvDate);
+            if (!transfers.isEmpty()) {
+                for (Transfer transfer : transfers) {
+                    List<Reservation> reservations = reservationRepository.findByTransferId(transfer.getId());
+                    reservations.stream().forEach(r -> checkResvStatus(r));
+                }
+            }
+        }
 
         // 예약 생성
         Reservation reservation = Reservation.createReservation(findMember, resvStatus, startStation, endStation, resvDate, busCount);
@@ -81,7 +91,7 @@ public class ReservationService {
         }
 
         // 해당 버스 정류장별 좌석 차감 (마지막 정류장 제외)
-        for (SaveResvDto saveDto : busInfo) {
+        for (ReservationBusInfo saveDto : busInfo) {
             Long startSId = saveDto.getSStationId();
             Long endSId = saveDto.getEStationId();
             Long bId = saveDto.getBId();
@@ -103,6 +113,17 @@ public class ReservationService {
         }
 
         return reservation;
+    }
+
+    private void checkResvStatus(Reservation r) {
+        if (r.getReservationStatus() != ReservationStatus.CANCEL)
+            throw new IllegalStateException("이미 해당 버스에 대한 예약이 존재합니다.");
+    }
+
+    private void compareBusDepartureTime(LocalDate busDate, LocalDate resvDate, List<Platform> findPlatforms) {
+        if ((LocalTime.now().isAfter(findPlatforms.get(0).getArrivalTime()) && (!LocalDate.now().isBefore(resvDate))) || LocalDate.now().isAfter(resvDate)
+                || busDate.isBefore(resvDate))
+            throw new IllegalStateException("해당 버스에 대해 예약이 불가능합니다.");
     }
 
     private void calcSubLeftSeats(List<Seat> findSeats) {
