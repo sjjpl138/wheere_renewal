@@ -2,30 +2,25 @@ package kr.ac.kumoh.sjjpl138.wheere.platform.repository;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
-import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
-import kr.ac.kumoh.sjjpl138.wheere.driver.service.DriverService;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
-import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationDto;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
-import kr.ac.kumoh.sjjpl138.wheere.station.service.StationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -51,7 +46,7 @@ class PlatformRepositoryTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L, null, "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now());
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
@@ -63,14 +58,6 @@ class PlatformRepositoryTest {
         em.persist(platform3);
         em.persist(platform4);
 
-        List<Platform> platformList = new ArrayList<>();
-        platformList.add(platform1);
-        platformList.add(platform2);
-        platformList.add(platform3);
-        platformList.add(platform4);
-
-        bus.selectPlatforms(platformList);
-
         Driver driver = new Driver("driver1", bus, "버스기사1" , 0, 0);
         em.persist(driver);
 
@@ -80,17 +67,45 @@ class PlatformRepositoryTest {
 
     @Test
     void findPlatformsByBus() {
-
+        //when
         List<Platform> platformsByBus = platformRepository.findPlatformsByBus("430", "138안 1234");
-        for (Platform byBus : platformsByBus) {
-            System.out.println("byBus.getStation().getName() = " + byBus.getStation().getName());
-        }
-        List<StationDto> route = platformsByBus.stream().map(s -> new StationDto(s)).collect(Collectors.toList());
-        for (StationDto stationDto : route) {
-            System.out.println("stationDto = " + stationDto.getSName());
-            System.out.println("stationDto.getSId() = " + stationDto.getSId());
-            System.out.println("stationDto.getSSeq() = " + stationDto.getSSeq());
-        }
 
+        List<StationDto> route = platformsByBus.stream().map(s -> new StationDto(s)).collect(Collectors.toList());
+
+        //then
+        assertThat(route).extracting("sId").containsExactly(1L, 2L, 3L, 4L);
+        assertThat(route).extracting("sName").containsExactly("조야동", "사월동", "수성교", "조야동");
+        assertThat(route).extracting("sSeq").containsExactly(1, 2, 3, 4);
+    }
+
+    @Test
+    void findAllocationSeqByBusIdAndStationIdListTest() {
+
+        List<Long> stationIDs = Arrays.asList(4L, 2L);
+        List<Integer> result = platformRepository.findAllocationSeqByBusIdAndStationIdList(1L, stationIDs);
+
+        assertThat(result.get(0)).isEqualTo(2);
+        assertThat(result.get(1)).isEqualTo(4);
+    }
+
+    @Test
+    void findPlatformByBusIdAndStationIdTest() {
+        // when
+        List<Long> stationIds = List.of(1L, 3L);
+        List<Platform> platforms = platformRepository.findPlatformByBusIdAndStationId(1L, stationIds);
+
+        //then
+        assertThat(platforms).extracting("id").containsExactly(1L, 3L);
+        assertThat(platforms).extracting("stationSeq").containsExactly(1, 3);
+    }
+
+    @Test
+    void findPlatformByBusTest() {
+        //when
+        List<Platform> platforms = platformRepository.findPlatformByBusId(1L);
+
+        //then
+        assertThat(platforms).extracting("id").containsExactly(1L, 2L, 3L, 4L);
+        assertThat(platforms).extracting("stationSeq").containsExactly(1, 2, 3, 4);
     }
 }

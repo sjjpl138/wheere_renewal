@@ -31,4 +31,15 @@ public class Transfer {
     private String boardStation;
 
     private String alightStation;
+
+    public Transfer(Reservation reservation, Bus bus, String boardStation, String alightStation) {
+        this.alightStation = alightStation;
+        this.reservation = reservation;
+        this.bus = bus;
+        this.boardStation = boardStation;
+    }
+
+    public static Transfer createTransfer(Reservation reservation, Bus bus, String boardStation, String alightStation) {
+        return new Transfer(reservation, bus, boardStation, alightStation);
+    }
 }

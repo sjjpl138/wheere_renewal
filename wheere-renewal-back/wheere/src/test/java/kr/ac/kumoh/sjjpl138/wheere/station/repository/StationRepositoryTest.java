@@ -1,8 +1,6 @@
-package kr.ac.kumoh.sjjpl138.wheere.driver.repository;
+package kr.ac.kumoh.sjjpl138.wheere.station.repository;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
-import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
-import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,24 +13,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class DriverRepositoryTest {
+class StationRepositoryTest {
 
     @PersistenceContext
     EntityManager em;
-    @Autowired
-    DriverRepository driverRepository;
+    @Autowired StationRepository stationRepository;
 
     @BeforeEach
     public void before() {
-
-        Member member = new Member("1234", "사용자", LocalDate.of(2001, 8, 20), "F", "01012341234");
-        em.persist(member);
-
         Station station1 = new Station(1L, "조야동");
         Station station2 = new Station(2L, "사월동");
         Station station3 = new Station(3L, "수성교");
@@ -42,7 +36,7 @@ class DriverRepositoryTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L, "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now());
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
@@ -54,19 +48,28 @@ class DriverRepositoryTest {
         em.persist(platform3);
         em.persist(platform4);
 
-        Driver driver = new Driver("driver1", bus, "버스기사1" , 0, 0);
-        em.persist(driver);
-
         em.flush();
         em.clear();
     }
 
     @Test
-    void findByBusId() {
-        //when
-        Driver findDriver = driverRepository.findByBusId(1L).get();
+    void findStationByStationIds() {
+        // when
+        List<Long> idList = List.of(1L, 2L, 3L, 4L);
+        List<Station> stations = stationRepository.findStationByStationIds(idList);
 
         //then
-        assertThat(findDriver.getUsername()).isEqualTo("버스기사1");
+        assertThat(stations).extracting("id").containsExactly(1L, 2L, 3L, 4L);
+    }
+
+    @Test
+    void findStationByPlatformId() {
+        //when
+        List<Station> stations = stationRepository.findStationByPlatformId(List.of(1L, 2L));
+
+        //then
+        assertThat(stations).extracting("id").containsExactly(1L, 2L);
+        assertThat(stations).extracting("name").containsExactly("조야동", "사월동");
+
     }
 }

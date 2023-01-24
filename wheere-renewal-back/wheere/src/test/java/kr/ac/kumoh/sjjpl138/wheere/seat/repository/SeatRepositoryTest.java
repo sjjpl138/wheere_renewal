@@ -1,9 +1,9 @@
-package kr.ac.kumoh.sjjpl138.wheere.driver.repository;
+package kr.ac.kumoh.sjjpl138.wheere.seat.repository;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
-import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
+import kr.ac.kumoh.sjjpl138.wheere.seat.Seat;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,23 +15,25 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
+
 @SpringBootTest
 @Transactional
-class DriverRepositoryTest {
+class SeatRepositoryTest {
 
     @PersistenceContext
     EntityManager em;
+
     @Autowired
-    DriverRepository driverRepository;
+    SeatRepository seatRepository;
 
     @BeforeEach
     public void before() {
-
-        Member member = new Member("1234", "사용자", LocalDate.of(2001, 8, 20), "F", "01012341234");
-        em.persist(member);
 
         Station station1 = new Station(1L, "조야동");
         Station station2 = new Station(2L, "사월동");
@@ -42,7 +44,7 @@ class DriverRepositoryTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L, "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now());
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
@@ -54,6 +56,15 @@ class DriverRepositoryTest {
         em.persist(platform3);
         em.persist(platform4);
 
+        Seat seat1 = new Seat(platform1, 2, 2, LocalDate.of(2022, 1, 22));
+        Seat seat2 = new Seat(platform2, 2, 0, LocalDate.of(2022, 1, 22));
+        Seat seat3 = new Seat(platform3, 2, 2, LocalDate.of(2022, 1, 22));
+        Seat seat4 = new Seat(platform4, 2, 2, LocalDate.of(2022, 1, 22));
+        em.persist(seat1);
+        em.persist(seat2);
+        em.persist(seat3);
+        em.persist(seat4);
+
         Driver driver = new Driver("driver1", bus, "버스기사1" , 0, 0);
         em.persist(driver);
 
@@ -62,11 +73,25 @@ class DriverRepositoryTest {
     }
 
     @Test
-    void findByBusId() {
-        //when
-        Driver findDriver = driverRepository.findByBusId(1L).get();
+    void findMinLeftSeatsByStationTest() {
 
-        //then
-        assertThat(findDriver.getUsername()).isEqualTo("버스기사1");
+        List<Integer> seqList = Arrays.asList(1, 2, 3);
+        Optional<Integer> find = seatRepository.findMinLeftSeatsByStation(1L, seqList, LocalDate.of(2023, 1, 21));
+        assertThat(find).isEmpty();
+
+        Optional<Integer> min = seatRepository.findMinLeftSeatsByStation(1L, seqList, LocalDate.of(2022, 1, 22));
+        Integer minLeftSeatNo = min.get();
+        assertThat(minLeftSeatNo).isEqualTo(0);
+    }
+
+    @Test
+   void findSeatByBIdAndDateTest() {
+        // when
+        List<Integer> seqList = Arrays.asList(1, 2, 3);
+        List<Seat> findSeats = seatRepository.findSeatByBIdAndDate(1L, LocalDate.of(2022    , 1, 22), seqList);
+
+        // then
+        assertThat(findSeats).extracting("totalSeatsNum").containsExactly(2, 2, 2);
+        assertThat(findSeats).extracting("leftSeatsNum").containsExactly(2, 0, 2);
     }
 }

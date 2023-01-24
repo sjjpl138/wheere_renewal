@@ -27,8 +27,4 @@ public class Bus {
     private String busNo; //버스 번호
 
     private LocalDate busDate;
-
-    public void selectPlatforms(List<Platform> platforms) {
-        this.platforms = platforms;
-    }
 }
