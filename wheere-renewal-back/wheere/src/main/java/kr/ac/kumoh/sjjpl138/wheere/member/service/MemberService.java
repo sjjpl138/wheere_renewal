@@ -10,6 +10,7 @@ import kr.ac.kumoh.sjjpl138.wheere.member.sub.BusLane;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.Course;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.SubCourse;
 import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -17,6 +18,7 @@ import org.json.JSONObject;
 
 import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
 import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
+import kr.ac.kumoh.sjjpl138.wheere.member.RetrieveRoutesRequest;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
@@ -125,7 +127,7 @@ public class MemberService {
         Reservation resv = reservationRepository.findResvById(rId);
         Driver driver = driverRepository.findByBusId(bId).get();
         driver.calculateRating(rating);
-        resv.changeResvStatus();
+        resv.changeResvStatus(ReservationStatus.RVW_COMP);
     }
 
     /**
