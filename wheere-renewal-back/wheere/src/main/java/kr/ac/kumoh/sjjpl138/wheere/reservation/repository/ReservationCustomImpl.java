@@ -44,7 +44,7 @@ public class ReservationCustomImpl implements ReservationCustom{
                 )
                 .join(reservation.member, member)
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .limit(pageable.getPageSize() + 1);
 
         for (Sort.Order o : pageable.getSort()) {
             PathBuilder pathBuilder = new PathBuilder(
