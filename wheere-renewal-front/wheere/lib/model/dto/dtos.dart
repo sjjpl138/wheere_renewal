@@ -17,3 +17,5 @@ export 'firebase_sign_up_dto.dart';
 export 'has_new_alarm_dto.dart';
 export 'bus_location_dto.dart';
 export 'request_busLocation_dto.dart';
+export 'station_dto.dart';
+export 'station_list_dto.dart';
