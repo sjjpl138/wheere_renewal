@@ -276,4 +276,28 @@ class ReservationServiceTest {
                 reservationService.saveReservation("member4", 10L, 11L, ReservationStatus.RVW_WAIT, resvDate, busInfo4));
 
     }
+
+    @Test
+    void 예약_취소() {
+        // given
+        ReservationBusInfo save = new ReservationBusInfo(1L, 1L, 3L);
+        List<ReservationBusInfo> busInfo= new ArrayList<>();
+        busInfo.add(save);
+
+        LocalDate resvDate = LocalDate.now().plusDays(1);
+
+        Reservation reservation = reservationService.saveReservation("member5", 1L, 3L, ReservationStatus.RVW_WAIT, resvDate, busInfo);
+
+        // when
+
+        Long rId = reservation.getId();
+        reservationService.cancelReservation(rId);
+
+        em.flush();
+        em.clear();
+
+        // then
+        Reservation findResv = reservationRepository.findResvById(rId);
+        assertThat(findResv.getReservationStatus()).isEqualTo(ReservationStatus.CANCEL);
+    }
 }
