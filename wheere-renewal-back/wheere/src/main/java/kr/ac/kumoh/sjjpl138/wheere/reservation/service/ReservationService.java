@@ -45,8 +45,8 @@ public class ReservationService {
      * @return 생성된 Reservation 객체??
      */
     @Transactional
-    public Reservation saveReservation(String memberId, Long startStationId , Long endStationId,
-                                       ReservationStatus resvStatus, LocalDate resvDate,  List<ReservationBusInfo> busInfo) {
+    public Reservation saveReservation(String memberId, Long startStationId, Long endStationId,
+                                       ReservationStatus resvStatus, LocalDate resvDate, List<ReservationBusInfo> busInfo) {
         Member findMember = memberRepository.findById(memberId).get();
 
         int busCount = busInfo.size();
@@ -98,7 +98,7 @@ public class ReservationService {
 
             List<Integer> allocationList = platformRepository.findAllocationSeqByBusIdAndStationIdList(bId, List.of(startSId, endSId));
             List<Integer> seqList = new ArrayList<>();
-            for (int i = allocationList.get(0); i <= allocationList.get(1); i++ ){
+            for (int i = allocationList.get(0); i <= allocationList.get(1); i++) {
                 seqList.add(i);
             }
 
@@ -107,8 +107,7 @@ public class ReservationService {
                 createSeatPerPlatform(resvDate, bId);
                 List<Seat> seatsList = seatRepository.findSeatByBIdAndDate(bId, resvDate, seqList);
                 calcSubLeftSeats(seatsList);
-            }
-            else
+            } else
                 calcSubLeftSeats(findSeats);
         }
 
@@ -184,7 +183,7 @@ public class ReservationService {
         if (findResv == null) {
             throw new IllegalStateException("예약이 존재하지 않습니다.");
         }
-        return null;
+        return findResv;
     }
 
     /**
@@ -203,5 +202,4 @@ public class ReservationService {
 
         return new ArrayList<Reservation>();
     }
-
 }
