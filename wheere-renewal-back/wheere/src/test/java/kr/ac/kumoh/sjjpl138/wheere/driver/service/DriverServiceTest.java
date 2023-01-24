@@ -100,7 +100,7 @@ class DriverServiceTest {
     public void 버스기사_버스변경() {
         //when
         Driver findDriver = driverRepository.findById("driver1").get();
-        Bus changeBus = driverService.changeBus(findDriver.getId(), "139형 5678", LocalDate.now());
+        Bus changeBus = driverService.changeBus(findDriver.getId(), "139형 5678", "430", LocalDate.now());
 
         //then
         assertThat(changeBus.getId()).isEqualTo(2L);
