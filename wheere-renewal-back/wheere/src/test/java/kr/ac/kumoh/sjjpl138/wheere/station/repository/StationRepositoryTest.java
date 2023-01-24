@@ -30,7 +30,7 @@ class StationRepositoryTest {
         Station station1 = new Station(1L, "조야동");
         Station station2 = new Station(2L, "사월동");
         Station station3 = new Station(3L, "수성교");
-        Station station4 = new Station(4L, "조야동");
+        Station station4 = new Station(4L, "노원네거리");
         em.persist(station1);
         em.persist(station2);
         em.persist(station3);
@@ -79,6 +79,19 @@ class StationRepositoryTest {
 
         // then
         assertThat(stations).extracting("id").containsExactly(1L, 2L, 3L, 4L);
-        assertThat(stations).extracting("name").containsExactly("조야동", "사월동", "수성교", "조야동");
+        assertThat(stations).extracting("name").containsExactly("조야동", "사월동", "수성교", "노원네거리");
+    }
+
+    @Test
+    void findStationByNamesTest() {
+        // given
+        List<String> sNames = List.of("사월동", "노원네거리");
+
+        // when
+        List<Long> sIds = stationRepository.findStationByNames(sNames);
+
+        // then
+        assertThat(sIds.get(0)).isEqualTo(2L);
+        assertThat(sIds.get(1)).isEqualTo(4L);
     }
 }
