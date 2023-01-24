@@ -66,11 +66,13 @@ class BusStationInfo {
   bool isCurrentStation;
   int ridePeople;
   int quitPeople;
+  int leftSeats;
 
   BusStationInfo({
     required this.stationName,
     this.isCurrentStation = false,
     this.ridePeople = 0,
     this.quitPeople = 0,
+    this.leftSeats = 2,
   });
 }
