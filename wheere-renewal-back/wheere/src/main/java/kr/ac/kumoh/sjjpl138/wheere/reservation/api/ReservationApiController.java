@@ -1,10 +1,9 @@
 package kr.ac.kumoh.sjjpl138.wheere.reservation.api;
 
-import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationSearchCondition;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationListDto;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.service.ReservationService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -24,12 +23,12 @@ public class ReservationApiController {
     private final ReservationRepository reservationRepository;
 
     @GetMapping("/{mId}")
-    public ResponseEntity<Slice<Reservation>> reservationList(
+    public ResponseEntity<Slice<ReservationListDto>> reservationList(
             @PathVariable("mId") String mId,
             ReservationSearchCondition condition,
             Pageable pageable) {
 
-        Slice<Reservation> reservations = reservationRepository.searchSlice(mId, condition, pageable);
+        Slice<ReservationListDto> reservations = reservationRepository.searchSlice(mId, condition, pageable);
 
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
