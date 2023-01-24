@@ -42,7 +42,7 @@ public class ReservationService {
 
     /**
      * 예약 생성
-     * @return 생성된 Reservation 객체??
+     * @return 생성된 Reservation 객체
      */
     @Transactional
     public Reservation saveReservation(String memberId, Long startStationId, Long endStationId,
@@ -92,15 +92,11 @@ public class ReservationService {
 
         // 해당 버스 정류장별 좌석 차감 (마지막 정류장 제외)
         for (ReservationBusInfo saveDto : busInfo) {
+            Long bId = saveDto.getBId();
             Long startSId = saveDto.getSStationId();
             Long endSId = saveDto.getEStationId();
-            Long bId = saveDto.getBId();
 
-            List<Integer> allocationList = platformRepository.findAllocationSeqByBusIdAndStationIdList(bId, List.of(startSId, endSId));
-            List<Integer> seqList = new ArrayList<>();
-            for (int i = allocationList.get(0); i <= allocationList.get(1); i++) {
-                seqList.add(i);
-            }
+            List<Integer> seqList = getSeqList(bId, startSId, endSId);
 
             List<Seat> findSeats = seatRepository.findSeatByBIdAndDate(bId, resvDate, seqList);
             if (findSeats.isEmpty()) {
@@ -112,6 +108,15 @@ public class ReservationService {
         }
 
         return reservation;
+    }
+
+    private List<Integer> getSeqList(Long bId, Long startSId, Long endSId) {
+        List<Integer> allocationList = platformRepository.findAllocationSeqByBusIdAndStationIdList(bId, List.of(startSId, endSId));
+        List<Integer> seqList = new ArrayList<>();
+        for (int i = allocationList.get(0); i <= allocationList.get(1); i++) {
+            seqList.add(i);
+        }
+        return seqList;
     }
 
     private void checkResvStatus(Reservation r) {
@@ -167,9 +172,25 @@ public class ReservationService {
      * 예약 취소
      */
     @Transactional
-    public void cancelReservation(Long rId) {
+    public void cancelReservation(Long rId, List<Long> bIds) {
         Reservation findResv = reservationRepository.findResvById(rId);
         findResv.changeResvStatus(ReservationStatus.CANCEL);
+
+        // 버스 좌석 증가
+        LocalDate resvDate = findResv.getReservationDate();
+        for (Long bId : bIds) {
+            List<Transfer> transfers = transferRepository.findByBus_IdAndReservation_Id(bId, rId);
+
+            List<String> stationList = List.of(transfers.get(0).getBoardStation(), transfers.get(0).getAlightStation());
+            List<Long> sIds = stationRepository.findStationByNames(stationList);
+            
+            List<Integer> allocationList = getSeqList(bId, sIds.get(0), sIds.get(1));
+
+            List<Seat> findSeats = seatRepository.findSeatByBIdAndDate(bId, resvDate, allocationList);
+            for (int i = 0; i < findSeats.size() - 1; i++) {
+                findSeats.get(i).addSeats();
+            }
+        }
     }
 
     /**
