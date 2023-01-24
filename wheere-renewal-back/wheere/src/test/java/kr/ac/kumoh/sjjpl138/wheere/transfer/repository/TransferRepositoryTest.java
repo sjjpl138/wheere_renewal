@@ -80,4 +80,14 @@ class TransferRepositoryTest {
         assertThat(transfers.get(0).getAlightStation()).isEqualTo("수성교");
     }
 
+    @Test
+    void findByBus_IdAndReservation_IdTest() {
+        // when
+        List<Transfer> transfers = transferRepository.findByBus_IdAndReservation_Id(1L, 1L);
+
+        // then
+        assertThat(transfers.size()).isEqualTo(1);
+        assertThat(transfers.get(0).getBoardStation()).isEqualTo("조야동");
+        assertThat(transfers.get(0).getAlightStation()).isEqualTo("수성교");
+    }
 }

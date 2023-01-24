@@ -157,7 +157,7 @@ class MemberServiceTest {
 
         //when
         Member joinMember = memberService.join(member);
-        memberService.delete(joinMember);
+        memberService.delete(joinMember.getId());
 
         em.flush();
         em.clear();

@@ -22,6 +22,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
+
 @SpringBootTest
 @Transactional
 class ReservationRepositoryTest {
@@ -73,12 +75,14 @@ class ReservationRepositoryTest {
 
     @Test
     void findByTransferTest() {
+        // given
         List<Transfer> transfers = transferRepository.findAll();
+
+        // when
         List<Reservation> reservations = reservationRepository.findByTransferId(transfers.get(0).getId());
 
         // then
-        Assertions.assertThat(reservations.get(0).getStartStation()).isEqualTo("조야동");
-        Assertions.assertThat(reservations.get(0).getEndStation()).isEqualTo("수성교");
+        assertThat(reservations.get(0).getStartStation()).isEqualTo("조야동");
+        assertThat(reservations.get(0).getEndStation()).isEqualTo("수성교");
     }
-
 }

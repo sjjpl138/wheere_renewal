@@ -113,8 +113,9 @@ public class MemberService {
      * @param member
      */
     @Transactional
-    public void delete(Member member) {
-        memberRepository.delete(member);
+    public void delete(String mId) {
+        Member findMember = memberRepository.findById(mId).get();
+        memberRepository.delete(findMember);
     }
 
     /**
