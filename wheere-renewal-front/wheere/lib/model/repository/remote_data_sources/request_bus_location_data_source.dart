@@ -5,7 +5,8 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
   @override
   String path = "http://apis.data.go.kr/1613000/BusLcInfoInqireService/getRouteAcctoBusLcList";
 
-  Future<BusLocationDTO?> readWithRemote(RequestBusLocationDTO requestDTO) async {
+  Future<BusLocationDTO?> readWithRemote(RequestBusLocationDTO requestDTO, int bId) async {
+
     Map<String, dynamic> queryParams = {
       "serviceKey": requestDTO.serviceKey,
       "pageNo": requestDTO.pageNo,
@@ -14,10 +15,15 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
       "cityCode": requestDTO.cityCode,
       "rId": requestDTO.rId,
     };
+
     try {
       Map<String, dynamic>? res = await BaseRemoteDataSource.getWithParams(path, queryParams);
-      // 여기서 백으로 정류장 리스트 요청해서 받아오는 것은 어떨ㄱ지!
-      return res != null ? BusLocationDTO.fromJson(res) : null;
+      BusLocationDTO busLocation = BusLocationDTO.fromJson(res!);
+
+      path = "/api/resvs/${bId}";
+      Map<String, dynamic>? res_station = await BaseRemoteDataSource.get(path);
+      busLocation.stations = StationListDTO.fromJson(res_station!);
+      return busLocation;
     } catch (e) {
       return null;
     }
