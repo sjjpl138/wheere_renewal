@@ -168,8 +168,9 @@ public class ReservationService {
      * 예약 취소
      */
     @Transactional
-    public void cancelReservation() {
-
+    public void cancelReservation(Long rId) {
+        Reservation findResv = reservationRepository.findResvById(rId);
+        findResv.changeResvStatus(ReservationStatus.RESERVED);
     }
 
     /**
