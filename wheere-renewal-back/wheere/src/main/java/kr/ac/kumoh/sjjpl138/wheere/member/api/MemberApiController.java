@@ -1,18 +1,22 @@
 package kr.ac.kumoh.sjjpl138.wheere.member.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.member.RetrieveRoutesResult;
 import kr.ac.kumoh.sjjpl138.wheere.member.RetrieveRoutesRequest;
+import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.service.MemberService;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.AllCourseCase;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -38,5 +42,49 @@ public class MemberApiController {
         RetrieveRoutesResult retrieveRoutesResult = memberService.checkBusTime(allCourseCase, rDate);
 
         return new ResponseEntity<>(retrieveRoutesResult, HttpStatus.OK);
+    }
+
+    /**
+     * 사용자 추가 (회원가입)
+     */
+    @PostMapping
+    public ResponseEntity memberAdd(@RequestBody MemberDto memberDto) {
+        memberService.join(memberDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Data
+    static class MemberLogInRequest {
+        @JsonProperty("mId")
+        private String mId;
+        @JsonProperty("fcmToken")
+        private String fcmToken;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class MemberLogInResponse {
+        @JsonProperty("mId")
+        private String mId;
+        @JsonProperty("mName")
+        private String mName;
+        @JsonProperty("mSex")
+        private String mSex;
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        @JsonProperty("mBirthDate")
+        private LocalDate mBirthDate;
+        @JsonProperty("mNum")
+        private String mNum;
+        @JsonProperty("fcmToken")
+        private String fcmToken;
+    }
+    
+    @Data
+    static class MemberRateRequest {
+        @JsonProperty("rId")
+        private Long rId;
+        @JsonProperty("bId")
+        private Long bId;
+        private Double rate;
     }
 }
