@@ -85,13 +85,22 @@ public class MemberApiController {
         memberService.update(memberDto);
         return new ResponseEntity(HttpStatus.OK);
     }
-    
+
     /**
      * 사용자 삭제 (회원탈퇴)
      */
     @DeleteMapping("/{mId}")
     public ResponseEntity memberRemove(@PathVariable("mId") String mId) {
         memberService.delete(mId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    /**
+     * 평점 남기기
+     */
+    @PostMapping("/rate")
+    public ResponseEntity memberRate(@RequestBody MemberRateRequest request) {
+        memberService.rateDriver(request.rId, request.bId, request.rate);
         return new ResponseEntity(HttpStatus.OK);
     }
 
