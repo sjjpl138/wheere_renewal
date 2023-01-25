@@ -2,6 +2,7 @@ package kr.ac.kumoh.sjjpl138.wheere.driver.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationDto;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ResvDto;
 import lombok.Data;
 
 import java.util.List;
