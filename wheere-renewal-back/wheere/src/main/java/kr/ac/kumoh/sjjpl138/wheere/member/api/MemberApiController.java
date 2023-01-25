@@ -53,6 +53,19 @@ public class MemberApiController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    /**
+     * 사용자 정보 조회 (로그인)
+     */
+    @PostMapping("/login")
+    public ResponseEntity<MemberLogInResponse> memberList(@RequestBody MemberLogInRequest member) {
+        String mId = member.getMId();
+        String fcmToken = member.getFcmToken();
+        Member findMember = memberService.logIn(mId);
+
+        return new ResponseEntity<>(new MemberLogInResponse(mId, findMember.getUsername(),
+                findMember.getSex(), findMember.getBirthDate(), findMember.getPhoneNumber(), fcmToken), HttpStatus.OK);
+    }
+    
     @Data
     static class MemberLogInRequest {
         @JsonProperty("mId")
