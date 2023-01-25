@@ -76,8 +76,16 @@ public class MemberApiController {
 
         return new ResponseEntity(HttpStatus.OK);
     }
-    
 
+    /**
+     * 사용자 정보 수정
+     */
+    @PutMapping
+    public ResponseEntity memberModify(@RequestBody MemberDto memberDto) {
+        memberService.update(memberDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    
     @Data
     static class MemberLogInRequest {
         @JsonProperty("mId")
