@@ -3,6 +3,7 @@ package kr.ac.kumoh.sjjpl138.wheere.reservation.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.bus.service.BusService;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationInfo;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationSearchCondition;
@@ -69,31 +70,38 @@ public class ReservationApiController {
         LocalDate rDate = request.getRDate();
         List<ReservationBusInfo> buses = request.getBuses();
 
-        Reservation reservation = reservationService.saveReservation(mId, startStationId, endStationId, rState, rDate, buses);
+        try {
+            Reservation reservation = reservationService.saveReservation(mId, startStationId, endStationId, rState, rDate, buses);
 
-        Long rId = reservation.getId();
+            Long rId = reservation.getId();
 
-        List<SaveResvBusInfo> busInfos = new ArrayList<>();
-        for (ReservationBusInfo bus : buses) {
-            Long bId = bus.getBId();
-            Bus findBus = busService.findBus(bId);
-            String busNo = findBus.getBusNo();
-            String vehicleNo = findBus.getVehicleNo();
-            String routeId = findBus.getRouteId();
+            List<SaveResvBusInfo> busInfos = new ArrayList<>();
+            for (ReservationBusInfo bus : buses) {
+                Long bId = bus.getBId();
+                Bus findBus = busService.findBus(bId);
+                String busNo = findBus.getBusNo();
+                String vehicleNo = findBus.getVehicleNo();
+                String routeId = findBus.getRouteId();
 
-            Long sStationId = bus.getSStationId();
-            Long eStationId = bus.getEStationId();
-            List<StationInfo> stationInfos = stationService.findStationByPlatformAndBus(List.of(sStationId, eStationId));
-            String sStationName = stationInfos.get(0).getSName();
-            String eStationName = stationInfos.get(1).getSName();
-            LocalTime sTime = stationInfos.get(0).getArrivalTime();
-            LocalTime eTime = stationInfos.get(1).getArrivalTime();
-            SaveResvBusInfo busInfo = new SaveResvBusInfo(busNo, routeId, vehicleNo, sTime, sStationId, sStationName, eTime, eStationId, eStationName);
-            busInfos.add(busInfo);
+                Long sStationId = bus.getSStationId();
+                Long eStationId = bus.getEStationId();
+                List<StationInfo> stationInfos = stationService.findStationByPlatformAndBus(List.of(sStationId, eStationId));
+                String sStationName = stationInfos.get(0).getSName();
+                String eStationName = stationInfos.get(1).getSName();
+                LocalTime sTime = stationInfos.get(0).getArrivalTime();
+                LocalTime eTime = stationInfos.get(1).getArrivalTime();
+                SaveResvBusInfo busInfo = new SaveResvBusInfo(busNo, routeId, vehicleNo, sTime, sStationId, sStationName, eTime, eStationId, eStationName);
+                busInfos.add(busInfo);
+            }
+            SaveResvResponse response = new SaveResvResponse(rId, rDate, rState, busInfos);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (IllegalStateException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (NotEnoughSeatsException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        SaveResvResponse response = new SaveResvResponse(rId, rDate, rState, busInfos);
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
