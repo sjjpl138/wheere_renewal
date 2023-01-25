@@ -8,6 +8,7 @@ import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.Transfer;
+import kr.ac.kumoh.sjjpl138.wheere.transfer.dto.TransferDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,7 @@ class TransferRepositoryTest {
         Station station1 = new Station(1L, "조야동");
         Station station2 = new Station(2L, "사월동");
         Station station3 = new Station(3L, "수성교");
-        Station station4 = new Station(4L, "조야동");
+        Station station4 = new Station(4L, "노원네거리");
         em.persist(station1);
         em.persist(station2);
         em.persist(station3);
@@ -89,5 +90,16 @@ class TransferRepositoryTest {
         assertThat(transfers.size()).isEqualTo(1);
         assertThat(transfers.get(0).getBoardStation()).isEqualTo("조야동");
         assertThat(transfers.get(0).getAlightStation()).isEqualTo("수성교");
+    }
+
+    @Test
+    void findTransferByBusIdTest() {
+        // when
+        List<TransferDto> dtos = transferRepository.findTransferByBusId(1L);
+
+        // then
+        assertThat(dtos).extracting("status").containsExactly(ReservationStatus.RESERVED);
+        assertThat(dtos).extracting("boardStation").containsExactly("조야동");
+        assertThat(dtos).extracting("alightStation").containsExactly("수성교");
     }
 }
