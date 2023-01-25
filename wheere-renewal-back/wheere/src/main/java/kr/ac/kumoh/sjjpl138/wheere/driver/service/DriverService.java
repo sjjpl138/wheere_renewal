@@ -5,9 +5,11 @@ import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.driver.dto.DriverLogInRequestDto;
 import kr.ac.kumoh.sjjpl138.wheere.driver.dto.DriverLoginResponseDto;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ResvDto;
 import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationDto;
 import kr.ac.kumoh.sjjpl138.wheere.platform.service.PlatformService;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,7 @@ public class DriverService {
     private final DriverRepository driverRepository;
     private final BusRepository busRepository;
     private final PlatformService platformService;
+    private final ReservationService reservationService;
 
     /**
      * 버스 기사 로그인
@@ -49,10 +52,20 @@ public class DriverService {
         result.setRouteId(findBus.getRouteId());
         result.setTotalSeats(2);
 
-        List<StationDto> route = platformService.findRoute(busNo, vehicleNo);
-        result.setRoute(route);
+        setRoute(vehicleNo, busNo, result);
+        setReservations(findBus, result);
 
         return result;
+    }
+
+    private void setReservations(Bus findBus, DriverLoginResponseDto result) {
+        List<ResvDto> resvDtoList = reservationService.findPartForDriver(findBus);
+        result.setReservations(resvDtoList);
+    }
+
+    private void setRoute(String vehicleNo, String busNo, DriverLoginResponseDto result) {
+        List<StationDto> route = platformService.findRoute(busNo, vehicleNo);
+        result.setRoute(route);
     }
 
     /**
