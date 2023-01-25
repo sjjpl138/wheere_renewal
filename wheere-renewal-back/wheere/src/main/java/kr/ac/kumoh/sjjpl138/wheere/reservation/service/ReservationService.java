@@ -2,6 +2,7 @@ package kr.ac.kumoh.sjjpl138.wheere.reservation.service;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ResvDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
@@ -17,6 +18,7 @@ import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import kr.ac.kumoh.sjjpl138.wheere.station.repository.StationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.Transfer;
+import kr.ac.kumoh.sjjpl138.wheere.transfer.dto.TransferDto;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.repository.TransferRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -223,8 +225,19 @@ public class ReservationService {
         return reservationRepository.searchSlice(memberId, condition, pageable);
     }
 
-    public List<Reservation> findPartForDriver() {
+    public List<ResvDto> findPartForDriver(Bus findBus) {
+        List<ResvDto> resvDtoList = new ArrayList<>();
+        Long bId = findBus.getId();
+        List<TransferDto> transfers = transferRepository.findTransferByBusId(bId);
+        for (TransferDto transfer : transfers) {
+            List<Integer> allocSeqList = platformRepository.findAllocationSeqByBusIdAndStationNameList(bId, List.of(transfer.getBoardStation(), transfer.getAlightStation()));
+            ResvDto resvDto = new ResvDto(transfer.getRId(), allocSeqList.get(0), allocSeqList.get(1));
 
-        return new ArrayList<Reservation>();
+            // 예약 상태가 RESERVED 혹은 PAID 인 예약만 보여줌
+            ReservationStatus status = transfer.getStatus();
+            if (status == ReservationStatus.RESERVED || status == ReservationStatus.PAID)
+                resvDtoList.add(resvDto);
+        }
+        return resvDtoList;
     }
 }
