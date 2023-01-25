@@ -30,6 +30,22 @@ public class DriverApiController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    /**
+     * 버스 기사 정보 수정
+     * @param request
+     * @return
+     */
+    @PutMapping
+    public ResponseEntity driverModify(@RequestBody DriverUpdateRequest request) {
+        String dId = request.getDId();
+        String vNo = request.getVNo();
+        String bNo = request.getBNo();
+        LocalDate busDate = LocalDate.now();
+        driverService.changeBus(dId, vNo, bNo, busDate);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @Data
     static class DriverUpdateRequest {
         @JsonProperty("dId")
