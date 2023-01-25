@@ -1,5 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.station.service;
 
+import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationInfo;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import kr.ac.kumoh.sjjpl138.wheere.station.repository.StationRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,9 @@ public class StationService {
      */
     public List<Station> findStationList(Long bId) {
         return stationRepository.findStationByBusId(bId);
+    }
+
+    public List<StationInfo> findStationByPlatformAndBus(List<Long> stationIds) {
+        return stationRepository.findStationByPlatformAndBus(stationIds);
     }
 }
