@@ -37,6 +37,13 @@ const TextStyle kTextPointStyleMiddle = TextStyle(
   overflow: TextOverflow.ellipsis,
 );
 
+const TextStyle kTextPointStyleSmall = TextStyle(
+  color: CustomColor.pointColor,
+  fontSize: kTextSmallSize,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.ellipsis,
+);
+
 const TextStyle kTextReverseStyleMiddle = TextStyle(
   color: CustomColor.textReverseColor,
   fontSize: kTextMiddleSize,

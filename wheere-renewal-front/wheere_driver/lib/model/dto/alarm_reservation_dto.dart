@@ -1,11 +1,11 @@
-class AlramReservationDTO{
+class AlarmReservationDTO{
   String mId;
   String rId;
   String bId;
   int startSeq;
   int endSeq;
 
-  AlramReservationDTO({
+  AlarmReservationDTO({
     required this.mId,
     required this.rId,
     required this.bId,
@@ -13,8 +13,8 @@ class AlramReservationDTO{
     required this.endSeq
   });
 
-  factory AlramReservationDTO.fromJson(Map<String, dynamic> json) {
-    return AlramReservationDTO(
+  factory AlarmReservationDTO.fromJson(Map<String, dynamic> json) {
+    return AlarmReservationDTO(
       mId: json["mId"],
       rId: json["rId"],
       bId: json["bId"],

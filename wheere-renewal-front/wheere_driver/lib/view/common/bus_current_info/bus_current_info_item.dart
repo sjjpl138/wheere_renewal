@@ -19,10 +19,36 @@ class BusCurrentInfoItem extends StatelessWidget {
     super.key,
     required this.busStationInfo,
   }) {
-    _stationNameTextStyle = busStationInfo.isCurrentStation
-        ? kTextPointStyleMiddle
-        : kTextMainStyleMiddle;
-    // TODO : 각종 style 정의 필요
+    _stationNameTextStyle =
+        busStationInfo.ridePeople != 0 || busStationInfo.quitPeople != 0
+            ? kTextPointStyleMiddle
+            : kTextMainStyleMiddle;
+    _ridePeopleTextStyle = busStationInfo.ridePeople != 0
+        ? kTextPointStyleSmall
+        : kTextMainStyleSmall;
+    _quitPeopleTextStyle = busStationInfo.quitPeople != 0
+        ? kTextPointStyleSmall
+        : kTextMainStyleSmall;
+    _headSize = busStationInfo.isCurrentStation
+        ? kIconMainSize + kPaddingSmallSize
+        : kIconSmallSize;
+    _headPadding = busStationInfo.isCurrentStation
+        ? (kPaddingLargeSize - kPaddingSmallSize) / 2
+        : (kIconMainSize + kPaddingLargeSize - kIconSmallSize) / 2;
+    _headChild = busStationInfo.isCurrentStation
+        ? const Icon(
+            Icons.directions_bus,
+            color: CustomColor.backGroundSubColor,
+            size: kIconSmallSize,
+          )
+        : Container();
+    _headBackgroundColor = busStationInfo.isCurrentStation
+        ? CustomColor.pointColor
+        : CustomColor.backGroundSubColor;
+    _headBoarderColor =
+        busStationInfo.ridePeople != 0 || busStationInfo.quitPeople != 0
+            ? CustomColor.pointColor
+            : CustomColor.itemSubColor;
   }
 
   @override
@@ -72,23 +98,23 @@ class BusCurrentInfoItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "탑승 인원: ",
-                      style: kTextMainStyleSmall,
+                      "탑승 인원: ${busStationInfo.ridePeople}",
+                      style: _ridePeopleTextStyle,
                       textAlign: TextAlign.start,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
-                      "하차 인원: ",
-                      style: kTextMainStyleSmall,
+                      "하차 인원: ${busStationInfo.quitPeople}",
+                      style: _quitPeopleTextStyle,
                       textAlign: TextAlign.start,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
-                      "남은 좌석: ",
+                      "남은 좌석: ${busStationInfo.leftSeats}",
                       style: kTextMainStyleSmall,
                       textAlign: TextAlign.start,
                     ),
-                    Spacer(),
+                    const Spacer(),
                   ],
                 ),
               ],
