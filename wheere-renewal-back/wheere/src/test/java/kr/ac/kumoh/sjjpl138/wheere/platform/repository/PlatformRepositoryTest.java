@@ -40,7 +40,7 @@ class PlatformRepositoryTest {
         Station station1 = new Station(1L, "조야동");
         Station station2 = new Station(2L, "사월동");
         Station station3 = new Station(3L, "수성교");
-        Station station4 = new Station(4L, "조야동");
+        Station station4 = new Station(4L, "노원네거리");
         em.persist(station1);
         em.persist(station2);
         em.persist(station3);
@@ -74,7 +74,7 @@ class PlatformRepositoryTest {
 
         //then
         assertThat(route).extracting("sId").containsExactly(1L, 2L, 3L, 4L);
-        assertThat(route).extracting("sName").containsExactly("조야동", "사월동", "수성교", "조야동");
+        assertThat(route).extracting("sName").containsExactly("조야동", "사월동", "수성교", "노원네거리");
         assertThat(route).extracting("sSeq").containsExactly(1, 2, 3, 4);
     }
 
@@ -107,5 +107,15 @@ class PlatformRepositoryTest {
         //then
         assertThat(platforms).extracting("id").containsExactly(1L, 2L, 3L, 4L);
         assertThat(platforms).extracting("stationSeq").containsExactly(1, 2, 3, 4);
+    }
+
+    @Test
+    void findAllocationSeqByBusIdAndStationNameListTest() {
+        // when
+        List<String> stationNames = List.of("조야동", "수성교");
+        List<Integer> seqList = platformRepository.findAllocationSeqByBusIdAndStationNameList(1L, stationNames);
+
+        //then
+        assertThat(seqList).containsExactly(1, 3);
     }
 }
