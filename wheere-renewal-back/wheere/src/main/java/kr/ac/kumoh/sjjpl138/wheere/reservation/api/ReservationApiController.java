@@ -96,6 +96,20 @@ public class ReservationApiController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * 예약 취소
+     * @param rId
+     * @param request
+     * @return
+     */
+    @DeleteMapping("/{rId}")
+    public ResponseEntity reservationRemove(@PathVariable("rId") Long rId, @RequestBody RemoveResvRequest request) {
+        List<Long> bIds = request.getBIds();
+        reservationService.cancelReservation(rId, bIds);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @Data
     static class SaveResvRequest {
         @JsonProperty("mId")
