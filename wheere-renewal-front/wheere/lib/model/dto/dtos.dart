@@ -19,3 +19,6 @@ export 'request_reservation_check_dto.dart';
 export 'request_reservation_bus_dto.dart';
 export 'request_busLocation_dto.dart';
 export 'bus_location_dto.dart';
+export 'reservation_check_dto.dart';
+export 'sort_dto.dart';
+export 'pageable_dto.dart';
