@@ -9,7 +9,6 @@ import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.Transfer;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.repository.TransferRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,7 @@ class ReservationRepositoryTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.of(2023, 1, 24));
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430",LocalDate.now());
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
@@ -66,7 +65,7 @@ class ReservationRepositoryTest {
         Driver driver = new Driver("driver1", bus, "버스기사1" , 0, 0);
         em.persist(driver);
 
-        Reservation reservation = new Reservation(member1, ReservationStatus.RESERVED, "조야동", "수성교", LocalDate.of(2023, 1, 24), 1);
+        Reservation reservation = new Reservation(member1, ReservationStatus.RESERVED, "조야동", "수성교", LocalDate.now(), 1);
         em.persist(reservation);
 
         Transfer transfer = new Transfer(reservation, bus, "조야동", "수성교");
