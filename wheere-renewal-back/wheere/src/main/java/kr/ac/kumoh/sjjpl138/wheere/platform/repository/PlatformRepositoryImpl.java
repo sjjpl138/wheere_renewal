@@ -37,4 +37,13 @@ public class PlatformRepositoryImpl implements PlatformRepositoryCustom {
                 .where(platform.bus.id.eq(busId), platform.station.id.in(stationIds))
                 .fetch();
     }
+
+    @Override
+    public List<Integer> findAllocationSeqByBusIdAndStationNameList(Long busId, List<String > stationName) {
+        return queryFactory
+                .select(platform.stationSeq)
+                .from(platform)
+                .where(platform.bus.id.eq(busId), platform.station.name.in(stationName))
+                .fetch();
+    }
 }
