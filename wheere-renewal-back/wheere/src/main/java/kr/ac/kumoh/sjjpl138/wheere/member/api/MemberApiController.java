@@ -86,6 +86,15 @@ public class MemberApiController {
         return new ResponseEntity(HttpStatus.OK);
     }
     
+    /**
+     * 사용자 삭제 (회원탈퇴)
+     */
+    @DeleteMapping("/{mId}")
+    public ResponseEntity memberRemove(@PathVariable("mId") String mId) {
+        memberService.delete(mId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @Data
     static class MemberLogInRequest {
         @JsonProperty("mId")
