@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,15 +19,6 @@ public class ReservationListDto {
 
     @JsonProperty("rDate")
     private LocalDate rDate;
-    //        private String bNo;
-//        private Long routeId;
-//        private String vNo;
-//        private LocalTime sTime;
-//        private Long sStationId;
-//        private String sStationName;
-//        private LocalTime eTime;
-//        private Long eStationId;
-//        private String eStationName;
 
     @JsonProperty("rState")
     private ReservationStatus rState;
