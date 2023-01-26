@@ -6,10 +6,10 @@ import kr.ac.kumoh.sjjpl138.wheere.bus.service.BusService;
 import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationInfo;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
-import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationSearchCondition;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
-import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationListDto;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationListResponse;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.service.ReservationService;
 import kr.ac.kumoh.sjjpl138.wheere.station.service.StationService;
 import lombok.AllArgsConstructor;
@@ -46,14 +46,14 @@ public class ReservationApiController {
      * @return ReservationListDto
      */
     @GetMapping("/{mId}")
-    public ResponseEntity<Slice<Reservation>> reservationList(
+    public ResponseEntity<Slice<ReservationListResponse>> reservationList(
             @PathVariable("mId") String mId,
             ReservationSearchCondition condition,
             @PageableDefault(size = 10, sort = "reservationDate", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Slice<Reservation> reservations = reservationService.findPartForMemberByCond(mId, condition, pageable);
+        Slice<ReservationListResponse> result = reservationService.findPartForMemberByCond(mId, condition, pageable);
 
-        return new ResponseEntity<>(reservations, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     /**
