@@ -1,8 +1,8 @@
 package kr.ac.kumoh.sjjpl138.wheere.reservation.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -19,9 +19,9 @@ public class ReservationListResponse {
     private ReservationStatus rState;
     private List<ReservationBus> buses;
 
-    public ReservationListResponse(Long rId, LocalDate rDate, ReservationStatus rState) {
-        this.rId = rId;
-        this.rDate = rDate;
-        this.rState = rState;
+    public ReservationListResponse(Reservation reservation) {
+        this.rId = reservation.getId();
+        this.rDate = reservation.getReservationDate();
+        this.rState = reservation.getReservationStatus();
     }
 }
