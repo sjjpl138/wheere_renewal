@@ -6,10 +6,11 @@ import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
-import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationSearchCondition;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationListResponse;
 import kr.ac.kumoh.sjjpl138.wheere.seat.Seat;
 import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
@@ -354,19 +355,19 @@ class ReservationServiceTest {
         PageRequest page2 = PageRequest.of(0, 1, Sort.by(Sort.Direction.ASC, "reservationDate"));
 
         // when
-        Slice<Reservation> slice1 = reservationService.findPartForMemberByCond("member100", condition1, page1);
-        List<Reservation> result1 = slice1.getContent();
+        Slice<ReservationListResponse> slice1 = reservationService.findPartForMemberByCond("member100", condition1, page1);
+        List<ReservationListResponse> result1 = slice1.getContent();
 
-        Slice<Reservation> slice2 = reservationService.findPartForMemberByCond("member100", condition2, page2);
-        List<Reservation> result2 = slice2.getContent();
+        Slice<ReservationListResponse> slice2 = reservationService.findPartForMemberByCond("member100", condition2, page2);
+        List<ReservationListResponse> result2 = slice2.getContent();
 
-        Slice<Reservation> slice3 = reservationService.findPartForMemberByCond("member100", condition3, page2);
-        List<Reservation> result3 = slice3.getContent();
+        Slice<ReservationListResponse> slice3 = reservationService.findPartForMemberByCond("member100", condition3, page2);
+        List<ReservationListResponse> result3 = slice3.getContent();
 
         // then
-        /*assertThat(result1).extracting("rId").containsExactly(reservation1.getId(), reservation7.getId());
+        assertThat(result1).extracting("rId").containsExactly(reservation1.getId(), reservation7.getId());
         assertThat(result2).extracting("rId").containsExactly(reservation9.getId());
-        assertThat(result3).extracting("rId").containsExactly(reservation1.getId());*/
+        assertThat(result3).extracting("rId").containsExactly(reservation1.getId());
 
 
 
