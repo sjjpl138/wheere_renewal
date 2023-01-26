@@ -2,6 +2,7 @@ package kr.ac.kumoh.sjjpl138.wheere.reservation.service;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
+import kr.ac.kumoh.sjjpl138.wheere.exception.ReservationException;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ResvDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
@@ -126,13 +127,13 @@ public class ReservationService {
 
     private void checkResvStatus(Reservation r) {
         if (r.getReservationStatus() != ReservationStatus.CANCEL)
-            throw new IllegalStateException("이미 해당 버스에 대한 예약이 존재합니다.");
+            throw new ReservationException("이미 해당 버스에 대한 예약이 존재합니다.");
     }
 
     private void compareBusDepartureTime(LocalDate busDate, LocalDate resvDate, List<Platform> findPlatforms) {
         if ((LocalTime.now().isAfter(findPlatforms.get(0).getArrivalTime()) && (!LocalDate.now().isBefore(resvDate))) || LocalDate.now().isAfter(resvDate)
                 || busDate.isBefore(resvDate))
-            throw new IllegalStateException("해당 버스에 대해 예약이 불가능합니다.");
+            throw new ReservationException("해당 버스에 대해 예약이 불가능합니다.");
     }
 
     private void calcSubLeftSeats(List<Seat> findSeats) {
@@ -207,7 +208,7 @@ public class ReservationService {
     public Reservation findReservationById(Long reservationId) {
         Reservation findResv = reservationRepository.findResvById(reservationId);
         if (findResv == null) {
-            throw new IllegalStateException("예약이 존재하지 않습니다.");
+            throw new ReservationException("예약이 존재하지 않습니다.");
         }
         return findResv;
     }
