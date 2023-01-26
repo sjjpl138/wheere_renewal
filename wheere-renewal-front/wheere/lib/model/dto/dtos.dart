@@ -26,3 +26,4 @@ export 'reservation_check_dto.dart';
 export 'sort_dto.dart';
 export 'pageable_dto.dart';
 export 'reservation_buses_dto.dart';
+export 'alram_reservation_dto.dart';
