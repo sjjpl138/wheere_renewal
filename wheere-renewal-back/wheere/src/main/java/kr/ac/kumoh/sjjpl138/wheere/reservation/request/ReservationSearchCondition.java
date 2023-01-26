@@ -1,4 +1,4 @@
-package kr.ac.kumoh.sjjpl138.wheere.reservation;
+package kr.ac.kumoh.sjjpl138.wheere.reservation.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
