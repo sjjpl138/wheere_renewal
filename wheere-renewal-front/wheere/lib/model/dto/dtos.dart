@@ -25,3 +25,4 @@ export 'station_list_dto.dart';
 export 'reservation_check_dto.dart';
 export 'sort_dto.dart';
 export 'pageable_dto.dart';
+export 'reservation_buses_dto.dart';
