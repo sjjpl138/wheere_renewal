@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:wheere/model/dto/dtos.dart';
+import 'package:wheere/model/service/services.dart';
 import 'package:wheere/view/bus_current_info/bus_current_info_page.dart';
 import 'type/types.dart';
 
 class CheckViewModel extends ChangeNotifier {
+  final RequestBusLocationService requestBusLocationService =
+      RequestBusLocationService();
+  final ScrollController scrollController = ScrollController();
+
   bool isMoreRequesting = false;
   double _dragDistance = 0.0;
   String order = "latest";
@@ -15,8 +21,6 @@ class CheckViewModel extends ChangeNotifier {
     "RVW_WAIT",
     "RVW_COMP"
   ];
-
-  final ScrollController scrollController = ScrollController();
 
   CheckViewModel() {
     print("checkViewModel is created");
@@ -33,14 +37,25 @@ class CheckViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void navigateToBusCurrentInfoPage(
-      BuildContext context, ReservationData reservation) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BusCurrentInfoPage(reservation: reservation),
-      ),
+  Future navigateToBusCurrentInfoPage (
+      BuildContext context, ReservationData reservation, bool mounted) async {
+    BusLocationDTO? busLocationDTO = await requestBusLocationService.requestLocation(
+      reservation.routeId,
+      reservation.bId,
+      reservation.vNo,
     );
+    if(busLocationDTO != null) {
+      if(mounted) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BusCurrentInfoPage(
+            reservation: reservation,
+            busLocationDTO: busLocationDTO,
+          ),
+        ),
+      );
+    }
   }
 
   void checkReservation() async {

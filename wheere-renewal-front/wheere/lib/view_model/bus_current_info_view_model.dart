@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/view/common/commons.dart';
 import 'type/types.dart';
 
 class BusCurrentInfoViewModel extends ChangeNotifier {
+  final BusLocationDTO busLocationDTO;
   final ReservationData reservation;
+  late List<BusStationInfo> busStationInfoList;
 
-  BusCurrentInfoViewModel({required this.reservation});
+  BusCurrentInfoViewModel({
+    required this.busLocationDTO,
+    required this.reservation,
+  }) {
+    makeBusStationInfoList();
+  }
 
   ReservationInfoListItem get reservationInfo => ReservationInfoListItem(
         bNo: reservation.bNo,
@@ -16,28 +24,21 @@ class BusCurrentInfoViewModel extends ChangeNotifier {
         eStationTime: reservation.eStationTime,
       );
 
-  List<BusStationInfo> busStationInfoList = [
-    BusStationInfo(
-      busStation: BusStation.base,
-      busCurrentLocation: BusCurrentLocation.base,
-      stationName: "stationName",
-    ),
-    BusStationInfo(
-      busStation: BusStation.base,
-      busCurrentLocation: BusCurrentLocation.current,
-      stationName: "stationName",
-    ),
-    BusStationInfo(
-      busStation: BusStation.ride,
-      busCurrentLocation: BusCurrentLocation.base,
-      stationName: "stationName",
-    ),
-    BusStationInfo(
-      busStation: BusStation.ride,
-      busCurrentLocation: BusCurrentLocation.current,
-      stationName: "stationName",
-    ),
-  ];
+  void makeBusStationInfoList() {
+    busStationInfoList = busLocationDTO.stations.stations
+        .map((e) => BusStationInfo(
+              busStation: e.sName == reservation.sStationName
+                  ? BusStation.ride
+                  : BusStation.base,
+              busCurrentLocation: e.sName == busLocationDTO.stationName
+                  ? BusCurrentLocation.current
+                  : BusCurrentLocation.base,
+              stationName: e.sName,
+            ))
+        .toList();
+  }
 
-  void navigatePop() {}
+  void navigatePop(BuildContext context) {
+    Navigator.pop(context);
+  }
 }

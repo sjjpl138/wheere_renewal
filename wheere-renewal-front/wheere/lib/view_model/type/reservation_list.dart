@@ -60,6 +60,7 @@ class ReservationList extends ChangeNotifier {
         buses: [
           BusesDTO(
             bNo: 'bNo',
+            bId: 'bId',
             routeId: 'routeId',
             sStationId: 'sStationId',
             sStationName: 'sStationName',
@@ -71,24 +72,7 @@ class ReservationList extends ChangeNotifier {
           ),
           BusesDTO(
             bNo: 'bNo',
-            routeId: 'routeId',
-            sStationId: 'sStationId',
-            sStationName: 'sStationName',
-            sTime: 'sTime',
-            eStationId: 'eStationId',
-            eStationName: 'eStationName',
-            eTime: 'eTime',
-            vNo: 'vNo',
-          ),
-        ],
-      ),
-      ReservationDTO(
-        rId: 1,
-        rDate: 'rDate',
-        rState: 'rState',
-        buses: [
-          BusesDTO(
-            bNo: 'bNo',
+            bId: 'bId',
             routeId: 'routeId',
             sStationId: 'sStationId',
             sStationName: 'sStationName',
@@ -107,6 +91,7 @@ class ReservationList extends ChangeNotifier {
         buses: [
           BusesDTO(
             bNo: 'bNo',
+            bId: 'bId',
             routeId: 'routeId',
             sStationId: 'sStationId',
             sStationName: 'sStationName',
@@ -125,6 +110,26 @@ class ReservationList extends ChangeNotifier {
         buses: [
           BusesDTO(
             bNo: 'bNo',
+            bId: 'bId',
+            routeId: 'routeId',
+            sStationId: 'sStationId',
+            sStationName: 'sStationName',
+            sTime: 'sTime',
+            eStationId: 'eStationId',
+            eStationName: 'eStationName',
+            eTime: 'eTime',
+            vNo: 'vNo',
+          ),
+        ],
+      ),
+      ReservationDTO(
+        rId: 1,
+        rDate: 'rDate',
+        rState: 'rState',
+        buses: [
+          BusesDTO(
+            bNo: 'bNo',
+            bId: 'bId',
             routeId: 'routeId',
             sStationId: 'sStationId',
             sStationName: 'sStationName',

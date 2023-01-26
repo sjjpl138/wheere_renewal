@@ -28,14 +28,14 @@ class ReservationInfoList extends StatelessWidget {
         itemCount: reservationDataList.length,
         itemBuilder: (BuildContext context, int index) {
           ReservationData reservationData = reservationDataList[index];
-          return Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () => onTap(reservationData),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  bottom: kPaddingLargeSize,
-                ),
+          return Padding(
+            padding: const EdgeInsets.only(
+              bottom: kPaddingLargeSize,
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => onTap(reservationData),
                 child: ReservationInfoListItem(
                   bNo: reservationData.bNo,
                   rDate: reservationData.rDate,

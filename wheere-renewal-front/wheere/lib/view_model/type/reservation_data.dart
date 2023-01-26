@@ -1,6 +1,8 @@
 class ReservationData {
+  final String bId;
   final String bNo;
   final String vNo;
+  final String routeId;
   final String rDate;
   final String sStationName;
   final String sStationTime;
@@ -10,8 +12,10 @@ class ReservationData {
 
   const ReservationData({
     required this.bNo,
+    required this.bId,
     required this.vNo,
     required this.rDate,
+    required this.routeId,
     required this.sStationName,
     required this.sStationTime,
     required this.eStationName,

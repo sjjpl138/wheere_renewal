@@ -95,7 +95,9 @@ class _CheckViewState extends State<CheckView>
                             reservationDataList: reservation.buses
                                 .map((e) => ReservationData(
                                       bNo: e.bNo,
+                                      bId: e.bId,
                                       vNo: e.vNo,
+                                      routeId: e.routeId,
                                       rDate: reservation.rDate,
                                       sStationName: e.sStationName,
                                       sStationTime: e.sTime,
@@ -107,6 +109,7 @@ class _CheckViewState extends State<CheckView>
                                 _checkViewModel.navigateToBusCurrentInfoPage(
                               context,
                               e,
+                              mounted,
                             ),
                           ),
                         ),

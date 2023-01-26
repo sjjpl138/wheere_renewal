@@ -1,5 +1,6 @@
 class BusesDTO{
   String bNo;
+  String bId;
   String routeId;
   String vNo;
   String sTime;
@@ -11,6 +12,7 @@ class BusesDTO{
 
   BusesDTO({
     required this.bNo,
+    required this.bId,
     required this.routeId,
     required this.vNo,
     required this.sTime,
@@ -24,6 +26,7 @@ class BusesDTO{
   factory BusesDTO.fromJson(Map<String, dynamic> json) {
     return BusesDTO(
       bNo: json['bNo'],
+      bId: json['bId'],
       routeId: json['routeId'],
       vNo: json['vNo'],
       sTime: json['sTime'],
