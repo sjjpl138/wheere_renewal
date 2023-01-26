@@ -4,7 +4,7 @@ import 'package:wheere/model/dto/dtos.dart';
 class RequestBusLocationRepository {
   final RequestBusLocationDataSource _requestBusLocationDataSource = RequestBusLocationDataSource();
 
-  Future<BusLocationDTO?> requestLocation(RequestBusLocationDTO requestDTO, int bId) async {
-    return await _requestBusLocationDataSource.readWithRemote(requestDTO, bId);
+  Future<BusLocationDTO?> requestLocation(RequestBusLocationDTO requestDTO, String bId, String vNo) async {
+    return await _requestBusLocationDataSource.readWithRemote(requestDTO, bId, vNo);
   }
 }
