@@ -8,10 +8,12 @@ import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
-import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationSearchCondition;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationBus;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationListResponse;
 import kr.ac.kumoh.sjjpl138.wheere.seat.Seat;
 import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
@@ -27,10 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -219,9 +218,54 @@ public class ReservationService {
      * @param memberId
      * @return
      */
-    public Slice<Reservation> findPartForMemberByCond(String memberId, ReservationSearchCondition condition, Pageable pageable) {
+    public Slice<ReservationListResponse> findPartForMemberByCond(String memberId, ReservationSearchCondition condition, Pageable pageable) {
 
-        return reservationRepository.searchSlice(memberId, condition, pageable);
+        Slice<Reservation> findReservations = reservationRepository.searchSlice(memberId, condition, pageable);
+
+        Slice<ReservationListResponse> result = findReservations.map(r -> {
+            ReservationListResponse reservationListResponse = new ReservationListResponse(r);
+
+            List<ReservationBus> buses = new ArrayList<>();
+
+            List<Transfer> findTransferList = transferRepository.findByReservation(r);
+            for (Transfer transfer : findTransferList) {
+
+                ReservationBus reservationBus = new ReservationBus();
+
+                Bus findBus = transfer.getBus();
+
+                reservationBus.setBId(findBus.getId());
+                reservationBus.setBNo(findBus.getBusNo());
+                reservationBus.setRouteId(findBus.getRouteId());
+                reservationBus.setVNo(findBus.getVehicleNo());
+
+                String boardStation = transfer.getBoardStation();
+                String alightStation = transfer.getAlightStation();
+
+                List<String> stationNames = Arrays.asList(boardStation, alightStation);
+                List<Platform> findPlatformList = platformRepository.findByStationName(stationNames);
+                Platform boardPlatform = findPlatformList.get(0);
+                Station findBoardStation = boardPlatform.getStation();
+                Platform alightPlatform = findPlatformList.get(1);
+                Station findAlightStation = alightPlatform.getStation();
+
+                reservationBus.setSTime(boardPlatform.getArrivalTime());
+                reservationBus.setSStationId(findBoardStation.getId());
+                reservationBus.setSStationName(findBoardStation.getName());
+
+                reservationBus.setETime(alightPlatform.getArrivalTime());
+                reservationBus.setEStationId(findAlightStation.getId());
+                reservationBus.setEStationName(findAlightStation.getName());
+
+                buses.add(reservationBus);
+            }
+
+            reservationListResponse.setBuses(buses);
+
+            return reservationListResponse;
+        });
+
+        return result;
     }
 
     public List<ResvDto> findPartForDriver(Bus findBus) {
