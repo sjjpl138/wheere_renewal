@@ -21,9 +21,9 @@ class MemberInfoItem extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(
-            kPaddingMiddleSize,
-            kPaddingMiddleSize,
-            kPaddingMiddleSize,
+            kPaddingSmallSize,
+            kPaddingSmallSize,
+            kPaddingSmallSize,
             0.0,
           ),
           child: Icon(
@@ -33,13 +33,13 @@ class MemberInfoItem extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(
-            kPaddingMiddleSize,
-            kPaddingMiddleSize,
-            kPaddingMiddleSize,
+            kPaddingSmallSize,
+            kPaddingSmallSize,
+            kPaddingSmallSize,
             0.0,
           ),
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.3,
+            width: MediaQuery.of(context).size.width * 0.2,
             child: Text(
               title,
               style: kTextMainStyleMiddle,
@@ -49,9 +49,9 @@ class MemberInfoItem extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(
-              kPaddingMiddleSize,
-              kPaddingMiddleSize,
-              kPaddingMiddleSize,
+              kPaddingSmallSize,
+              kPaddingSmallSize,
+              kPaddingSmallSize,
               0.0,
             ),
             child: Text(
