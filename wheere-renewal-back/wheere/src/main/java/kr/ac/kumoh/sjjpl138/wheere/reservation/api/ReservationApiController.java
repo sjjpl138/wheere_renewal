@@ -81,7 +81,6 @@ public class ReservationApiController {
                 Bus findBus = busService.findBus(bId);
                 String busNo = findBus.getBusNo();
                 String vehicleNo = findBus.getVehicleNo();
-                String routeId = findBus.getRouteId();
 
                 Long sStationId = bus.getSStationId();
                 Long eStationId = bus.getEStationId();
@@ -90,7 +89,7 @@ public class ReservationApiController {
                 String eStationName = stationInfos.get(1).getSName();
                 LocalTime sTime = stationInfos.get(0).getArrivalTime();
                 LocalTime eTime = stationInfos.get(1).getArrivalTime();
-                SaveResvBusInfo busInfo = new SaveResvBusInfo(busNo, routeId, vehicleNo, sTime, sStationId, sStationName, eTime, eStationId, eStationName);
+                SaveResvBusInfo busInfo = new SaveResvBusInfo(busNo, vehicleNo, sTime, sStationId, sStationName, eTime, eStationId, eStationName);
                 busInfos.add(busInfo);
             }
             SaveResvResponse response = new SaveResvResponse(rId, rDate, rState, busInfos);
@@ -150,7 +149,6 @@ public class ReservationApiController {
     static class SaveResvBusInfo {
         @JsonProperty("bNo")
         private String bNo;
-        private String routeId;
         @JsonProperty("vNo")
         private String vNo;
         @JsonProperty("sTime")
