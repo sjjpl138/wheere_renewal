@@ -11,7 +11,6 @@ import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
-import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationListDto;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.seat.Seat;
 import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
@@ -220,7 +219,7 @@ public class ReservationService {
      * @param memberId
      * @return
      */
-    public Slice<ReservationListDto> findPartForMemberByCond(String memberId, ReservationSearchCondition condition, Pageable pageable) {
+    public Slice<Reservation> findPartForMemberByCond(String memberId, ReservationSearchCondition condition, Pageable pageable) {
 
         return reservationRepository.searchSlice(memberId, condition, pageable);
     }

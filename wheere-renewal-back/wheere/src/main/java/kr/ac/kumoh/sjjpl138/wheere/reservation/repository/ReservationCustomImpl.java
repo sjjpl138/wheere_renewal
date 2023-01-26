@@ -2,14 +2,13 @@ package kr.ac.kumoh.sjjpl138.wheere.reservation.repository;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
-import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationListDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -31,13 +30,9 @@ public class ReservationCustomImpl implements ReservationCustom{
     }
 
     @Override
-    public Slice<ReservationListDto> searchSlice(String memberId, ReservationSearchCondition condition, Pageable pageable) {
-        JPAQuery<ReservationListDto> query = queryFactory
-                .select(Projections.fields(ReservationListDto.class,
-                        reservation.id.as("rId"),
-                        reservation.reservationDate.as("rDate"),
-                        reservation.reservationStatus.as("rState")))
-                .from(reservation)
+    public Slice<Reservation> searchSlice(String memberId, ReservationSearchCondition condition, Pageable pageable) {
+        JPAQuery<Reservation> query = queryFactory
+                .selectFrom(reservation)
                 .where(
                         rStateEq(condition.getRState()),
                         member.id.eq(memberId)
@@ -54,7 +49,7 @@ public class ReservationCustomImpl implements ReservationCustom{
                     pathBuilder.get(o.getProperty())));
         }
 
-        List<ReservationListDto> result = query.fetch();
+        List<Reservation> result = query.fetch();
 
         boolean hasNext = false;
         if (result.size() > pageable.getPageSize()) {
