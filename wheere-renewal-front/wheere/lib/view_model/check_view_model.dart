@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/view/bus_current_info/bus_current_info_page.dart';
 import 'type/types.dart';
 
@@ -35,7 +34,7 @@ class CheckViewModel extends ChangeNotifier {
   }
 
   void navigateToBusCurrentInfoPage(
-      BuildContext context, ReservationDTO reservation) {
+      BuildContext context, ReservationData reservation) {
     Navigator.push(
       context,
       MaterialPageRoute(

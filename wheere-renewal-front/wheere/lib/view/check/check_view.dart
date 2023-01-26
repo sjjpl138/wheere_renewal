@@ -84,29 +84,30 @@ class _CheckViewState extends State<CheckView>
                         ),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: CustomColor.backGroundSubColor,
-                              borderRadius:
-                                  BorderRadius.circular(kBorderRadiusSize),
-                              border: Border.all(
-                                  width: 2.0, color: CustomColor.itemSubColor)),
-                          child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () => _checkViewModel
-                                    .navigateToBusCurrentInfoPage(
-                                  context,
-                                  reservation,
-                                ),
-                                child: ReservationInfo(
-                                  bNo: reservation.bNo,
-                                  rDate: reservation.rDate,
-                                  sStationName: reservation.sStationName,
-                                  sStationTime: reservation.sTime,
-                                  eStationName: reservation.eStationName,
-                                  eStationTime: reservation.eTime,
-                                ),
-                              ),
-                            ],
+                            color: CustomColor.backGroundSubColor,
+                            borderRadius:
+                                BorderRadius.circular(kBorderRadiusSize),
+                            border: Border.all(
+                                width: kLineSmallSize,
+                                color: CustomColor.itemSubColor),
+                          ),
+                          child: ReservationInfoList(
+                            reservationDataList: reservation.buses
+                                .map((e) => ReservationData(
+                                      bNo: e.bNo,
+                                      vNo: e.vNo,
+                                      rDate: reservation.rDate,
+                                      sStationName: e.sStationName,
+                                      sStationTime: e.sTime,
+                                      eStationName: e.eStationName,
+                                      eStationTime: e.eTime,
+                                    ))
+                                .toList(),
+                            onTap: (ReservationData e) =>
+                                _checkViewModel.navigateToBusCurrentInfoPage(
+                              context,
+                              e,
+                            ),
                           ),
                         ),
                       );

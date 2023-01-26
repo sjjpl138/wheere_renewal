@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/view/common/commons.dart';
 import 'type/types.dart';
 
 class BusCurrentInfoViewModel extends ChangeNotifier {
-  final ReservationDTO reservation;
+  final ReservationData reservation;
 
   BusCurrentInfoViewModel({required this.reservation});
 
-  ReservationInfo get reservationInfo => ReservationInfo(
+  ReservationInfoListItem get reservationInfo => ReservationInfoListItem(
         bNo: reservation.bNo,
-        rDate: "rTime",
+        rDate: reservation.rDate,
         sStationName: reservation.sStationName,
-        sStationTime: reservation.sTime,
+        sStationTime: reservation.sStationTime,
         eStationName: reservation.eStationName,
-        eStationTime: reservation.eTime,
+        eStationTime: reservation.eStationTime,
       );
 
   List<BusStationInfo> busStationInfoList = [

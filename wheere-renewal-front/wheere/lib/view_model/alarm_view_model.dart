@@ -156,7 +156,7 @@ class AlarmViewModel extends ChangeNotifier {
   Alarm? _classifyAlarms(AlarmDTO element) {
     switch (element.alarmType) {
       case "rating":
-        ReservationDTO? reservation =
+        AlramReservationDTO? reservation =
             element.reservation; //_member.reservationMap[element.rId];
         return Alarm(
           labelText: "평점 작성 요청",

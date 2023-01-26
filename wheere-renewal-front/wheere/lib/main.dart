@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:wheere/model/dto/alarm_dto.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/service/alarm_service.dart';
 import 'package:wheere/test.dart';
@@ -89,7 +88,7 @@ class MyApp extends StatelessWidget {
         );
 
         print(json.encode(message.data));
-        AlarmService().addAlarmWithLocal(
+        /*AlarmService().addAlarmWithLocal(
 //        AlarmDTO.fromJson(message.data['alarm']),
           AlarmDTO(
             alarmType: message.data['alarmType'],
@@ -109,7 +108,7 @@ class MyApp extends StatelessWidget {
               eTime: message.data['eTime'],
             ),
           ),
-        );
+        );*/
       }
     });
   }

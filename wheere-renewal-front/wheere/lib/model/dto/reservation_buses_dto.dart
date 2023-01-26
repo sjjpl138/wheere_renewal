@@ -1,5 +1,5 @@
 class BusesDTO{
-  int bNo;
+  String bNo;
   String routeId;
   String vNo;
   String sTime;

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/styles/styles.dart';
 import 'package:wheere/view/common/commons.dart';
+import 'package:wheere/view/common/reservation_info/reservation_info_list_item.dart';
 import 'package:wheere/view_model/rating_view_model.dart';
 
 class RatingView extends StatefulWidget {
@@ -36,52 +38,62 @@ class _RatingViewState extends State<RatingView> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: kPaddingLargeSize),
-                const Text(
-                  "탑승 정보",
-                  style: kTextMainStyleLarge,
-                ),
-                const SizedBox(height: kPaddingLargeSize),
-                ReservationInfo(
-                  bNo: _ratingViewModel.reservation.bNo,
-                  rDate: _ratingViewModel.reservation.rDate,
-                  sStationName: _ratingViewModel.reservation.sStationName,
-                  sStationTime: _ratingViewModel.reservation.sTime,
-                  eStationName: _ratingViewModel.reservation.eStationName,
-                  eStationTime: _ratingViewModel.reservation.eTime,
-                ),
-                const Text(
-                  "평점",
-                  style: kTextMainStyleLarge,
-                ),
-                const SizedBox(height: kPaddingLargeSize),
-                Flexible(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: CustomColor.backGroundSubColor,
-                      borderRadius: BorderRadius.circular(kBorderRadiusSize),
-                    ),
-                    child: Center(
-                      child: RatingBar.builder(
-                        initialRating: _ratingViewModel.rating,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemPadding: const EdgeInsets.symmetric(
-                          horizontal: kPaddingLargeSize,
-                          vertical: kPaddingMiddleSize,
-                        ),
-                        unratedColor: CustomColor.itemDisabledColor,
-                        itemBuilder: (context, _) => const Icon(
-                          Icons.star,
-                          color: CustomColor.itemSubColor,
-                        ),
-                        onRatingUpdate: _ratingViewModel.updateRating,
+                ListView.builder(itemBuilder: (BuildContext context, int index) {
+                  BusesDTO bus = _ratingViewModel.reservation.buses[index];
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: kPaddingLargeSize),
+                      const Text(
+                        "탑승 정보",
+                        style: kTextMainStyleLarge,
                       ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: kPaddingLargeSize),
+                      const SizedBox(height: kPaddingLargeSize),
+                      ReservationInfoListItem(
+                        bNo: bus.bNo,
+                        rDate: _ratingViewModel.reservation.rDate,
+                        sStationName: bus.sStationName,
+                        sStationTime: bus.sTime,
+                        eStationName: bus.eStationName,
+                        eStationTime: bus.eTime,
+                      ),
+                      const Text(
+                        "평점",
+                        style: kTextMainStyleLarge,
+                      ),
+                      const SizedBox(height: kPaddingLargeSize),
+                      Flexible(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: CustomColor.backGroundSubColor,
+                            borderRadius: BorderRadius.circular(kBorderRadiusSize),
+                          ),
+                          child: Center(
+                            child: RatingBar.builder(
+                              initialRating: _ratingViewModel.rating,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemPadding: const EdgeInsets.symmetric(
+                                horizontal: kPaddingLargeSize,
+                                vertical: kPaddingMiddleSize,
+                              ),
+                              unratedColor: CustomColor.itemDisabledColor,
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: CustomColor.itemSubColor,
+                              ),
+                              onRatingUpdate: _ratingViewModel.updateRating,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: kPaddingLargeSize),
+                    ],
+                  );
+                }),
                 CustomOutlinedButton(
                   onPressed: _ratingViewModel.sendRating,
                   text: "평점 작성",
