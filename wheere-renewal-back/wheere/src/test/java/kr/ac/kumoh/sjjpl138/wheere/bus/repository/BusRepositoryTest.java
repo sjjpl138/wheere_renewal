@@ -1,4 +1,4 @@
-package kr.ac.kumoh.sjjpl138.wheere.member.repository;
+package kr.ac.kumoh.sjjpl138.wheere.bus.repository;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
