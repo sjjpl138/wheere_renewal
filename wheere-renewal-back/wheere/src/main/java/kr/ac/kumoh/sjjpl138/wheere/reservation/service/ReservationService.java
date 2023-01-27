@@ -2,6 +2,7 @@ package kr.ac.kumoh.sjjpl138.wheere.reservation.service;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
+import kr.ac.kumoh.sjjpl138.wheere.exception.PlatformException;
 import kr.ac.kumoh.sjjpl138.wheere.exception.ReservationException;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ResvDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
@@ -169,7 +170,10 @@ public class ReservationService {
     }
 
     private List<Platform> getPlatformsBySIds(Long bId, List<Long> stationIds) {
-        return platformRepository.findPlatformByBusIdAndStationId(bId, stationIds);
+        List<Platform> platformList = platformRepository.findPlatformByBusIdAndStationId(bId, stationIds);
+        if (platformList.size() != 2)
+            throw new PlatformException("해당 버스가 지나지 않는 정류장입니다.");
+        return platformList;
     }
 
 
