@@ -28,7 +28,9 @@ public class Bus {
 
     private LocalDate busDate;
 
-    public void selectPlatforms(List<Platform> platforms) {
-        this.platforms = platforms;
+    private String token;
+
+    public void registerToken(String token) {
+        this.token = token;
     }
 }
