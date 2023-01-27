@@ -5,6 +5,9 @@ class AlarmService {
   final AlarmRepository _alarmRepository = AlarmRepository();
 
   Future<AlarmListDTO> getAlarmWithLocal() async {
+    await _alarmRepository.writeHasNewAlarmWithLocal(HasNewAlarmDTO(
+      hasNewAlarm: false,
+    ));
     return await _alarmRepository.readAlarmWithLocal() ??
         AlarmListDTO(alarms: []);
 /*    AlarmListDTO alarmListDTO =
@@ -23,5 +26,14 @@ class AlarmService {
       alarmListDTO.alarms.insert(0, value);
     }
     await _alarmRepository.writeAlarmWithLocal(alarmListDTO);
+    await _alarmRepository.writeHasNewAlarmWithLocal(HasNewAlarmDTO(
+      hasNewAlarm: true,
+    ));
+  }
+
+  Future<HasNewAlarmDTO> getHasNewAlarmWithLocal() async {
+    HasNewAlarmDTO? hasNewAlarmDTO =
+        await _alarmRepository.readHasNewAlarmWithLocal();
+    return hasNewAlarmDTO ?? HasNewAlarmDTO(hasNewAlarm: false);
   }
 }

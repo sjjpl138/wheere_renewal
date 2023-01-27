@@ -33,7 +33,7 @@ class _SelectViewState extends State<SelectView> with TickerProviderStateMixin {
         context,
         title: "조회하기",
         leading: BackIconButton(
-          onPressed: _selectViewModel.navigatePop,
+          onPressed: () => _selectViewModel.navigatePop(context),
         ),
       ),
       body: Container(

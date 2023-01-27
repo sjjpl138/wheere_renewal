@@ -3,7 +3,7 @@ import 'package:wheere/model/dto/dtos.dart';
 class AlarmDTO {
   String alarmType;
   String aTime;
-  ReservationDTO reservation;
+  AlramReservationDTO reservation;
 
   AlarmDTO({
     required this.alarmType,
@@ -15,7 +15,7 @@ class AlarmDTO {
     return AlarmDTO(
       alarmType: json["alarmType"],
       aTime: json["aTime"],
-      reservation: ReservationDTO.fromJson(json["rId"]),
+      reservation: AlramReservationDTO.fromJson(json["reservation"]),
     );
   }
 
@@ -23,7 +23,7 @@ class AlarmDTO {
     return {
       "alarmType": alarmType,
       "aTime": aTime,
-      "rId": reservation.toJson(),
+      "reservation": reservation.toJson(),
     };
   }
 }

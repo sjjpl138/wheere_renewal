@@ -1,12 +1,10 @@
 package kr.ac.kumoh.sjjpl138.wheere.driver.repository;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
-import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +15,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -46,7 +42,7 @@ class DriverRepositoryTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L, null, "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus = new Bus(1L, "route1", "138안 1234", 1, "430", LocalDate.now());
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
@@ -58,14 +54,6 @@ class DriverRepositoryTest {
         em.persist(platform3);
         em.persist(platform4);
 
-        List<Platform> platformList = new ArrayList<>();
-        platformList.add(platform1);
-        platformList.add(platform2);
-        platformList.add(platform3);
-        platformList.add(platform4);
-
-        bus.selectPlatforms(platformList);
-
         Driver driver = new Driver("driver1", bus, "버스기사1" , 0, 0);
         em.persist(driver);
 
@@ -75,7 +63,10 @@ class DriverRepositoryTest {
 
     @Test
     void findByBusId() {
-        Driver findDriver = driverRepository.findByBusId(1L);
-        Assertions.assertThat(findDriver.getUsername()).isEqualTo("버스기사1");
+        //when
+        Driver findDriver = driverRepository.findByBusId(1L).get();
+
+        //then
+        assertThat(findDriver.getUsername()).isEqualTo("버스기사1");
     }
 }

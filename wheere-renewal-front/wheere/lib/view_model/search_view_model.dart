@@ -46,6 +46,8 @@ class SearchViewModel extends ChangeNotifier {
     List<RouteDTO> routes = [
       RouteDTO(
         sWalkingTime: 'sWalkingTime',
+        price: 1400,
+        payment: 1,
         buses: [
           BusDTO(
             bId: 1,
@@ -63,6 +65,8 @@ class SearchViewModel extends ChangeNotifier {
       ),
       RouteDTO(
         sWalkingTime: 'sWalkingTime',
+        price: 1400,
+        payment: 1,
         buses: [
           BusDTO(
             bId: 1,
@@ -102,7 +106,7 @@ class SearchViewModel extends ChangeNotifier {
       RoutesByHoursDTO(selectTime: "21시", routes: routes),
       RoutesByHoursDTO(selectTime: "22시", routes: routes),
       RoutesByHoursDTO(selectTime: "23시", routes: routes),
-    ]);
+    ], outTrafficCheck: 1);
 
     Navigator.push(
       context,
@@ -114,7 +118,7 @@ class SearchViewModel extends ChangeNotifier {
       ),
     );
 
-/*    if (sPlaceInfo == null || ePlaceInfo == null) return;
+    if (sPlaceInfo == null || ePlaceInfo == null) return;
     await _requestRouteService
         .requestRoute(RequestRouteDTO(
       sx: sPlaceInfo!.x,
@@ -125,13 +129,20 @@ class SearchViewModel extends ChangeNotifier {
     ))
         .then((value) {
       if (value != null) {
+        if (value.outTrafficCheck == 1) {
+          // TODO : 계속하기 팝업 띄우기
+        }
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => SelectPage(routeFullListDTO: value)),
+            builder: (context) => SelectPage(
+              routeFullListDTO: value,
+              rDate: rDate,
+            ),
+          ),
         );
       }
-    });*/
+    });
   }
 
   Future<PlacesDetailsResponse?> _searchPlaces(BuildContext context) async {
@@ -150,7 +161,7 @@ class SearchViewModel extends ChangeNotifier {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(kBorderRadiusSize)),
           borderSide: BorderSide(
-            width: kLineSize,
+            width: kLineLargeSize,
             color: CustomColor.backGroundSubColor,
           ),
         ),

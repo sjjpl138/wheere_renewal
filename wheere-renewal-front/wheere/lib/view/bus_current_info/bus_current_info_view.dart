@@ -22,7 +22,9 @@ class _BusCurrentInfoViewState extends State<BusCurrentInfoView> {
       appBar: CustomAppBar.build(
         context,
         title: "예약정보",
-        leading: BackIconButton(onPressed: _busCurrentInfoViewModel.navigatePop,),
+        leading: BackIconButton(
+          onPressed: () => _busCurrentInfoViewModel.navigatePop(context),
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(

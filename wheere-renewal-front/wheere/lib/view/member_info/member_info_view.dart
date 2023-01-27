@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/styles/styles.dart';
-import 'package:wheere/util/utils.dart';
 import 'package:wheere/view/common/commons.dart';
 import 'package:wheere/view_model/member_info_view_model.dart';
+import 'package:wheere/view_model/type/types.dart';
 
 class MemberInfoView extends StatefulWidget {
-  final MemberInfoViewModel userInfoViewModel;
+  final MemberInfoViewModel memberInfoViewModel;
+  final Member member;
 
-  const MemberInfoView({Key? key, required this.userInfoViewModel})
-      : super(key: key);
+  const MemberInfoView({
+    Key? key,
+    required this.memberInfoViewModel,
+    required this.member,
+  }) : super(key: key);
 
   @override
   State<MemberInfoView> createState() => _MemberInfoViewState();
 }
 
-class _MemberInfoViewState extends State<MemberInfoView> {
-  late final _userInfoViewModel = widget.userInfoViewModel;
+class _MemberInfoViewState extends State<MemberInfoView>
+    with AutomaticKeepAliveClientMixin {
+  late final _memberInfoViewModel = widget.memberInfoViewModel;
+  late final _member = widget.member;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
         color: CustomColor.backgroundMainColor,
@@ -37,23 +44,25 @@ class _MemberInfoViewState extends State<MemberInfoView> {
                   ),
                   const Spacer(),
                   EditIconButton(
-                    onPressed: () => _userInfoViewModel
+                    onPressed: () => _memberInfoViewModel
                         .navigateToMemberInfoEditPage(context),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: kPaddingLargeSize),
+            const SizedBox(height: kPaddingMiddleSize),
             MemberInfo(
-              name: _userInfoViewModel.member?.mName ?? "mName",
-              sex: _userInfoViewModel.member?.mSex ?? "남성",
-              birthdate: _userInfoViewModel.member?.mBirthDate ??
-                  birthDateFormat.format(DateTime.now()),
-              phoneNumber: _userInfoViewModel.member?.mNum ?? "01000000000",
+              name: _member.member!.mName,
+              sex: _member.member!.mSex,
+              birthdate: _member.member!.mBirthDate,
+              phoneNumber: _member.member!.mNum,
             )
           ],
         ),
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

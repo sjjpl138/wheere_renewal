@@ -1,5 +1,6 @@
-package kr.ac.kumoh.sjjpl138.wheere.member.dto;
+package kr.ac.kumoh.sjjpl138.wheere.member;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,6 @@ public class RetrieveRoutesRequest {
     private String sy;
     private String ex;
     private String ey;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate rDate;
 }

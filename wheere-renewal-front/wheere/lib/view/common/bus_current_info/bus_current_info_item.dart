@@ -94,7 +94,7 @@ class BusCurrentInfoItem extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: _headBoarderColor,
-                  width: kLineSize,
+                  width: kLineLargeSize,
                 ),
               ),
               child: Center(child: _headChild),

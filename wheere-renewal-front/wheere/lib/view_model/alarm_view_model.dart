@@ -4,11 +4,8 @@ import 'package:wheere/model/service/services.dart';
 import 'package:wheere/util/utils.dart';
 import 'package:wheere/view/common/commons.dart';
 
-import 'type/types.dart';
-
 class AlarmViewModel extends ChangeNotifier {
   final AlarmService _alarmService = AlarmService();
-  final Member _member = Member();
 
   late List<AlarmDTO> _alarmList;
 
@@ -21,8 +18,8 @@ class AlarmViewModel extends ChangeNotifier {
   }
 
   Future getAlarms() async {
-    await _member.logout();
 //    await _member.getReservationList();
+/*    await _member.logout();
     await _alarmService.addAlarmWithLocal(
       AlarmDTO(
         alarmType: "rating",
@@ -122,7 +119,7 @@ class AlarmViewModel extends ChangeNotifier {
           rState: "rState"
         ),
       ),
-    );
+    );*/
     await _alarmService.getAlarmWithLocal().then((e) {
       _alarmList = e.alarms;
     });
@@ -159,7 +156,7 @@ class AlarmViewModel extends ChangeNotifier {
   Alarm? _classifyAlarms(AlarmDTO element) {
     switch (element.alarmType) {
       case "rating":
-        ReservationDTO? reservation =
+        AlramReservationDTO? reservation =
             element.reservation; //_member.reservationMap[element.rId];
         return Alarm(
           labelText: "평점 작성 요청",
@@ -174,5 +171,7 @@ class AlarmViewModel extends ChangeNotifier {
     }
   }
 
-  void navigatePop() {}
+  void navigatePop(BuildContext context) {
+    Navigator.pop(context);
+  }
 }
