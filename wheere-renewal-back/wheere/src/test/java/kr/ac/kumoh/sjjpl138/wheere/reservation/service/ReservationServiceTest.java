@@ -3,6 +3,7 @@ package kr.ac.kumoh.sjjpl138.wheere.reservation.service;
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.PlatformException;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
@@ -14,6 +15,7 @@ import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationListResponse;
 import kr.ac.kumoh.sjjpl138.wheere.seat.Seat;
 import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -371,5 +373,19 @@ class ReservationServiceTest {
 
 
 
+    }
+
+    @Test
+    void 플랫폼예외테스트() {
+        // given
+        ReservationBusInfo save = new ReservationBusInfo(1L, 1L, 10L);
+        List<ReservationBusInfo> busInfo= new ArrayList<>();
+        busInfo.add(save);
+
+        LocalDate resvDate = LocalDate.now().plusDays(1);
+
+        // then
+        Assertions.assertThrows(PlatformException.class, () ->
+                reservationService.saveReservation("member1", 1L, 10L, ReservationStatus.RVW_WAIT, resvDate, busInfo));
     }
 }
