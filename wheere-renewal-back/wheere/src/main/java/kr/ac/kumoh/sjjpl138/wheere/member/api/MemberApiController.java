@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.member.RetrieveRoutesResult;
 import kr.ac.kumoh.sjjpl138.wheere.member.RetrieveRoutesRequest;
-import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
+import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberLoginRequest;
+import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberInfoDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.service.MemberService;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.AllCourseCase;
 import lombok.AllArgsConstructor;
@@ -48,7 +49,7 @@ public class MemberApiController {
      * 사용자 추가 (회원가입)
      */
     @PostMapping
-    public ResponseEntity memberAdd(@RequestBody MemberDto memberDto) {
+    public ResponseEntity memberAdd(@RequestBody MemberInfoDto memberDto) {
         memberService.join(memberDto);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -57,10 +58,10 @@ public class MemberApiController {
      * 사용자 정보 조회 (로그인)
      */
     @PostMapping("/login")
-    public ResponseEntity<MemberLogInResponse> memberList(@RequestBody MemberLogInRequest member) {
+    public ResponseEntity<MemberLogInResponse> memberList(@RequestBody MemberLoginRequest member) {
         String mId = member.getMId();
         String fcmToken = member.getFcmToken();
-        Member findMember = memberService.logIn(mId);
+        Member findMember = memberService.logIn(new MemberLoginRequest(mId, fcmToken));
 
         return new ResponseEntity<>(new MemberLogInResponse(mId, findMember.getUsername(),
                 findMember.getSex(), findMember.getBirthDate(), findMember.getPhoneNumber(), fcmToken), HttpStatus.OK);
@@ -72,7 +73,7 @@ public class MemberApiController {
     @PostMapping("/logout")
     public ResponseEntity memberLogout(@RequestBody Map<String, String> mIds) {
         String mId = mIds.get("mId");
-        // fcmTocken 삭제
+        memberService.logout(mId);
 
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -81,7 +82,7 @@ public class MemberApiController {
      * 사용자 정보 수정
      */
     @PutMapping
-    public ResponseEntity memberModify(@RequestBody MemberDto memberDto) {
+    public ResponseEntity memberModify(@RequestBody MemberInfoDto memberDto) {
         memberService.update(memberDto);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -104,13 +105,6 @@ public class MemberApiController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @Data
-    static class MemberLogInRequest {
-        @JsonProperty("mId")
-        private String mId;
-        @JsonProperty("fcmToken")
-        private String fcmToken;
-    }
 
     @Data
     @AllArgsConstructor
