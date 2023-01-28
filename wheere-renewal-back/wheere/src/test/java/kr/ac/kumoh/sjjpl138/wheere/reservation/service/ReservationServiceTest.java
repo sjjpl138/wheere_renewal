@@ -4,6 +4,7 @@ import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
 import kr.ac.kumoh.sjjpl138.wheere.exception.PlatformException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.ReservationException;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
@@ -53,11 +54,11 @@ class ReservationServiceTest {
 
     @BeforeEach
     public void before() {
-        Member member1 = new Member("member1", "사용자1", LocalDate.of(2000, 8, 26), "F", "01012342345");
-        Member member2 = new Member("member2", "사용자2", LocalDate.of(2003, 3, 5), "M", "01023331111");
-        Member member3 = new Member("member3", "사용자3", LocalDate.of(1999, 11, 14), "F", "01012345678");
-        Member member4 = new Member("member4", "사용자4", LocalDate.of(1986, 9, 25), "M", "01009251986");
-        Member member5 = new Member("member5", "사용자5", LocalDate.of(1986, 9, 25), "M", "01009251986");
+        Member member1 = new Member("member1", "사용자1", LocalDate.of(2000, 8, 26), "F", "01012342345", "memberFcmToken1");
+        Member member2 = new Member("member2", "사용자2", LocalDate.of(2003, 3, 5), "M", "01023331111", "memberFcmToken2");
+        Member member3 = new Member("member3", "사용자3", LocalDate.of(1999, 11, 14), "F", "01012345678", "memberFcmToken3");
+        Member member4 = new Member("member4", "사용자4", LocalDate.of(1986, 9, 25), "M", "01009251986", "memberFcmToken4");
+        Member member5 = new Member("member5", "사용자5", LocalDate.of(1986, 9, 25), "M", "01009251986", "memberFcmToken5");
 
         em.persist(member1);
         em.persist(member2);
@@ -97,10 +98,10 @@ class ReservationServiceTest {
         LocalDate busDate1 = LocalDate.now().plusDays(3);
         LocalDate busDate2 = LocalDate.now().minusDays(3);
         LocalDate resvDate = LocalDate.now();
-        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", busDate1);
-        Bus bus2 = new Bus(2L, "route2", "139안 5678", 1, "840", busDate1);
-        Bus bus3 = new Bus(3L, "route3", "555안 8989", 2, "509", resvDate);
-        Bus bus4 = new Bus(4L, "route3", "777안 1212", 3, "509", busDate2);
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", busDate1, "busFcmToken1");
+        Bus bus2 = new Bus(2L, "route2", "139안 5678", 1, "840", busDate1, "busFcmToken2");
+        Bus bus3 = new Bus(3L, "route3", "555안 8989", 2, "509", resvDate, "busFcmToken3");
+        Bus bus4 = new Bus(4L, "route3", "777안 1212", 3, "509", busDate2, "busFcmToken4");
         em.persist(bus);
         em.persist(bus2);
         em.persist(bus3);
@@ -266,20 +267,20 @@ class ReservationServiceTest {
                 reservationService.saveReservation("member5", 1L, 3L, ReservationStatus.RVW_WAIT, resvDate, busInfo));
 
         // 이미 예약이 존재하는 경우
-        assertThrows(IllegalStateException.class, () ->
+        assertThrows(ReservationException.class, () ->
                 reservationService.saveReservation("member1", 1L, 3L, ReservationStatus.RESERVED, resvDate, busInfo));
 
         // 버스 운행 시간 지난 경우
         // busDate -> now()
         // resvDate -> now()
         // busArrivalTime -> now().minusHours(1)
-        assertThrows(IllegalStateException.class, () ->
+        assertThrows(ReservationException.class, () ->
                 reservationService.saveReservation("member3", 10L, 12L, ReservationStatus.RESERVED, resvDate.minusDays(1), busInfo3));
 
         // 버스 운행 날짜 지난 경우
         // busDate -> now().minusDays(3)
         // resvDate -> now().plusDays(1)
-        assertThrows(IllegalStateException.class, () ->
+        assertThrows(ReservationException.class, () ->
                 reservationService.saveReservation("member4", 10L, 11L, ReservationStatus.RVW_WAIT, resvDate, busInfo4));
 
     }
@@ -316,7 +317,7 @@ class ReservationServiceTest {
     void 예약조회() {
 
         // given
-        Member member100 = new Member("member100", "사용자100", LocalDate.of(2000, 8, 26), "F", "01012342345");
+        Member member100 = new Member("member100", "사용자100", LocalDate.of(2000, 8, 26), "F", "01012342345", "memberFcmToken");
         em.persist(member100);
 
         LocalDate testDate1 = LocalDate.now().minusDays(30);
