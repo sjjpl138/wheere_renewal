@@ -37,11 +37,14 @@ public class DriverService {
         String vehicleNo = logInRequestDto.getVehicleNo();
         String busNo = logInRequestDto.getBusNo();
         LocalDate operationDate = LocalDate.now();
+        String fcmToken = logInRequestDto.getFcmToken();
 
+        // 버스 토큰 저장
         Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDate(vehicleNo, busNo, operationDate).get();
-        Driver findDriver = driverRepository.findById(driverId).get();
+        findBus.registerToken(fcmToken);
 
         // 버스 배정
+        Driver findDriver = driverRepository.findById(driverId).get();
         findDriver.assignBus(findBus);
 
         DriverLoginResponseDto result = new DriverLoginResponseDto();
