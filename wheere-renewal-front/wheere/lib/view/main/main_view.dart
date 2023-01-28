@@ -37,7 +37,9 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
           onPressed: () => _mainViewModel.navigateToAlarmPage(context),
         ),
         actions: [
-          const SettingIconButton(),
+          SettingIconButton(
+            onPressed: () => _mainViewModel.navigateToSettingPage(context),
+          ),
         ],
       ),
       body: Column(

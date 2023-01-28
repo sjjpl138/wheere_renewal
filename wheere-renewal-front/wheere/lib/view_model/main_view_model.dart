@@ -5,6 +5,7 @@ import 'package:wheere/view/alarm/alarm_page.dart';
 import 'package:wheere/view/check/check_page.dart';
 import 'package:wheere/view/search/search_page.dart';
 import 'package:wheere/view/member_info/member_info_page.dart';
+import 'package:wheere/view/setting/setting_page.dart';
 
 class MainViewModel extends ChangeNotifier {
   bool hasNewAlarm = false;
@@ -35,5 +36,11 @@ class MainViewModel extends ChangeNotifier {
       context,
       MaterialPageRoute(builder: (context) => const AlarmPage()),
     ).then((value) => _getHasNewAlarm());
+  }
+
+  void navigateToSettingPage(BuildContext context) {
+    Navigator.push(context,
+      MaterialPageRoute(builder: (context) => const SettingPage()),
+    );
   }
 }

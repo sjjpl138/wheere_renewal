@@ -17,3 +17,4 @@ export 'sex_radio_field.dart';
 export 'custom_date_picker.dart';
 export 'custom_drop_down_button.dart';
 export 'reservation_info/reservation_info_list_item.dart';
+export 'service_info/service_info.dart';
