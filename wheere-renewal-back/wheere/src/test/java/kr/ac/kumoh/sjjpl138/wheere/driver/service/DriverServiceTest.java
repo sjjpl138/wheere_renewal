@@ -46,7 +46,7 @@ class DriverServiceTest {
     @BeforeEach
     public void before() {
 
-        Member member = new Member("1234", "사용자", LocalDate.of(2001, 8, 20), "F", "01012341234");
+        Member member = new Member("1234", "사용자", LocalDate.of(2001, 8, 20), "F", "01012341234", "memberFcmToken");
         em.persist(member);
 
         Station station1 = new Station(1L, "조야동");
@@ -58,8 +58,8 @@ class DriverServiceTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus1 = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now());
-        Bus bus2 = new Bus(2L,  "route1", "139형 5678", 2, "430", LocalDate.now());
+        Bus bus1 = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now(), "busFcmToken1");
+        Bus bus2 = new Bus(2L,  "route1", "139형 5678", 2, "430", LocalDate.now(), "busFcmToken2");
         em.persist(bus1);
         em.persist(bus2);
 
@@ -82,7 +82,7 @@ class DriverServiceTest {
     @Test
     public void 버스기사_로그인() {
         //given
-        DriverLogInRequestDto driverLoginDto = new DriverLogInRequestDto("driver1", "138안 1234", 1, "430");
+        DriverLogInRequestDto driverLoginDto = new DriverLogInRequestDto("driver1", "138안 1234", 1, "430", "busFcmToken");
 
         //when
         Driver driver = driverRepository.findById("driver1").get();
@@ -90,10 +90,13 @@ class DriverServiceTest {
         List<StationDto> route = platformService.findRoute(driverLoginDto.getBusNo(), driverLoginDto.getVehicleNo());
         logIn.setRoute(route);
 
+        Bus findBus = busRepository.findById(logIn.getBId()).get();
+
         // then
         assertThat(route).extracting("sId").containsExactly(1L, 2L, 3L, 4L);
         assertThat(route).extracting("sName").containsExactly("조야동", "사월동", "수성교", "조야동");
         assertThat(route).extracting("sSeq").containsExactly(1, 2, 3, 4);
+        assertThat(findBus.getToken()).isEqualTo("busFcmToken");
     }
 
     @Test
