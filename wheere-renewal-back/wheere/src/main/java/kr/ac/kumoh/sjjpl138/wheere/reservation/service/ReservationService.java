@@ -303,4 +303,14 @@ public class ReservationService {
         }
         return resvDtoList;
     }
+
+    /**
+     * 사용자 하차 후 상태 변경
+     *  - 평점 대기 상태
+     * @param rId
+     */
+    public void alightMember(Long rId) {
+        Reservation findResv = reservationRepository.findResvById(rId);
+        findResv.changeResvStatus(ReservationStatus.RVW_WAIT);
+    }
 }
