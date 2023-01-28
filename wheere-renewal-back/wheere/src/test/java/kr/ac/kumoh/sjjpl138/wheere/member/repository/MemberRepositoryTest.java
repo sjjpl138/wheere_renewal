@@ -21,7 +21,7 @@ class MemberRepositoryTest {
 
         LocalDate birthDate = LocalDate.of(2000, 01, 01);
 
-        Member member = new Member("member", "member1", birthDate, "M", "01011111111");
+        Member member = new Member("member", "member1", birthDate, "M", "01011111111", "memberFcmToken");
         
         memberRepository.save(member);
     }
