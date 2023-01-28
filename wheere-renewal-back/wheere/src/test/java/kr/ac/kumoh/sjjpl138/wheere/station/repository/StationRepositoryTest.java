@@ -99,12 +99,12 @@ class StationRepositoryTest {
     @Test
     void findStationByPlatformTest() {
         //when
-        List<StationInfo> stationInfos = stationRepository.findStationByPlatformAndBus(List.of(1L, 2L));
+        List<Platform> platforms = stationRepository.findStationByPlatformAndBus(List.of(1L, 2L));
 
         //then
-        assertThat(stationInfos.get(0).getSName()).isEqualTo("조야동");
-        assertThat(stationInfos.get(1).getSName()).isEqualTo("사월동");
-        assertThat(stationInfos.get(0).getArrivalTime()).isEqualTo(LocalTime.of(5, 30));
-        assertThat(stationInfos.get(1).getArrivalTime()).isEqualTo(LocalTime.of(5, 40));
+        assertThat(platforms.get(0).getStation().getName()).isEqualTo("조야동");
+        assertThat(platforms.get(1).getStation().getName()).isEqualTo("사월동");
+        assertThat(platforms.get(0).getArrivalTime()).isEqualTo(LocalTime.of(5, 30));
+        assertThat(platforms.get(1).getArrivalTime()).isEqualTo(LocalTime.of(5, 40));
     }
 }
