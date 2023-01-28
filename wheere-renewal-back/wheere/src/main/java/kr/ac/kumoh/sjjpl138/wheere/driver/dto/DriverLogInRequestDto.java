@@ -17,4 +17,5 @@ public class DriverLogInRequestDto {
     private int busOutNo; // 버스 차고지 출발 순서
     @JsonProperty("bNo")
     private String busNo;
+    private String fcmToken;
 }
