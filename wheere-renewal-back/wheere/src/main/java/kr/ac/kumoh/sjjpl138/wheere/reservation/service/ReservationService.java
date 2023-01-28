@@ -206,9 +206,9 @@ public class ReservationService {
             List<Transfer> transfers = transferRepository.findByBus_IdAndReservation_Id(bId, rId);
 
             List<String> stationList = List.of(transfers.get(0).getBoardStation(), transfers.get(0).getAlightStation());
-            List<Long> sIds = stationRepository.findStationByNames(stationList);
-            
-            List<Integer> allocationList = getSeqList(bId, sIds.get(0), sIds.get(1));
+            List<Station> findStations = stationRepository.findStationByNameIn(stationList);
+
+            List<Integer> allocationList = getSeqList(bId, findStations.get(0).getId(), findStations.get(1).getId());
 
             List<Seat> findSeats = seatRepository.findSeatByBIdAndDate(bId, resvDate, allocationList);
             for (int i = 0; i < findSeats.size() - 1; i++) {
