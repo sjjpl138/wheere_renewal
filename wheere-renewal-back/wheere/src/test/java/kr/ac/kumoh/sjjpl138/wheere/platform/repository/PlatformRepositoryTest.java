@@ -37,10 +37,10 @@ class PlatformRepositoryTest {
         Member member = new Member("1234", "사용자", LocalDate.of(2001, 8, 20), "F", "01012341234", "memberFcmToken");
         em.persist(member);
 
-        Station station1 = new Station(1L, "조야동");
-        Station station2 = new Station(2L, "사월동");
-        Station station3 = new Station(3L, "수성교");
-        Station station4 = new Station(4L, "노원네거리");
+        Station station1 = new Station(6L, "조야동");
+        Station station2 = new Station(7L, "사월동");
+        Station station3 = new Station(8L, "수성교");
+        Station station4 = new Station(9L, "노원네거리");
         em.persist(station1);
         em.persist(station2);
         em.persist(station3);
@@ -122,12 +122,23 @@ class PlatformRepositoryTest {
     @Test
     void findPlatformByIdInTest() {
         //when
-        List<Platform> platforms = platformRepository.findPlatformByIdIn(List.of(1L, 2L));
+        List<Platform> platforms = platformRepository.findPlatformByStationIds(List.of(6L, 7L));
 
         //then
         assertThat(platforms.get(0).getStation().getName()).isEqualTo("조야동");
         assertThat(platforms.get(1).getStation().getName()).isEqualTo("사월동");
         assertThat(platforms.get(0).getArrivalTime()).isEqualTo(LocalTime.of(5, 30));
         assertThat(platforms.get(1).getArrivalTime()).isEqualTo(LocalTime.of(5, 40));
+    }
+
+    @Test
+    void findPlatformByIdInTest2() {
+
+        // when
+        List<Platform> platforms = platformRepository.findPlatformByIdIn(List.of(1L, 2L));
+        List<Station> result = platforms.stream().map(p -> p.getStation()).collect(Collectors.toList());
+
+        // then
+        assertThat(result).extracting("id").containsExactly(6L, 7L);
     }
 }
