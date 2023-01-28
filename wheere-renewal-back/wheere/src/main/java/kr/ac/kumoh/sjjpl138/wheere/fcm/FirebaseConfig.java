@@ -1,4 +1,4 @@
-package kr.ac.kumoh.sjjpl138.wheere;
+package kr.ac.kumoh.sjjpl138.wheere.fcm;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
