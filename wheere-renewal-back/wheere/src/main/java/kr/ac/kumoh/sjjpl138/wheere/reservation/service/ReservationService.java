@@ -131,9 +131,24 @@ public class ReservationService {
     }
 
     private void compareBusDepartureTime(LocalDate busDate, LocalDate resvDate, List<Platform> findPlatforms) {
-        if ((LocalTime.now().isAfter(findPlatforms.get(0).getArrivalTime()) && (!LocalDate.now().isBefore(resvDate))) || LocalDate.now().isAfter(resvDate)
-                || busDate.isBefore(resvDate))
+        if ((isNowAfterArrivalTime(findPlatforms) && isNowBeforeResvDate(resvDate)) || isNowAfterResvDate(resvDate) || isBusDateBeforeResvDate(busDate, resvDate))
             throw new ReservationException("해당 버스에 대해 예약이 불가능합니다.");
+    }
+
+    private boolean isBusDateBeforeResvDate(LocalDate busDate, LocalDate resvDate) {
+        return busDate.isBefore(resvDate);
+    }
+
+    private boolean isNowAfterResvDate(LocalDate resvDate) {
+        return LocalDate.now().isAfter(resvDate);
+    }
+
+    private boolean isNowBeforeResvDate(LocalDate resvDate) {
+        return !LocalDate.now().isBefore(resvDate);
+    }
+
+    private boolean isNowAfterArrivalTime(List<Platform> findPlatforms) {
+        return LocalTime.now().isAfter(findPlatforms.get(0).getArrivalTime());
     }
 
     private void calcSubLeftSeats(List<Seat> findSeats) {
