@@ -1,10 +1,10 @@
-package kr.ac.kumoh.sjjpl138.wheere;
+package kr.ac.kumoh.sjjpl138.wheere.fcm;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.net.HttpHeaders;
-import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +13,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,14 @@ public class FCMService {
 
     private String API_URL = "https://fcm.googleapis.com/v1/projects/wheere-abb78/messages:send";
     private final ObjectMapper objectMapper;
+
+    //@TODO("사용자 버스 하차 후 평점 알림 서비스 구현")
+    //@TODO("새로운 예약이 생기면 버스기사에게 알림")
+    //@TODO("기존 예약이 취소되면 버스기사에게 알림")
+
+    public void sendSavedReservationMessageTo(String targetToken, String title) {
+
+    }
 
     public void sendMessageTo(String targetToken, String title, String body) throws IOException {
         String message = makeMessage(targetToken, title, body);
@@ -55,12 +64,12 @@ public class FCMService {
                                 .build()
                         )
                         .data(FCMMessage.Data.builder()
-                                .testData("testData")
                                 .build())
                         .build()
                 )
                 .validateOnly(false)
                 .build();
+
         return objectMapper.writeValueAsString(fcmMessage);
     }
 
