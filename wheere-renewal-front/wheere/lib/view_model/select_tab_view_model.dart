@@ -11,11 +11,15 @@ class SelectTabViewModel extends ChangeNotifier {
     required this.rDate,
   });
 
-  void navigateToPaymentPage(BuildContext context, RouteDTO route) {
-    Navigator.push(
+  Future navigateToPaymentPage(BuildContext context, RouteDTO route) async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => PaymentPage(routeDTO: route, rDate: rDate,)),
-    );
+        builder: (context) => PaymentPage(
+          routeDTO: route,
+          rDate: rDate,
+        ),
+      ),
+    ).then((value) => value ?? false ? Navigator.pop(context) : null);
   }
 }

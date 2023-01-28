@@ -20,4 +20,5 @@ const double kTextMiddleSize = 21.0;
 const double kTextSmallSize = 14.0;
 const double kTextMiniSize = 10.5;
 
-const double kLineSize = 5.0;
+const double kLineLargeSize = 5.0;
+const double kLineSmallSize = 2.0;

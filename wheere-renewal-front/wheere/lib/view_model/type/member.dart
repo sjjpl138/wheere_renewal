@@ -15,9 +15,9 @@ class Member extends ChangeNotifier {
     return _instance;
   }
 
-  late final LoginService _loginService = LoginService();
-  late final LogoutService _logoutService = LogoutService();
-  late final UpdateMemberService _updateMemberService = UpdateMemberService();
+  final LoginService _loginService = LoginService();
+  final LogoutService _logoutService = LogoutService();
+  final UpdateMemberService _updateMemberService = UpdateMemberService();
 
   MemberDTO? get member => _memberDTO;
   MemberDTO? _memberDTO;
@@ -61,7 +61,7 @@ class Member extends ChangeNotifier {
       mSex: updateMemberDTO.mSex,
       mBirthDate: updateMemberDTO.mBirthDate,
       mNum: updateMemberDTO.mNum,
-      fcmToken: _memberDTO!.fcmToken,
+      fcmToken: member!.fcmToken,
     );
     notifyListeners();
   }

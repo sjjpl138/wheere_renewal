@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/styles/styles.dart';
+import 'package:wheere_driver/styles/styles.dart';
 import 'reservation_info_item.dart';
 
 class ReservationInfo extends StatelessWidget {
