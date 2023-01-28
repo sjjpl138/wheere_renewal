@@ -27,4 +27,10 @@ public class Bus {
     private String busNo; //버스 번호
 
     private LocalDate busDate;
+
+    private String token;
+
+    public void registerToken(String token) {
+        this.token = token;
+    }
 }

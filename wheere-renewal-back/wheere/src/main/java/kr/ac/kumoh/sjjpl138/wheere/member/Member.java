@@ -34,6 +34,8 @@ public class Member extends BaseTimeEntity implements Persistable<String> {
 
     private String phoneNumber;
 
+    private String token;
+
     @Override
     public boolean isNew() {
         return getCreatedDate() == null;
@@ -45,5 +47,9 @@ public class Member extends BaseTimeEntity implements Persistable<String> {
         this.birthDate = memberDto.getMBirthDate();
         this.sex = memberDto.getMSex();
         this.phoneNumber = memberDto.getMNum();
+    }
+
+    public void registerToken(String token) {
+        this.token = token;
     }
 }
