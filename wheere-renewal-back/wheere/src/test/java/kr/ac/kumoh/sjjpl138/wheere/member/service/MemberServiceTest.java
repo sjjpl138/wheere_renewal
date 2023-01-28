@@ -5,8 +5,9 @@ import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
-import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.RetrieveRoutesRequest;
+import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberLoginRequest;
+import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberInfoDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.AllCourseCase;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.Course;
@@ -66,7 +67,7 @@ class MemberServiceTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now(), "busFcmToken");
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
@@ -88,7 +89,7 @@ class MemberServiceTest {
     @Test
     void join() {
         //given
-        MemberDto member = new MemberDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
+        MemberInfoDto member = new MemberInfoDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
 
         //when
         memberService.join(member);
@@ -104,17 +105,19 @@ class MemberServiceTest {
         assertThat(findMember.getSex()).isEqualTo("F");
         assertThat(findMember.getBirthDate()).isEqualTo(LocalDate.of(2001, 8, 20));
         assertThat(findMember.getPhoneNumber()).isEqualTo("01012341234");
+        assertThat(findMember.getToken()).isNull();
     }
 
     @Test
     void logIn() {
         //given
-        MemberDto member = new MemberDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
+        MemberInfoDto joinMember = new MemberInfoDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
+        MemberInfoDto member = new MemberInfoDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
 
         //when
         String id = member.getMId();
-        memberService.join(member);
-        memberService.logIn(id);
+        memberService.join(joinMember);
+        memberService.logIn(new MemberLoginRequest(id, "fcmToken"));
 
         em.flush();
         em.clear();
@@ -127,13 +130,33 @@ class MemberServiceTest {
         assertThat(findMember.getSex()).isEqualTo("F");
         assertThat(findMember.getBirthDate()).isEqualTo(LocalDate.of(2001, 8, 20));
         assertThat(findMember.getPhoneNumber()).isEqualTo("01012341234");
+        assertThat(findMember.getToken()).isEqualTo("fcmToken");
+    }
+
+    @Test
+    void logout() {
+        // given
+        Member member = new Member("member1", "user", LocalDate.of(1999, 02, 27), "M", "01077777777", "fcmToken");
+        em.persist(member);
+
+        // when
+        memberService.logout(member.getId());
+
+        em.flush();
+        em.clear();
+
+        Member findMember = memberRepository.findById(member.getId()).get();
+
+        // then
+        assertThat(findMember.getToken()).isNull();
     }
 
     @Test
     void update() {
         //given
-        MemberDto member = new MemberDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
-        MemberDto modifiedMember = new MemberDto("1234", "홍길동", "F", LocalDate.of(1999, 8, 24), "01099999999");
+
+        MemberInfoDto member = new MemberInfoDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
+        MemberInfoDto modifiedMember = new MemberInfoDto("1234", "홍길동", "F", LocalDate.of(1999, 8, 24), "01099999999");
 
         //when
         memberService.join(member);
@@ -153,7 +176,7 @@ class MemberServiceTest {
     @Test
     void delete() {
         //given
-        MemberDto member = new MemberDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
+        MemberInfoDto member = new MemberInfoDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
 
         //when
         Member joinMember = memberService.join(member);
@@ -171,7 +194,7 @@ class MemberServiceTest {
     @Test
     void rateDriver() {
         //given
-        Member member = new Member("member1", "user", LocalDate.of(1999, 02, 27), "M", "01077777777");
+        Member member = new Member("member1", "user", LocalDate.of(1999, 02, 27), "M", "01077777777", "fcmToken");
         em.persist(member);
 
         Reservation reservation = new Reservation(member, ReservationStatus.PAID, "조야동", "수성교", LocalDate.now(), 1);
