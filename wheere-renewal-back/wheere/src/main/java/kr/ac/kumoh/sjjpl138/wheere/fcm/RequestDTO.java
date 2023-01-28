@@ -1,4 +1,4 @@
-package kr.ac.kumoh.sjjpl138.wheere;
+package kr.ac.kumoh.sjjpl138.wheere.fcm;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
