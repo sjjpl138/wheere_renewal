@@ -111,12 +111,11 @@ class MemberServiceTest {
     @Test
     void logIn() {
         //given
-        MemberInfoDto joinMember = new MemberInfoDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
         MemberInfoDto member = new MemberInfoDto("1234", "사용자", "F", LocalDate.of(2001, 8, 20), "01012341234");
 
         //when
         String id = member.getMId();
-        memberService.join(joinMember);
+        memberService.join(member);
         memberService.logIn(new MemberLoginRequest(id, "fcmToken"));
 
         em.flush();
