@@ -88,11 +88,11 @@ class StationRepositoryTest {
         List<String> sNames = List.of("사월동", "노원네거리");
 
         // when
-        List<Long> sIds = stationRepository.findStationByNameIn(sNames);
+        List<Station> stations = stationRepository.findStationByNameIn(sNames);
 
         // then
-        assertThat(sIds.get(0)).isEqualTo(2L);
-        assertThat(sIds.get(1)).isEqualTo(4L);
+        assertThat(stations.get(0).getId()).isEqualTo(2L);
+        assertThat(stations.get(1).getId()).isEqualTo(4L);
     }
 
     @Test
