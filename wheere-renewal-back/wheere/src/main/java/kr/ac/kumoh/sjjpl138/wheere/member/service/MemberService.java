@@ -1,10 +1,10 @@
 package kr.ac.kumoh.sjjpl138.wheere.member.service;
 
-import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
-import kr.ac.kumoh.sjjpl138.wheere.member.SubRoute;
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.member.*;
+import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberLoginRequest;
+import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberInfoDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.AllCourseCase;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.BusLane;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.Course;
@@ -17,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
-import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.RetrieveRoutesRequest;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
@@ -35,12 +34,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.*;
 
@@ -67,50 +63,68 @@ public class MemberService {
      * @return
      */
     @Transactional
-    public Member join(MemberDto memberDto) {
+    public Member join(MemberInfoDto memberDto) {
         Member member = changeMemberEntity(memberDto);
         memberRepository.save(member);
 
         return member;
     }
 
-    private Member changeMemberEntity(MemberDto memberDto) {
+    private Member changeMemberEntity(MemberInfoDto memberDto) {
         String id = memberDto.getMId();
         String name = memberDto.getMName();
         LocalDate birthDate = memberDto.getMBirthDate();
         String sex = memberDto.getMSex();
         String num = memberDto.getMNum();
-        Member member = new Member(id, name, birthDate, sex, num);
+
+        Member member = new Member(id, name, birthDate, sex, num, null);
 
         return member;
     }
 
     /**
      * 사용자 정보 조회 (로그인)
+     *  - fcm token 저장
      *
-     * @param memberId
+     * @param request
      * @return
      */
-    public Member logIn(String memberId) {
+    public Member logIn(MemberLoginRequest request) {
+        String memberId = request.getMId();
+        String fcmToken = request.getFcmToken();
+
         Member member = memberRepository.findById(memberId).get();
+        member.registerToken(fcmToken);
 
         return member;
+    }
+
+    /**
+     * 사용자 로그아웃
+     *  - fcm token 삭제
+     *
+     * @param memberId
+     */
+    public void logout(String memberId) {
+        Member findMember = memberRepository.findById(memberId).get();
+        findMember.deleteToken();
     }
 
     /**
      * 사용자 정보 수정
      */
     @Transactional
-    public void update(MemberDto memberDto) {
+    public void update(MemberInfoDto memberDto) {
         String id = memberDto.getMId();
         Member findMember = memberRepository.findById(id).get();
+
         findMember.updateMemberInfo(memberDto);
     }
 
     /**
      * 사용자 삭제 (탈퇴하기)
      *
-     * @param member
+     * @param mId
      */
     @Transactional
     public void delete(String mId) {
