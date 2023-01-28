@@ -20,6 +20,7 @@ public class DriverLoginResponseDto {
     private String bNo;
     private String routeId;
     private int totalSeats;
+    private String fcmToken;
 
     private List<StationDto> route;
     private List<ResvDto> reservations;
