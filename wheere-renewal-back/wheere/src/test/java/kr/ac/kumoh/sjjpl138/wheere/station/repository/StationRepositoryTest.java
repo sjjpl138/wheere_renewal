@@ -37,7 +37,7 @@ class StationRepositoryTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L, "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus = new Bus(1L, "route1", "138안 1234", 1, "430", LocalDate.now(), "busFcmToken");
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
