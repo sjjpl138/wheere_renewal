@@ -34,7 +34,7 @@ class PlatformRepositoryTest {
     @BeforeEach
     public void before() {
 
-        Member member = new Member("1234", "사용자", LocalDate.of(2001, 8, 20), "F", "01012341234");
+        Member member = new Member("1234", "사용자", LocalDate.of(2001, 8, 20), "F", "01012341234", "memberFcmToken");
         em.persist(member);
 
         Station station1 = new Station(1L, "조야동");
@@ -46,7 +46,7 @@ class PlatformRepositoryTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now(), "busFcmToken");
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
