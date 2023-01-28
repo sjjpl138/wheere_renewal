@@ -4,41 +4,41 @@ import 'package:wheere/view/common/commons.dart';
 import 'type/types.dart';
 
 class BusCurrentInfoViewModel extends ChangeNotifier {
-  final ReservationDTO reservation;
+  final BusLocationDTO busLocationDTO;
+  final ReservationData reservation;
+  late List<BusStationInfo> busStationInfoList;
 
-  BusCurrentInfoViewModel({required this.reservation});
+  BusCurrentInfoViewModel({
+    required this.busLocationDTO,
+    required this.reservation,
+  }) {
+    makeBusStationInfoList();
+  }
 
-  ReservationInfo get reservationInfo => ReservationInfo(
+  ReservationInfoListItem get reservationInfo => ReservationInfoListItem(
         bNo: reservation.bNo,
-        rDate: "rTime",
+        rDate: reservation.rDate,
         sStationName: reservation.sStationName,
-        sStationTime: reservation.sTime,
+        sStationTime: reservation.sStationTime,
         eStationName: reservation.eStationName,
-        eStationTime: reservation.eTime,
+        eStationTime: reservation.eStationTime,
       );
 
-  List<BusStationInfo> busStationInfoList = [
-    BusStationInfo(
-      busStation: BusStation.base,
-      busCurrentLocation: BusCurrentLocation.base,
-      stationName: "stationName",
-    ),
-    BusStationInfo(
-      busStation: BusStation.base,
-      busCurrentLocation: BusCurrentLocation.current,
-      stationName: "stationName",
-    ),
-    BusStationInfo(
-      busStation: BusStation.ride,
-      busCurrentLocation: BusCurrentLocation.base,
-      stationName: "stationName",
-    ),
-    BusStationInfo(
-      busStation: BusStation.ride,
-      busCurrentLocation: BusCurrentLocation.current,
-      stationName: "stationName",
-    ),
-  ];
+  void makeBusStationInfoList() {
+    busStationInfoList = busLocationDTO.stations.stations
+        .map((e) => BusStationInfo(
+              busStation: e.sName == reservation.sStationName
+                  ? BusStation.ride
+                  : BusStation.base,
+              busCurrentLocation: e.sName == busLocationDTO.stationName
+                  ? BusCurrentLocation.current
+                  : BusCurrentLocation.base,
+              stationName: e.sName,
+            ))
+        .toList();
+  }
 
-  void navigatePop() {}
+  void navigatePop(BuildContext context) {
+    Navigator.pop(context);
+  }
 }

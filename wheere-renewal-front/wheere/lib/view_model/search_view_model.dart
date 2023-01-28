@@ -161,7 +161,7 @@ class SearchViewModel extends ChangeNotifier {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(kBorderRadiusSize)),
           borderSide: BorderSide(
-            width: kLineSize,
+            width: kLineLargeSize,
             color: CustomColor.backGroundSubColor,
           ),
         ),

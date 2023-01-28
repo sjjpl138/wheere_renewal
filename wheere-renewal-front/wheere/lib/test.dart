@@ -39,47 +39,29 @@ class _TestState extends State<Test> {
 
   @override
   Widget build(BuildContext context) {
-/*    return BusCurrentInfoPage(
-      reservation: ReservationDTO(
-        rId: 1,
-        routeId: 'routeId',
+    /*return BusCurrentInfoPage(
+      reservation: const ReservationData(
         bNo: "bNo",
-        rTime: 'rTime',
-        sStationId: 1,
+        bId: "bId",
+        vNo: "vNo",
+        rDate: "rDate",
+        routeId: "routeId",
         sStationName: "sStationName",
-        sTime: "sTime",
-        eStationId: 1,
+        sStationTime: "sStationTime",
         eStationName: "eStationName",
-        eTime: "eTime",
+        eStationTime: "eStationTime",
+      ),
+      busLocationDTO: BusLocationDTO(
+        stationName: "current",
+        stations: StationListDTO(stations: [
+          StationDTO(sId: "sId", sName: "sName"),
+          StationDTO(sId: "sId", sName: "sName"),
+          StationDTO(sId: "sId", sName: "current"),
+          StationDTO(sId: "sId", sName: "sName"),
+          StationDTO(sId: "sId", sName: "sStationName"),
+        ]),
       ),
     );*/
-//    return const MainPage();
-/*    return PaymentPage(reservations: [
-      BusDTO(
-        bId: 1,
-        bNo: "bNo",
-        sStationId: 1,
-        sStationName: "sStationName",
-        sTime: "sTime",
-        eStationId: 1,
-        eStationName: "eStationName",
-        eTime: "eTime",
-        eWalkingTime: "eWalkingTime",
-        leftSeats: 2,
-      ),
-      BusDTO(
-        bId: 1,
-        bNo: "bNo",
-        sStationId: 1,
-        sStationName: "sStationName",
-        sTime: "sTime",
-        eStationId: 1,
-        eStationName: "eStationName",
-        eTime: "eTime",
-        eWalkingTime: "eWalkingTime",
-        leftSeats: 2,
-      ),
-    ]);*/
 //    return const SelectTabPage();
 //    return const SelectPage();
 //    return const MainPage();

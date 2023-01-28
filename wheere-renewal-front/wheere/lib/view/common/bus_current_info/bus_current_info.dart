@@ -32,9 +32,9 @@ class BusCurrentInfo extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                    left: (kIconMainSize + kPaddingLargeSize - kLineSize) / 2),
+                    left: (kIconMainSize + kPaddingLargeSize - kLineLargeSize) / 2),
                 child: Container(
-                  width: kLineSize,
+                  width: kLineLargeSize,
                   height: (kIconSmallSize +
                           kPaddingSmallSize +
                           kPaddingMiddleSize * 2) *

@@ -34,19 +34,19 @@ class PlatformRepositoryTest {
     @BeforeEach
     public void before() {
 
-        Member member = new Member("1234", "사용자", LocalDate.of(2001, 8, 20), "F", "01012341234");
+        Member member = new Member("1234", "사용자", LocalDate.of(2001, 8, 20), "F", "01012341234", "memberFcmToken");
         em.persist(member);
 
         Station station1 = new Station(1L, "조야동");
         Station station2 = new Station(2L, "사월동");
         Station station3 = new Station(3L, "수성교");
-        Station station4 = new Station(4L, "조야동");
+        Station station4 = new Station(4L, "노원네거리");
         em.persist(station1);
         em.persist(station2);
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now());
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now(), "busFcmToken");
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
@@ -74,7 +74,7 @@ class PlatformRepositoryTest {
 
         //then
         assertThat(route).extracting("sId").containsExactly(1L, 2L, 3L, 4L);
-        assertThat(route).extracting("sName").containsExactly("조야동", "사월동", "수성교", "조야동");
+        assertThat(route).extracting("sName").containsExactly("조야동", "사월동", "수성교", "노원네거리");
         assertThat(route).extracting("sSeq").containsExactly(1, 2, 3, 4);
     }
 
@@ -107,5 +107,15 @@ class PlatformRepositoryTest {
         //then
         assertThat(platforms).extracting("id").containsExactly(1L, 2L, 3L, 4L);
         assertThat(platforms).extracting("stationSeq").containsExactly(1, 2, 3, 4);
+    }
+
+    @Test
+    void findAllocationSeqByBusIdAndStationNameListTest() {
+        // when
+        List<String> stationNames = List.of("조야동", "수성교");
+        List<Integer> seqList = platformRepository.findAllocationSeqByBusIdAndStationNameList(1L, stationNames);
+
+        //then
+        assertThat(seqList).containsExactly(1, 3);
     }
 }

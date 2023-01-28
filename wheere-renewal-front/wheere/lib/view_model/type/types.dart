@@ -6,3 +6,4 @@ export 'sex.dart';
 export 'alarm_type.dart';
 export 'place_info.dart';
 export 'reservation_list.dart';
+export 'reservation_data.dart';

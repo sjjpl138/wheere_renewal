@@ -3,19 +3,27 @@ package kr.ac.kumoh.sjjpl138.wheere.reservation.service;
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.PlatformException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.ReservationException;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationListResponse;
 import kr.ac.kumoh.sjjpl138.wheere.seat.Seat;
 import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -46,11 +54,11 @@ class ReservationServiceTest {
 
     @BeforeEach
     public void before() {
-        Member member1 = new Member("member1", "사용자1", LocalDate.of(2000, 8, 26), "F", "01012342345");
-        Member member2 = new Member("member2", "사용자2", LocalDate.of(2003, 3, 5), "M", "01023331111");
-        Member member3 = new Member("member3", "사용자3", LocalDate.of(1999, 11, 14), "F", "01012345678");
-        Member member4 = new Member("member4", "사용자4", LocalDate.of(1986, 9, 25), "M", "01009251986");
-        Member member5 = new Member("member5", "사용자5", LocalDate.of(1986, 9, 25), "M", "01009251986");
+        Member member1 = new Member("member1", "사용자1", LocalDate.of(2000, 8, 26), "F", "01012342345", "memberFcmToken1");
+        Member member2 = new Member("member2", "사용자2", LocalDate.of(2003, 3, 5), "M", "01023331111", "memberFcmToken2");
+        Member member3 = new Member("member3", "사용자3", LocalDate.of(1999, 11, 14), "F", "01012345678", "memberFcmToken3");
+        Member member4 = new Member("member4", "사용자4", LocalDate.of(1986, 9, 25), "M", "01009251986", "memberFcmToken4");
+        Member member5 = new Member("member5", "사용자5", LocalDate.of(1986, 9, 25), "M", "01009251986", "memberFcmToken5");
 
         em.persist(member1);
         em.persist(member2);
@@ -61,7 +69,7 @@ class ReservationServiceTest {
         Station station1 = new Station(1L, "조야동");
         Station station2 = new Station(2L, "사월동");
         Station station3 = new Station(3L, "수성교");
-        Station station4 = new Station(4L, "조야동");
+        Station station4 = new Station(4L, "노원네거리");
 
         Station station5 = new Station(5L, "사월역(4번출구)");
         Station station6 = new Station(6L, "경산시장");
@@ -90,10 +98,10 @@ class ReservationServiceTest {
         LocalDate busDate1 = LocalDate.now().plusDays(3);
         LocalDate busDate2 = LocalDate.now().minusDays(3);
         LocalDate resvDate = LocalDate.now();
-        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", busDate1);
-        Bus bus2 = new Bus(2L, "route2", "139안 5678", 1, "840", busDate1);
-        Bus bus3 = new Bus(3L, "route3", "555안 8989", 2, "509", resvDate);
-        Bus bus4 = new Bus(4L, "route3", "777안 1212", 3, "509", busDate2);
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", busDate1, "busFcmToken1");
+        Bus bus2 = new Bus(2L, "route2", "139안 5678", 1, "840", busDate1, "busFcmToken2");
+        Bus bus3 = new Bus(3L, "route3", "555안 8989", 2, "509", resvDate, "busFcmToken3");
+        Bus bus4 = new Bus(4L, "route3", "777안 1212", 3, "509", busDate2, "busFcmToken4");
         em.persist(bus);
         em.persist(bus2);
         em.persist(bus3);
@@ -181,7 +189,7 @@ class ReservationServiceTest {
         assertThat(findResv1.getReservationDate()).isEqualTo(resvDate);
 
         assertThat(findResv2.getStartStation()).isEqualTo("사월동");
-        assertThat(findResv2.getEndStation()).isEqualTo("조야동");
+        assertThat(findResv2.getEndStation()).isEqualTo("노원네거리");
         assertThat(findResv2.getReservationStatus()).isEqualTo(ReservationStatus.PAID);
         assertThat(findResv2.getReservationDate()).isEqualTo(resvDate);
 
@@ -259,20 +267,20 @@ class ReservationServiceTest {
                 reservationService.saveReservation("member5", 1L, 3L, ReservationStatus.RVW_WAIT, resvDate, busInfo));
 
         // 이미 예약이 존재하는 경우
-        assertThrows(IllegalStateException.class, () ->
+        assertThrows(ReservationException.class, () ->
                 reservationService.saveReservation("member1", 1L, 3L, ReservationStatus.RESERVED, resvDate, busInfo));
 
         // 버스 운행 시간 지난 경우
         // busDate -> now()
         // resvDate -> now()
         // busArrivalTime -> now().minusHours(1)
-        assertThrows(IllegalStateException.class, () ->
+        assertThrows(ReservationException.class, () ->
                 reservationService.saveReservation("member3", 10L, 12L, ReservationStatus.RESERVED, resvDate.minusDays(1), busInfo3));
 
         // 버스 운행 날짜 지난 경우
         // busDate -> now().minusDays(3)
         // resvDate -> now().plusDays(1)
-        assertThrows(IllegalStateException.class, () ->
+        assertThrows(ReservationException.class, () ->
                 reservationService.saveReservation("member4", 10L, 11L, ReservationStatus.RVW_WAIT, resvDate, busInfo4));
 
     }
@@ -280,24 +288,105 @@ class ReservationServiceTest {
     @Test
     void 예약_취소() {
         // given
-        ReservationBusInfo save = new ReservationBusInfo(1L, 1L, 3L);
+        List<ReservationBusInfo> busInfo= new ArrayList<>();
+        ReservationBusInfo save1 = new ReservationBusInfo(1L, 2L, 4L);
+        ReservationBusInfo save2 = new ReservationBusInfo(2L, 5L, 8L);
+        busInfo.add(save1);
+        busInfo.add(save2);
+
+        LocalDate resvDate = LocalDate.now().plusDays(1);
+
+        Reservation reservation = reservationService.saveReservation("member5", 2L, 8L, ReservationStatus.RVW_WAIT, resvDate, busInfo);
+
+        // when
+        Long rId = reservation.getId();
+        reservationService.cancelReservation(rId, List.of(1L, 2L));
+
+        em.flush();
+        em.clear();
+
+        Reservation findResv = reservationRepository.findResvById(rId);
+        List<Seat> seats  = seatRepository.findAll();
+
+        // then
+        assertThat(findResv.getReservationStatus()).isEqualTo(ReservationStatus.CANCEL);
+        assertThat(seats).extracting("leftSeatsNum").containsExactly(2, 2, 2, 2, 2, 2, 2, 2);
+    }
+
+    @Test
+    void 예약조회() {
+
+        // given
+        Member member100 = new Member("member100", "사용자100", LocalDate.of(2000, 8, 26), "F", "01012342345", "memberFcmToken");
+        em.persist(member100);
+
+        LocalDate testDate1 = LocalDate.now().minusDays(30);
+        LocalDate testDate2 = LocalDate.now().minusDays(25);
+        LocalDate testDate3 = LocalDate.now().minusDays(20);
+        LocalDate testDate4 = LocalDate.now().minusDays(19);
+        LocalDate testDate5 = LocalDate.now().minusDays(18);
+        LocalDate testDate6 = LocalDate.now().minusDays(17);
+        LocalDate testDate7 = LocalDate.now().minusDays(16);
+        LocalDate testDate8 = LocalDate.now().minusDays(6);
+        LocalDate testDate9 = LocalDate.now().minusDays(4);
+
+        Reservation reservation1 = new Reservation(member100, ReservationStatus.RESERVED, "test1", "test2", testDate1, 2);
+        Reservation reservation2 = new Reservation(member100, ReservationStatus.CANCEL, "test1", "test2", testDate2, 2);
+        Reservation reservation3 = new Reservation(member100, ReservationStatus.RVW_COMP, "test1", "test2", testDate3, 2);
+        Reservation reservation4 = new Reservation(member100, ReservationStatus.RVW_WAIT, "test1", "test2", testDate4, 2);
+        Reservation reservation5 = new Reservation(member100, ReservationStatus.RVW_COMP, "test1", "test2", testDate5, 2);
+        Reservation reservation6 = new Reservation(member100, ReservationStatus.RVW_COMP, "test1", "test2", testDate6, 2);
+        Reservation reservation7 = new Reservation(member100, ReservationStatus.RESERVED, "test1", "test2", testDate7, 2);
+        Reservation reservation8 = new Reservation(member100, ReservationStatus.CANCEL, "test1", "test2", testDate8, 2);
+        Reservation reservation9 = new Reservation(member100, ReservationStatus.PAID, "test1", "test2", testDate9, 2);
+
+        em.persist(reservation1);
+        em.persist(reservation2);
+        em.persist(reservation3);
+        em.persist(reservation4);
+        em.persist(reservation5);
+        em.persist(reservation6);
+        em.persist(reservation7);
+        em.persist(reservation8);
+        em.persist(reservation9);
+
+        ReservationSearchCondition condition1 = new ReservationSearchCondition("RESERVED");
+        ReservationSearchCondition condition2 = new ReservationSearchCondition("PAID");
+        ReservationSearchCondition condition3 = new ReservationSearchCondition(null);
+
+        PageRequest page1 = PageRequest.of(0, 4);
+        PageRequest page2 = PageRequest.of(0, 1, Sort.by(Sort.Direction.ASC, "reservationDate"));
+
+        // when
+        Slice<ReservationListResponse> slice1 = reservationService.findPartForMemberByCond("member100", condition1, page1);
+        List<ReservationListResponse> result1 = slice1.getContent();
+
+        Slice<ReservationListResponse> slice2 = reservationService.findPartForMemberByCond("member100", condition2, page2);
+        List<ReservationListResponse> result2 = slice2.getContent();
+
+        Slice<ReservationListResponse> slice3 = reservationService.findPartForMemberByCond("member100", condition3, page2);
+        List<ReservationListResponse> result3 = slice3.getContent();
+
+        // then
+        assertThat(result1).extracting("rId").containsExactly(reservation1.getId(), reservation7.getId());
+        assertThat(result2).extracting("rId").containsExactly(reservation9.getId());
+        assertThat(result3).extracting("rId").containsExactly(reservation1.getId());
+
+
+
+    }
+
+    @Test
+    void 플랫폼예외테스트() {
+        // given
+        ReservationBusInfo save = new ReservationBusInfo(1L, 1L, 10L);
         List<ReservationBusInfo> busInfo= new ArrayList<>();
         busInfo.add(save);
 
         LocalDate resvDate = LocalDate.now().plusDays(1);
 
-        Reservation reservation = reservationService.saveReservation("member5", 1L, 3L, ReservationStatus.RVW_WAIT, resvDate, busInfo);
-
-        // when
-
-        Long rId = reservation.getId();
-        reservationService.cancelReservation(rId);
-
-        em.flush();
-        em.clear();
-
         // then
-        Reservation findResv = reservationRepository.findResvById(rId);
-        assertThat(findResv.getReservationStatus()).isEqualTo(ReservationStatus.CANCEL);
+        Assertions.assertThrows(PlatformException.class, () ->
+                reservationService.saveReservation("member1", 1L, 10L, ReservationStatus.RVW_WAIT, resvDate, busInfo));
     }
 }

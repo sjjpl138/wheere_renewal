@@ -2,30 +2,36 @@ package kr.ac.kumoh.sjjpl138.wheere.reservation.service;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
+import kr.ac.kumoh.sjjpl138.wheere.exception.PlatformException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.ReservationException;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ResvDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationBus;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationListResponse;
 import kr.ac.kumoh.sjjpl138.wheere.seat.Seat;
 import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import kr.ac.kumoh.sjjpl138.wheere.station.repository.StationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.Transfer;
+import kr.ac.kumoh.sjjpl138.wheere.transfer.dto.TransferDto;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.repository.TransferRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -42,11 +48,11 @@ public class ReservationService {
 
     /**
      * 예약 생성
-     * @return 생성된 Reservation 객체??
+     * @return 생성된 Reservation 객체
      */
     @Transactional
-    public Reservation saveReservation(String memberId, Long startStationId , Long endStationId,
-                                       ReservationStatus resvStatus, LocalDate resvDate,  List<ReservationBusInfo> busInfo) {
+    public Reservation saveReservation(String memberId, Long startStationId, Long endStationId,
+                                       ReservationStatus resvStatus, LocalDate resvDate, List<ReservationBusInfo> busInfo) {
         Member findMember = memberRepository.findById(memberId).get();
 
         int busCount = busInfo.size();
@@ -92,38 +98,57 @@ public class ReservationService {
 
         // 해당 버스 정류장별 좌석 차감 (마지막 정류장 제외)
         for (ReservationBusInfo saveDto : busInfo) {
+            Long bId = saveDto.getBId();
             Long startSId = saveDto.getSStationId();
             Long endSId = saveDto.getEStationId();
-            Long bId = saveDto.getBId();
 
-            List<Integer> allocationList = platformRepository.findAllocationSeqByBusIdAndStationIdList(bId, List.of(startSId, endSId));
-            List<Integer> seqList = new ArrayList<>();
-            for (int i = allocationList.get(0); i <= allocationList.get(1); i++ ){
-                seqList.add(i);
-            }
+            List<Integer> seqList = getSeqList(bId, startSId, endSId);
 
             List<Seat> findSeats = seatRepository.findSeatByBIdAndDate(bId, resvDate, seqList);
             if (findSeats.isEmpty()) {
                 createSeatPerPlatform(resvDate, bId);
                 List<Seat> seatsList = seatRepository.findSeatByBIdAndDate(bId, resvDate, seqList);
                 calcSubLeftSeats(seatsList);
-            }
-            else
+            } else
                 calcSubLeftSeats(findSeats);
         }
 
         return reservation;
     }
 
+    private List<Integer> getSeqList(Long bId, Long startSId, Long endSId) {
+        List<Integer> allocationList = platformRepository.findAllocationSeqByBusIdAndStationIdList(bId, List.of(startSId, endSId));
+        List<Integer> seqList = new ArrayList<>();
+        for (int i = allocationList.get(0); i <= allocationList.get(1); i++) {
+            seqList.add(i);
+        }
+        return seqList;
+    }
+
     private void checkResvStatus(Reservation r) {
         if (r.getReservationStatus() != ReservationStatus.CANCEL)
-            throw new IllegalStateException("이미 해당 버스에 대한 예약이 존재합니다.");
+            throw new ReservationException("이미 해당 버스에 대한 예약이 존재합니다.");
     }
 
     private void compareBusDepartureTime(LocalDate busDate, LocalDate resvDate, List<Platform> findPlatforms) {
-        if ((LocalTime.now().isAfter(findPlatforms.get(0).getArrivalTime()) && (!LocalDate.now().isBefore(resvDate))) || LocalDate.now().isAfter(resvDate)
-                || busDate.isBefore(resvDate))
-            throw new IllegalStateException("해당 버스에 대해 예약이 불가능합니다.");
+        if ((isNowAfterArrivalTime(findPlatforms) && isNowBeforeResvDate(resvDate)) || isNowAfterResvDate(resvDate) || isBusDateBeforeResvDate(busDate, resvDate))
+            throw new ReservationException("해당 버스에 대해 예약이 불가능합니다.");
+    }
+
+    private boolean isBusDateBeforeResvDate(LocalDate busDate, LocalDate resvDate) {
+        return busDate.isBefore(resvDate);
+    }
+
+    private boolean isNowAfterResvDate(LocalDate resvDate) {
+        return LocalDate.now().isAfter(resvDate);
+    }
+
+    private boolean isNowBeforeResvDate(LocalDate resvDate) {
+        return !LocalDate.now().isBefore(resvDate);
+    }
+
+    private boolean isNowAfterArrivalTime(List<Platform> findPlatforms) {
+        return LocalTime.now().isAfter(findPlatforms.get(0).getArrivalTime());
     }
 
     private void calcSubLeftSeats(List<Seat> findSeats) {
@@ -160,7 +185,10 @@ public class ReservationService {
     }
 
     private List<Platform> getPlatformsBySIds(Long bId, List<Long> stationIds) {
-        return platformRepository.findPlatformByBusIdAndStationId(bId, stationIds);
+        List<Platform> platformList = platformRepository.findPlatformByBusIdAndStationId(bId, stationIds);
+        if (platformList.size() != 2)
+            throw new PlatformException("해당 버스가 지나지 않는 정류장입니다.");
+        return platformList;
     }
 
 
@@ -168,9 +196,25 @@ public class ReservationService {
      * 예약 취소
      */
     @Transactional
-    public void cancelReservation(Long rId) {
+    public void cancelReservation(Long rId, List<Long> bIds) {
         Reservation findResv = reservationRepository.findResvById(rId);
         findResv.changeResvStatus(ReservationStatus.CANCEL);
+
+        // 버스 좌석 증가
+        LocalDate resvDate = findResv.getReservationDate();
+        for (Long bId : bIds) {
+            List<Transfer> transfers = transferRepository.findByBus_IdAndReservation_Id(bId, rId);
+
+            List<String> stationList = List.of(transfers.get(0).getBoardStation(), transfers.get(0).getAlightStation());
+            List<Long> sIds = stationRepository.findStationByNames(stationList);
+            
+            List<Integer> allocationList = getSeqList(bId, sIds.get(0), sIds.get(1));
+
+            List<Seat> findSeats = seatRepository.findSeatByBIdAndDate(bId, resvDate, allocationList);
+            for (int i = 0; i < findSeats.size() - 1; i++) {
+                findSeats.get(i).addSeats();
+            }
+        }
     }
 
     /**
@@ -182,9 +226,9 @@ public class ReservationService {
     public Reservation findReservationById(Long reservationId) {
         Reservation findResv = reservationRepository.findResvById(reservationId);
         if (findResv == null) {
-            throw new IllegalStateException("예약이 존재하지 않습니다.");
+            throw new ReservationException("예약이 존재하지 않습니다.");
         }
-        return null;
+        return findResv;
     }
 
     /**
@@ -194,14 +238,79 @@ public class ReservationService {
      * @param memberId
      * @return
      */
-    public List<Reservation> findPartForMemberByCond(String memberId) {
+    public Slice<ReservationListResponse> findPartForMemberByCond(String memberId, ReservationSearchCondition condition, Pageable pageable) {
 
-        return new ArrayList<Reservation>();
+        Slice<Reservation> findReservations = reservationRepository.searchSlice(memberId, condition, pageable);
+
+        Slice<ReservationListResponse> result = findReservations.map(r -> {
+            ReservationListResponse reservationListResponse = new ReservationListResponse(r);
+
+            List<ReservationBus> buses = new ArrayList<>();
+
+            List<Transfer> findTransferList = transferRepository.findByReservation(r);
+            for (Transfer transfer : findTransferList) {
+
+                ReservationBus reservationBus = new ReservationBus();
+
+                Bus findBus = transfer.getBus();
+
+                reservationBus.setBId(findBus.getId());
+                reservationBus.setBNo(findBus.getBusNo());
+                reservationBus.setRouteId(findBus.getRouteId());
+                reservationBus.setVNo(findBus.getVehicleNo());
+
+                String boardStation = transfer.getBoardStation();
+                String alightStation = transfer.getAlightStation();
+
+                List<String> stationNames = Arrays.asList(boardStation, alightStation);
+                List<Platform> findPlatformList = platformRepository.findByStationName(stationNames);
+                Platform boardPlatform = findPlatformList.get(0);
+                Station findBoardStation = boardPlatform.getStation();
+                Platform alightPlatform = findPlatformList.get(1);
+                Station findAlightStation = alightPlatform.getStation();
+
+                reservationBus.setSTime(boardPlatform.getArrivalTime());
+                reservationBus.setSStationId(findBoardStation.getId());
+                reservationBus.setSStationName(findBoardStation.getName());
+
+                reservationBus.setETime(alightPlatform.getArrivalTime());
+                reservationBus.setEStationId(findAlightStation.getId());
+                reservationBus.setEStationName(findAlightStation.getName());
+
+                buses.add(reservationBus);
+            }
+
+            reservationListResponse.setBuses(buses);
+
+            return reservationListResponse;
+        });
+
+        return result;
     }
 
-    public List<Reservation> findPartForDriver() {
+    public List<ResvDto> findPartForDriver(Bus findBus) {
+        List<ResvDto> resvDtoList = new ArrayList<>();
+        Long bId = findBus.getId();
+        List<TransferDto> transfers = transferRepository.findTransferByBusId(bId);
+        for (TransferDto transfer : transfers) {
+            List<Integer> allocSeqList = platformRepository.findAllocationSeqByBusIdAndStationNameList(bId, List.of(transfer.getBoardStation(), transfer.getAlightStation()));
+            ResvDto resvDto = new ResvDto(transfer.getRId(), allocSeqList.get(0), allocSeqList.get(1));
 
-        return new ArrayList<Reservation>();
+            // 예약 상태가 RESERVED 혹은 PAID 인 예약만 보여줌
+            ReservationStatus status = transfer.getStatus();
+            if (status == ReservationStatus.RESERVED || status == ReservationStatus.PAID)
+                resvDtoList.add(resvDto);
+        }
+        return resvDtoList;
     }
 
+    /**
+     * 사용자 하차 후 상태 변경
+     *  - 평점 대기 상태
+     * @param rId
+     */
+    public void alightMember(Long rId) {
+        Reservation findResv = reservationRepository.findResvById(rId);
+        findResv.changeResvStatus(ReservationStatus.RVW_WAIT);
+    }
 }

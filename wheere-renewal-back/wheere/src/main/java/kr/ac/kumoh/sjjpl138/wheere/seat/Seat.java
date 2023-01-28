@@ -46,4 +46,11 @@ public class Seat {
 
         this.leftSeatsNum = restSeats;
     }
+
+    public void addSeats() {
+        int restSeats = this.leftSeatsNum + 1;
+        if (restSeats <= totalSeatsNum) {
+            this.leftSeatsNum = restSeats;
+        }
+    }
 }

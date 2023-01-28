@@ -5,7 +5,7 @@ class CheckReservationDataSource implements BaseRemoteDataSource {
   @override
   String path = "/api/resvs";
 
-  Future<ReservationListDTO?> readWithRemote(RequestReservationCheckDTO requestDTO) async {
+  Future<ReservationCheckDTO?> readWithRemote(RequestReservationCheckDTO requestDTO) async {
 
     path = "/api/resvs/${requestDTO.mId}";
     //쿼리 ?order=latest|oldest&rState=RESERVED&size=10
@@ -21,7 +21,7 @@ class CheckReservationDataSource implements BaseRemoteDataSource {
      }
     try {
       Map<String, dynamic>? res = await BaseRemoteDataSource.getWithParams(path, queryParams);
-      return res != null ? ReservationListDTO.fromJson(res) : null;
+      return res != null ? ReservationCheckDTO.fromJson(res) : null;
     } catch (e) {
       return null;
     }

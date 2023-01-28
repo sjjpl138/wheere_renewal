@@ -8,7 +8,7 @@ import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.Transfer;
-import org.assertj.core.api.Assertions;
+import kr.ac.kumoh.sjjpl138.wheere.transfer.dto.TransferDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,20 +34,20 @@ class TransferRepositoryTest {
 
     @BeforeEach
     public void before() {
-        Member member1 = new Member("member1", "사용자1", LocalDate.of(2000, 8, 26), "F", "01012342345");
+        Member member1 = new Member("member1", "사용자1", LocalDate.of(2000, 8, 26), "F", "01012342345", "memberFcmToken1");
         em.persist(member1);
 
 
         Station station1 = new Station(1L, "조야동");
         Station station2 = new Station(2L, "사월동");
         Station station3 = new Station(3L, "수성교");
-        Station station4 = new Station(4L, "조야동");
+        Station station4 = new Station(4L, "노원네거리");
         em.persist(station1);
         em.persist(station2);
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.of(2023, 1, 24));
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.of(2023, 1, 24), "busFcmToken");
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
@@ -80,4 +80,25 @@ class TransferRepositoryTest {
         assertThat(transfers.get(0).getAlightStation()).isEqualTo("수성교");
     }
 
+    @Test
+    void findByBus_IdAndReservation_IdTest() {
+        // when
+        List<Transfer> transfers = transferRepository.findByBus_IdAndReservation_Id(1L, 1L);
+
+        // then
+        assertThat(transfers.size()).isEqualTo(1);
+        assertThat(transfers.get(0).getBoardStation()).isEqualTo("조야동");
+        assertThat(transfers.get(0).getAlightStation()).isEqualTo("수성교");
+    }
+
+    @Test
+    void findTransferByBusIdTest() {
+        // when
+        List<TransferDto> dtos = transferRepository.findTransferByBusId(1L);
+
+        // then
+        assertThat(dtos).extracting("status").containsExactly(ReservationStatus.RESERVED);
+        assertThat(dtos).extracting("boardStation").containsExactly("조야동");
+        assertThat(dtos).extracting("alightStation").containsExactly("수성교");
+    }
 }

@@ -20,6 +20,6 @@ class SelectTabViewModel extends ChangeNotifier {
           rDate: rDate,
         ),
       ),
-    ).then((value) => value ? Navigator.pop(context) : null);
+    ).then((value) => value ?? false ? Navigator.pop(context) : null);
   }
 }
