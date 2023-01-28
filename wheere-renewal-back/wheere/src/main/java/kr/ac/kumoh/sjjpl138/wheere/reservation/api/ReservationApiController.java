@@ -97,9 +97,7 @@ public class ReservationApiController {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
 
-        } catch (IllegalStateException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (NotEnoughSeatsException e) {
+        } catch (IllegalStateException | NotEnoughSeatsException e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
