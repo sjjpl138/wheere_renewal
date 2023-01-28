@@ -118,4 +118,16 @@ class PlatformRepositoryTest {
         //then
         assertThat(seqList).containsExactly(1, 3);
     }
+
+    @Test
+    void findPlatformByIdInTest() {
+        //when
+        List<Platform> platforms = platformRepository.findPlatformByIdIn(List.of(1L, 2L));
+
+        //then
+        assertThat(platforms.get(0).getStation().getName()).isEqualTo("조야동");
+        assertThat(platforms.get(1).getStation().getName()).isEqualTo("사월동");
+        assertThat(platforms.get(0).getArrivalTime()).isEqualTo(LocalTime.of(5, 30));
+        assertThat(platforms.get(1).getArrivalTime()).isEqualTo(LocalTime.of(5, 40));
+    }
 }

@@ -2,7 +2,6 @@ package kr.ac.kumoh.sjjpl138.wheere.station.repository;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
-import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationInfo;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,27 +83,15 @@ class StationRepositoryTest {
     }
 
     @Test
-    void findStationByNamesTest() {
+    void findStationByNameInTest() {
         // given
         List<String> sNames = List.of("사월동", "노원네거리");
 
         // when
-        List<Long> sIds = stationRepository.findStationByNames(sNames);
+        List<Station> stations = stationRepository.findStationByNameIn(sNames);
 
         // then
-        assertThat(sIds.get(0)).isEqualTo(2L);
-        assertThat(sIds.get(1)).isEqualTo(4L);
-    }
-
-    @Test
-    void findStationByPlatformTest() {
-        //when
-        List<StationInfo> stationInfos = stationRepository.findStationByPlatformAndBus(List.of(1L, 2L));
-
-        //then
-        assertThat(stationInfos.get(0).getSName()).isEqualTo("조야동");
-        assertThat(stationInfos.get(1).getSName()).isEqualTo("사월동");
-        assertThat(stationInfos.get(0).getArrivalTime()).isEqualTo(LocalTime.of(5, 30));
-        assertThat(stationInfos.get(1).getArrivalTime()).isEqualTo(LocalTime.of(5, 40));
+        assertThat(stations.get(0).getId()).isEqualTo(2L);
+        assertThat(stations.get(1).getId()).isEqualTo(4L);
     }
 }

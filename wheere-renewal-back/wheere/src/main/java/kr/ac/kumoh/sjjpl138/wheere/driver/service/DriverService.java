@@ -32,6 +32,7 @@ public class DriverService {
      * @param logInRequestDto
      * @return
      */
+    @Transactional
     public DriverLoginResponseDto logIn(DriverLogInRequestDto logInRequestDto) {
         String driverId = logInRequestDto.getDriverId();
         String vehicleNo = logInRequestDto.getVehicleNo();
@@ -54,6 +55,7 @@ public class DriverService {
         result.setBNo(busNo);
         result.setRouteId(findBus.getRouteId());
         result.setTotalSeats(2);
+        result.setFcmToken(fcmToken);
 
         setRoute(vehicleNo, busNo, result);
         setReservations(findBus, result);

@@ -89,6 +89,7 @@ public class MemberService {
      * @param request
      * @return
      */
+    @Transactional
     public Member logIn(MemberLoginRequest request) {
         String memberId = request.getMId();
         String fcmToken = request.getFcmToken();
@@ -105,6 +106,7 @@ public class MemberService {
      *
      * @param memberId
      */
+    @Transactional
     public void logout(String memberId) {
         Member findMember = memberRepository.findById(memberId).get();
         findMember.deleteToken();
