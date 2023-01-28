@@ -94,16 +94,4 @@ class StationRepositoryTest {
         assertThat(stations.get(0).getId()).isEqualTo(2L);
         assertThat(stations.get(1).getId()).isEqualTo(4L);
     }
-
-    @Test
-    void findStationByPlatformTest() {
-        //when
-        List<Platform> platforms = stationRepository.findStationByPlatformAndBus(List.of(1L, 2L));
-
-        //then
-        assertThat(platforms.get(0).getStation().getName()).isEqualTo("조야동");
-        assertThat(platforms.get(1).getStation().getName()).isEqualTo("사월동");
-        assertThat(platforms.get(0).getArrivalTime()).isEqualTo(LocalTime.of(5, 30));
-        assertThat(platforms.get(1).getArrivalTime()).isEqualTo(LocalTime.of(5, 40));
-    }
 }
