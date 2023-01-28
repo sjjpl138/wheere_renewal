@@ -1,4 +1,4 @@
-package kr.ac.kumoh.sjjpl138.wheere;
+package kr.ac.kumoh.sjjpl138.wheere.fcm;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +21,6 @@ public class FcmController {
      */
     @PostMapping("/api/fcm")
     public ResponseEntity pushMessage(@RequestBody RequestDTO requestDTO) throws IOException {
-        System.out.println(requestDTO.getTargetToken() + " "
-                +requestDTO.getTitle() + " " + requestDTO.getBody());
 
         fcmService.sendMessageTo(
                 requestDTO.getTargetToken(),
