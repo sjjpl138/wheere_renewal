@@ -2,7 +2,6 @@ package kr.ac.kumoh.sjjpl138.wheere.station.repository;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
-import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationInfo;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,12 +83,12 @@ class StationRepositoryTest {
     }
 
     @Test
-    void findStationByNamesTest() {
+    void findStationByNameInTest() {
         // given
         List<String> sNames = List.of("사월동", "노원네거리");
 
         // when
-        List<Long> sIds = stationRepository.findStationByNames(sNames);
+        List<Long> sIds = stationRepository.findStationByNameIn(sNames);
 
         // then
         assertThat(sIds.get(0)).isEqualTo(2L);

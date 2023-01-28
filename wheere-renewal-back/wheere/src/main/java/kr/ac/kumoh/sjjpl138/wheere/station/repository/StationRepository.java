@@ -1,7 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.station.repository;
 
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
-import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationInfo;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,7 +20,7 @@ public interface StationRepository extends JpaRepository<Station, Long> {
     List<Station> findStationByBusId(@Param("busId") Long busId);
 
     @Query("select s.id from Station s where s.name in :sNames")
-    List<Long> findStationByNames(@Param("sNames") List<String> sNames);
+    List<Long> findStationByNameIn(@Param("sNames") List<String> stationNames);
 
     @Query("select p from Platform p join p.station s on s.id in :stationId")
     List<Platform> findStationByPlatformAndBus(@Param("stationId") List<Long> stationId);
