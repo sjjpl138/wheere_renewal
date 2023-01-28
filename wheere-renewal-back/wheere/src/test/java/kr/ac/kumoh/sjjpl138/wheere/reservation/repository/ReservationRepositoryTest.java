@@ -9,7 +9,6 @@ import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.Transfer;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.repository.TransferRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,8 @@ import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -36,7 +37,7 @@ class ReservationRepositoryTest {
 
     @BeforeEach
     public void before() {
-        Member member1 = new Member("member1", "사용자1", LocalDate.of(2000, 8, 26), "F", "01012342345");
+        Member member1 = new Member("member1", "사용자1", LocalDate.of(2000, 8, 26), "F", "01012342345", "memberFcmToken");
         em.persist(member1);
 
 
@@ -49,7 +50,7 @@ class ReservationRepositoryTest {
         em.persist(station3);
         em.persist(station4);
 
-        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.of(2023, 1, 24));
+        Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430",LocalDate.now(), "busFcmToken");
         em.persist(bus);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
@@ -64,7 +65,7 @@ class ReservationRepositoryTest {
         Driver driver = new Driver("driver1", bus, "버스기사1" , 0, 0);
         em.persist(driver);
 
-        Reservation reservation = new Reservation(member1, ReservationStatus.RESERVED, "조야동", "수성교", LocalDate.of(2023, 1, 24), 1);
+        Reservation reservation = new Reservation(member1, ReservationStatus.RESERVED, "조야동", "수성교", LocalDate.now(), 1);
         em.persist(reservation);
 
         Transfer transfer = new Transfer(reservation, bus, "조야동", "수성교");
@@ -73,12 +74,14 @@ class ReservationRepositoryTest {
 
     @Test
     void findByTransferTest() {
+        // given
         List<Transfer> transfers = transferRepository.findAll();
+
+        // when
         List<Reservation> reservations = reservationRepository.findByTransferId(transfers.get(0).getId());
 
         // then
-        Assertions.assertThat(reservations.get(0).getStartStation()).isEqualTo("조야동");
-        Assertions.assertThat(reservations.get(0).getEndStation()).isEqualTo("수성교");
+        assertThat(reservations.get(0).getStartStation()).isEqualTo("조야동");
+        assertThat(reservations.get(0).getEndStation()).isEqualTo("수성교");
     }
-
 }

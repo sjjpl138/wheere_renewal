@@ -1,6 +1,7 @@
 package kr.ac.kumoh.sjjpl138.wheere.platform.repository;
 
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,4 +18,8 @@ public interface PlatformRepository extends JpaRepository<Platform, Long>, Platf
 
     @Query("select p from Platform p join p.bus b on b.id = :busId")
     List<Platform> findPlatformByBusId(@Param("busId") Long busId);
+
+    @EntityGraph(attributePaths = {"station"})
+    @Query("select p from Platform p join p.station s where s.name in :stationNames")
+    List<Platform> findByStationName(@Param("stationNames") List<String> stationNames);
 }

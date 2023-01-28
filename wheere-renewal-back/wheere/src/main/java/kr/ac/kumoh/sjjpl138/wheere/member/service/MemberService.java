@@ -1,10 +1,10 @@
 package kr.ac.kumoh.sjjpl138.wheere.member.service;
 
-import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
-import kr.ac.kumoh.sjjpl138.wheere.member.SubRoute;
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.member.*;
+import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberLoginRequest;
+import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberInfoDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.AllCourseCase;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.BusLane;
 import kr.ac.kumoh.sjjpl138.wheere.member.sub.Course;
@@ -17,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
-import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberDto;
 import kr.ac.kumoh.sjjpl138.wheere.member.RetrieveRoutesRequest;
 import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
@@ -35,12 +34,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.*;
 
@@ -67,54 +63,73 @@ public class MemberService {
      * @return
      */
     @Transactional
-    public Member join(MemberDto memberDto) {
+    public Member join(MemberInfoDto memberDto) {
         Member member = changeMemberEntity(memberDto);
         memberRepository.save(member);
 
         return member;
     }
 
-    private Member changeMemberEntity(MemberDto memberDto) {
+    private Member changeMemberEntity(MemberInfoDto memberDto) {
         String id = memberDto.getMId();
         String name = memberDto.getMName();
         LocalDate birthDate = memberDto.getMBirthDate();
         String sex = memberDto.getMSex();
         String num = memberDto.getMNum();
-        Member member = new Member(id, name, birthDate, sex, num);
+
+        Member member = new Member(id, name, birthDate, sex, num, null);
 
         return member;
     }
 
     /**
      * 사용자 정보 조회 (로그인)
+     *  - fcm token 저장
      *
-     * @param memberId
+     * @param request
      * @return
      */
-    public Member logIn(String memberId) {
+    public Member logIn(MemberLoginRequest request) {
+        String memberId = request.getMId();
+        String fcmToken = request.getFcmToken();
+
         Member member = memberRepository.findById(memberId).get();
+        member.registerToken(fcmToken);
 
         return member;
+    }
+
+    /**
+     * 사용자 로그아웃
+     *  - fcm token 삭제
+     *
+     * @param memberId
+     */
+    public void logout(String memberId) {
+        Member findMember = memberRepository.findById(memberId).get();
+        findMember.deleteToken();
     }
 
     /**
      * 사용자 정보 수정
      */
     @Transactional
-    public void update(MemberDto memberDto) {
+    public void update(MemberInfoDto memberDto) {
         String id = memberDto.getMId();
         Member findMember = memberRepository.findById(id).get();
+
         findMember.updateMemberInfo(memberDto);
     }
 
     /**
      * 사용자 삭제 (탈퇴하기)
      *
-     * @param member
+     * @param mId
      */
     @Transactional
-    public void delete(Member member) {
-        memberRepository.delete(member);
+    public void delete(String mId) {
+        Member findMember = memberRepository.findById(mId).get();
+        memberRepository.delete(findMember);
     }
 
     /**
@@ -236,6 +251,12 @@ public class MemberService {
             int busTransitCount = getBusTransitCount(info);
             course.setBusTransitCount(busTransitCount);
 
+            String firstStartStation = getFirstStartStation(info);
+            course.setFirstStartStation(firstStartStation);
+
+            String lastEndStation = getLastEndStation(info);
+            course.setLastEndStation(lastEndStation);
+
             // 이동 교통 수단 정보 확장 노드
             JSONArray subPath = getSubPath(pathObj);
 
@@ -244,6 +265,18 @@ public class MemberService {
             course.setSubCourses(subCourses);
             courses.add(course);
         }
+    }
+
+    private String getLastEndStation(JSONObject info) {
+        String lastEndStation = info.getString("lastEndStation");
+        log.debug("lastEndStation = {}", lastEndStation);
+        return lastEndStation;
+    }
+
+    private String getFirstStartStation(JSONObject info) {
+        String firstStartStation = info.getString("firstStartStation");
+        log.debug("firstStartStation = {}", firstStartStation);
+        return firstStartStation;
     }
 
     private JSONObject getPathObj(JSONArray path, int i) {
@@ -471,132 +504,30 @@ public class MemberService {
         // 모든 경우의 수
         List<Course> courses = allRouteCase.getCourses();
 
-        RetrieveRoutesResult retrieveRoutesResult = new RetrieveRoutesResult();
-        retrieveRoutesResult.setOutTrafficCheck(allRouteCase.getOutTrafficCheck());
+        // 경우의 수 중 하나
+        for (Course course : courses) {
 
-        List<CoursePerHour> selects = new ArrayList<>();
+            List<SubCourse> subCourses = course.getSubCourses();
+            for (SubCourse subCourse : subCourses) {
 
-        for (int i = 0; i < 24; i++) {
+                // busTransitCount 개수만큼 생성? -> x
+                // n -> m = (n * m) 경우의 수
+                // busNoList 개수
 
-            CoursePerHour coursePerHour = new CoursePerHour();
-            coursePerHour.setSelectTime(i);
+                Optional<BusLane> busLane = subCourse.getBusLane();
 
-            List<Route> routes = new ArrayList<>();
+                busLane.ifPresent(b -> {
 
-            // 경우의 수 중 하나
-            for (Course course : courses) {
+                    List<String> busNoList = b.getBusNoList();
 
-                Route route = new Route();
-                route.setPayment(course.getPayment());
-                route.setBusTransitCount(course.getBusTransitCount());
+                    for (String busNo : busNoList) {
+                        System.out.println("busNo = " + busNo);
+                    }
+                });
 
-                List<SubRoute> subRoutes = new ArrayList<>();
-
-                List<SubCourse> subCourses = course.getSubCourses();
-                for (SubCourse subCourse : subCourses) {
-
-                    SubRoute subRoute = new SubRoute();
-                    subRoute.setTrafficType(subCourse.getTrafficType());
-                    subRoute.setSectionTime(subCourse.getSectionTime());
-
-                    Optional<BusLane> busLane = subCourse.getBusLane();
-
-
-                    // ================================================================================ //
-
-                    busLane.ifPresent(b -> {
-
-                        List<String> busNoList = b.getBusNoList();
-                        for (String busNo : busNoList) {
-
-                            BusRoute busRoute = new BusRoute();
-
-                            int boardStationID = b.getBoardStationID();
-                            int alightStationID = b.getAlightStationID();
-
-                            busRoute.setBNo(busNo);
-                            busRoute.setSStationId(boardStationID);
-                            busRoute.setSStationName(b.getBoardStationName());
-                            busRoute.setEStationId(alightStationID);
-                            busRoute.setEStationName(b.getAlightStationName());
-
-                            List<Bus> findBusList = busRepository.findByBusNo(busNo);
-
-                            List<Long> findBusIDs = findBusList.stream().map(Bus::getId).collect(Collectors.toList());
-
-                            for (Long findBusID : findBusIDs) {
-
-                                busRoute.setBusId(findBusID);
-
-                                List<Long> stationIdList = Arrays.asList((long) boardStationID, (long) alightStationID);
-                                List<LocalTime> arrivalTimes = platformRepository.searchArrivalTime(findBusID, stationIdList);
-
-                                busRoute.setSTime(arrivalTimes.get(0));
-                                busRoute.setETime(arrivalTimes.get(1));
-
-                                List<Integer> findSeq = platformRepository.findAllocationSeqByBusIdAndStationIdList(findBusID, stationIdList);
-
-                                Integer firstStationSeq = findSeq.get(0);
-                                Integer lastStationSeq = findSeq.get(0);
-
-                                List<Integer> seqList = new ArrayList<>();
-                                for (int j = firstStationSeq; j <= lastStationSeq; j++) {
-                                    seqList.add(j);
-                                }
-
-                                Optional<Integer> minLeftSeatsNo = seatRepository.findMinLeftSeatsByStation(findBusID, seqList, rDate);
-                                if (minLeftSeatsNo.isEmpty()) {
-                                    busRoute.setLeftSeats(2);
-                                } else {
-                                    busRoute.setLeftSeats(minLeftSeatsNo.get());
-                                }
-                            }
-                            subRoute.setBusRoute(busRoute);
-                        }
-                    });
-
-                    // ================================================================================ //
-
-                    subRoutes.add(subRoute);
-                }
-                // 둘이 분리시켜야 할듯
-                route.setSubRoutes(subRoutes);
-                routes.add(route);
             }
-            coursePerHour.setRoutes(routes);
-            selects.add(coursePerHour);
-        }
-        retrieveRoutesResult.setSelects(selects);
-        return retrieveRoutesResult;
-    }
-
-    private List<Long> extractBusIdList(String busNo) {
-        List<Bus> findBusList = busRepository.findByBusNo(busNo);
-
-        return findBusList.stream().map(Bus::getId).collect(Collectors.toList());
-    }
-
-    private void setArrivalTimes(BusRoute busRoute, Long findBusID, List<Long> stationIdList) {
-        List<LocalTime> arrivalTimes = platformRepository.searchArrivalTime(findBusID, stationIdList);
-
-        busRoute.setSTime(arrivalTimes.get(0));
-        busRoute.setETime(arrivalTimes.get(1));
-    }
-
-    private void setLeftSeats(LocalDate rDate, BusRoute busRoute, Long findBusID, List<Integer> findSeq) {
-        Integer firstStationSeq = findSeq.get(0);
-        Integer lastStationSeq = findSeq.get(0);
-
-        List<Integer> seqList = new ArrayList<>();
-        for (int j = firstStationSeq; j <= lastStationSeq; j++) {
-            seqList.add(j);
         }
 
-        Optional<Integer> minLeftSeatsNo = seatRepository.findMinLeftSeatsByStation(findBusID, seqList, rDate);
-        if (minLeftSeatsNo.isEmpty()) {
-            busRoute.setLeftSeats(2);
-        } else {
-            busRoute.setLeftSeats(minLeftSeatsNo.get());
-        }
+        return null;
     }
 }

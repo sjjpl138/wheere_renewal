@@ -8,4 +8,6 @@ public interface PlatformRepositoryCustom {
     List<LocalTime> searchArrivalTime(Long busId, List<Long> stationIdList);
 
     List<Integer> findAllocationSeqByBusIdAndStationIdList(Long busId, List<Long> stationIds);
+
+    List<Integer> findAllocationSeqByBusIdAndStationNameList(Long busId, List<String > stationName);
 }
