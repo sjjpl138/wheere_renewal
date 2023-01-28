@@ -6,7 +6,6 @@ import kr.ac.kumoh.sjjpl138.wheere.bus.service.BusService;
 import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
-import kr.ac.kumoh.sjjpl138.wheere.platform.service.PlatformService;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
@@ -85,7 +84,7 @@ public class ReservationApiController {
 
                 Long sStationId = bus.getSStationId();
                 Long eStationId = bus.getEStationId();
-                List<Platform> platforms = platformRepository.findPlatformByIdIn(List.of(sStationId, eStationId));
+                List<Platform> platforms = platformRepository.findPlatformByStationIds(List.of(sStationId, eStationId));
                 String sStationName = platforms.get(0).getStation().getName();
                 String eStationName = platforms.get(1).getStation().getName();
                 LocalTime sTime = platforms.get(0).getArrivalTime();
