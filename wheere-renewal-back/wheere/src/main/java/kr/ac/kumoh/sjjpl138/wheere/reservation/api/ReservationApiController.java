@@ -4,14 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.bus.service.BusService;
 import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
-import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationInfo;
+import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
+import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
+import kr.ac.kumoh.sjjpl138.wheere.platform.service.PlatformService;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationListResponse;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.service.ReservationService;
-import kr.ac.kumoh.sjjpl138.wheere.station.service.StationService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +36,7 @@ public class ReservationApiController {
 
     private final ReservationService reservationService;
     private final BusService busService;
-    private final StationService stationService;
-
+    private final PlatformRepository platformRepository;
     /**
      * 예약 조회
      *
@@ -85,11 +85,11 @@ public class ReservationApiController {
 
                 Long sStationId = bus.getSStationId();
                 Long eStationId = bus.getEStationId();
-                List<StationInfo> stationInfos = stationService.findStationByPlatformAndBus(List.of(sStationId, eStationId));
-                String sStationName = stationInfos.get(0).getSName();
-                String eStationName = stationInfos.get(1).getSName();
-                LocalTime sTime = stationInfos.get(0).getArrivalTime();
-                LocalTime eTime = stationInfos.get(1).getArrivalTime();
+                List<Platform> platforms = platformRepository.findPlatformByIdIn(List.of(sStationId, eStationId));
+                String sStationName = platforms.get(0).getStation().getName();
+                String eStationName = platforms.get(1).getStation().getName();
+                LocalTime sTime = platforms.get(0).getArrivalTime();
+                LocalTime eTime = platforms.get(1).getArrivalTime();
                 SaveResvBusInfo busInfo = new SaveResvBusInfo(busNo, routeId, vehicleNo, sTime, sStationId, sStationName, eTime, eStationId, eStationName);
                 busInfos.add(busInfo);
             }
