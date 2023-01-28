@@ -52,4 +52,6 @@ public class Member extends BaseTimeEntity implements Persistable<String> {
     public void registerToken(String token) {
         this.token = token;
     }
+
+    public void deleteToken() {this.token = null;}
 }
