@@ -22,5 +22,4 @@ public class StationService {
     public List<Station> findStationList(Long bId) {
         return stationRepository.findStationByBusId(bId);
     }
-        List<StationInfo> infoList = new ArrayList<>();
 }
