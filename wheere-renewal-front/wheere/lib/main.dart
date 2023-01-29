@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/service/alarm_service.dart';
+import 'package:wheere/model/service/alarm_test_service.dart';
 import 'package:wheere/model/service/services.dart';
 import 'package:wheere/test.dart';
 
@@ -88,7 +90,13 @@ class MyApp extends StatelessWidget {
           details,
         );
 
-        print(json.encode(message.data));
+        log("title : ${notification.title}");
+        log("body : ${notification.body}");
+        log("messageType : ${json.encode(message.messageType)}");
+        log("data : ${message.data}");
+        log("${TestDTO.fromJson(message.data)}");
+        log("${TestDTO.fromJson(message.data["data"])}");
+        AlarmTestService().addAlarmWithLocal(message.data);
         /*AlarmService().addAlarmWithLocal(
 //        AlarmDTO.fromJson(message.data['alarm']),
           AlarmDTO(
@@ -129,6 +137,44 @@ class MyApp extends StatelessWidget {
         Locale('ko', 'KR'),
       ],
       locale: Locale('ko'),
+    );
+  }
+}
+
+class TestDTO {
+  String rDate;
+  String rStatus;
+  String sTime;
+  String sStationId;
+  String sStationName;
+  String eTime;
+  String eStationId;
+  String eStationName;
+
+  TestDTO({
+    required this.rDate,
+    required this.rStatus,
+    required this.sTime,
+    required this.sStationId,
+    required this.sStationName,
+    required this.eTime,
+    required this.eStationId,
+    required this.eStationName,
+  });
+
+  factory TestDTO.fromJson(Map<String, dynamic> json) {
+    log("TestDTO.fromJson");
+    log(json["rData"]);
+    log(json["rStatus"]);
+    return TestDTO(
+      rDate: json["rdate"],
+      rStatus: json["rstatus"],
+      sTime: json["stime"],
+      sStationId: json["sstationId"],
+      sStationName: json["sstationName"],
+      eTime: json["etime"],
+      eStationId: json["estationId"],
+      eStationName: json["estationName"],
     );
   }
 }
