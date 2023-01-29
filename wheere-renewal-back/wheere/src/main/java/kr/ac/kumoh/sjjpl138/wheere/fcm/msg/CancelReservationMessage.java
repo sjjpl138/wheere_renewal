@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalTime;
 
 @Builder
 @AllArgsConstructor
@@ -15,6 +18,9 @@ public class CancelReservationMessage {
     @AllArgsConstructor
     @Getter
     public static class Data {
+        private String alarmType;
+        @DateTimeFormat(pattern = "HH:mm:ss")
+        private LocalTime aTime;
         @JsonProperty("mId")
         private String mId;
         @JsonProperty("rId")
