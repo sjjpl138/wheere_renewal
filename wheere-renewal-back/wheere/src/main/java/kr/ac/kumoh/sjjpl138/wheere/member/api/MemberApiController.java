@@ -71,9 +71,9 @@ public class MemberApiController {
      * 사용자 로그아웃
      */
     @PostMapping("/logout")
-    public ResponseEntity memberLogout(@RequestBody Map<String, String> mIds) {
-        String mId = mIds.get("mId");
-        memberService.logout(mId);
+    public ResponseEntity memberLogout(@RequestBody Map<String, String> memberIdRequest) {
+        String memberId = memberIdRequest.get("mId");
+        memberService.logout(memberId);
 
         return new ResponseEntity(HttpStatus.OK);
     }
