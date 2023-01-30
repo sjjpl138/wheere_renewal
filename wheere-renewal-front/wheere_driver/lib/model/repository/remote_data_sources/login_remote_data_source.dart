@@ -24,6 +24,7 @@ class LoginDataSource implements BaseRemoteDataSource {
               vNo: loginDTO.vNo,
               bOutNo: loginDTO.bOutNo,
               bNo: loginDTO.bNo,
+              fcmToken: fcmToken,
             )
           : null;
     } catch (e) {
