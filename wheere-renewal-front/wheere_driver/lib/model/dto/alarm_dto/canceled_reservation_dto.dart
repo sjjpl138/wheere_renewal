@@ -13,4 +13,11 @@ class CanceledReservationDTO{
         rId: json["rId"],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "mId": mId,
+      "rId": rId,
+    };
+  }
 }

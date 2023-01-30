@@ -5,12 +5,14 @@ import 'dart:convert';
 class LocalAlarmDataSource implements BaseLocalDataSource {
   Future<AlarmListDTO?> readWithLocal() async {
     String? alarmListDTO = await BaseLocalDataSource.read(key: 'alarm');
-    if(alarmListDTO == null) return null;
+    if (alarmListDTO == null) return null;
     return AlarmListDTO.fromJson(json.decode(alarmListDTO));
   }
 
   Future writeWithLocal(AlarmListDTO value) async {
     await BaseLocalDataSource.write(
-        key: 'alarm', value: json.encode(value.toJson()));
+      key: 'alarm',
+      value: json.encode(value.toJson()),
+    );
   }
 }

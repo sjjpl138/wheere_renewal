@@ -18,7 +18,7 @@ class AlarmService {
           .compareTo(dateTimeFormat.parse(a.aTime)));*/
   }
 
-  Future addAlarmWithLocal(AlarmDTO value) async {
+  Future addAlarmWithLocal(BaseAlarmDTO value) async {
     AlarmListDTO? alarmListDTO = await _alarmRepository.readAlarmWithLocal();
     if (alarmListDTO == null) {
       alarmListDTO = AlarmListDTO(alarms: [value]);

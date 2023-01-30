@@ -1,9 +1,7 @@
-import 'dart:convert';
-
-import 'alarm_dto.dart';
+import 'base_alarm_dto.dart';
 
 class AlarmListDTO {
-  List<AlarmDTO> alarms;
+  List<BaseAlarmDTO> alarms;
 
   AlarmListDTO({
     required this.alarms,
@@ -12,7 +10,7 @@ class AlarmListDTO {
   factory AlarmListDTO.fromJson(Map<String, dynamic> json) {
     return AlarmListDTO(
       alarms:
-          (json['alarms'] as List).map((i) => AlarmDTO.fromJson(i)).toList(),
+          (json['alarms'] as List).map((i) => BaseAlarmDTO.fromJson(i)).toList(),
     );
   }
 
