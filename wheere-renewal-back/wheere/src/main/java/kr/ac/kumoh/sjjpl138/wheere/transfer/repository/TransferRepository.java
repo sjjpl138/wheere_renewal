@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface TransferRepository extends JpaRepository<Transfer, Long>{
 
@@ -24,4 +25,8 @@ public interface TransferRepository extends JpaRepository<Transfer, Long>{
 
     @EntityGraph(attributePaths = {"bus"})
     List<Transfer> findByReservation(Reservation reservation);
+
+    @EntityGraph(attributePaths = {"bus"})
+    @Query("select t from Transfer t join fetch t.reservation v where v.id = :reservationId")
+    Optional<Transfer> findByReservationId(@Param("reservationId") Long reservationId);
 }
