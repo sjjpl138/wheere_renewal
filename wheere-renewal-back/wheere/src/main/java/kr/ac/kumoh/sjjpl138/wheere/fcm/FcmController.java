@@ -23,7 +23,7 @@ public class FcmController {
     @PostMapping("/api/fcm")
     public ResponseEntity pushMessage(@RequestBody RequestDTO requestDTO) throws IOException {
 
-        fcmService.sendRatingMessage(requestDTO.getTargetToken());
+        fcmService.sendRatingMessage(requestDTO.getTargetToken(), null ,null);
 
         return ResponseEntity.ok().build();
     }
