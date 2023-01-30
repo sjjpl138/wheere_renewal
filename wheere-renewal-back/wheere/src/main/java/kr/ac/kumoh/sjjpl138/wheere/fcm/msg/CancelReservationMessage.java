@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Getter
 public class CancelReservationMessage {
-    private NewReservationMessage.Message message;
+    private Message message;
 
     @Builder
     @AllArgsConstructor
@@ -31,9 +31,10 @@ public class CancelReservationMessage {
     @AllArgsConstructor
     @Getter
     public static class Message {
-        private NewReservationMessage.Notification notification;
+        private Notification notification;
         private String token;
-        private NewReservationMessage.Data data;
+        private String topic;
+        private Data data;
     }
 
     @Builder
