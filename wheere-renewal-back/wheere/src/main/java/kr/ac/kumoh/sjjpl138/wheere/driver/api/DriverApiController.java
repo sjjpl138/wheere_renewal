@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/drivers")
@@ -23,11 +24,12 @@ public class DriverApiController {
      * @param requestDto
      * @return
      */
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public ResponseEntity<DriverLoginResponseDto> driverLogIn(@RequestBody DriverLogInRequestDto requestDto) {
+    public DriverLoginResponseDto driverLogIn(@RequestBody DriverLogInRequestDto requestDto) {
         DriverLoginResponseDto responseDto = driverService.logIn(requestDto);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return responseDto;
     }
 
     /**
@@ -35,15 +37,21 @@ public class DriverApiController {
      * @param request
      * @return
      */
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping
-    public ResponseEntity driverModify(@RequestBody DriverUpdateRequest request) {
+    public void driverModify(@RequestBody DriverUpdateRequest request) {
         String dId = request.getDId();
         String vNo = request.getVNo();
         String bNo = request.getBNo();
         LocalDate busDate = LocalDate.now();
         driverService.changeBus(dId, vNo, bNo, busDate);
+    }
 
-        return new ResponseEntity(HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/logout")
+    public void memberLogout(@RequestBody Map<String, String> driverIdRequest) {
+        String driverId = driverIdRequest.get("dId");
+        driverService.logout(driverId);
     }
 
     @Data
