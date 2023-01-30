@@ -148,7 +148,7 @@ public class MemberService {
     }
 
     private void changeStateToComp(Reservation resv) {
-        resv.changeResvStatus(ReservationStatus.RVW_COMP);
+        resv.changeStatusToRVW_COMP();
     }
 
     /**
