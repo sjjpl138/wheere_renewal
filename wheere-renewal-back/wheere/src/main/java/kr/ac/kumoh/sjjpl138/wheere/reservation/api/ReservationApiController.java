@@ -5,6 +5,8 @@ import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.bus.service.BusService;
 import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistMemberException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.ReservationException;
 import kr.ac.kumoh.sjjpl138.wheere.fcm.service.FcmService;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
@@ -127,7 +129,7 @@ public class ReservationApiController {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
 
-        } catch (IllegalStateException | NotEnoughSeatsException | IOException e) {
+        } catch (ReservationException | NotEnoughSeatsException | IOException | NotExistMemberException e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
