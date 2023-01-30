@@ -22,7 +22,8 @@ public class NewReservationMessage {
     @AllArgsConstructor
     @Getter
     public static class Data {
-        @DateTimeFormat(pattern = "HH:mm:ss")
+        private String alarmType;
+        @JsonFormat(pattern = "HH:mm:ss")
         private LocalTime aTime;
         @JsonProperty("mId")
         private String mId;
