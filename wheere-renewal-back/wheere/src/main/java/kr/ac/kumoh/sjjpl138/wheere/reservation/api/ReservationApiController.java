@@ -6,7 +6,6 @@ import kr.ac.kumoh.sjjpl138.wheere.bus.service.BusService;
 import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
-import kr.ac.kumoh.sjjpl138.wheere.platform.service.PlatformService;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
@@ -68,32 +67,36 @@ public class ReservationApiController {
         Long endStationId = request.getEndStationId();
         ReservationStatus rState = request.getRState();
         LocalDate rDate = request.getRDate();
-        List<ReservationBusInfo> buses = request.getBuses();
+        List<ReservationBusInfo> reservationBusInfo = request.getBuses();
 
         try {
-            Reservation reservation = reservationService.saveReservation(mId, startStationId, endStationId, rState, rDate, buses);
+            // 예약 생성
+            Reservation reservation = reservationService.saveReservation(mId, startStationId, endStationId, rState, rDate, reservationBusInfo);
 
             Long rId = reservation.getId();
 
-            List<SaveResvBusInfo> busInfos = new ArrayList<>();
-            for (ReservationBusInfo bus : buses) {
-                Long bId = bus.getBId();
+            List<SaveResvBusInfo> resvBusInfos = new ArrayList<>(); // 예약한 버스 정보
+            for (ReservationBusInfo busInfo : reservationBusInfo) {
+                Long bId = busInfo.getBId();
                 Bus findBus = busService.findBus(bId);
+
                 String busNo = findBus.getBusNo();
                 String vehicleNo = findBus.getVehicleNo();
                 String routeId = findBus.getRouteId();
 
-                Long sStationId = bus.getSStationId();
-                Long eStationId = bus.getEStationId();
-                List<Platform> platforms = platformRepository.findPlatformByIdIn(List.of(sStationId, eStationId));
+                Long sStationId = busInfo.getSStationId();
+                Long eStationId = busInfo.getEStationId();
+
+                List<Platform> platforms = platformRepository.findPlatformByStationIds(List.of(sStationId, eStationId));
                 String sStationName = platforms.get(0).getStation().getName();
                 String eStationName = platforms.get(1).getStation().getName();
                 LocalTime sTime = platforms.get(0).getArrivalTime();
                 LocalTime eTime = platforms.get(1).getArrivalTime();
-                SaveResvBusInfo busInfo = new SaveResvBusInfo(busNo, routeId, vehicleNo, sTime, sStationId, sStationName, eTime, eStationId, eStationName);
-                busInfos.add(busInfo);
+
+                SaveResvBusInfo saveResvBusInfo = new SaveResvBusInfo(busNo, routeId, vehicleNo, sTime, sStationId, sStationName, eTime, eStationId, eStationName);
+                resvBusInfos.add(saveResvBusInfo);
             }
-            SaveResvResponse response = new SaveResvResponse(rId, rDate, rState, busInfos);
+            SaveResvResponse response = new SaveResvResponse(rId, rDate, rState, resvBusInfos);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
 
@@ -108,7 +111,7 @@ public class ReservationApiController {
      * @param request
      * @return
      */
-    @DeleteMapping("/{rId}")
+    @PostMapping("/{rId}")
     public ResponseEntity reservationRemove(@PathVariable("rId") Long rId, @RequestBody RemoveResvRequest request) {
         List<Long> bIds = request.getBIds();
         reservationService.cancelReservation(rId, bIds);
@@ -167,8 +170,6 @@ public class ReservationApiController {
 
     @Data
     static class RemoveResvRequest {
-        @JsonProperty("rId")
-        private Long rId;
         @JsonProperty("bIds")
         private List<Long> bIds;
     }

@@ -3,12 +3,14 @@ class LoginDTO{
   String vNo;
   int bOutNo;
   String bNo;
+  String fcmToken;
 
   LoginDTO({
     required this.dId,
     required this.vNo,
     required this.bOutNo,
-    required this.bNo
+    required this.bNo,
+    required this.fcmToken,
   });
 
   Map<String, dynamic> toJson() => {
@@ -16,5 +18,6 @@ class LoginDTO{
     'vNo': vNo,
     'bOutNo': bOutNo,
     'bNo': bNo,
+    "fcmToken": fcmToken,
   };
 }

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -88,28 +86,9 @@ class MyApp extends StatelessWidget {
           details,
         );
 
-        print(json.encode(message.data));
-        /*AlarmService().addAlarmWithLocal(
-//        AlarmDTO.fromJson(message.data['alarm']),
-          AlarmDTO(
-            alarmType: message.data['alarmType'],
-            aTime: message.data['aTime'],
-            reservation: ReservationDTO(
-              rId: message.data['rId'],
-              rDate: message.data['rDate'],
-              bNo: message.data['bNo'],
-              routeId: message.data['routeId'],
-              vNo: message.data['vNo'],
-              sStationId: message.data['sStationId'],
-              sStationName: message.data['sStationName'],
-              eStationId: message.data['eStationId'],
-              eStationName: message.data['eStationName'],
-              rState: message.data['rState'],
-              sTime: message.data['sTime'],
-              eTime: message.data['eTime'],
-            ),
-          ),
-        );*/
+        message.data["title"] = notification.title;
+        message.data["body"] = notification.body;
+        AlarmService().addAlarmWithLocal(BaseAlarmDTO.fromJson(message.data));
       }
     });
   }

@@ -21,7 +21,6 @@ import kr.ac.kumoh.sjjpl138.wheere.seat.repository.SeatRepository;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import kr.ac.kumoh.sjjpl138.wheere.station.repository.StationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.Transfer;
-import kr.ac.kumoh.sjjpl138.wheere.transfer.dto.TransferDto;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.repository.TransferRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -59,7 +59,7 @@ public class ReservationService {
 
         // 출발 정류장, 도착 정류장 조회
         List<Long> stationIds = List.of(startStationId, endStationId);
-        List<Station> stations = stationRepository.findStationByStationIds(stationIds);
+        List<Station> stations = stationRepository.findStationByIdIn(stationIds);
         String startStation = stations.get(0).getName();
         String endStation = stations.get(1).getName();
 
@@ -77,7 +77,7 @@ public class ReservationService {
             compareBusDepartureTime(findBus.getBusDate(), resvDate, findPlatforms);
 
             // 동일 버스에 대한 기존 예약이 존재하고 기존 예약의 상태가 취소 상태가 아니라면 예약 불가
-            List<Transfer> transfers = transferRepository.findByReservation_Member_IdAndBus_IdAndReservation_ReservationDate(memberId, bId, resvDate);
+            List<Transfer> transfers = transferRepository.findByMemberIdAndBusIdAndReservationDate(memberId, bId, resvDate);
             if (!transfers.isEmpty()) {
                 for (Transfer transfer : transfers) {
                     List<Reservation> reservations = reservationRepository.findByTransferId(transfer.getId());
@@ -181,7 +181,8 @@ public class ReservationService {
     }
 
     private List<Station> getStationsByPlatform(Platform startPlatform, Platform endPlatform) {
-        return stationRepository.findStationByPlatformId(List.of(startPlatform.getId(), endPlatform.getId()));
+        List<Platform> platforms = platformRepository.findPlatformByIdIn(List.of(startPlatform.getId(), endPlatform.getId()));
+        return platforms.stream().map(p ->p.getStation()).collect(Collectors.toList());
     }
 
     private List<Platform> getPlatformsBySIds(Long bId, List<Long> stationIds) {
@@ -203,7 +204,7 @@ public class ReservationService {
         // 버스 좌석 증가
         LocalDate resvDate = findResv.getReservationDate();
         for (Long bId : bIds) {
-            List<Transfer> transfers = transferRepository.findByBus_IdAndReservation_Id(bId, rId);
+            List<Transfer> transfers = transferRepository.findByBusIdAndReservationId(bId, rId);
 
             List<String> stationList = List.of(transfers.get(0).getBoardStation(), transfers.get(0).getAlightStation());
             List<Station> findStations = stationRepository.findStationByNameIn(stationList);
@@ -291,13 +292,14 @@ public class ReservationService {
     public List<ResvDto> findPartForDriver(Bus findBus) {
         List<ResvDto> resvDtoList = new ArrayList<>();
         Long bId = findBus.getId();
-        List<TransferDto> transfers = transferRepository.findTransferByBusId(bId);
-        for (TransferDto transfer : transfers) {
+        List<Transfer> transfers = transferRepository.findTransferByBusId(bId);
+        for (Transfer transfer : transfers) {
             List<Integer> allocSeqList = platformRepository.findAllocationSeqByBusIdAndStationNameList(bId, List.of(transfer.getBoardStation(), transfer.getAlightStation()));
-            ResvDto resvDto = new ResvDto(transfer.getRId(), allocSeqList.get(0), allocSeqList.get(1));
+            Reservation reservation = transfer.getReservation();
+            ResvDto resvDto = new ResvDto(reservation.getId(), allocSeqList.get(0), allocSeqList.get(1));
 
             // 예약 상태가 RESERVED 혹은 PAID 인 예약만 보여줌
-            ReservationStatus status = transfer.getStatus();
+            ReservationStatus status = reservation.getReservationStatus();
             if (status == ReservationStatus.RESERVED || status == ReservationStatus.PAID)
                 resvDtoList.add(resvDto);
         }
