@@ -1,4 +1,4 @@
-package kr.ac.kumoh.sjjpl138.wheere;
+package kr.ac.kumoh.sjjpl138.wheere.fcm;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 @Configuration
 public class FirebaseConfig {
@@ -17,11 +19,12 @@ public class FirebaseConfig {
     private Resource resource;
 
     @PostConstruct
-    public void initFirebase() {
+    public void initFirebase() throws IOException {
         try {
             FileInputStream serviceAccount = new FileInputStream(resource.getFile());
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setProjectId("wheere-abb78")
                     .build();
 
             FirebaseApp.initializeApp(options);
