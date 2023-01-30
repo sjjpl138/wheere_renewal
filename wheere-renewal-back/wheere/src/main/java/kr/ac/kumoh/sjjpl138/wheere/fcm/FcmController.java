@@ -1,5 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.fcm;
 
+import kr.ac.kumoh.sjjpl138.wheere.fcm.service.FcmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class FcmController {
 
-    private final FCMService fcmService;
+    private final FcmService fcmService;
 
     /**
      * @param requestDTO
@@ -22,10 +23,7 @@ public class FcmController {
     @PostMapping("/api/fcm")
     public ResponseEntity pushMessage(@RequestBody RequestDTO requestDTO) throws IOException {
 
-        fcmService.sendMessageTo(
-                requestDTO.getTargetToken(),
-                requestDTO.getTitle(),
-                requestDTO.getBody());
+        fcmService.sendRatingMessage(requestDTO.getTargetToken());
 
         return ResponseEntity.ok().build();
     }
