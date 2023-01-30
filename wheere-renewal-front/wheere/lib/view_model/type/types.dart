@@ -7,3 +7,4 @@ export 'alarm_type.dart';
 export 'place_info.dart';
 export 'reservation_list.dart';
 export 'reservation_data.dart';
+export 'service_info_data.dart';

@@ -1,6 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:wheere_driver/model/dto/dtos.dart';
 import 'base_remote_data_source.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -19,6 +16,7 @@ class LogoutDataSource implements BaseRemoteDataSource {
 
   Future deleteWithRemote() async {
     await _firebaseLogout();
+    // TODO : 서버에 알리는 코드 작성
     return null;
   }
 }

@@ -5,8 +5,6 @@ class LogoutService {
   final LogoutRepository _loginRepository = LogoutRepository();
 
   Future<DriverDTO?> logoutWithRemote() async {
-    DriverDTO? driverDTO =
-    await _loginRepository.deleteMemberWithRemote();
-    return driverDTO;
+    return await _loginRepository.deleteMemberWithRemote();
   }
 }

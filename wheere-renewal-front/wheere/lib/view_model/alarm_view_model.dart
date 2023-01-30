@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wheere/model/dto/alarm_dto/test_alarm_dto.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/service/services.dart';
 import 'package:wheere/util/utils.dart';
@@ -7,7 +8,7 @@ import 'package:wheere/view/common/commons.dart';
 class AlarmViewModel extends ChangeNotifier {
   final AlarmService _alarmService = AlarmService();
 
-  late List<AlarmDTO> _alarmList;
+  late List<BaseAlarmDTO> _alarmList;
 
   List<Alarm> todayAlarms = [];
   List<Alarm> thisWeekAlarms = [];
@@ -18,108 +19,6 @@ class AlarmViewModel extends ChangeNotifier {
   }
 
   Future getAlarms() async {
-//    await _member.getReservationList();
-/*    await _member.logout();
-    await _alarmService.addAlarmWithLocal(
-      AlarmDTO(
-        alarmType: "rating",
-        aTime: "2022-12-31 11:00",
-        reservation: ReservationDTO(
-          rId: 3,
-          routeId: "routeId",
-          bNo: "bNo",
-          rDate: "2022-12-31",
-          sStationId: 3,
-          sStationName: "sStationName",
-          sTime: "sTime",
-          eStationId: 1,
-          eStationName: "eStationName",
-          eTime: "eTime",
-          rState: "rState",
-          vNo: "vNo",
-        ),
-      ),
-    );
-    await _alarmService.addAlarmWithLocal(
-      AlarmDTO(
-        alarmType: "rating",
-        aTime: "2023-01-01 11:00",
-        reservation: ReservationDTO(
-          rId: 5,
-          routeId: "routeId",
-          bNo: "bNo",
-          rDate: "2023-01-01",
-          sStationId: 3,
-          sStationName: "sStationName",
-          sTime: "sTime",
-          eStationId: 1,
-          eStationName: "eStationName",
-          eTime: "eTime",
-          rState: "rState",
-          vNo: "vNo",
-        ),
-      ),
-    );
-    await _alarmService.addAlarmWithLocal(
-      AlarmDTO(
-        alarmType: "rating",
-        aTime: "2023-01-13 11:00",
-        reservation: ReservationDTO(
-          rId: 2,
-          routeId: "routeId",
-          bNo: "bNo",
-          rDate: "2023-01-13",
-          sStationId: 2,
-          sStationName: "sStationName",
-          sTime: "sTime",
-          eStationId: 1,
-          eStationName: "eStationName",
-          eTime: "eTime",
-          rState: "rState",
-          vNo: "vNo",
-        ),
-      ),
-    );
-    await _alarmService.addAlarmWithLocal(
-      AlarmDTO(
-        alarmType: "rating",
-        aTime: "2023-01-17 15:00",
-        reservation: ReservationDTO(
-          rId: 4,
-          routeId: "routeId",
-          bNo: "bNo",
-          rDate: "2023-01-17",
-          sStationId: 4,
-          sStationName: "sStationName",
-          sTime: "sTime",
-          eStationId: 1,
-          eStationName: "eStationName",
-          eTime: "eTime",
-          rState: "rState",
-          vNo: "vNo",
-        ),
-      ),
-    );
-    await _alarmService.addAlarmWithLocal(
-      AlarmDTO(
-        alarmType: "rating",
-        aTime: "2023-01-18 07:00",
-        reservation: ReservationDTO(
-          rId: 1,
-          routeId: "routeId",
-          bNo: "bNo",
-          vNo: "vNo",
-          rDate: "2023-01-18",
-          sStationId: 1,
-          sStationName: "sStationName",
-          sTime: "sTime",
-          eStationId: 1,
-          eStationName: "eStationName",
-          eTime: "eTime",
-          rState: "rState"
-        ),
-      ),
-    );*/
     await _alarmService.getAlarmWithLocal().then((e) {
       _alarmList = e.alarms;
     });
@@ -153,13 +52,14 @@ class AlarmViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Alarm? _classifyAlarms(AlarmDTO element) {
+  Alarm? _classifyAlarms(BaseAlarmDTO element) {
     switch (element.alarmType) {
       case "rating":
-        AlramReservationDTO? reservation =
+        element = element as RatingAlarmDTO;
+        AlarmReservationDTO? reservation =
             element.reservation; //_member.reservationMap[element.rId];
         return Alarm(
-          labelText: "평점 작성 요청",
+          labelText: element.title,
           prefixIcon: Icons.star,
           contents:
               "${reservation.rDate} ${reservation.sTime}\n(${reservation.sStationName} → ${reservation.eStationName})",
@@ -167,7 +67,14 @@ class AlarmViewModel extends ChangeNotifier {
           isNewAlarm: false,
         );
       default:
-        return null;
+        element = element as TestAlarmDTO;
+        return Alarm(
+          labelText: element.title,
+          prefixIcon: Icons.add,
+          contents: element.data,
+          aTime: element.aTime,
+          isNewAlarm: false,
+        );
     }
   }
 
