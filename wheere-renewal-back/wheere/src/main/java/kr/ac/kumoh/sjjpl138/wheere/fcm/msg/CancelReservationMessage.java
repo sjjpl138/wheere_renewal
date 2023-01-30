@@ -1,5 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.fcm.msg;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,7 @@ public class CancelReservationMessage {
     @Getter
     public static class Data {
         private String alarmType;
-        @DateTimeFormat(pattern = "HH:mm:ss")
+        @JsonFormat(pattern = "HH:mm:ss")
         private LocalTime aTime;
         @JsonProperty("mId")
         private String mId;
@@ -33,7 +34,6 @@ public class CancelReservationMessage {
     public static class Message {
         private Notification notification;
         private String token;
-        private String topic;
         private Data data;
     }
 
