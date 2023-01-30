@@ -59,15 +59,14 @@ public class ReservationApiController {
      * @param pageable  (size, page, sort)
      * @return ReservationListDto
      */
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{mId}")
-    public ResponseEntity<Slice<ReservationListResponse>> reservationList(
+    public Slice<ReservationListResponse> reservationList(
             @PathVariable("mId") String mId,
             ReservationSearchCondition condition,
             @PageableDefault(size = 10, sort = "reservationDate", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Slice<ReservationListResponse> result = reservationService.findPartForMemberByCond(mId, condition, pageable);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return reservationService.findPartForMemberByCond(mId, condition, pageable);
     }
 
     /**
