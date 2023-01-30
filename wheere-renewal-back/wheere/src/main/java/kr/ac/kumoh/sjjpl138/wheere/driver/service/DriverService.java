@@ -88,4 +88,17 @@ public class DriverService {
 
         return findBus;
     }
+
+    /**
+     * 로그아웃
+     * @param driverId
+     */
+    @Transactional
+    public void logout(String driverId) {
+        Driver findDriver = driverRepository.findById(driverId).get();
+        Bus busForDriver = findDriver.getBus();
+
+        findDriver.cancelBus();
+        busForDriver.deleteToken();
+    }
 }
