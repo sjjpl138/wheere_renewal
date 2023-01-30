@@ -111,12 +111,11 @@ public class ReservationApiController {
      * @param request
      * @return
      */
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/{rId}")
-    public ResponseEntity reservationRemove(@PathVariable("rId") Long rId, @RequestBody RemoveResvRequest request) {
+    public void reservationRemove(@PathVariable("rId") Long rId, @RequestBody RemoveResvRequest request) {
         List<Long> bIds = request.getBIds();
         reservationService.cancelReservation(rId, bIds);
-
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Data
