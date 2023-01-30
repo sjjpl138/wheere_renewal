@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,13 @@ public class BusRepositoryTest {
         em.persist(station4);
 
         Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now(), "busFcmToken");
+        Bus bus2 = new Bus(2L,  "route2", "138안 1244", 1, "939", LocalDate.now(), "busFcmToken");
+        Bus bus3 = new Bus(3L,  "route3", "138안 1634", 1, "609", LocalDate.now(), "busFcmToken");
+        Bus bus4 = new Bus(4L,  "route4", "138안 1934", 1, "수성3", LocalDate.now(), "busFcmToken");
         em.persist(bus);
+        em.persist(bus2);
+        em.persist(bus3);
+        em.persist(bus4);
 
         Platform platform1 = new Platform(1L, station1, bus, LocalTime.of(5, 30), 1);
         Platform platform2 = new Platform(2L, station2, bus, LocalTime.of(5, 40), 2);
@@ -73,5 +80,14 @@ public class BusRepositoryTest {
             System.out.println("aLong = " + aLong);
         }
 
+    }
+
+    @Test
+    void findByIdInTest() {
+        List<Long> busIds = Arrays.asList(1L, 2L, 3L, 4L);
+        List<Bus> findBusList = busRepository.findByIdIn(busIds);
+
+        assertThat(findBusList).extracting("id").containsExactly(1L, 2L, 3L, 4L);
+        assertThat(findBusList).extracting("vehicleNo").containsExactly("138안 1234", "138안 1244", "138안 1634", "138안 1934");
     }
 }
