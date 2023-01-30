@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wheere_driver/styles/styles.dart';
 import 'package:wheere_driver/view/common/commons.dart';
-import 'package:wheere_driver/view_model/type/bus_current_station.dart';
 
 class BusCurrentInfoItem extends StatelessWidget {
   final BusStationInfo busStationInfo;
