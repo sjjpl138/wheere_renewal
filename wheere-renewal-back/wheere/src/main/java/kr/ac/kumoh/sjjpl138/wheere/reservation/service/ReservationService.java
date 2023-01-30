@@ -2,6 +2,7 @@ package kr.ac.kumoh.sjjpl138.wheere.reservation.service;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistMemberException;
 import kr.ac.kumoh.sjjpl138.wheere.exception.PlatformException;
 import kr.ac.kumoh.sjjpl138.wheere.exception.ReservationException;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ResvDto;
@@ -53,8 +54,12 @@ public class ReservationService {
     @Transactional
     public Reservation saveReservation(String memberId, Long startStationId, Long endStationId,
                                        ReservationStatus resvStatus, LocalDate resvDate, List<ReservationBusInfo> busInfo) {
-        Member findMember = memberRepository.findById(memberId).get();
+        Optional<Member> findMemberOptional = memberRepository.findById(memberId);
+        if (findMemberOptional.isEmpty()) {
+            throw new NotExistMemberException("존재하지 않는 사용자입니다.");
+        }
 
+        Member findMember = findMemberOptional.get();
         int busCount = busInfo.size();
 
         // 출발 정류장, 도착 정류장 조회
