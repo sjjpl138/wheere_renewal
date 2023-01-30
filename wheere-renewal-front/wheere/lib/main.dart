@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +6,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/service/alarm_service.dart';
-import 'package:wheere/model/service/alarm_test_service.dart';
 import 'package:wheere/model/service/services.dart';
 import 'package:wheere/test.dart';
 
@@ -90,34 +86,9 @@ class MyApp extends StatelessWidget {
           details,
         );
 
-        log("title : ${notification.title}");
-        log("body : ${notification.body}");
-        log("messageType : ${json.encode(message.messageType)}");
-        log("data : ${message.data}");
-        log("${TestDTO.fromJson(message.data)}");
-        log("${TestDTO.fromJson(message.data["data"])}");
-        AlarmTestService().addAlarmWithLocal(message.data);
-        /*AlarmService().addAlarmWithLocal(
-//        AlarmDTO.fromJson(message.data['alarm']),
-          AlarmDTO(
-            alarmType: message.data['alarmType'],
-            aTime: message.data['aTime'],
-            reservation: ReservationDTO(
-              rId: message.data['rId'],
-              rDate: message.data['rDate'],
-              bNo: message.data['bNo'],
-              routeId: message.data['routeId'],
-              vNo: message.data['vNo'],
-              sStationId: message.data['sStationId'],
-              sStationName: message.data['sStationName'],
-              eStationId: message.data['eStationId'],
-              eStationName: message.data['eStationName'],
-              rState: message.data['rState'],
-              sTime: message.data['sTime'],
-              eTime: message.data['eTime'],
-            ),
-          ),
-        );*/
+        message.data["title"] = notification.title;
+        message.data["body"] = notification.body;
+        AlarmService().addAlarmWithLocal(BaseAlarmDTO.fromJson(message.data));
       }
     });
   }
@@ -137,44 +108,6 @@ class MyApp extends StatelessWidget {
         Locale('ko', 'KR'),
       ],
       locale: Locale('ko'),
-    );
-  }
-}
-
-class TestDTO {
-  String rDate;
-  String rStatus;
-  String sTime;
-  String sStationId;
-  String sStationName;
-  String eTime;
-  String eStationId;
-  String eStationName;
-
-  TestDTO({
-    required this.rDate,
-    required this.rStatus,
-    required this.sTime,
-    required this.sStationId,
-    required this.sStationName,
-    required this.eTime,
-    required this.eStationId,
-    required this.eStationName,
-  });
-
-  factory TestDTO.fromJson(Map<String, dynamic> json) {
-    log("TestDTO.fromJson");
-    log(json["rData"]);
-    log(json["rStatus"]);
-    return TestDTO(
-      rDate: json["rdate"],
-      rStatus: json["rstatus"],
-      sTime: json["stime"],
-      sStationId: json["sstationId"],
-      sStationName: json["sstationName"],
-      eTime: json["etime"],
-      eStationId: json["estationId"],
-      eStationName: json["estationName"],
     );
   }
 }

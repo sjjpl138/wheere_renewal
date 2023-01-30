@@ -68,32 +68,19 @@ class Alarm extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Visibility(
-                    maintainSize: true,
-                    maintainAnimation: true,
-                    maintainState: true,
-                    visible: false,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kPaddingMiddleSize),
-                      child: Icon(
-                        prefixIcon,
-                        size: kIconMiddleSize,
-                        color: CustomColor.itemSubColor,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: kPaddingMiddleSize),
-                    child: Text(
-                      contents,
-                      style: kTextMainStyleSmall,
-                    ),
-                  ),
-                ],
-              )
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: kIconMiddleSize + kPaddingMiddleSize,
+                  bottom: kPaddingMiddleSize,
+                ),
+                child: Text(
+                  contents,
+                  softWrap: false,
+                  maxLines: 10,
+                  overflow: TextOverflow.ellipsis,
+                  style: kTextMainStyleSmall,
+                ),
+              ),
             ],
           ),
         ),
