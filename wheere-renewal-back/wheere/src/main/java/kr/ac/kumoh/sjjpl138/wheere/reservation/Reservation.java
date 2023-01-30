@@ -49,7 +49,15 @@ public class Reservation extends BaseTimeEntity {
         return new Reservation(member, status, startStation, endStation, resvDate, busCount);
     }
 
-    public void changeResvStatus(ReservationStatus status) {
-        this.reservationStatus = status;
+    public void changeStatusToCANCEL() {
+        this.reservationStatus = ReservationStatus.CANCEL;
+    }
+
+    public void changeStatusToRVW_WAIT() {
+        this.reservationStatus = ReservationStatus.RVW_WAIT;
+    }
+
+    public void changeStatusToRVW_COMP() {
+        this.reservationStatus = ReservationStatus.RVW_COMP;
     }
 }
