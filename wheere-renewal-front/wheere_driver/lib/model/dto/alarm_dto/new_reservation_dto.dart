@@ -1,12 +1,14 @@
+import 'alarm_member_dto.dart';
+
 class NewReservationDTO{
-  String mId;
+  AlarmMemberDTO alarmMemberDTO;
   String rId;
   String bId;
   int startSeq;
   int endSeq;
 
   NewReservationDTO({
-    required this.mId,
+    required this.alarmMemberDTO,
     required this.rId,
     required this.bId,
     required this.startSeq,
@@ -15,7 +17,7 @@ class NewReservationDTO{
 
   factory NewReservationDTO.fromJson(Map<String, dynamic> json) {
     return NewReservationDTO(
-      mId: json["mId"],
+      alarmMemberDTO: AlarmMemberDTO.fromJson(json["alarmMemberDTO"]),
       rId: json["rId"],
       bId: json["bId"],
       startSeq: json["startSeq"],
@@ -25,7 +27,7 @@ class NewReservationDTO{
 
   Map<String, dynamic> toJson() {
     return {
-      "mId": mId,
+      "alarmMemberDTO": alarmMemberDTO.toJson(),
       "rId": rId,
       "bId": bId,
       "startSeq": startSeq,
