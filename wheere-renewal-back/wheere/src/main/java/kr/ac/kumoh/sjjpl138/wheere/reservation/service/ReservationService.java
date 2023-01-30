@@ -199,7 +199,7 @@ public class ReservationService {
     @Transactional
     public void cancelReservation(Long rId, List<Long> bIds) {
         Reservation findResv = reservationRepository.findResvById(rId);
-        findResv.changeResvStatus(ReservationStatus.CANCEL);
+        findResv.changeStatusToCANCEL();
 
         // 버스 좌석 증가
         LocalDate resvDate = findResv.getReservationDate();
@@ -313,6 +313,6 @@ public class ReservationService {
      */
     public void alightMember(Long rId) {
         Reservation findResv = reservationRepository.findResvById(rId);
-        findResv.changeResvStatus(ReservationStatus.RVW_WAIT);
+        findResv.changeStatusToRVW_WAIT();
     }
 }
