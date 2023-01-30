@@ -141,4 +141,20 @@ class PlatformRepositoryTest {
         // then
         assertThat(result).extracting("id").containsExactly(6L, 7L);
     }
+
+    @Test
+    void findPlatformByStationNameInTest() {
+
+        // Given
+        String startStationName = "조야동";
+        String endStationName = "수성교";
+
+        List<String> stationNameList = Arrays.asList(startStationName, endStationName);
+
+        // When
+        List<Platform> result = platformRepository.findPlatformByStationNameIn(stationNameList);
+
+        // Then
+        assertThat(result).extracting("stationSeq").containsExactly(1, 3);
+    }
 }
