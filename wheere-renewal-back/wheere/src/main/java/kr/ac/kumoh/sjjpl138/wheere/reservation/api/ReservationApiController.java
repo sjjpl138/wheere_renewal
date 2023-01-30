@@ -135,7 +135,6 @@ public class ReservationApiController {
 
     /**
      * 예약 취소
-     *
      * @param rId
      * @param request
      * @return
@@ -146,6 +145,7 @@ public class ReservationApiController {
         List<Long> bIds = request.getBIds();
         reservationService.cancelReservation(rId, bIds);
 
+        String mId = request.getMId();
         List<Bus> findBusList = busRepository.findByIdIn(bIds);
         for (Bus findBus : findBusList) {
             String findBusDriverToken = findBus.getToken();
@@ -251,6 +251,8 @@ public class ReservationApiController {
 
     @Data
     static class RemoveResvRequest {
+        @JsonProperty("mId")
+        private String mId;
         @JsonProperty("bIds")
         private List<Long> bIds;
     }
