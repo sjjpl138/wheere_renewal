@@ -37,4 +37,6 @@ public class Driver extends BaseTimeEntity {
     public void assignBus(Bus bus) {
         this.bus = bus;
     }
+
+    public void cancelBus() {this.bus = null;}
 }

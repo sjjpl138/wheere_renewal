@@ -144,6 +144,10 @@ public class MemberService {
         Reservation resv = reservationRepository.findResvById(rId);
         Driver driver = driverRepository.findByBusId(bId).get();
         driver.calculateRating(rating);
+        changeStateToComp(resv);
+    }
+
+    private void changeStateToComp(Reservation resv) {
         resv.changeResvStatus(ReservationStatus.RVW_COMP);
     }
 

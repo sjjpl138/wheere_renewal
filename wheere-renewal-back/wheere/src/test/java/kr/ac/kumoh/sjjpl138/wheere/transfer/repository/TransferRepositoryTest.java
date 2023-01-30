@@ -8,7 +8,6 @@ import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import kr.ac.kumoh.sjjpl138.wheere.transfer.Transfer;
-import kr.ac.kumoh.sjjpl138.wheere.transfer.dto.TransferDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +71,7 @@ class TransferRepositoryTest {
     @Test
     void findTransferByBusAndDateAndMemberTest() {
         // when
-        List<Transfer> transfers = transferRepository.findByReservation_Member_IdAndBus_IdAndReservation_ReservationDate("member1", 1L, LocalDate.of(2023, 1, 24));
+        List<Transfer> transfers = transferRepository.findByMemberIdAndBusIdAndReservationDate("member1", 1L, LocalDate.of(2023, 1, 24));
 
         // then
         assertThat(transfers.size()).isEqualTo(1);
@@ -83,7 +82,7 @@ class TransferRepositoryTest {
     @Test
     void findByBus_IdAndReservation_IdTest() {
         // when
-        List<Transfer> transfers = transferRepository.findByBus_IdAndReservation_Id(1L, 1L);
+        List<Transfer> transfers = transferRepository.findByBusIdAndReservationId(1L, 1L);
 
         // then
         assertThat(transfers.size()).isEqualTo(1);
@@ -94,11 +93,10 @@ class TransferRepositoryTest {
     @Test
     void findTransferByBusIdTest() {
         // when
-        List<TransferDto> dtos = transferRepository.findTransferByBusId(1L);
+        List<Transfer> transfers = transferRepository.findTransferByBusId(1L);
 
         // then
-        assertThat(dtos).extracting("status").containsExactly(ReservationStatus.RESERVED);
-        assertThat(dtos).extracting("boardStation").containsExactly("조야동");
-        assertThat(dtos).extracting("alightStation").containsExactly("수성교");
+        assertThat(transfers).extracting("boardStation").containsExactly("조야동");
+        assertThat(transfers).extracting("alightStation").containsExactly("수성교");
     }
 }
