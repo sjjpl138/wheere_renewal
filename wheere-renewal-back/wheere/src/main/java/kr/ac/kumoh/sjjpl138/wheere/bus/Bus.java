@@ -33,4 +33,6 @@ public class Bus {
     public void registerToken(String token) {
         this.token = token;
     }
+
+    public void deleteToken() {this.token = null;}
 }

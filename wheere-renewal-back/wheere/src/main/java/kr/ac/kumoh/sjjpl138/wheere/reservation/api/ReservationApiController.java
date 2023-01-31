@@ -2,17 +2,21 @@ package kr.ac.kumoh.sjjpl138.wheere.reservation.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
+import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.bus.service.BusService;
 import kr.ac.kumoh.sjjpl138.wheere.exception.NotEnoughSeatsException;
+import kr.ac.kumoh.sjjpl138.wheere.fcm.service.FcmService;
+import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
-import kr.ac.kumoh.sjjpl138.wheere.platform.service.PlatformService;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationListResponse;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.service.ReservationService;
+import kr.ac.kumoh.sjjpl138.wheere.transfer.Transfer;
+import kr.ac.kumoh.sjjpl138.wheere.transfer.repository.TransferRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +28,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/resvs")
@@ -37,6 +44,13 @@ public class ReservationApiController {
     private final ReservationService reservationService;
     private final BusService busService;
     private final PlatformRepository platformRepository;
+
+    private final FcmService fcmService;
+    private final BusRepository busRepository;
+
+    private final TransferRepository transferRepository;
+
+
     /**
      * 예약 조회
      *
@@ -58,6 +72,7 @@ public class ReservationApiController {
 
     /**
      * 예약하기
+     *
      * @param request
      * @return
      */
@@ -68,53 +83,125 @@ public class ReservationApiController {
         Long endStationId = request.getEndStationId();
         ReservationStatus rState = request.getRState();
         LocalDate rDate = request.getRDate();
-        List<ReservationBusInfo> buses = request.getBuses();
+        List<ReservationBusInfo> reservationBusInfo = request.getBuses();
 
         try {
-            Reservation reservation = reservationService.saveReservation(mId, startStationId, endStationId, rState, rDate, buses);
+            // 예약 생성
+            Reservation reservation = reservationService.saveReservation(mId, startStationId, endStationId, rState, rDate, reservationBusInfo);
 
             Long rId = reservation.getId();
 
-            List<SaveResvBusInfo> busInfos = new ArrayList<>();
-            for (ReservationBusInfo bus : buses) {
-                Long bId = bus.getBId();
+            List<SaveResvBusInfo> resvBusInfos = new ArrayList<>(); // 예약한 버스 정보
+            for (ReservationBusInfo busInfo : reservationBusInfo) {
+                Long bId = busInfo.getBId();
+
                 Bus findBus = busService.findBus(bId);
+
                 String busNo = findBus.getBusNo();
                 String vehicleNo = findBus.getVehicleNo();
                 String routeId = findBus.getRouteId();
 
-                Long sStationId = bus.getSStationId();
-                Long eStationId = bus.getEStationId();
-                List<Platform> platforms = platformRepository.findPlatformByIdIn(List.of(sStationId, eStationId));
+                Long sStationId = busInfo.getSStationId();
+                Long eStationId = busInfo.getEStationId();
+                List<Platform> platforms = platformRepository.findPlatformByStationIds(List.of(sStationId, eStationId));
+
+                String findBusDriverToken = findBus.getToken();
+
+                Platform startPlatform = platforms.get(0);
+                Platform endPlatform = platforms.get(1);
+
+                int startSeq = startPlatform.getStationSeq();
+                int endSeq = endPlatform.getStationSeq();
+
+                // 버스 기사에게 예약 생성 알림 보내기
+                fcmService.sendNewReservationMessageToDriver(findBusDriverToken, mId, rId, bId, startSeq, endSeq);
+
                 String sStationName = platforms.get(0).getStation().getName();
                 String eStationName = platforms.get(1).getStation().getName();
                 LocalTime sTime = platforms.get(0).getArrivalTime();
                 LocalTime eTime = platforms.get(1).getArrivalTime();
-                SaveResvBusInfo busInfo = new SaveResvBusInfo(busNo, routeId, vehicleNo, sTime, sStationId, sStationName, eTime, eStationId, eStationName);
-                busInfos.add(busInfo);
+
+                SaveResvBusInfo saveResvBusInfo = new SaveResvBusInfo(busNo, routeId, vehicleNo, sTime, sStationId, sStationName, eTime, eStationId, eStationName);
+                resvBusInfos.add(saveResvBusInfo);
             }
-            SaveResvResponse response = new SaveResvResponse(rId, rDate, rState, busInfos);
+            SaveResvResponse response = new SaveResvResponse(rId, rDate, rState, resvBusInfos);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
 
-        } catch (IllegalStateException | NotEnoughSeatsException e) {
+        } catch (IllegalStateException | NotEnoughSeatsException | IOException e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     /**
      * 예약 취소
+     *
      * @param rId
      * @param request
      * @return
      */
-    @DeleteMapping("/{rId}")
-    public ResponseEntity reservationRemove(@PathVariable("rId") Long rId, @RequestBody RemoveResvRequest request) {
+    @PostMapping("/{rId}")
+    public ResponseEntity reservationRemove(@PathVariable("rId") Long rId, @RequestParam("mId") String mId, @RequestBody RemoveResvRequest request) {
+
         List<Long> bIds = request.getBIds();
         reservationService.cancelReservation(rId, bIds);
 
+        List<Bus> findBusList = busRepository.findByIdIn(bIds);
+        for (Bus findBus : findBusList) {
+            String findBusDriverToken = findBus.getToken();
+
+            try {
+                // mId 클라이언트에서 서버로 받으면 좋음
+                fcmService.sendCancelReservationMessage(findBusDriverToken, mId, rId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    /**
+     * 예약 상태 변경 및 사용자에게 평점 알림 보내기
+     */
+    @PostMapping("/{rId}/get-off-bus")
+    public ResponseEntity getOffBus(@PathVariable Long rId) {
+
+        Optional<Transfer> optionalTransfer = transferRepository.findByReservationId(rId);
+
+        if (optionalTransfer.isEmpty()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        Transfer findTransfer = optionalTransfer.get();
+        Reservation findReservation = findTransfer.getReservation();
+        // 예약 상태 변경 (RESERVED | PAID) -> RVW_WAIT
+        findReservation.changeStatusToRVW_WAIT();
+        // @TODO("데이터베이스에 예약 상태 변경 됐는지 확인하기")
+
+        // 쿼리 하나 발생
+        Member member = findReservation.getMember();
+        String memberToken = member.getToken();
+
+        String startStationName = findReservation.getStartStation();
+        String endStationName = findReservation.getEndStation();
+        List<String> stationNameList = Arrays.asList(startStationName, endStationName);
+        List<Platform> findPlatforms = platformRepository.findPlatformByStationNameIn(stationNameList);
+
+
+        try {
+            // 사용자에게 평점 알림 보내기
+            // Transfer - Reservation이랑 Bus 두 개 페치 조인해서
+            // List<Platform> - Station이랑 페치 조인
+            fcmService.sendRatingMessage(memberToken, findTransfer, findPlatforms);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
     @Data
     static class SaveResvRequest {
@@ -167,8 +254,6 @@ public class ReservationApiController {
 
     @Data
     static class RemoveResvRequest {
-        @JsonProperty("rId")
-        private Long rId;
         @JsonProperty("bIds")
         private List<Long> bIds;
     }

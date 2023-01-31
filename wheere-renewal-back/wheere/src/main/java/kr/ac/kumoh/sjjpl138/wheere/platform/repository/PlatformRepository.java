@@ -23,5 +23,9 @@ public interface PlatformRepository extends JpaRepository<Platform, Long>, Platf
     @Query("select p from Platform p join p.station s where s.name in :stationNames")
     List<Platform> findByStationName(@Param("stationNames") List<String> stationNames);
 
-    List<Platform> findPlatformByIdIn(List<Long> stationIds);
+    @EntityGraph(attributePaths = {"station"})
+    @Query("select p from Platform p join p.station s where s.id in :stationIds")
+    List<Platform> findPlatformByStationIds(@Param("stationIds") List<Long> stationIds);
+
+    List<Platform> findPlatformByIdIn(List<Long> platformIds);
 }
