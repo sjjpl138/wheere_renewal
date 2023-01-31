@@ -161,6 +161,9 @@ public class ReservationApiController {
     @PostMapping("/{rId}/get-off-bus")
     public ResponseEntity getOffBus(@PathVariable Long rId, @RequestBody Map<String, Long> messageBody) {
 
+        // 예약 상태 변경 (RESERVED | PAID) -> RVW_WAIT
+        reservationService.changeReservationStationToRVW_WAIT(rId);
+
         Long bId = messageBody.get("bId");
         Optional<Bus> optionalBus = busRepository.findById(bId);
 
@@ -173,11 +176,6 @@ public class ReservationApiController {
         Bus findBus = optionalBus.get();
         Reservation findReservation = optionalReservation.get();
 
-        // 예약 상태 변경 (RESERVED | PAID) -> RVW_WAIT
-        findReservation.changeStatusToRVW_WAIT();
-        // @TODO("데이터베이스에 예약 상태 변경 됐는지 확인하기") -> 변경 안 됨
-
-        // 쿼리 하나 발생
         Member member = findReservation.getMember();
         String memberToken = member.getToken();
 
