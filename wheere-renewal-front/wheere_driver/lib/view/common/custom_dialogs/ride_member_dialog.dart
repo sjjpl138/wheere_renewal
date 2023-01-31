@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:wheere_driver/model/dto/alarm_dto/alarm_member_dto.dart';
+import 'package:wheere_driver/model/dto/dtos.dart';
 import 'package:wheere_driver/styles/styles.dart';
 import 'package:wheere_driver/view/common/commons.dart';
 
 class RideMemberDialog extends StatelessWidget {
-  final AlarmMemberDTO alarmMemberDTO;
+  final MemberDTO memberDTO;
 
   const RideMemberDialog({
     Key? key,
-    required this.alarmMemberDTO,
+    required this.memberDTO,
   }) : super(key: key);
 
   @override
@@ -24,10 +24,10 @@ class RideMemberDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MemberInfo(
-            name: alarmMemberDTO.mName,
-            sex: alarmMemberDTO.mSex,
-            birthdate: alarmMemberDTO.mBirthDate,
-            phoneNumber: alarmMemberDTO.mNum,
+            name: memberDTO.mName,
+            sex: memberDTO.mSex,
+            birthdate: memberDTO.mBirthDate,
+            phoneNumber: memberDTO.mNum,
           ),
           const Text(
             "탑승자를 확인하였습니까?",

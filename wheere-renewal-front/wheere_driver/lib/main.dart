@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: DriverAlarmDialog(title: "title", content: "content"),
+      home: const HomePage(),
     );
   }
 }

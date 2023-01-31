@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wheere_driver/styles/styles.dart';
 
-class ReservationInfoItem extends StatelessWidget {
+class BusInfoItem extends StatelessWidget {
   final IconData prefixIcon;
   final String title;
   final String contents;
   final String? subContents;
 
-  const ReservationInfoItem({
+  const BusInfoItem({
     Key? key,
     required this.prefixIcon,
     required this.title,

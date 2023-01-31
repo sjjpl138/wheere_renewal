@@ -28,7 +28,7 @@ class MemberInfo extends StatelessWidget {
           borderRadius: BorderRadius.circular(kBorderRadiusSize),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kPaddingMiddleSize),
+          padding: const EdgeInsets.symmetric(horizontal: kPaddingMiniSize),
           child: Column(
             children: [
               MemberInfoItem(

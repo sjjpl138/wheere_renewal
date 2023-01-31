@@ -8,3 +8,4 @@ export 'alarm_dto/canceled_reservation_dto.dart';
 export 'firebase_login_dto.dart';
 export 'bus_location_dto.dart';
 export 'request_bus_location_dto.dart';
+export 'member_dto.dart';

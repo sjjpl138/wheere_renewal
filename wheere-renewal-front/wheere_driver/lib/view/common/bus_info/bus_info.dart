@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:wheere_driver/styles/styles.dart';
-import 'reservation_info_item.dart';
+import 'bus_info_item.dart';
 
-class ReservationInfo extends StatelessWidget {
+class BusInfo extends StatelessWidget {
   final String bNo;
-  final String rDate;
-  final String sStationName;
-  final String sStationTime;
-  final String eStationName;
-  final String eStationTime;
+  final String vNo;
+  final int bOutNo;
 
-  const ReservationInfo({
+  const BusInfo({
     Key? key,
     required this.bNo,
-    required this.rDate,
-    required this.sStationName,
-    required this.sStationTime,
-    required this.eStationName,
-    required this.eStationTime,
+    required this.vNo,
+    required this.bOutNo,
   }) : super(key: key);
 
   @override
@@ -33,29 +27,23 @@ class ReservationInfo extends StatelessWidget {
         ),
         child: Column(
           children: [
-            ReservationInfoItem(
+            BusInfoItem(
               prefixIcon: Icons.directions_bus,
               title: "버스 번호",
               contents: bNo,
               subContents: null,
             ),
-            ReservationInfoItem(
-              prefixIcon: Icons.event_note,
-              title: "날짜",
-              contents: rDate,
+            BusInfoItem(
+              prefixIcon: Icons.directions_car,
+              title: "차량번호",
+              contents: vNo,
               subContents: null,
             ),
-            ReservationInfoItem(
+            BusInfoItem(
               prefixIcon: Icons.location_on_outlined,
-              title: "출발 정류장",
-              contents: sStationTime,
-              subContents: sStationName,
-            ),
-            ReservationInfoItem(
-              prefixIcon: Icons.location_on,
-              title: "도착 정류장",
-              contents: eStationTime,
-              subContents: eStationName,
+              title: "배차 순번",
+              contents: "$bOutNo번",
+              subContents: null,
             ),
             const SizedBox(height: kPaddingMiddleSize),
           ],

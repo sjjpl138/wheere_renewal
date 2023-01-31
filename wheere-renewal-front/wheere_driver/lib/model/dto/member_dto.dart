@@ -1,11 +1,11 @@
-class AlarmMemberDTO {
+class MemberDTO {
   String mId;
   String mName;
   String mSex;
   String mBirthDate;
   String mNum;
 
-  AlarmMemberDTO({
+  MemberDTO({
     required this.mId,
     required this.mName,
     required this.mSex,
@@ -13,8 +13,8 @@ class AlarmMemberDTO {
     required this.mNum,
   });
 
-  factory AlarmMemberDTO.fromJson(Map<String, dynamic> json) {
-    return AlarmMemberDTO(
+  factory MemberDTO.fromJson(Map<String, dynamic> json) {
+    return MemberDTO(
       mId: json["mId"],
       mName: json["mName"],
       mSex: json["mSex"],

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wheere_driver/model/dto/alarm_dto/alarm_member_dto.dart';
+import 'package:wheere_driver/model/dto/dtos.dart';
 import 'package:wheere_driver/styles/styles.dart';
 import 'package:wheere_driver/view/common/commons.dart';
 
 class QuitMemberDialog extends StatelessWidget {
-  final AlarmMemberDTO alarmMemberDTO;
+  final MemberDTO alarmMemberDTO;
 
   const QuitMemberDialog({
     Key? key,

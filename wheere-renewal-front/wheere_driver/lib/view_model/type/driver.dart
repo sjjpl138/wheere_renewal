@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wheere_driver/model/dto/dtos.dart';
+import 'package:wheere_driver/model/dto/member_dto.dart';
 import 'package:wheere_driver/model/service/login_service.dart';
 import 'package:wheere_driver/model/service/logout_service.dart';
 
@@ -34,7 +35,19 @@ class Driver extends ChangeNotifier {
         StationDTO(sId: 2, sName: "sName", sSeq: 2),
       ],
       reservations: [
-        ReservationDTO(rId: 1, startSeq: 1, endSeq: 2),
+        ReservationDTO(
+          rId: 1,
+          startSeq: 1,
+          endSeq: 2,
+          member: MemberDTO(
+            mId: "mId",
+            mName: "mName",
+            mSex: "mSex",
+            mBirthDate: "mBirthDate",
+            mNum: "mNum",
+          ),
+          bId: 'bId',
+        ),
       ],
     );
 

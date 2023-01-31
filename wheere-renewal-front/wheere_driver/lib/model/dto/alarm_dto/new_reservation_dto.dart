@@ -1,14 +1,14 @@
-import 'alarm_member_dto.dart';
+import 'package:wheere_driver/model/dto/dtos.dart';
 
 class NewReservationDTO{
-  AlarmMemberDTO alarmMemberDTO;
+  MemberDTO memberDTO;
   String rId;
   String bId;
   int startSeq;
   int endSeq;
 
   NewReservationDTO({
-    required this.alarmMemberDTO,
+    required this.memberDTO,
     required this.rId,
     required this.bId,
     required this.startSeq,
@@ -17,7 +17,7 @@ class NewReservationDTO{
 
   factory NewReservationDTO.fromJson(Map<String, dynamic> json) {
     return NewReservationDTO(
-      alarmMemberDTO: AlarmMemberDTO.fromJson(json["alarmMemberDTO"]),
+      memberDTO: MemberDTO.fromJson(json["alarmMemberDTO"]),
       rId: json["rId"],
       bId: json["bId"],
       startSeq: json["startSeq"],
@@ -27,7 +27,7 @@ class NewReservationDTO{
 
   Map<String, dynamic> toJson() {
     return {
-      "alarmMemberDTO": alarmMemberDTO.toJson(),
+      "alarmMemberDTO": memberDTO.toJson(),
       "rId": rId,
       "bId": bId,
       "startSeq": startSeq,
