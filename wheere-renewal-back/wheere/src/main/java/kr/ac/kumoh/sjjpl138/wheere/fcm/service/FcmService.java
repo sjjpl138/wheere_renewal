@@ -31,9 +31,9 @@ public class FcmService {
     private final ObjectMapper objectMapper;
 
     //@TODO("사용자 버스 하차 후 평점 알림 서비스 구현")
-    public void sendRatingMessage(String memberToken, Transfer transfer, List<Platform> platforms) throws IOException {
+    public void sendRatingMessage(String memberToken, Bus bus, Reservation reservation, List<Platform> platforms) throws IOException {
 
-        String message = makeRatingMessage(memberToken, transfer, platforms);
+        String message = makeRatingMessage(memberToken, bus, reservation, platforms);
 
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
@@ -49,13 +49,11 @@ public class FcmService {
         log.info(response.body().string());
     }
 
-    private String makeRatingMessage(String targetToken, Transfer transfer, List<Platform> platforms) throws JsonProcessingException {
+    private String makeRatingMessage(String targetToken, Bus bus, Reservation reservation, List<Platform> platforms) throws JsonProcessingException {
 
-        Reservation reservation = transfer.getReservation();
         Long reservationId = reservation.getId();
         LocalDate reservationDate = reservation.getReservationDate();
 
-        Bus bus = transfer.getBus();
         String busNo = bus.getBusNo();
 
         Platform startPlatform = platforms.get(0);
