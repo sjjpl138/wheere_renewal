@@ -20,19 +20,24 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.build(
-        context,
-        title: Driver().driver?.bNo ?? "bNo",
-        leading: LogoutIconButton(onPressed: () => _mainViewModel.logout()),
-        actions: [SettingIconButton()]
-      ),
+      appBar: CustomAppBar.build(context,
+          title: Driver().driver?.bNo ?? "bNo",
+          leading: LogoutIconButton(onPressed: () => _mainViewModel.logout()),
+          actions: [
+            SettingIconButton(
+              onPressed: () => _mainViewModel.navigateToSettingPage(context),
+            )
+          ]),
       body: SingleChildScrollView(
         child: Container(
           color: CustomColor.backgroundMainColor,
           child: Column(
             children: [
               BusCurrentInfo(
-                  busStationInfoList: _mainViewModel.busStationInfoList),
+                busStationInfoList: _mainViewModel.busStationInfoList,
+                onTap: (BusStationInfo busStationInfo) =>
+                    _mainViewModel.showMemberDialogs(context, busStationInfo),
+              ),
               const SizedBox(height: kPaddingLargeSize),
             ],
           ),
