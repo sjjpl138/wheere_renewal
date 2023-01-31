@@ -10,13 +10,12 @@ import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationListResponse;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.service.ReservationService;
-import kr.ac.kumoh.sjjpl138.wheere.transfer.Transfer;
-import kr.ac.kumoh.sjjpl138.wheere.transfer.repository.TransferRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/resvs")
@@ -48,8 +44,7 @@ public class ReservationApiController {
     private final FcmService fcmService;
     private final BusRepository busRepository;
 
-    private final TransferRepository transferRepository;
-
+    private final ReservationRepository reservationRepository;
 
     /**
      * 예약 조회
@@ -83,7 +78,6 @@ public class ReservationApiController {
         ReservationStatus rState = request.getRState();
         LocalDate rDate = request.getRDate();
         List<ReservationBusInfo> reservationBusInfo = request.getBuses();
-
         try {
             // 예약 생성
             Reservation reservation = reservationService.saveReservation(mId, startStationId, endStationId, rState, rDate, reservationBusInfo);
@@ -134,6 +128,7 @@ public class ReservationApiController {
 
     /**
      * 예약 취소
+     *
      * @param rId
      * @param request
      * @return
@@ -162,19 +157,23 @@ public class ReservationApiController {
      * 예약 상태 변경 및 사용자에게 평점 알림 보내기
      */
     @PostMapping("/{rId}/get-off-bus")
-    public ResponseEntity getOffBus(@PathVariable Long rId) {
+    public ResponseEntity getOffBus(@PathVariable Long rId, @RequestBody Map<String, Long> messageBody) {
 
-        Optional<Transfer> optionalTransfer = transferRepository.findByReservationId(rId);
+        Long bId = messageBody.get("bId");
+        Optional<Bus> optionalBus = busRepository.findById(bId);
 
-        if (optionalTransfer.isEmpty()) {
+        Optional<Reservation> optionalReservation = reservationRepository.findReservationWithMemberById(rId);
+
+        if (optionalBus.isEmpty() | optionalReservation.isEmpty()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        Transfer findTransfer = optionalTransfer.get();
-        Reservation findReservation = findTransfer.getReservation();
+        Bus findBus = optionalBus.get();
+        Reservation findReservation = optionalReservation.get();
+
         // 예약 상태 변경 (RESERVED | PAID) -> RVW_WAIT
         findReservation.changeStatusToRVW_WAIT();
-        // @TODO("데이터베이스에 예약 상태 변경 됐는지 확인하기")
+        // @TODO("데이터베이스에 예약 상태 변경 됐는지 확인하기") -> 변경 안 됨
 
         // 쿼리 하나 발생
         Member member = findReservation.getMember();
@@ -185,12 +184,12 @@ public class ReservationApiController {
         List<String> stationNameList = Arrays.asList(startStationName, endStationName);
         List<Platform> findPlatforms = platformRepository.findPlatformByStationNameIn(stationNameList);
 
-
         try {
-            // 사용자에게 평점 알림 보내기
-            // Transfer - Reservation이랑 Bus 두 개 페치 조인해서
-            // List<Platform> - Station이랑 페치 조인
-            fcmService.sendRatingMessage(memberToken, findTransfer, findPlatforms);
+//             사용자에게 평점 알림 보내기
+//             reservation
+//             bus
+//             platform (start, end) - station 페치 조인
+            fcmService.sendRatingMessage(memberToken, findBus, findReservation, findPlatforms);
         } catch (IOException e) {
             e.printStackTrace();
         }
