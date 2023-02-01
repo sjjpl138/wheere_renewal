@@ -137,7 +137,7 @@ public class ReservationApiController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/{rId}")
-    public void reservationRemove(@PathVariable("rId") Long rId, @RequestBody RemoveResvRequest request) {
+    public void reservationCancel(@PathVariable("rId") Long rId, @RequestBody RemoveResvRequest request) {
         List<Long> bIds = request.getBIds();
         reservationService.cancelReservation(rId, bIds);
 
