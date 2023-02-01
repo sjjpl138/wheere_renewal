@@ -18,6 +18,8 @@ public class DriverLoginResponseDto {
     private String vNo;
     @JsonProperty("bNo")
     private String bNo;
+    @JsonProperty("bAllocationSeq")
+    private int bAllocationSeq;
     private String routeId;
     private int totalSeats;
     private String fcmToken;
