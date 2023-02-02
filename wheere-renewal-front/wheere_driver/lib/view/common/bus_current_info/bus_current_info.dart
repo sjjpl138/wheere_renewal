@@ -17,7 +17,7 @@ class BusCurrentInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: CustomColor.backGroundSubColor,
+        color: CustomColor.backgroundMainColor,
         borderRadius: BorderRadius.circular(kBorderRadiusSize),
       ),
       child: Padding(

@@ -36,7 +36,7 @@ class _MainViewState extends State<MainView> {
               BusCurrentInfo(
                 busStationInfoList: _mainViewModel.busStationInfoList,
                 onTap: (BusStationInfo busStationInfo) =>
-                    _mainViewModel.showMemberDialogs(context, busStationInfo),
+                    _mainViewModel.showMemberListDialog(context, busStationInfo),
               ),
               const SizedBox(height: kPaddingLargeSize),
             ],

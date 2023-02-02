@@ -1,5 +1,5 @@
 import 'package:wheere_driver/model/dto/alarm_dto/base_alarm_dto.dart';
-import 'package:wheere_driver/model/dto/alarm_dto/new_reservation_dto.dart';
+import 'package:wheere_driver/model/dto/dtos.dart';
 
 class NewReservationAlarmDTO implements BaseAlarmDTO {
   @override
@@ -10,14 +10,14 @@ class NewReservationAlarmDTO implements BaseAlarmDTO {
   String alarmType;
   @override
   String aTime;
-  NewReservationDTO newReservationDTO;
+  ReservationDTO reservationDTO;
 
   NewReservationAlarmDTO({
     required this.title,
     required this.body,
     required this.alarmType,
     required this.aTime,
-    required this.newReservationDTO,
+    required this.reservationDTO,
   });
 
   factory NewReservationAlarmDTO.fromJson(Map<String, dynamic> json) {
@@ -26,8 +26,8 @@ class NewReservationAlarmDTO implements BaseAlarmDTO {
       body: json["body"],
       alarmType: json["alarmType"],
       aTime: json["aTime"],
-      newReservationDTO:
-      NewReservationDTO.fromJson(json["newReservationDTO"]),
+      reservationDTO:
+      ReservationDTO.fromJson(json["newReservationDTO"] ?? json),
     );
   }
 
@@ -38,7 +38,7 @@ class NewReservationAlarmDTO implements BaseAlarmDTO {
       "body": body,
       "alarmType": alarmType,
       "aTime": aTime,
-      "newReservationDTO": newReservationDTO.toJson(),
+      "newReservationDTO": reservationDTO.toJson(),
     };
   }
 }

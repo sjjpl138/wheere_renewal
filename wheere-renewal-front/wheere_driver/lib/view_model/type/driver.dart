@@ -31,14 +31,14 @@ class Driver extends ChangeNotifier {
       routeId: "routeId",
       bNo: "bNo",
       route: [
-        StationDTO(sId: 1, sName: "sName", sSeq: 1),
-        StationDTO(sId: 2, sName: "sName", sSeq: 2),
+        StationDTO(sId: 1, sName: "sName", sSeq: 0),
+        StationDTO(sId: 2, sName: "sName", sSeq: 1),
       ],
       reservations: [
         ReservationDTO(
-          rId: 1,
-          startSeq: 1,
-          endSeq: 2,
+          rId: "rId",
+          startSeq: 0,
+          endSeq: 1,
           member: MemberDTO(
             mId: "mId",
             mName: "mName",

@@ -14,9 +14,14 @@ class RideMemberDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(
-        "탑승자 정보",
-        style: kTextMainStyleLarge,
+      title: Row(
+        children: [
+          BackIconButton(onPressed: () => Navigator.pop(context, false)),
+          const Text(
+            "탑승자 정보",
+            style: kTextMainStyleLarge,
+          ),
+        ],
       ),
       content: Column(
         mainAxisAlignment: MainAxisAlignment.start,

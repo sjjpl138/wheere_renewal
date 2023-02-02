@@ -9,23 +9,23 @@ class DriverDTO {
   List<StationDTO> route;
   List<ReservationDTO> reservations;
 
-  DriverDTO({
-    required this.dName,
-    required this.bId,
-    required this.vNo,
-    required this.routeId,
-    required this.bNo,
-    required this.route,
-    required this.reservations
-  });
+  DriverDTO(
+      {required this.dName,
+      required this.bId,
+      required this.vNo,
+      required this.routeId,
+      required this.bNo,
+      required this.route,
+      required this.reservations});
 
   factory DriverDTO.fromJson(Map<String, dynamic> json) {
-
     var getRouteList = json['route'] as List;
-    List<StationDTO> routes = getRouteList.map((i) => StationDTO.fromJson(i)).toList();
+    List<StationDTO> routes =
+        getRouteList.map((i) => StationDTO.fromJson(i)).toList();
 
     var getReservationList = json['reservations'] as List;
-    List<ReservationDTO> reservations = getReservationList.map((i) => ReservationDTO.fromJson(i)).toList();
+    List<ReservationDTO> reservations =
+        getReservationList.map((i) => ReservationDTO.fromJson(i)).toList();
     return DriverDTO(
       dName: json["dName"],
       bId: json["bId"],

@@ -28,7 +28,7 @@ class CanceledReservationAlarmDTO implements BaseAlarmDTO {
       alarmType: json["alarmType"],
       aTime: json["aTime"],
       canceledReservationDTO:
-          CanceledReservationDTO.fromJson(json["canceledReservationDTO"]),
+          CanceledReservationDTO.fromJson(json["canceledReservationDTO"] ?? json),
     );
   }
 
