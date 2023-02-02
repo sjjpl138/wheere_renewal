@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class FcmService {
                         )
                         .data(RatingMessage.Data.builder()
                                 .alarmType("rating")
-                                .aTime(LocalTime.now())
+                                .aTime(LocalDateTime.now())
                                 .rId(String.valueOf(reservationId))
                                 .rDate(reservationDate)
                                 .bNo(busNo)
@@ -123,7 +124,7 @@ public class FcmService {
                         )
                         .data(NewReservationMessage.Data.builder()
                                 .alarmType("newReservation")
-                                .aTime(LocalTime.now())
+                                .aTime(LocalDateTime.now())
                                 .mId(memberId)
                                 .rId(String.valueOf(reservationId))
                                 .bId(String.valueOf(busId))
@@ -165,7 +166,7 @@ public class FcmService {
                         )
                         .data(CancelReservationMessage.Data.builder()
                                 .alarmType("cancelReservation")
-                                .aTime(LocalTime.now())
+                                .aTime(LocalDateTime.now())
                                 .mId(memberId)
                                 .rId(String.valueOf(reservationId))
                                 .build())

@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Builder
@@ -23,8 +23,8 @@ public class RatingMessage {
     public static class Data {
 
         private String alarmType;
-        @JsonFormat(pattern = "HH:mm:ss")
-        private LocalTime aTime;
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+        private LocalDateTime aTime;
         @JsonProperty("rId")
         private String rId;
         @JsonFormat(pattern = "yyyy-MM-dd")
