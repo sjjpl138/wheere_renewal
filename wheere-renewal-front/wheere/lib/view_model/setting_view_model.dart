@@ -14,7 +14,10 @@ class SettingViewModel extends ChangeNotifier {
     Navigator.pop(context);
   }
 
-  Future logout() async {
+  Future logout(BuildContext context, bool mounted) async {
     await Member().logout();
+    if(mounted) {
+      Navigator.pop(context);
+    }
   }
 }

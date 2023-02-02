@@ -25,7 +25,7 @@ class RatingAlarmDTO implements BaseAlarmDTO {
       body: json["body"],
       alarmType: json["alarmType"],
       aTime: json["aTime"],
-      reservation: AlarmReservationDTO.fromJson(json["reservation"]),
+      reservation: AlarmReservationDTO.fromJson(json["reservation"] ?? json),
     );
   }
 

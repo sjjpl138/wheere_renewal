@@ -23,7 +23,8 @@ class _SignUpViewState extends State<SignUpView> {
       appBar: CustomAppBar.build(
         context,
         title: "회원가입",
-        leading: BackIconButton(onPressed: _signUpViewModel.navigatePop),
+        leading: BackIconButton(
+            onPressed: () => _signUpViewModel.navigatePop(context)),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -101,7 +102,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   const SizedBox(height: kPaddingLargeSize),
                   CustomTextButton(
-                    onPressed: _signUpViewModel.navigatePop,
+                    onPressed: () => _signUpViewModel.navigatePop(context),
                     text: "이미 회원이신가요?",
                   )
                 ],
