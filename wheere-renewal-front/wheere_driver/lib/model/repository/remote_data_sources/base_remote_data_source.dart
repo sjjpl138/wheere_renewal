@@ -5,6 +5,21 @@ abstract class BaseRemoteDataSource {
   static const _baseUrl = "";
   static const _headers = {"Accept": "application/json"};
 
+  static Future<Map<String, dynamic>?> get(String path) async {
+    try {
+      final res = await http.get(Uri.parse(_baseUrl + path), headers: _headers);
+      switch (res.statusCode) {
+        case 200:
+          return json.decode(utf8.decode(res.bodyBytes));
+        default:
+          return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+
   static Future<Map<String, dynamic>?> getWithParams(String path, Map<String, dynamic> queryParams) async {
     try {
       var uri = Uri(
