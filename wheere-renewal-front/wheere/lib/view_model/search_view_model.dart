@@ -7,6 +7,7 @@ import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/service/services.dart';
 import 'package:wheere/styles/styles.dart';
 import 'package:wheere/util/utils.dart';
+import 'package:wheere/view/common/commons.dart';
 import 'package:wheere/view/select/select_page.dart';
 
 import 'type/types.dart';
@@ -40,9 +41,8 @@ class SearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future searchRoutes(BuildContext context) async {
+  Future searchRoutes(BuildContext context, mounted) async {
     // TODO : 테스트 코드 삭제 필요
-
     List<RouteDTO> routes = [
       RouteDTO(
         sWalkingTime: 'sWalkingTime',
@@ -108,17 +108,27 @@ class SearchViewModel extends ChangeNotifier {
       RoutesByHoursDTO(selectTime: "23시", routes: routes),
     ], outTrafficCheck: 1);
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SelectPage(
-          routeFullListDTO: routeFullListDTO,
-          rDate: rDate,
+    bool isContinue = true;
+    if (routeFullListDTO.outTrafficCheck == 1) {
+      // TODO : 계속하기 팝업 띄우기
+      await showDialog(
+              context: context, builder: (context) => const TransferDialog())
+          .then((value) => isContinue = value);
+    }
+    if (isContinue && mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SelectPage(
+            routeFullListDTO: routeFullListDTO,
+            rDate: rDate,
+          ),
         ),
-      ),
-    );
+      );
+    }
 
-    if (sPlaceInfo == null || ePlaceInfo == null) return;
+/*    if (sPlaceInfo == null || ePlaceInfo == null) return;
+
     await _requestRouteService
         .requestRoute(RequestRouteDTO(
       sx: sPlaceInfo!.x,
@@ -127,22 +137,28 @@ class SearchViewModel extends ChangeNotifier {
       ey: ePlaceInfo!.y,
       rDate: rDate,
     ))
-        .then((value) {
+        .then((value) async {
       if (value != null) {
+        bool isContinue = true;
         if (value.outTrafficCheck == 1) {
-          // TODO : 계속하기 팝업 띄우기
+          await showDialog(
+                  context: context,
+                  builder: (context) => const TransferDialog())
+              .then((value) => isContinue = value);
         }
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SelectPage(
-              routeFullListDTO: value,
-              rDate: rDate,
+        if (isContinue && mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SelectPage(
+                routeFullListDTO: value,
+                rDate: rDate,
+              ),
             ),
-          ),
-        );
+          );
+        }
       }
-    });
+    });*/
   }
 
   Future<PlacesDetailsResponse?> _searchPlaces(BuildContext context) async {
