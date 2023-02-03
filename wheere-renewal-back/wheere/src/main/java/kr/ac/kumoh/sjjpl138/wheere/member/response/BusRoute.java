@@ -1,22 +1,22 @@
-package kr.ac.kumoh.sjjpl138.wheere.member;
+package kr.ac.kumoh.sjjpl138.wheere.member.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 public class BusRoute {
-    private Long busId;
     private String bNo;
-    private Integer sStationId;
+    private List<Long> busId;
+    private int sStationId;
     private String sStationName;
     @DateTimeFormat(pattern = "HH:mm:ss")
-    private LocalTime sTime;
-    private Integer eStationId;
+    private List<LocalTime> sTime;
+    private int eStationId;
     private String eStationName;
     @DateTimeFormat(pattern = "HH:mm:ss")
-    private LocalTime eTime;
-    private int leftSeats;
+    private List<LocalTime> eTime;
+    private List<Integer> leftSeats;
 }
