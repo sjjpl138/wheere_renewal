@@ -1,4 +1,4 @@
-package kr.ac.kumoh.sjjpl138.wheere.member;
+package kr.ac.kumoh.sjjpl138.wheere.member.response;
 
 import lombok.Data;
 
@@ -8,5 +8,5 @@ import java.util.List;
 public class RetrieveRoutesResult {
 
     private int outTrafficCheck;
-    private List<CoursePerHour> selects;
+    private List<Route> routes;
 }
