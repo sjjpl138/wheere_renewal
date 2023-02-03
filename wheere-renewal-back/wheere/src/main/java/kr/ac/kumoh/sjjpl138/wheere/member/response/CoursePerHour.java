@@ -1,4 +1,4 @@
-package kr.ac.kumoh.sjjpl138.wheere.member;
+package kr.ac.kumoh.sjjpl138.wheere.member.response;
 
 import lombok.Data;
 
