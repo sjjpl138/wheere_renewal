@@ -191,7 +191,7 @@ public class ReservationService {
     }
 
     private List<Platform> getPlatformsBySIds(Long bId, List<Long> stationIds) {
-        List<Platform> platformList = platformRepository.findPlatformByBusIdAndStationId(bId, stationIds);
+        List<Platform> platformList = platformRepository.findPlatformWithStationByBusIdAndStationId(bId, stationIds);
         if (platformList.size() != 2)
             throw new PlatformException("해당 버스가 지나지 않는 정류장입니다.");
         return platformList;
