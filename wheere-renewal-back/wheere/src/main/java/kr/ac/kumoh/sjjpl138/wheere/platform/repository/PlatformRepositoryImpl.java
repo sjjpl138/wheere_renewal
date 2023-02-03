@@ -17,19 +17,6 @@ public class PlatformRepositoryImpl implements PlatformRepositoryCustom {
     }
 
     @Override
-    public List<LocalTime> searchArrivalTime(Long busId, List<Long> stationIdList) {
-
-        return queryFactory
-                .select(platform.arrivalTime)
-                .from(platform)
-                .where(
-                        platform.bus.id.eq(busId),
-                        platform.station.id.in(stationIdList)
-                )
-                .fetch();
-    }
-
-    @Override
     public List<Integer> findAllocationSeqByBusIdAndStationIdList(Long busId, List<Long> stationIds) {
         return queryFactory
                 .select(platform.stationSeq)
