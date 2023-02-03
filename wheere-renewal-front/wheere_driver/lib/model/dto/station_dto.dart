@@ -1,5 +1,5 @@
 class StationDTO{
-  String sSeq;
+  int sSeq;
   String sName;
 
   StationDTO({

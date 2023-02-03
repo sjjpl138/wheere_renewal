@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -9,12 +10,23 @@ import 'package:wheere_driver/model/dto/alarm_dto/base_alarm_dto.dart';
 import 'package:wheere_driver/model/dto/alarm_dto/canceled_reservation_alarm_dto.dart';
 import 'package:wheere_driver/model/dto/alarm_dto/new_reservation_alarm_dto.dart';
 import 'package:wheere_driver/model/dto/dtos.dart';
+import 'package:wheere_driver/model/service/bus_getoff_service.dart';
+import 'package:wheere_driver/model/service/bus_location_service.dart';
 import 'package:wheere_driver/view/common/commons.dart';
 import 'package:wheere_driver/view/setting/setting_page.dart';
+import '../styles/styles.dart';
 import 'type/types.dart';
 
 class MainViewModel extends ChangeNotifier {
+  final BusLocationService _busLocationService = BusLocationService();
+  final BusGetOffService _busGetOffService = BusGetOffService();
   late List<BusStationInfo> busStationInfoList;
+
+  final ScrollController scrollController = ScrollController();
+
+  Timer? _timer;
+  int busCurrentLocationIndex = 0;
+  double bodyHeight = 0.0;
 
   MainViewModel() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -40,18 +52,35 @@ class MainViewModel extends ChangeNotifier {
         _getNewAlarm(message.data);
       }
     });
+    initReservationInfo();
+  }
+
+  void initReservationInfo() {
     _makeBusStationInfo();
-    _initReservationInfo();
+    _timer?.cancel();
+    for (var element in Driver().driver!.reservations) {
+      busStationInfoList[element.startSeq - Driver().driver!.route.first.sSeq]
+          .ridePeople
+          .add(element.member);
+      for (var i = element.startSeq; i < element.endSeq; i++) {
+        busStationInfoList[i - Driver().driver!.route.first.sSeq].leftSeats--;
+      }
+      busStationInfoList[element.endSeq - Driver().driver!.route.first.sSeq]
+          .quitPeople
+          .add(element.member);
+    }
+    notifyListeners();
+    _getBusCurrentLocation();
   }
 
   void _makeBusStationInfo() {
     busStationInfoList = Driver()
-            .driver
-            ?.route
-            .map((e) => BusStationInfo(
-                  stationName: e.sName,
-                ))
-            .toList() ??
+        .driver
+        ?.route
+        .map((e) => BusStationInfo(
+      stationName: e.sName,
+    ))
+        .toList() ??
         [
           BusStationInfo(
             stationName: "stationName",
@@ -86,23 +115,17 @@ class MainViewModel extends ChangeNotifier {
     }
   }
 
-  void _initReservationInfo() {
-    for (var element in Driver().driver!.reservations) {
-      busStationInfoList[element.startSeq].ridePeople.add(element.member);
-      for (var i = element.startSeq; i < element.endSeq; i++) {
-        busStationInfoList[i].leftSeats--;
-      }
-      busStationInfoList[element.endSeq - 1].quitPeople.add(element.member);
-    }
-  }
-
   void _addReservationInfo(ReservationDTO reservation) {
     Driver().driver!.reservations.add(reservation);
-    busStationInfoList[reservation.startSeq].ridePeople.add(reservation.member);
+    busStationInfoList[reservation.startSeq - Driver().driver!.route.first.sSeq]
+        .ridePeople
+        .add(reservation.member);
     for (var i = reservation.startSeq; i < reservation.endSeq; i++) {
-      busStationInfoList[i].leftSeats--;
+      busStationInfoList[i - Driver().driver!.route.first.sSeq].leftSeats--;
     }
-    busStationInfoList[reservation.endSeq].quitPeople.add(reservation.member);
+    busStationInfoList[reservation.endSeq - Driver().driver!.route.first.sSeq]
+        .quitPeople
+        .add(reservation.member);
     notifyListeners();
   }
 
@@ -110,15 +133,78 @@ class MainViewModel extends ChangeNotifier {
     for (var element in Driver().driver!.reservations) {
       if (element.rId == reservation.rId) {
         Driver().driver!.reservations.remove(element);
-        busStationInfoList[element.startSeq].ridePeople.remove(element.member);
+        busStationInfoList[element.startSeq - Driver().driver!.route.first.sSeq]
+            .ridePeople
+            .remove(element.member);
         for (var i = element.startSeq; i < element.endSeq; i++) {
-          busStationInfoList[i].leftSeats++;
+          busStationInfoList[i - Driver().driver!.route.first.sSeq].leftSeats++;
         }
-        busStationInfoList[element.endSeq].quitPeople.remove(element.member);
+        busStationInfoList[element.endSeq - Driver().driver!.route.first.sSeq]
+            .quitPeople
+            .remove(element.member);
         break;
       }
     }
     notifyListeners();
+  }
+
+  int testStationName = 0;
+
+  void _getBusCurrentLocation() {
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
+      // TODO : 테스트 코드 삭제
+      testStationName++;
+      log("sName$testStationName");
+      _updateBusCurrentLocation(
+        BusLocationDTO(
+          stationName: "sName$testStationName",
+        ),
+      );
+/*      await _busLocationService
+          .requestRoute(
+            RequestBusLocationDTO(routeId: Driver().driver!.routeId),
+            Driver().driver!.bId,
+            Driver().driver!.vNo,
+          )
+          .then((value) => _updateBusCurrentLocation(
+                value ??
+                    BusLocationDTO(
+                      stationName: "stationName",
+                    ),
+              ));*/
+    });
+  }
+
+  void _updateBusCurrentLocation(BusLocationDTO busLocationDTO) {
+    for (var i = busCurrentLocationIndex; i < busStationInfoList.length; i++) {
+      if (busStationInfoList[i].stationName == busLocationDTO.stationName) {
+        busStationInfoList[busCurrentLocationIndex].isCurrentStation = false;
+        busCurrentLocationIndex = i;
+        busStationInfoList[busCurrentLocationIndex].isCurrentStation = true;
+        notifyListeners();
+        focusListToCurrentLocation();
+        return;
+      }
+    }
+    notifyListeners();
+    _timer?.cancel();
+  }
+
+  void focusListToCurrentLocation() {
+    scrollController.animateTo(
+      (busCurrentLocationIndex + 0.5) *
+              (kPaddingMiddleSize * 2 +
+                  kTextMiddleSize * kTextHeight +
+                  kTextSmallSize * kTextHeight) -
+          bodyHeight / 2,
+      duration: const Duration(milliseconds: 1000),
+      curve: Curves.ease,
+    );
+  }
+
+  void setBodyHeight(BuildContext context) {
+    bodyHeight = MediaQuery.of(context).size.height -
+        Scaffold.of(context).appBarMaxHeight!;
   }
 
   Future showMemberListDialog(
@@ -141,7 +227,7 @@ class MainViewModel extends ChangeNotifier {
       context: context,
       builder: (BuildContext context) => RideMemberDialog(memberDTO: memberDTO),
     ).then((value) {
-      if(value) {
+      if (value) {
         // TODO : 승차 API 전송...?
         log(memberDTO.toJson().toString());
       }
@@ -154,8 +240,8 @@ class MainViewModel extends ChangeNotifier {
       context: context,
       builder: (BuildContext context) => QuitMemberDialog(memberDTO: memberDTO),
     ).then((value) {
-      if(value) {
-        // TODO : 하차 API 전송
+      if (value) {
+        _busGetOffService.sendReservationStateChange(Driver().driver!.bId);
         log(memberDTO.toJson().toString());
       }
     });
@@ -163,6 +249,7 @@ class MainViewModel extends ChangeNotifier {
 
   Future logout() async {
     await Driver().logout();
+    _timer?.cancel();
   }
 
   void navigateToSettingPage(BuildContext context) {

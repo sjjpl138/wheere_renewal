@@ -39,18 +39,16 @@ class BusCurrentInfo extends StatelessWidget {
                     left: (kIconMainSize + kPaddingLargeSize - kLineSize) / 2),
                 child: Container(
                   width: kLineSize,
-                  height: (kIconSmallSize +
-                          kPaddingSmallSize +
-                          kPaddingMiddleSize * 2 +
-                          kTextSmallSize) *
-                      busStationInfoList.length,
+                  height: (kPaddingMiddleSize * 2 +
+                          kTextMiddleSize * kTextHeight +
+                          kTextSmallSize * kTextHeight) *
+                      (busStationInfoList.length - 0.5),
                   color: CustomColor.itemSubColor,
                 ),
               ),
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(top: kPaddingMiddleSize),
                 itemCount: busStationInfoList.length,
                 itemBuilder: (BuildContext context, int index) =>
                     BusCurrentInfoItem(

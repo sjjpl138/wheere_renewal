@@ -2,7 +2,7 @@ import 'package:wheere_driver/model/dto/dtos.dart';
 
 class DriverDTO {
   String dName;
-  int bId;
+  String bId;
   String vNo;
   String routeId;
   String bNo;
