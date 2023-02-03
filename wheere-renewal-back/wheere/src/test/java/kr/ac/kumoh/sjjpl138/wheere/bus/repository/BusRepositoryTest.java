@@ -90,4 +90,23 @@ public class BusRepositoryTest {
         assertThat(findBusList).extracting("id").containsExactly(1L, 2L, 3L, 4L);
         assertThat(findBusList).extracting("vehicleNo").containsExactly("138안 1234", "138안 1244", "138안 1634", "138안 1934");
     }
+
+    @Test
+    void findBusIdByBusNoTest() {
+
+        // given
+        Bus bus5 = new Bus(5L,  "route2", "138안 1244", 1, "430", LocalDate.now(), "busFcmToken");
+        Bus bus6 = new Bus(6L,  "route2", "138안 1244", 1, "430", LocalDate.now(), "busFcmToken");
+        Bus bus7 = new Bus(7L,  "route2", "138안 1244", 1, "430", LocalDate.now(), "busFcmToken");
+        Bus bus8 = new Bus(8L,  "route2", "138안 1244", 1, "430", LocalDate.now(), "busFcmToken");
+        busRepository.save(bus5);
+        busRepository.save(bus6);
+        busRepository.save(bus7);
+        busRepository.save(bus8);
+
+        // when
+        List<Long> findBusIds = busRepository.findBusIdByBusNo("430");
+
+        assertThat(findBusIds).containsExactly(1L, 5L, 6L, 7L, 8L);
+    }
 }
