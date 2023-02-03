@@ -21,13 +21,16 @@ abstract class BaseRemoteDataSource {
 
   static Future<Map<String, dynamic>?> getWithParams(String path, Map<String, dynamic> queryParams) async {
     try {
-      var uri = Uri(
-        scheme: "https",
-        // host: '', //host 넣어줘야함?
-        path: path, // ?? _baseUrl + path
-        queryParameters: queryParams,
-      );
-      final res = await http.get(uri, headers: _headers);
+      var uri = Uri.parse(path).replace(queryParameters: queryParams);
+      const headers = {"Accept": "application/json"};
+      final res = await http.get(uri, headers: headers);
+      // var uri = Uri(
+      //   scheme: "https",
+      //   // host: '', //host 넣어줘야함?
+      //   path: path, // ?? _baseUrl + path
+      //   queryParameters: queryParams,
+      // );
+      // final res = await http.get(uri, headers: _headers);
       switch (res.statusCode) {
         case 200:
           return json.decode(utf8.decode(res.bodyBytes));

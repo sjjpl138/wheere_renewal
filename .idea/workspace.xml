@@ -4,18 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02c2f7f4-74fa-4a95-8e8d-80d7f020278f" name="Changes" comment="feature: (user) 경로조회dto 수정">
-      <change afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/dto/sub_route_dto.dart" afterDir="false" />
+    <list default="true" id="02c2f7f4-74fa-4a95-8e8d-80d7f020278f" name="Changes" comment="feature: (user) logout 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/dto/dtos.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/dto/dtos.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/dto/route_dto.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/dto/route_dto.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/dto/routes_by_hours_dto.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/dto/select_dto.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/dto/routes_full_list_dto.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/dto/routes_full_list_dto.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/repository/remote_data_sources/base_remote_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/repository/remote_data_sources/base_remote_data_source.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view/select/select_tab_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view/select/select_tab_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view_model/search_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view_model/search_view_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view_model/select_tab_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view_model/select_tab_view_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view_model/select_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view_model/select_view_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/repository/remote_data_sources/request_bus_location_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/repository/remote_data_sources/request_bus_location_data_source.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +18,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="feature/reservation" />
+    <option name="BRANCH" value="feature/login" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
