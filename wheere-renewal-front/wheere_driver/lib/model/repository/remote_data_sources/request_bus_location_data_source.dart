@@ -31,10 +31,8 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
           break;
         }
       }
-
       BusLocationDTO busLocation = BusLocationDTO(
-          stationName: stationName,
-      );
+          stationName: stationName);
       return busLocation;
     } catch (e) {
       print(e);
