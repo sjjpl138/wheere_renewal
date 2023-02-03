@@ -7,8 +7,8 @@ class LogoutRepository {
       RemoteLogoutDataSource();
   final LocalLogoutDataSource _localLogoutDataSource = LocalLogoutDataSource();
 
-  Future<MemberDTO?> deleteMemberWithRemote() async {
-    return await _logoutRemoteDataSource.deleteWithRemote();
+  Future<MemberDTO?> deleteMemberWithRemote(String mId) async {
+    return await _logoutRemoteDataSource.deleteWithRemote(mId);
   }
 
   Future deleteMemberWithLocal() async {
