@@ -94,35 +94,41 @@ class BusCurrentInfoItem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    busStationInfo.stationName,
-                    style: _stationNameTextStyle,
-                    textAlign: TextAlign.start,
+                  SizedBox(
+                    height: kTextMiddleSize * kTextHeight * 1.1,
+                    child: Text(
+                      busStationInfo.stationName,
+                      style: _stationNameTextStyle,
+                      textAlign: TextAlign.start,
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "탑승 인원: ${busStationInfo.ridePeople.length}",
-                        style: _ridePeopleTextStyle,
-                        textAlign: TextAlign.start,
-                      ),
-                      const Spacer(),
-                      Text(
-                        "하차 인원: ${busStationInfo.quitPeople.length}",
-                        style: _quitPeopleTextStyle,
-                        textAlign: TextAlign.start,
-                      ),
-                      const Spacer(),
-                      Text(
-                        "남은 좌석: ${busStationInfo.leftSeats}",
-                        style: kTextMainStyleSmall,
-                        textAlign: TextAlign.start,
-                      ),
-                      const Spacer(),
-                    ],
+                  SizedBox(
+                    height: kTextSmallSize * kTextHeight * 1.1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "탑승 인원: ${busStationInfo.ridePeople.length}",
+                          style: _ridePeopleTextStyle,
+                          textAlign: TextAlign.start,
+                        ),
+                        const Spacer(),
+                        Text(
+                          "하차 인원: ${busStationInfo.quitPeople.length}",
+                          style: _quitPeopleTextStyle,
+                          textAlign: TextAlign.start,
+                        ),
+                        const Spacer(),
+                        Text(
+                          "남은 좌석: ${busStationInfo.leftSeats}",
+                          style: kTextMainStyleSmall,
+                          textAlign: TextAlign.start,
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
                   ),
                 ],
               ),

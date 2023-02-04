@@ -76,7 +76,9 @@ class Driver extends ChangeNotifier {
   }
 
   Future logout() async {
-    await _logoutService.logoutWithRemote().then((value) => _driverDTO = value);
+    await _logoutService
+        .logoutWithRemote(driver!.dId)
+        .then((value) => _driverDTO = value);
     notifyListeners();
   }
 }

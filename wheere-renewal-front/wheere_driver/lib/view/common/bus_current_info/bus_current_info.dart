@@ -15,49 +15,43 @@ class BusCurrentInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: CustomColor.backgroundMainColor,
-        borderRadius: BorderRadius.circular(kBorderRadiusSize),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        kPaddingLargeSize,
+        0.0,
+        kPaddingLargeSize,
+        kPaddingLargeSize,
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          kPaddingLargeSize,
-          0.0,
-          kPaddingLargeSize,
-          kPaddingLargeSize,
+        padding: const EdgeInsets.symmetric(
+          horizontal: kPaddingMiddleSize,
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: kPaddingMiddleSize,
-          ),
-          child: Stack(
-            alignment: Alignment.topLeft,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: (kIconMainSize + kPaddingLargeSize - kLineSize) / 2),
-                child: Container(
-                  width: kLineSize,
-                  height: (kPaddingMiddleSize * 2 +
-                          kTextMiddleSize * kTextHeight +
-                          kTextSmallSize * kTextHeight) *
-                      (busStationInfoList.length - 0.5),
-                  color: CustomColor.itemSubColor,
-                ),
+        child: Stack(
+          alignment: Alignment.topLeft,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: (kIconMainSize + kPaddingLargeSize - kLineSize) / 2),
+              child: Container(
+                width: kLineSize,
+                height: (kPaddingMiddleSize * 2 +
+                        kTextMiddleSize * kTextHeight * 1.1 +
+                        kTextSmallSize * kTextHeight * 1.1) *
+                    (busStationInfoList.length - 0.5),
+                color: CustomColor.itemSubColor,
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: busStationInfoList.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    BusCurrentInfoItem(
-                  busStationInfo: busStationInfoList[index],
-                  onTap: onTap,
-                ),
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: busStationInfoList.length,
+              itemBuilder: (BuildContext context, int index) =>
+                  BusCurrentInfoItem(
+                busStationInfo: busStationInfoList[index],
+                onTap: onTap,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
