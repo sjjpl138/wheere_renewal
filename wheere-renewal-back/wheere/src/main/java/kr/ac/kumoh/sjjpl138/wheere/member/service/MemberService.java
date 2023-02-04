@@ -596,10 +596,6 @@ public class MemberService {
                 System.out.println("key = " + key + " value = " + value);
             });
 
-            int busTransitCount = course.getBusTransitCount();
-            int totalCount = busTransitCount * 2 + 1;
-            System.out.println("totalCount = " + totalCount);
-
             if (routeCase.size() == 2) {
                 List<String> firstBusNoList = routeCase.get(0);
                 List<String> secondBusNoList = routeCase.get(1);
