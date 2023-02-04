@@ -42,6 +42,8 @@ import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static java.nio.charset.StandardCharsets.*;
 
@@ -528,8 +530,6 @@ public class MemberService {
         // 경우의 수 중 하나
         for (Course course : courses) {
 
-            Route route = new Route();
-            List<SubRoute> subRoutes = new ArrayList<>();
             List<SubRoute> onlyWalk = new ArrayList<>();
             List<SubRoute> onlyBus = new ArrayList<>();
 
@@ -604,41 +604,68 @@ public class MemberService {
                 List<String> firstBusNoList = routeCase.get(0);
                 List<String> secondBusNoList = routeCase.get(1);
 
-                for (String s : firstBusNoList) {
-                    for (String s1 : secondBusNoList) {
-                        System.out.println(s + " " + s1);
+                for (String firstBusNo : firstBusNoList) {
+                    for (String secondBusNo : secondBusNoList) {
+
+                        Route route = new Route();
+
+                        route.setPayment(course.getPayment());
+                        route.setBusTransitCount(course.getBusTransitCount());
+                        route.setFirstStartStation(course.getFirstStartStation());
+                        route.setLastEndStation(course.getLastEndStation());
+
+                        List<SubRoute> subRoutes = new ArrayList<>();
+
+                        SubRoute firstWalkSubRoute = onlyWalk.get(0);
+                        subRoutes.add(firstWalkSubRoute);
+
+                        SubRoute firstBusSubRoute = busMap.get(firstBusNo);
+                        subRoutes.add(firstBusSubRoute);
+
+                        SubRoute secondWalkSubRoute = onlyWalk.get(1);
+                        subRoutes.add(secondWalkSubRoute);
+
+                        SubRoute secondBusSubRoute = busMap.get(secondBusNo);
+                        subRoutes.add(secondBusSubRoute);
+//                        secondBusSubRoute.getBusRoute().getSTime().stream().filter();
+
+                        SubRoute thirdWalkSubRoute = onlyWalk.get(2);
+                        subRoutes.add(thirdWalkSubRoute);
+
+                        route.setSubRoutes(subRoutes);
+                        routes.add(route);
                     }
                 }
-            }
+            } else {
+                List<String> firstBusNoList = routeCase.get(0);
 
-            routeCase.size();
+                for (String firstBusNo : firstBusNoList) {
 
-            for (int i = 0; i < routeCase.size(); i++) {
-                List<String> busNoList = routeCase.get(i);
-            }
+                    Route route = new Route();
 
-            for (List<String> busNoList : routeCase.values()) {
+                    List<SubRoute> subRoutes = new ArrayList<>();
 
-            }
+                    route.setPayment(course.getPayment());
+                    route.setBusTransitCount(course.getBusTransitCount());
+                    route.setFirstStartStation(course.getFirstStartStation());
+                    route.setLastEndStation(course.getLastEndStation());
 
-            for (int i = 0; i < totalCount; i++) {
-                for (int j = 0; j < busTransitCount; j++) {
-                    List<String> busNoList = routeCase.get(j);
+                    SubRoute firstWalkSubRoute = onlyWalk.get(0);
+                    subRoutes.add(firstWalkSubRoute);
+                    SubRoute firstBusSubRoute = busMap.get(firstBusNo);
+                    subRoutes.add(firstBusSubRoute);
+                    SubRoute secondWalkSubRoute = onlyWalk.get(1);
+                    subRoutes.add(secondWalkSubRoute);
+
+                    route.setSubRoutes(subRoutes);
+                    routes.add(route);
                 }
             }
 
-            for (int i = 0; i < onlyWalk.size(); i++) {
-
-            }
-
-            route.setSubRoutes(subRoutes);
-            routes.add(route);
-
-            System.out.println("routeCase = " + routeCase);
         }
 
         retrieveRoutesResult.setRoutes(routes);
-        return null;
+        return retrieveRoutesResult;
     }
 
     private void addToBusMap(LocalDate rDate, List<String> busNoList, Map<String, SubRoute> busMap, SubRoute busSubRoute, BusRoute findBusRoute, List<Long> stationIdList) {
@@ -657,10 +684,15 @@ public class MemberService {
             List<LocalTime> endStationArrivalTimes = new ArrayList<>();
             List<Integer> findLeftSeats = new ArrayList<>();
 
+            Map<Long, List<Platform>> busPlatformMap = new HashMap<>();
+
             for (Long findBusId : findBusIds) {
 
                 // 출발, 도착 정류장 모두를 지나면 runBusNoList에 추가
                 List<Platform> findPlatforms = platformRepository.findPlatformByBusIdAndStationId(findBusId, stationIdList);
+
+                // 이걸 findBusId랑 findPlatforms를 Map에 넣어서 빼기!!
+                busPlatformMap.put(findBusId, findPlatforms);
 
                 if (findPlatforms.size() != 2) {
                     continue;
@@ -674,6 +706,50 @@ public class MemberService {
                 endStationArrivalTimes.add(endPlatform.getArrivalTime());
 
                 // 버스ID, 날짜, seqList
+                /*int startSeq = startPlatform.getStationSeq();
+                int endSeq = endPlatform.getStationSeq();
+
+                List<Integer> seqList = new ArrayList<>();
+                for (int i = startSeq; i <= endSeq; i++) {
+                    seqList.add(i);
+                }
+
+                // 이걸 뒤에서 따로 조회 -> 그러면 정류장 순서 필요
+                Optional<Integer> minLeftSeats = seatRepository.findMinLeftSeatsByBusIdAndDateAndSeqIn(findBusId, rDate, seqList);
+
+                if (minLeftSeats.isEmpty()) {
+                    leftSeatsNum = 2;
+                } else {
+                    leftSeatsNum = minLeftSeats.get();
+                }
+
+                findLeftSeats.add(leftSeatsNum);*/
+            }
+
+            Map<Long, List<LocalTime>> combineTimes = combineLists(runBusNoList, startStationArrivalTimes, endStationArrivalTimes);
+
+            Map<Long, List<LocalTime>> timePerBus = combineTimes.entrySet().stream()
+                    .sorted(Comparator.comparing(entry -> entry.getValue().get(0)))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, LinkedHashMap::new));
+
+            startStationArrivalTimes.clear();
+            endStationArrivalTimes.clear();
+
+            timePerBus.forEach((key, value) -> {
+
+                startStationArrivalTimes.add(value.get(0));
+                endStationArrivalTimes.add(value.get(1));
+            });
+
+            List<Long> orderedBusIds = new ArrayList<>(timePerBus.keySet());
+
+            for (Long busId : orderedBusIds) {
+
+                List<Platform> findPlatforms = busPlatformMap.get(busId);
+
+                Platform startPlatform = findPlatforms.get(0);
+                Platform endPlatform = findPlatforms.get(1);
+
                 int startSeq = startPlatform.getStationSeq();
                 int endSeq = endPlatform.getStationSeq();
 
@@ -682,7 +758,8 @@ public class MemberService {
                     seqList.add(i);
                 }
 
-                Optional<Integer> minLeftSeats = seatRepository.findMinLeftSeatsByBusIdAndDateAndSeqIn(findBusId, rDate, seqList);
+                // 이걸 뒤에서 따로 조회 -> 그러면 정류장 순서 필요
+                Optional<Integer> minLeftSeats = seatRepository.findMinLeftSeatsByBusIdAndDateAndSeqIn(busId, rDate, seqList);
 
                 if (minLeftSeats.isEmpty()) {
                     leftSeatsNum = 2;
@@ -695,7 +772,7 @@ public class MemberService {
 
             BusRoute busRoute = new BusRoute();
             busRoute.setBNo(busNo);
-            busRoute.setBusId(runBusNoList);
+            busRoute.setBusId(orderedBusIds);
             busRoute.setSStationId(findBusRoute.getSStationId());
             busRoute.setSStationName(findBusRoute.getSStationName());
             busRoute.setSTime(startStationArrivalTimes);
@@ -704,11 +781,20 @@ public class MemberService {
             busRoute.setETime(endStationArrivalTimes);
             busRoute.setLeftSeats(findLeftSeats);
 
-            System.out.println("busRoute = " + busRoute);
-
             subRoute.setBusRoute(busRoute);
 
             busMap.put(busNo, subRoute);
         }
+    }
+
+    public static Map<Long, List<LocalTime>> combineLists(List<Long> idList, List<LocalTime> timeList1, List<LocalTime> timeList2) {
+        if (idList.size() != timeList1.size() || idList.size() != timeList2.size()) {
+            throw new IllegalArgumentException("Lists must have the same size");
+        }
+
+        return IntStream.range(0, idList.size())
+                .boxed()
+                .map(index -> new AbstractMap.SimpleEntry<>(idList.get(index), List.of(timeList1.get(index), timeList2.get(index))))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }
