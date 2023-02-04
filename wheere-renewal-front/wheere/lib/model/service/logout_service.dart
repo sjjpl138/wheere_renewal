@@ -5,9 +5,9 @@ import 'package:wheere/model/dto/dtos.dart';
 class LogoutService{
   final LogoutRepository _logoutRepository = LogoutRepository();
 
-  Future<MemberDTO?> logout() async {
+  Future<MemberDTO?> logout(String mId) async {
     FirebaseMessaging.instance.deleteToken();
     await _logoutRepository.deleteMemberWithLocal();
-    return await _logoutRepository.deleteMemberWithRemote();
+    return await _logoutRepository.deleteMemberWithRemote(mId);
   }
 }
