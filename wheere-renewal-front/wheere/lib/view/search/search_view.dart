@@ -74,7 +74,8 @@ class _SearchViewState extends State<SearchView>
                 ),
                 const SizedBox(height: kPaddingLargeSize),
                 CustomOutlinedButton(
-                  onPressed: () => _searchViewModel.searchRoutes(context),
+                  onPressed: () =>
+                      _searchViewModel.searchRoutes(context, mounted),
                   text: "조회 하기",
                 ),
                 const SizedBox(height: kPaddingLargeSize),

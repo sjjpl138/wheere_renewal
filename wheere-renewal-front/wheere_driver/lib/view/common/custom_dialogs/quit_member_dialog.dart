@@ -4,19 +4,24 @@ import 'package:wheere_driver/styles/styles.dart';
 import 'package:wheere_driver/view/common/commons.dart';
 
 class QuitMemberDialog extends StatelessWidget {
-  final MemberDTO alarmMemberDTO;
+  final MemberDTO memberDTO;
 
   const QuitMemberDialog({
     Key? key,
-    required this.alarmMemberDTO,
+    required this.memberDTO,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(
-        "하차자 정보",
-        style: kTextMainStyleLarge,
+      title: Row(
+        children: [
+          BackIconButton(onPressed: () => Navigator.pop(context, false)),
+          const Text(
+            "하차자 정보",
+            style: kTextMainStyleLarge,
+          ),
+        ],
       ),
       content: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -24,10 +29,10 @@ class QuitMemberDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MemberInfo(
-            name: alarmMemberDTO.mName,
-            sex: alarmMemberDTO.mSex,
-            birthdate: alarmMemberDTO.mBirthDate,
-            phoneNumber: alarmMemberDTO.mNum,
+            name: memberDTO.mName,
+            sex: memberDTO.mSex,
+            birthdate: memberDTO.mBirthDate,
+            phoneNumber: memberDTO.mNum,
           ),
           const Text(
             "하차자를 확인하였습니까?",

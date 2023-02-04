@@ -6,9 +6,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 class AlarmReservationDataSource implements BaseRemoteDataSource {
   @override
     String path = "";
-  Future<NewReservationDTO?> writeWithRemote(RemoteMessage message) async {
+  Future<ReservationDTO?> writeWithRemote(RemoteMessage message) async {
     try {
-      return NewReservationDTO.fromJson(message.data);
+      return ReservationDTO.fromJson(message.data);
     } catch (e) {
       return null;
     }

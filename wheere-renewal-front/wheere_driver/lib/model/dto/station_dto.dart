@@ -1,19 +1,16 @@
 class StationDTO{
-  int sId;
-  String sName;
   int sSeq;
+  String sName;
 
   StationDTO({
-    required this.sId,
-    required this.sName,
-    required this.sSeq
+    required this.sSeq,
+    required this.sName
   });
 
   factory StationDTO.fromJson(Map<String, dynamic> json) {
     return StationDTO(
-      sId: json["sId"],
-      sName: json["sName"],
-      sSeq: json["sSeq"],
+      sSeq: json['sSeq'],
+      sName: json['name'],
     );
   }
 }

@@ -1,4 +1,4 @@
-class CanceledReservationDTO{
+class CanceledReservationDTO {
   String mId;
   String rId;
 
@@ -9,8 +9,8 @@ class CanceledReservationDTO{
 
   factory CanceledReservationDTO.fromJson(Map<String, dynamic> json) {
     return CanceledReservationDTO(
-        mId: json["mId"],
-        rId: json["rId"],
+      mId: json["mId"],
+      rId: json["rId"],
     );
   }
 

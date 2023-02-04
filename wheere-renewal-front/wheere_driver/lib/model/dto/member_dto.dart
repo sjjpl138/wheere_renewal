@@ -13,6 +13,12 @@ class MemberDTO {
     required this.mNum,
   });
 
+  @override
+  int get hashCode => mId.hashCode;
+
+  @override
+  bool operator ==(covariant MemberDTO other) => mId.compareTo(other.mId) == 0;
+
   factory MemberDTO.fromJson(Map<String, dynamic> json) {
     return MemberDTO(
       mId: json["mId"],

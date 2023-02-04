@@ -24,23 +24,39 @@ class _MainViewState extends State<MainView> {
           title: Driver().driver?.bNo ?? "bNo",
           leading: LogoutIconButton(onPressed: () => _mainViewModel.logout()),
           actions: [
+            RefreshIconButton(
+              onPressed: _mainViewModel.initReservationInfo,
+            ),
             SettingIconButton(
               onPressed: () => _mainViewModel.navigateToSettingPage(context),
-            )
+            ),
           ]),
-      body: SingleChildScrollView(
-        child: Container(
-          color: CustomColor.backgroundMainColor,
-          child: Column(
-            children: [
-              BusCurrentInfo(
-                busStationInfoList: _mainViewModel.busStationInfoList,
-                onTap: (BusStationInfo busStationInfo) =>
-                    _mainViewModel.showMemberDialogs(context, busStationInfo),
-              ),
-              const SizedBox(height: kPaddingLargeSize),
-            ],
+      body: Builder(builder: (context) {
+        _mainViewModel.setBodyHeight(context);
+        return SingleChildScrollView(
+          controller: _mainViewModel.scrollController,
+          child: Container(
+            color: CustomColor.backgroundMainColor,
+            child: Column(
+              children: [
+                BusCurrentInfo(
+                  busStationInfoList: _mainViewModel.busStationInfoList,
+                  onTap: (BusStationInfo busStationInfo) => _mainViewModel
+                      .showMemberListDialog(context, busStationInfo),
+                ),
+                const SizedBox(height: kPaddingLargeSize),
+              ],
+            ),
           ),
+        );
+      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _mainViewModel.focusListToCurrentLocation,
+        backgroundColor: CustomColor.itemSubColor,
+        child: const Icon(
+          Icons.my_location,
+          color: CustomColor.textReverseColor,
+          size: kIconMainSize,
         ),
       ),
     );

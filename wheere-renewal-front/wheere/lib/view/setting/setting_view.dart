@@ -44,11 +44,12 @@ class _SettingViewState extends State<SettingView> {
               serviceInfoDataList: _settingViewModel.serviceInfoDataList,
             ),
             const SizedBox(height: kPaddingLargeSize),
-            OutlinedButton(
-              onPressed: _settingViewModel.logout,
-              child: const Text(
-                "로그아웃",
-                style: kTextReverseStyleMiddle,
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: kPaddingLargeSize),
+              child: CustomOutlinedButton(
+                onPressed: () => _settingViewModel.logout(context, mounted),
+                text: "로그아웃",
               ),
             ),
           ],

@@ -21,10 +21,10 @@ class BusCurrentInfoItem extends StatelessWidget {
     required this.busStationInfo,
     required this.onTap,
   }) {
-    _stationNameTextStyle =
-        busStationInfo.ridePeople.isNotEmpty || busStationInfo.quitPeople.isNotEmpty
-            ? kTextPointStyleMiddle
-            : kTextMainStyleMiddle;
+    _stationNameTextStyle = busStationInfo.ridePeople.isNotEmpty ||
+            busStationInfo.quitPeople.isNotEmpty
+        ? kTextPointStyleMiddle
+        : kTextMainStyleMiddle;
     _ridePeopleTextStyle = busStationInfo.ridePeople.isNotEmpty
         ? kTextPointStyleSmall
         : kTextMainStyleSmall;
@@ -45,12 +45,15 @@ class BusCurrentInfoItem extends StatelessWidget {
           )
         : Container();
     _headBackgroundColor = busStationInfo.isCurrentStation
-        ? CustomColor.pointColor
-        : CustomColor.backGroundSubColor;
-    _headBoarderColor =
-        busStationInfo.ridePeople.isNotEmpty || busStationInfo.quitPeople.isNotEmpty
+        ? busStationInfo.ridePeople.isNotEmpty ||
+                busStationInfo.quitPeople.isNotEmpty
             ? CustomColor.pointColor
-            : CustomColor.itemSubColor;
+            : CustomColor.itemSubColor
+        : CustomColor.backGroundSubColor;
+    _headBoarderColor = busStationInfo.ridePeople.isNotEmpty ||
+            busStationInfo.quitPeople.isNotEmpty
+        ? CustomColor.pointColor
+        : CustomColor.itemSubColor;
   }
 
   @override

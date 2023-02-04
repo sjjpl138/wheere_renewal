@@ -1,26 +1,29 @@
-import 'bus_dto.dart';
+import 'sub_route_dto.dart';
 
 class RouteDTO {
   int payment;
-  String sWalkingTime;
-  int price;
-  List<BusDTO> buses;
+  int busTransitCount;
+  String firstStartStation;
+  String lastEndStation;
+  List<SubRouteDTO> subRoutes;
 
   RouteDTO({
     required this.payment,
-    required this.buses,
-    required this.price,
-    required this.sWalkingTime,
+    required this.busTransitCount,
+    required this.firstStartStation,
+    required this.lastEndStation,
+    required this.subRoutes,
   });
 
   factory RouteDTO.fromJson(Map<String, dynamic> json) {
-    var list = json['buses'] as List;
-    List<BusDTO> buses = list.map((i) => BusDTO.fromJson(i)).toList();
+    var list = json['subRoutes'] as List;
+    List<SubRouteDTO> subRoutes = list.map((i) => SubRouteDTO.fromJson(i)).toList();
     return RouteDTO(
       payment: json['payment'],
-      sWalkingTime: json['sWalkingTime'],
-      buses: buses,
-      price: json['price'],
+      busTransitCount: json['busTransitCount'],
+      firstStartStation: json['firstStartStation'],
+      lastEndStation: json['lastEndStation'],
+      subRoutes: subRoutes
     );
   }
 }

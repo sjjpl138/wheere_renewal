@@ -53,33 +53,13 @@ class StationRepositoryTest {
     }
 
     @Test
-    void findStationByStationIds() {
+    void findStationByIdInTest() {
         // when
         List<Long> idList = List.of(1L, 2L, 3L, 4L);
-        List<Station> stations = stationRepository.findStationByStationIds(idList);
+        List<Station> stations = stationRepository.findStationByIdIn(idList);
 
         //then
         assertThat(stations).extracting("id").containsExactly(1L, 2L, 3L, 4L);
-    }
-
-    @Test
-    void findStationByPlatformId() {
-        //when
-        List<Station> stations = stationRepository.findStationByPlatformId(List.of(1L, 2L));
-
-        //then
-        assertThat(stations).extracting("id").containsExactly(1L, 2L);
-        assertThat(stations).extracting("name").containsExactly("조야동", "사월동");
-    }
-
-    @Test
-    void findStationByBusIdTest() {
-        // when
-        List<Station> stations = stationRepository.findStationByBusId(1L);
-
-        // then
-        assertThat(stations).extracting("id").containsExactly(1L, 2L, 3L, 4L);
-        assertThat(stations).extracting("name").containsExactly("조야동", "사월동", "수성교", "노원네거리");
     }
 
     @Test
