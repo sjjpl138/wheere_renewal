@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="02c2f7f4-74fa-4a95-8e8d-80d7f020278f" name="Changes" comment="feature: (user) logout 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/repository/remote_data_sources/base_remote_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/repository/remote_data_sources/base_remote_data_source.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/dto/sub_route_dto.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/model/dto/sub_route_dto.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view/select/select_tab_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view/select/select_tab_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view_model/search_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view_model/search_view_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view_model/select_tab_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere/lib/view_model/select_tab_view_model.dart" afterDir="false" />
@@ -23,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop" />
+        <entry key="$PROJECT_DIR$" value="feature/login" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
