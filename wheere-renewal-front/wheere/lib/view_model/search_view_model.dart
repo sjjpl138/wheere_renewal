@@ -125,7 +125,7 @@ class SearchViewModel extends ChangeNotifier {
       );
     }
 
-/*    if (sPlaceInfo == null || ePlaceInfo == null) return;
+    /*if (sPlaceInfo == null || ePlaceInfo == null) return;
 
     await _requestRouteService
         .requestRoute(RequestRouteDTO(
@@ -149,7 +149,7 @@ class SearchViewModel extends ChangeNotifier {
             context,
             MaterialPageRoute(
               builder: (context) => SelectPage(
-                routeFullListDTO: value,
+                routeFullList: RouteFullList.fromRouteFullListDTO(value),
                 rDate: rDate,
               ),
             ),
