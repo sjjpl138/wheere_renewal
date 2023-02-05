@@ -5,6 +5,8 @@ import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.driver.dto.DriverLogInRequestDto;
 import kr.ac.kumoh.sjjpl138.wheere.driver.dto.DriverLoginResponseDto;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistBusException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistDriverException;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ResvDto;
 import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationDto;
@@ -42,6 +44,9 @@ public class DriverService {
 
         // 버스 토큰 저장
         Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDate(vehicleNo, busNo, operationDate).get();
+        if (findBus == null) {
+            throw new NotExistBusException("존재하지 않는 버스입니다.");
+        }
         findBus.registerToken(fcmToken);
 
         // 버스 배정
@@ -84,9 +89,12 @@ public class DriverService {
     @Transactional
     public Bus changeBus(String driverId, String vehicleNo, String busNo, LocalDate busDate) {
         Driver findDriver = driverRepository.findById(driverId).get();
-        Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDate(vehicleNo, busNo, busDate).get();
-        findDriver.assignBus(findBus);
+        if (findDriver == null) throw new NotExistDriverException("존재하지 않는 버스기사 입니다.");
 
+        Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDate(vehicleNo, busNo, busDate).get();
+        if (findBus == null) throw new NotExistBusException("존재하지 않는 버스입니다.");
+
+        findDriver.assignBus(findBus);
         return findBus;
     }
 
@@ -97,6 +105,8 @@ public class DriverService {
     @Transactional
     public void logout(String driverId) {
         Driver findDriver = driverRepository.findById(driverId).get();
+        if (findDriver == null) throw new NotExistDriverException("존재하지 않는 버스기사 입니다.");
+
         Bus busForDriver = findDriver.getBus();
 
         findDriver.cancelBus();
