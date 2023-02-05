@@ -77,7 +77,7 @@ class _PaymentViewState extends State<PaymentView> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      "${_paymentViewModel.routeDTO.price} 원",
+                      "${_paymentViewModel.routeData.payment} 원",
                       style: kTextMainStyleLarge,
                       textAlign: TextAlign.end,
                     ),

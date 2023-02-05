@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'base_alarm_dto.dart';
 
 class AlarmListDTO {
@@ -7,10 +9,12 @@ class AlarmListDTO {
     required this.alarms,
   });
 
-  factory AlarmListDTO.fromJson(Map<String, dynamic> json) {
+  factory AlarmListDTO.fromJson(Map<String, dynamic> data) {
+    log(data["alarms"].toString());
     return AlarmListDTO(
-      alarms:
-          (json['alarms'] as List).map((i) => BaseAlarmDTO.fromJson(i)).toList(),
+      alarms: (data['alarms'] as List)
+          .map((i) => BaseAlarmDTO.fromJson(i))
+          .toList(),
     );
   }
 

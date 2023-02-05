@@ -25,7 +25,7 @@ class TestAlarmDTO implements BaseAlarmDTO {
       body: json["body"],
       alarmType: json["alarmType"],
       aTime: json["aTime"],
-      data: json["data"],
+      data: json.toString(),
     );
   }
 

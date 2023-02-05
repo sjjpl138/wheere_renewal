@@ -1,13 +1,13 @@
 class BusesDTO{
   String bNo;
-  String bId;
+  int bId;
   String routeId;
   String vNo;
   String sTime;
-  String sStationId;
+  int sStationId;
   String sStationName;
   String eTime;
-  String eStationId;
+  int eStationId;
   String eStationName;
 
   BusesDTO({

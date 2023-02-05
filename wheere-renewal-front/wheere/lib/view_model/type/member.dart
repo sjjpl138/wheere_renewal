@@ -23,8 +23,7 @@ class Member extends ChangeNotifier {
   MemberDTO? _memberDTO;
 
   Future login(FirebaseLoginDTO firebaseLoginDTO) async {
-    // TODO : test code 삭제
-    var fcmToken = await FirebaseMessaging.instance
+/*    var fcmToken = await FirebaseMessaging.instance
         .getToken(vapidKey: dotenv.env['FIREBASE_WEB_PUSH']);
     print("token : ${fcmToken ?? 'token NULL!'}");
     if (fcmToken != null) {
@@ -36,15 +35,15 @@ class Member extends ChangeNotifier {
           mNum: "01000000000",
           fcmToken: fcmToken);
       await LoginRepository().saveMemberWithLocal(_memberDTO!);
-    }
-/*    await _loginService
-        .login(firebaseLoginDTO)
-        .then((value) => _memberDTO = value);*/
+    }*/
+    await _loginService
+        .loginWithRemote(firebaseLoginDTO)
+        .then((value) => _memberDTO = value);
     notifyListeners();
   }
 
   Future logout() async {
-    await _logoutService.logout().then((value) => _memberDTO = value);
+    await _logoutService.logout(member!.mId).then((value) => _memberDTO = value);
     notifyListeners();
   }
 

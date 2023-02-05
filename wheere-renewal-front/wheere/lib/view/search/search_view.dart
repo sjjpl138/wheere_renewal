@@ -36,7 +36,6 @@ class _SearchViewState extends State<SearchView>
                   style: kTextMainStyleLarge,
                 ),
                 const SizedBox(height: kPaddingLargeSize),
-                // TODO : CustomDialogButton onPressed 추가
                 Row(
                   children: [
                     Flexible(
@@ -66,15 +65,15 @@ class _SearchViewState extends State<SearchView>
                   ],
                 ),
                 const SizedBox(height: kPaddingLargeSize),
-                const CustomDialogButton(
-                  onPressed: null,
-                  labelText: "탑승 날짜",
-                  text: "탑승 날짜",
-                  prefixIcon: Icons.event_note,
+                CustomDatePicker(
+                  onDateTimeChanged:
+                  _searchViewModel.onSearchDateChanged,
+                  initDate: DateTime.now(), title: '탑승날짜',
                 ),
                 const SizedBox(height: kPaddingLargeSize),
                 CustomOutlinedButton(
-                  onPressed: () => _searchViewModel.searchRoutes(context),
+                  onPressed: () =>
+                      _searchViewModel.searchRoutes(context, mounted),
                   text: "조회 하기",
                 ),
                 const SizedBox(height: kPaddingLargeSize),

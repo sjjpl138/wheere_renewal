@@ -6,7 +6,7 @@ class RequestReservationDTO {
   int endStationId;
   List<RequestReservationBusDTO> buses;
   String rState;
-  String rPrice;
+  int rPrice;
   String rDate;
 
   RequestReservationDTO({

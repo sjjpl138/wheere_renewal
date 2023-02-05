@@ -1,20 +1,20 @@
 import 'package:wheere/model/dto/dtos.dart';
-import 'package:wheere/model/dto/routes_by_hours_dto.dart';
 
 class RouteFullListDTO {
   int outTrafficCheck;
-  List<RoutesByHoursDTO> routeFullList;
+  List<RouteDTO> routes;
 
   RouteFullListDTO({
     required this.outTrafficCheck,
-    required this.routeFullList,
+    required this.routes,
   });
 
   factory RouteFullListDTO.fromJson(Map<String, dynamic> json) {
     var list = json['selects'] as List;
-    List<RoutesByHoursDTO> getList = list.map((i) => RoutesByHoursDTO.fromJson(i)).toList();
+    List<RouteDTO> getList = list.map((i) => RouteDTO.fromJson(i)).toList();
     return RouteFullListDTO(
-        outTrafficCheck: json['outTrafficCheck'],
-        routeFullList: getList);
+      outTrafficCheck: json['outTrafficCheck'],
+      routes: getList,
+    );
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/view/select/select_tab_view.dart';
 import 'package:wheere/view_model/select_tab_view_model.dart';
+import 'package:wheere/view_model/type/types.dart';
 
 class SelectTabPage extends StatelessWidget {
-  final RoutesByHoursDTO routesByHoursDTO;
+  final RoutesByHours routesByHoursDTO;
   final String rDate;
 
   const SelectTabPage({
@@ -18,7 +18,7 @@ class SelectTabPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SelectTabViewModel>(
       create: (_) =>
-          SelectTabViewModel(routesByHoursDTO: routesByHoursDTO, rDate: rDate),
+          SelectTabViewModel(routesByHours: routesByHoursDTO, rDate: rDate),
       child: Consumer<SelectTabViewModel>(
         builder: (context, provider, child) => SelectTabView(
           selectTabViewModel: provider,

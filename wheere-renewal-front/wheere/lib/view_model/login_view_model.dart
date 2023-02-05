@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/model/dto/dtos.dart';
+import 'package:wheere/view/sign_up/sign_up_page.dart';
 import 'type/types.dart';
-
 
 class LoginViewModel extends ChangeNotifier {
   late Member _member;
@@ -33,5 +33,10 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
-  void navigateToSignUpPage() {}
+  void navigateToSignUpPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SignUpPage()),
+    );
+  }
 }

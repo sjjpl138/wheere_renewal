@@ -3,7 +3,7 @@ import 'package:wheere/model/repository/remote_data_sources/base_remote_data_sou
 
 class RemoteLogoutDataSource implements BaseRemoteDataSource {
   @override
-  String path = "";
+  String path = "/api/memners/logout";
 
   Future _firebaseLogout() async {
     try {
@@ -13,9 +13,11 @@ class RemoteLogoutDataSource implements BaseRemoteDataSource {
       return null;
     }
   }
-
-  Future deleteWithRemote() async {
+  
+  Future deleteWithRemote(String mId) async {
     await _firebaseLogout();
+    Map<String, dynamic> body = {"mId": mId};
+    await BaseRemoteDataSource.post(path, body);
     return null;
   }
 }

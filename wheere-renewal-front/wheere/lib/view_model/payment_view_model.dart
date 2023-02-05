@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:wheere/model/dto/dtos.dart';
+import 'package:wheere/model/service/make_reservation_service.dart';
 import 'package:wheere/view/common/commons.dart';
 import 'package:wheere/view/common/reservation_info/reservation_info_list_item.dart';
 
 import 'type/types.dart';
 
 class PaymentViewModel extends ChangeNotifier {
-  final RouteDTO routeDTO;
+  final MakeReservationService _makeReservationService =
+      MakeReservationService();
+
+  final RouteData routeData;
   final String rDate;
 
   MemberDTO? get member => _member.member;
@@ -14,9 +18,9 @@ class PaymentViewModel extends ChangeNotifier {
 
   Payment payment = Payment.kakaoPay;
 
-  PaymentViewModel({required this.routeDTO, required this.rDate});
+  PaymentViewModel({required this.routeData, required this.rDate});
 
-  List<ReservationInfoListItem> get reservationInfoList => routeDTO.buses
+  List<ReservationInfoListItem> get reservationInfoList => routeData.buses
       .map((e) => ReservationInfoListItem(
             bNo: e.bNo,
             rDate: rDate,
@@ -39,7 +43,16 @@ class PaymentViewModel extends ChangeNotifier {
   Future payForReservations() async {}
 
   Future makeReservation(BuildContext context) async {
-//    _makeReservationService.makeReservation(RequestReservationDTO(mId: member!.mId, bId: bId, sStationId: sStationId, eStationId: eStationId, rDate: rDate))
+    _makeReservationService.makeReservation(RequestReservationDTO(
+      mId: member!.mId,
+      rDate: rDate,
+      startStationId: routeData.buses[0].sStationId,
+      endStationId: routeData.buses[0].eStationId,
+      buses: routeData.buses
+          .map((e) => RequestReservationBusDTO(
+              bId: e.bId, sStationId: e.sStationId, eStationId: e.eStationId))
+          .toList(), rState: 'PAID', rPrice: routeData.payment,
+    ));
     Navigator.pop(context, true);
   }
 }

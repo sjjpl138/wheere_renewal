@@ -7,7 +7,7 @@ export 'custom_app_bar.dart';
 export 'custom_dialog_button.dart';
 export 'custom_outlined_mini_button.dart';
 export 'custom_list_item/custom_list_item.dart';
-export 'reservation_info/reservation_info.dart';
+export 'bus_info/bus_info.dart';
 export 'bus_current_info/bus_current_info.dart';
 export 'member_info/member_info.dart';
 export 'alarm.dart';

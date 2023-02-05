@@ -38,7 +38,9 @@ class LoginDataSource implements BaseRemoteDataSource {
       Map<String, dynamic>? res = loginDTO != null
           ? await BaseRemoteDataSource.post(path, loginDTO.toJson())
           : null;
-      return res != null ? DriverDTO.fromJson(res) : null;
+      var driverDTO = res != null ? DriverDTO.fromJson(res) : null;
+      if (res != null) driverDTO!.dId = loginDTO!.dId;
+      return driverDTO;
     } catch (e) {
       return null;
     }

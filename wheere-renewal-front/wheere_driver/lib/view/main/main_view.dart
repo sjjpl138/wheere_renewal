@@ -20,22 +20,43 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.build(
-        context,
-        title: Driver().driver?.bNo ?? "bNo",
-        leading: LogoutIconButton(onPressed: () => _mainViewModel.logout()),
-        actions: [SettingIconButton()]
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          color: CustomColor.backgroundMainColor,
-          child: Column(
-            children: [
-              BusCurrentInfo(
-                  busStationInfoList: _mainViewModel.busStationInfoList),
-              const SizedBox(height: kPaddingLargeSize),
-            ],
+      appBar: CustomAppBar.build(context,
+          title: Driver().driver?.bNo ?? "bNo",
+          leading: LogoutIconButton(onPressed: () => _mainViewModel.logout()),
+          actions: [
+            RefreshIconButton(
+              onPressed: _mainViewModel.initReservationInfo,
+            ),
+            SettingIconButton(
+              onPressed: () => _mainViewModel.navigateToSettingPage(context),
+            ),
+          ]),
+      body: Builder(builder: (context) {
+        _mainViewModel.setBodyHeight(context);
+        return SingleChildScrollView(
+          controller: _mainViewModel.scrollController,
+          child: Container(
+            color: CustomColor.backgroundMainColor,
+            child: Column(
+              children: [
+                BusCurrentInfo(
+                  busStationInfoList: _mainViewModel.busStationInfoList,
+                  onTap: (BusStationInfo busStationInfo) => _mainViewModel
+                      .showMemberListDialog(context, busStationInfo),
+                ),
+                const SizedBox(height: kPaddingLargeSize),
+              ],
+            ),
           ),
+        );
+      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _mainViewModel.focusListToCurrentLocation,
+        backgroundColor: CustomColor.itemSubColor,
+        child: const Icon(
+          Icons.my_location,
+          color: CustomColor.textReverseColor,
+          size: kIconMainSize,
         ),
       ),
     );
