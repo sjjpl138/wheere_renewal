@@ -23,35 +23,18 @@ class Driver extends ChangeNotifier {
   // TODO : 테스트 코드 삭제
   DriverDTO? _driverDTO = DriverDTO(
     dName: "dName",
-    bId: "bId",
+    bId: 1,
     vNo: "vNo",
     routeId: "routeId",
     bNo: "bNo",
     route: [
-      StationDTO(sName: "sName1", sSeq: 5),
-      StationDTO(sName: "sName2", sSeq: 6),
-      StationDTO(sName: "sName3", sSeq: 7),
-      StationDTO(sName: "sName4", sSeq: 8),
-      StationDTO(sName: "sName5", sSeq: 9),
-      StationDTO(sName: "sName6", sSeq: 10),
-      StationDTO(sName: "sName7", sSeq: 11),
-      StationDTO(sName: "sName8", sSeq: 12),
-      StationDTO(sName: "sName9", sSeq: 13),
-      StationDTO(sName: "sName10", sSeq: 14),
-      StationDTO(sName: "sName11", sSeq: 15),
-      StationDTO(sName: "sName12", sSeq: 16),
-      StationDTO(sName: "sName13", sSeq: 17),
-      StationDTO(sName: "sName14", sSeq: 18),
-      StationDTO(sName: "sName15", sSeq: 19),
-      StationDTO(sName: "sName16", sSeq: 20),
-      StationDTO(sName: "sName17", sSeq: 21),
-      StationDTO(sName: "sName18", sSeq: 22),
-      StationDTO(sName: "sName19", sSeq: 23),
-      StationDTO(sName: "sName20", sSeq: 24),
-      StationDTO(sName: "sName21", sSeq: 25),
-      StationDTO(sName: "sName22", sSeq: 26),
-      StationDTO(sName: "sName23", sSeq: 27),
-      StationDTO(sName: "sName24", sSeq: 28),
+      StationDTO(sName: "sName1", sSeq: 5, sId: 1),
+      StationDTO(sName: "sName2", sSeq: 6, sId: 2),
+      StationDTO(sName: "sName3", sSeq: 7, sId: 3),
+      StationDTO(sName: "sName4", sSeq: 8, sId: 4),
+      StationDTO(sName: "sName5", sSeq: 9, sId: 5),
+      StationDTO(sName: "sName6", sSeq: 10, sId: 6),
+      StationDTO(sName: "sName7", sSeq: 11, sId: 7),
     ],
     reservations: [
       ReservationDTO(
@@ -67,7 +50,7 @@ class Driver extends ChangeNotifier {
         ),
         bId: 'bId',
       ),
-    ],
+    ], fcmToken: '', totalSeats: 2,
   );
 
   Future login(FirebaseLoginDTO firebaseLoginDTO) async {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'base_remote_data_source.dart';
@@ -30,10 +32,12 @@ class RemoteSignUpDataSource implements BaseRemoteDataSource {
   Future writeWithRemote(FirebaseSignUpDTO firebaseSignUpDTO) async {
     try {
       MemberInfoDTO? signUpDTO = await _firebaseSignUp(firebaseSignUpDTO);
+      log("remote_sign_up_data_source ${signUpDTO?.mId ?? "null"}");
       if (signUpDTO != null) {
-        await BaseRemoteDataSource.post(path, signUpDTO.toJson());
+        return await BaseRemoteDataSource.post(path, signUpDTO.toJson());
       }
     } catch (e) {
+      log("remote_sign_up_data_source $e");
       return;
     }
   }

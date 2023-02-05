@@ -23,6 +23,7 @@ class RemoteLoginDataSource implements BaseRemoteDataSource {
       if (fcmToken == null) throw Exception();
       return mId != null ? LoginDTO(mId: mId, fcmToken: fcmToken) : null;
     } catch (e) {
+      print(e);
       return null;
     }
   }

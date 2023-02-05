@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/util/utils.dart';
@@ -20,7 +22,7 @@ class MemberInfoEditViewModel extends ChangeNotifier {
     nameController = TextEditingController(text: _member.member!.mName);
     phoneNumberController = TextEditingController(text: _member.member!.mNum);
     sex = _member.member!.mSex;
-    birthDate = _member.member!.mBirthDate;
+    birthDate = birthDateFormat.format(dateNoTimeFormat.parse(_member.member!.mBirthDate));
   }
 
   Future editMemberInfo(BuildContext context) async {
@@ -31,7 +33,7 @@ class MemberInfoEditViewModel extends ChangeNotifier {
               mId: member!.mId,
               mName: nameController.text,
               mSex: sex,
-              mBirthDate: birthDate,
+              mBirthDate: dateNoTimeFormat.format(birthDateFormat.parse(birthDate)),
               mNum: phoneNumberController.text,
             ),
           )

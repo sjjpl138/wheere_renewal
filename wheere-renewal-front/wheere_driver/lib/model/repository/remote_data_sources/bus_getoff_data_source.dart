@@ -4,7 +4,7 @@ class BusGetOffDataSource implements BaseRemoteDataSource {
   @override
   String path = "/api/resvs/{rId}/get-off-bus";
 
-  Future writeWithRemote(String bId) async {
+  Future writeWithRemote(int bId) async {
     try {
       path = "/api/resvs/{$bId}/get-off-bus";
       Map<String, dynamic>? res = await BaseRemoteDataSource.get(path);

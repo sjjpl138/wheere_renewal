@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/service/services.dart';
 import 'package:wheere/util/utils.dart';
@@ -22,10 +23,10 @@ class SignUpViewModel extends ChangeNotifier {
     nameController = TextEditingController();
     phoneNumberController = TextEditingController();
     sex = "남성";
-    birthDate = "생년월일";
+    birthDate = birthDateFormat.format(DateTime.now());
   }
 
-  Future signUp() async {
+  Future signUp(BuildContext context, bool mounted) async {
     if (signUpKey.currentState!.validate()) {
       await _signUpService.signUpWithRemote(
         FirebaseSignUpDTO(
@@ -33,10 +34,11 @@ class SignUpViewModel extends ChangeNotifier {
           password: passwordController.text,
           mName: nameController.text,
           mSex: sex,
-          mBirthDate: birthDate,
+          mBirthDate: dateNoTimeFormat.format(birthDateFormat.parse(birthDate)),
           mNum: phoneNumberController.text,
         ),
       );
+      if (mounted) Navigator.pop(context);
     }
   }
 

@@ -42,7 +42,7 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   void onSearchDateChanged(DateTime value) {
-    searchDate = dateTimeFormat.format(value);
+    searchDate = dateNoTimeFormat.format(value);
     notifyListeners();
   }
 

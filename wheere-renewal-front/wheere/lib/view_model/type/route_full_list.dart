@@ -27,18 +27,18 @@ class RouteFullList {
       RouteFullListDTO routeFullListDTO) {
     final NumberFormat numberFormat = NumberFormat("00");
     List<RoutesByHours> routeByHoursList = [];
-    for (int i = 1; i < 24; i++) {
+    for (int i = 0; i < 24; i++) {
       routeByHoursList
           .add(RoutesByHours(selectTime: numberFormat.format(i), routes: []));
     }
     for (int k = 0; k < routeFullListDTO.routes.length; k++) {
       var routeDTO = routeFullListDTO.routes[k];
-      Map<IndexType, List<BusData>> fullBuses = {};
+      Map<int, List<List<BusData>>> fullBuses = {};
       for (int i = 1; i < routeDTO.subRoutes.length; i += 2) {
         BusRouteDTO busRouteDTO = routeDTO.subRoutes[i].busRoute!;
         for (int j = 0; j < busRouteDTO.bIdList.length; j++) {
-          if (fullBuses[IndexType(routeIndex: k, busRouteIndex: j)] != null) {
-            fullBuses[IndexType(routeIndex: k, busRouteIndex: j)]!.add(BusData(
+          if (fullBuses[k] != null) {
+            fullBuses[k]![j].add(BusData(
               bId: busRouteDTO.bIdList[j],
               bNo: busRouteDTO.bNo,
               sStationId: busRouteDTO.sStationId,
@@ -51,7 +51,11 @@ class RouteFullList {
               leftSeats: busRouteDTO.leftSeatsList[j],
             ));
           } else {
-            fullBuses[IndexType(routeIndex: k, busRouteIndex: j)] = [
+            fullBuses[k] = [];
+            for(var i =0;i<busRouteDTO.bIdList.length;i++){
+              fullBuses[k]!.add([]);
+            }
+            fullBuses[k]![j] = [
               BusData(
                 bId: busRouteDTO.bIdList[j],
                 bNo: busRouteDTO.bNo,
@@ -69,16 +73,24 @@ class RouteFullList {
         }
       }
 
-      for (IndexType indexType in fullBuses.keys) {
-        RouteDTO routeDTO = routeFullListDTO.routes[indexType.routeIndex];
-        routeByHoursList[numberFormat
-                .parse(fullBuses[indexType]![0].sTime.substring(0, 1))
-                .toInt()]
-            .routes
-            .add(RouteData(
-                payment: routeDTO.payment,
-                buses: fullBuses[indexType]!,
-                sWalkingTime: routeDTO.subRoutes[0].sectionTime.toString()));
+      for (int i in fullBuses.keys) {
+        RouteDTO routeDTO = routeFullListDTO.routes[i];
+        // TODO : dfs로 n중 for문 구현하기
+        for (List<BusData> busDataList in fullBuses[i]!) {
+          routeByHoursList[numberFormat
+                  .parse(busDataList[0].sTime.substring(0, 1))
+                  .toInt()]
+              .routes
+              .add(RouteData(
+                  payment: routeDTO.payment,
+                  buses: busDataList,
+                  sWalkingTime: routeDTO.subRoutes[0].sectionTime.toString()));
+
+          RouteData(
+              payment: routeDTO.payment,
+              buses: busDataList,
+              sWalkingTime: routeDTO.subRoutes[0].sectionTime.toString());
+        }
       }
     }
     return RouteFullList(

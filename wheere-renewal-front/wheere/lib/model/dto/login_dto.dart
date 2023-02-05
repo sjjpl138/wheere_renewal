@@ -10,7 +10,7 @@ class LoginDTO {
   Map<String, dynamic> toJson() {
     return {
       "mId": mId,
-      "token": fcmToken,
+      "fcmToken": fcmToken,
     };
   }
 }

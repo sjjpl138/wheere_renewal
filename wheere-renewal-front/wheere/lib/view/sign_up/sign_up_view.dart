@@ -97,7 +97,7 @@ class _SignUpViewState extends State<SignUpView> {
                   const SizedBox(height: kPaddingLargeSize),
                   CustomOutlinedButton(
                     onPressed: () async {
-                      await _signUpViewModel.signUp();
+                      await _signUpViewModel.signUp(context, mounted);
                     },
                     text: "회원가입",
                   ),
