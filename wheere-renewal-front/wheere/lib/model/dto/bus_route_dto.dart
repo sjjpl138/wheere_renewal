@@ -1,10 +1,10 @@
 class BusRouteDTO {
   String bNo;
-  List<String> bIdList;
-  String sStationId;
+  List<int> bIdList;
+  int sStationId;
   String sStationName;
   List<String> sTimeList;
-  String eStationId;
+  int eStationId;
   String eStationName;
   List<String> eTimeList;
   List<int> leftSeatsList;

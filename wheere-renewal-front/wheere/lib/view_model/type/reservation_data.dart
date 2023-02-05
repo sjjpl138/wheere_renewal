@@ -1,5 +1,5 @@
 class ReservationData {
-  final String bId;
+  final int bId;
   final String bNo;
   final String vNo;
   final String routeId;

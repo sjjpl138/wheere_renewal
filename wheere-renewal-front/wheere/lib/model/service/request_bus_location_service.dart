@@ -7,7 +7,7 @@ class RequestBusLocationService {
 
   Future<BusLocationDTO?> requestLocation(
     String routeId,
-    String bId,
+    int bId,
     String vNo,
   ) async {
     RequestBusLocationDTO requestDTO = RequestBusLocationDTO(routeId: routeId);

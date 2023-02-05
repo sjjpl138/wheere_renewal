@@ -1,5 +1,5 @@
 class RequestReservationBusDTO{
-  int dId;
+  String dId;
   int sStationId;
   int eStationId;
 
