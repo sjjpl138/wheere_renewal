@@ -51,8 +51,7 @@ class ReservationList extends ChangeNotifier {
     print("checkReservation");
     if (isNew) currentPage = 0;
     await Future.delayed(const Duration(seconds: 1));
-    // TODO : test code 삭제
-    ReservationListDTO value = ReservationListDTO([
+    /*ReservationListDTO value = ReservationListDTO([
       ReservationDTO(
         rId: 1,
         rDate: 'rDate',
@@ -149,12 +148,12 @@ class ReservationList extends ChangeNotifier {
       if (value.reservationsList != null) {
         _reservationListDTO!.reservationsList!.addAll(value.reservationsList!);
       }
-    }
+    }*/
     // TODO : null check 다시 작성
-    /*await _checkReservationService
+    await _checkReservationService
         .checkReservation(
       RequestReservationCheckDTO(
-        mId: Member().member.mId,
+        mId: Member().member!.mId,
         order: order,
         rState: rState,
         size: 5,
@@ -164,15 +163,12 @@ class ReservationList extends ChangeNotifier {
         .then((value) {
       if (value != null) {
         if (currentPage == 0) {
-          _reservationListDTO = value;
+          _reservationListDTO = ReservationListDTO(value.reservations);
         } else {
-          if (value.reservationsList != null) {
-            _reservationListDTO!.reservationsList!
-                .addAll(value.reservationsList!);
-          }
+          _reservationListDTO!.reservationsList!.addAll(value.reservations);
         }
       }
-    });*/
+    });
     notifyListeners();
   }
 }

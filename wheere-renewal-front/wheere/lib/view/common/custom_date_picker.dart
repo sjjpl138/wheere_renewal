@@ -4,12 +4,14 @@ import 'package:wheere/styles/styles.dart';
 
 class CustomDatePicker extends StatelessWidget {
   final void Function(DateTime) onDateTimeChanged;
+  final String title;
   final DateTime initDate;
 
   const CustomDatePicker({
     Key? key,
     required this.onDateTimeChanged,
     required this.initDate,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -25,8 +27,8 @@ class CustomDatePicker extends StatelessWidget {
         children: [
           Row(
             mainAxisSize: MainAxisSize.min,
-            children: const [
-              Padding(
+            children: [
+              const Padding(
                 padding: EdgeInsets.fromLTRB(
                   kPaddingMiddleSize,
                   kPaddingMiddleSize,
@@ -40,9 +42,9 @@ class CustomDatePicker extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: kPaddingMiddleSize),
+                padding: const EdgeInsets.only(top: kPaddingMiddleSize),
                 child: Text(
-                  "생년월일",
+                  title,
                   style: kTextMainStyleSmall,
                 ),
               ),

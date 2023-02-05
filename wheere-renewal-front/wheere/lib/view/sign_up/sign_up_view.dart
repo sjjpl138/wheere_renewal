@@ -80,6 +80,7 @@ class _SignUpViewState extends State<SignUpView> {
                           onDateTimeChanged:
                               _signUpViewModel.onBirthDateChanged,
                           initDate: DateTime.now(),
+                          title: '생년월일',
                         ),
                         const SizedBox(height: kPaddingLargeSize),
                         CustomTextFormField(
