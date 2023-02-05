@@ -6,7 +6,7 @@ import 'package:wheere/view/common/reservation_info/reservation_info_list_item.d
 import 'type/types.dart';
 
 class PaymentViewModel extends ChangeNotifier {
-  final RouteDTO routeDTO;
+  final RouteData routeData;
   final String rDate;
 
   MemberDTO? get member => _member.member;
@@ -14,9 +14,9 @@ class PaymentViewModel extends ChangeNotifier {
 
   Payment payment = Payment.kakaoPay;
 
-  PaymentViewModel({required this.routeDTO, required this.rDate});
+  PaymentViewModel({required this.routeData, required this.rDate});
 
-  List<ReservationInfoListItem> get reservationInfoList => routeDTO.buses
+  List<ReservationInfoListItem> get reservationInfoList => routeData.buses
       .map((e) => ReservationInfoListItem(
             bNo: e.bNo,
             rDate: rDate,

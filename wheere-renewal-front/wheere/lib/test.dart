@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:wheere/model/dto/bus_dto.dart';
+import 'package:wheere/model/dto/bus_route_dto.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/styles/colors.dart';
 import 'package:wheere/view/check/check_page.dart';

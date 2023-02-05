@@ -1,16 +1,16 @@
-class BusDTO {
-  int bId;
+class BusData {
+  String bId;
   String bNo;
-  int sStationId;
+  String sStationId;
   String sStationName;
   String sTime;
-  int eStationId;
+  String eStationId;
   String eStationName;
   String eTime;
   String eWalkingTime;
   int leftSeats;
 
-  BusDTO({
+  BusData({
     required this.bId,
     required this.bNo,
     required this.sStationId,
@@ -23,8 +23,8 @@ class BusDTO {
     required this.leftSeats,
   });
 
-  factory BusDTO.fromJson(Map<String, dynamic> json) {
-    return BusDTO(
+  factory BusData.fromJson(Map<String, dynamic> json) {
+    return BusData(
       bId: json['bId'],
       bNo: json['bNo'],
       sStationId: json['sStationId'],

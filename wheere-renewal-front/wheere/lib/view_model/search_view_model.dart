@@ -43,19 +43,18 @@ class SearchViewModel extends ChangeNotifier {
 
   Future searchRoutes(BuildContext context, mounted) async {
     // TODO : 테스트 코드 삭제 필요
-    List<RouteDTO> routes = [
-      RouteDTO(
+    List<RouteData> routes = [
+      RouteData(
         sWalkingTime: 'sWalkingTime',
-        price: 1400,
-        payment: 1,
+        payment: 1400,
         buses: [
-          BusDTO(
-            bId: 1,
+          BusData(
+            bId: "bId",
             bNo: 'bNo',
-            sStationId: 1,
+            sStationId: "sStationId",
             sStationName: 'sStationName',
             sTime: "sTime",
-            eStationId: 1,
+            eStationId: "sStationId",
             eStationName: 'eStationName',
             eTime: "eTime",
             eWalkingTime: 'eWalkingTime',
@@ -63,30 +62,29 @@ class SearchViewModel extends ChangeNotifier {
           ),
         ],
       ),
-      RouteDTO(
+      RouteData(
         sWalkingTime: 'sWalkingTime',
-        price: 1400,
-        payment: 1,
+        payment: 1400,
         buses: [
-          BusDTO(
-            bId: 1,
+          BusData(
+            bId: "bId",
             bNo: 'bNo',
-            sStationId: 1,
+            sStationId: "sStationId",
             sStationName: 'sStationName',
             sTime: "sTime",
-            eStationId: 1,
+            eStationId: "sStationId",
             eStationName: 'eStationName',
             eTime: "eTime",
             eWalkingTime: 'eWalkingTime',
             leftSeats: 2,
           ),
-          BusDTO(
-            bId: 1,
+          BusData(
+            bId: "bId",
             bNo: 'bNo',
-            sStationId: 1,
+            sStationId: "sStationId",
             sStationName: 'sStationName',
             sTime: "sTime",
-            eStationId: 1,
+            eStationId: "sStationId",
             eStationName: 'eStationName',
             eTime: "eTime",
             eWalkingTime: 'eWalkingTime',
@@ -96,20 +94,20 @@ class SearchViewModel extends ChangeNotifier {
       ),
     ];
 
-    RouteFullListDTO routeFullListDTO = RouteFullListDTO(routeFullList: [
-      RoutesByHoursDTO(selectTime: "15시", routes: routes),
-      RoutesByHoursDTO(selectTime: "16시", routes: routes),
-      RoutesByHoursDTO(selectTime: "17시", routes: routes),
-      RoutesByHoursDTO(selectTime: "18시", routes: routes),
-      RoutesByHoursDTO(selectTime: "19시", routes: routes),
-      RoutesByHoursDTO(selectTime: "20시", routes: routes),
-      RoutesByHoursDTO(selectTime: "21시", routes: routes),
-      RoutesByHoursDTO(selectTime: "22시", routes: routes),
-      RoutesByHoursDTO(selectTime: "23시", routes: routes),
+    RouteFullList routeFullList = RouteFullList(routeByHoursList: [
+      RoutesByHours(selectTime: "15시", routes: routes),
+      RoutesByHours(selectTime: "16시", routes: routes),
+      RoutesByHours(selectTime: "17시", routes: routes),
+      RoutesByHours(selectTime: "18시", routes: routes),
+      RoutesByHours(selectTime: "19시", routes: routes),
+      RoutesByHours(selectTime: "20시", routes: routes),
+      RoutesByHours(selectTime: "21시", routes: routes),
+      RoutesByHours(selectTime: "22시", routes: routes),
+      RoutesByHours(selectTime: "23시", routes: routes),
     ], outTrafficCheck: 1);
 
     bool isContinue = true;
-    if (routeFullListDTO.outTrafficCheck == 1) {
+    if (routeFullList.outTrafficCheck == 1) {
       // TODO : 계속하기 팝업 띄우기
       await showDialog(
               context: context, builder: (context) => const TransferDialog())
@@ -120,7 +118,7 @@ class SearchViewModel extends ChangeNotifier {
         context,
         MaterialPageRoute(
           builder: (context) => SelectPage(
-            routeFullListDTO: routeFullListDTO,
+            routeFullList: routeFullList,
             rDate: rDate,
           ),
         ),

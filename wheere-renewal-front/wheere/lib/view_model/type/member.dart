@@ -44,7 +44,7 @@ class Member extends ChangeNotifier {
   }
 
   Future logout() async {
-    await _logoutService.logout().then((value) => _memberDTO = value);
+    await _logoutService.logout(member!.mId).then((value) => _memberDTO = value);
     notifyListeners();
   }
 

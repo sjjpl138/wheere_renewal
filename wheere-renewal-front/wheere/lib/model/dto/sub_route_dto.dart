@@ -1,31 +1,28 @@
-import 'bus_dto.dart';
+import 'bus_route_dto.dart';
 
-class SubRouteDTO{
+class SubRouteDTO {
   int trafficType;
   int sectionTime;
-  List<BusDTO>? busRoute; //일단 busdto로 보류
+  BusRouteDTO? busRoute; //일단 busdto로 보류
 
   SubRouteDTO({
     required this.trafficType,
     required this.sectionTime,
-    required this.busRoute
+    required this.busRoute,
   });
 
   factory SubRouteDTO.fromJson(Map<String, dynamic> json) {
     if (json['busRoute'] != null) {
-      var list = json['busRoute'] as List;
-      List<BusDTO> getList = list.map((i) => BusDTO.fromJson(i)).toList();
       return SubRouteDTO(
-          trafficType: json['trafficType'],
-          sectionTime: json['sectionTime'],
-          busRoute: getList
+        trafficType: json['trafficType'],
+        sectionTime: json['sectionTime'],
+        busRoute: BusRouteDTO.fromJson(json['busRoute']),
       );
-    }
-    else {
+    } else {
       return SubRouteDTO(
-          trafficType: json['trafficType'],
-          sectionTime: json['sectionTime'],
-          busRoute: null
+        trafficType: json['trafficType'],
+        sectionTime: json['sectionTime'],
+        busRoute: null,
       );
     }
   }

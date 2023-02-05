@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/styles/styles.dart';
 import 'package:wheere/view/common/route_info/route_info_item.dart';
-import 'package:wheere/view_model/type/transportation.dart';
+import 'package:wheere/view_model/type/types.dart';
 
 class RouteInfo extends StatelessWidget {
-  final RouteDTO route;
+  final RouteData route;
   final List<Widget> _itemList = [];
 
   RouteInfo({super.key, required this.route}) {
@@ -30,7 +29,7 @@ class RouteInfo extends StatelessWidget {
         text: route.sWalkingTime,
       ),
     );
-    for(BusDTO element in route.buses) {
+    for(BusData element in route.buses) {
       _itemList.add(
         RouteInfoItem(
           transportation: Transportation.bus,
@@ -39,9 +38,9 @@ class RouteInfo extends StatelessWidget {
       );
       _itemList.add(
         RouteInfoItem(
-            transportation: Transportation.walk,
-            text: element.eWalkingTime,
-          ),
+          transportation: Transportation.walk,
+          text: element.eWalkingTime,
+        ),
       );
     }
   }
