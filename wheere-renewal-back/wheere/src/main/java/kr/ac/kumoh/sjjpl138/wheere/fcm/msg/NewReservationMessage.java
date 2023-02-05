@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Builder
@@ -19,8 +20,8 @@ public class NewReservationMessage {
     @Getter
     public static class Data {
         private String alarmType;
-        @JsonFormat(pattern = "HH:mm:ss")
-        private LocalTime aTime;
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+        private LocalDateTime aTime;
         @JsonProperty("mId")
         private String mId;
         @JsonProperty("rId")

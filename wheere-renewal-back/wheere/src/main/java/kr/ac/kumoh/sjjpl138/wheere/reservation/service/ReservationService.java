@@ -2,6 +2,7 @@ package kr.ac.kumoh.sjjpl138.wheere.reservation.service;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistMemberException;
 import kr.ac.kumoh.sjjpl138.wheere.exception.PlatformException;
 import kr.ac.kumoh.sjjpl138.wheere.exception.ReservationException;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ResvDto;
@@ -53,8 +54,12 @@ public class ReservationService {
     @Transactional
     public Reservation saveReservation(String memberId, Long startStationId, Long endStationId,
                                        ReservationStatus resvStatus, LocalDate resvDate, List<ReservationBusInfo> busInfo) {
-        Member findMember = memberRepository.findById(memberId).get();
+        Optional<Member> findMemberOptional = memberRepository.findById(memberId);
+        if (findMemberOptional.isEmpty()) {
+            throw new NotExistMemberException("존재하지 않는 사용자입니다.");
+        }
 
+        Member findMember = findMemberOptional.get();
         int busCount = busInfo.size();
 
         // 출발 정류장, 도착 정류장 조회
@@ -186,7 +191,7 @@ public class ReservationService {
     }
 
     private List<Platform> getPlatformsBySIds(Long bId, List<Long> stationIds) {
-        List<Platform> platformList = platformRepository.findPlatformByBusIdAndStationId(bId, stationIds);
+        List<Platform> platformList = platformRepository.findPlatformWithStationByBusIdAndStationId(bId, stationIds);
         if (platformList.size() != 2)
             throw new PlatformException("해당 버스가 지나지 않는 정류장입니다.");
         return platformList;
@@ -199,7 +204,7 @@ public class ReservationService {
     @Transactional
     public void cancelReservation(Long rId, List<Long> bIds) {
         Reservation findResv = reservationRepository.findResvById(rId);
-        findResv.changeResvStatus(ReservationStatus.CANCEL);
+        findResv.changeStatusToCANCEL();
 
         // 버스 좌석 증가
         LocalDate resvDate = findResv.getReservationDate();
@@ -309,10 +314,10 @@ public class ReservationService {
     /**
      * 사용자 하차 후 상태 변경
      *  - 평점 대기 상태
-     * @param rId
      */
-    public void alightMember(Long rId) {
+    @Transactional
+    public void changeReservationStationToRVW_WAIT(Long rId) {
         Reservation findResv = reservationRepository.findResvById(rId);
-        findResv.changeResvStatus(ReservationStatus.RVW_WAIT);
+        findResv.changeStatusToRVW_WAIT();
     }
 }

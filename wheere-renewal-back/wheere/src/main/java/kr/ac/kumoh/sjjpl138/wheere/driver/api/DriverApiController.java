@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.ac.kumoh.sjjpl138.wheere.driver.dto.DriverLogInRequestDto;
 import kr.ac.kumoh.sjjpl138.wheere.driver.dto.DriverLoginResponseDto;
 import kr.ac.kumoh.sjjpl138.wheere.driver.service.DriverService;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistBusException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistDriverException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,12 +26,14 @@ public class DriverApiController {
      * @param requestDto
      * @return
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public DriverLoginResponseDto driverLogIn(@RequestBody DriverLogInRequestDto requestDto) {
-        DriverLoginResponseDto responseDto = driverService.logIn(requestDto);
-
-        return responseDto;
+    public ResponseEntity driverLogIn(@RequestBody DriverLogInRequestDto requestDto) {
+        try {
+            DriverLoginResponseDto responseDto = driverService.logIn(requestDto);
+            return new ResponseEntity(responseDto, HttpStatus.OK);
+        } catch(NotExistBusException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**
@@ -37,21 +41,36 @@ public class DriverApiController {
      * @param request
      * @return
      */
-    @ResponseStatus(HttpStatus.OK)
     @PutMapping
-    public void driverModify(@RequestBody DriverUpdateRequest request) {
+    public ResponseEntity driverModify(@RequestBody DriverUpdateRequest request) {
         String dId = request.getDId();
         String vNo = request.getVNo();
         String bNo = request.getBNo();
         LocalDate busDate = LocalDate.now();
-        driverService.changeBus(dId, vNo, bNo, busDate);
+
+        try {
+            driverService.changeBus(dId, vNo, bNo, busDate);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (NotExistBusException | NotExistDriverException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    /**
+     * 버스 기사 로그아웃
+     * @param driverIdRequest
+     * @return
+     */
     @PostMapping("/logout")
-    public void memberLogout(@RequestBody Map<String, String> driverIdRequest) {
+    public ResponseEntity memberLogout(@RequestBody Map<String, String> driverIdRequest) {
         String driverId = driverIdRequest.get("dId");
-        driverService.logout(driverId);
+
+        try {
+            driverService.logout(driverId);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (NotExistDriverException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Data

@@ -14,6 +14,9 @@ public interface PlatformRepository extends JpaRepository<Platform, Long>, Platf
     List<Platform> findPlatformsByBus(@Param("busNo") String busNo, @Param("vehicleNo") String vehicleNo);
 
     @Query("select p from Platform p join p.bus b on b.id = :busId join fetch p.station s where s.id in :stationIds")
+    List<Platform> findPlatformWithStationByBusIdAndStationId(@Param("busId") Long busId, @Param("stationIds") List<Long> stationIds);
+
+    @Query("select p from Platform p join p.bus b join p.station s where b.id = :busId and s.id in :stationIds")
     List<Platform> findPlatformByBusIdAndStationId(@Param("busId") Long busId, @Param("stationIds") List<Long> stationIds);
 
     @Query("select p from Platform p join p.bus b on b.id = :busId")
@@ -28,4 +31,7 @@ public interface PlatformRepository extends JpaRepository<Platform, Long>, Platf
     List<Platform> findPlatformByStationIds(@Param("stationIds") List<Long> stationIds);
 
     List<Platform> findPlatformByIdIn(List<Long> platformIds);
+
+    @Query("select p from Platform p join fetch p.station s where s.name in :stationNameList")
+    List<Platform> findPlatformByStationNameIn(@Param("stationNameList") List<String> stationNameList);
 }

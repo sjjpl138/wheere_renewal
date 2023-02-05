@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -31,9 +32,9 @@ public class FcmService {
     private final ObjectMapper objectMapper;
 
     //@TODO("사용자 버스 하차 후 평점 알림 서비스 구현")
-    public void sendRatingMessage(String memberToken, Transfer transfer, List<Platform> platforms) throws IOException {
+    public void sendRatingMessage(String memberToken, Bus bus, Reservation reservation, List<Platform> platforms) throws IOException {
 
-        String message = makeRatingMessage(memberToken, transfer, platforms);
+        String message = makeRatingMessage(memberToken, bus, reservation, platforms);
 
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
@@ -49,13 +50,11 @@ public class FcmService {
         log.info(response.body().string());
     }
 
-    private String makeRatingMessage(String targetToken, Transfer transfer, List<Platform> platforms) throws JsonProcessingException {
+    private String makeRatingMessage(String targetToken, Bus bus, Reservation reservation, List<Platform> platforms) throws JsonProcessingException {
 
-        Reservation reservation = transfer.getReservation();
         Long reservationId = reservation.getId();
         LocalDate reservationDate = reservation.getReservationDate();
 
-        Bus bus = transfer.getBus();
         String busNo = bus.getBusNo();
 
         Platform startPlatform = platforms.get(0);
@@ -77,7 +76,7 @@ public class FcmService {
                         )
                         .data(RatingMessage.Data.builder()
                                 .alarmType("rating")
-                                .aTime(LocalTime.now())
+                                .aTime(LocalDateTime.now())
                                 .rId(String.valueOf(reservationId))
                                 .rDate(reservationDate)
                                 .bNo(busNo)
@@ -125,7 +124,7 @@ public class FcmService {
                         )
                         .data(NewReservationMessage.Data.builder()
                                 .alarmType("newReservation")
-                                .aTime(LocalTime.now())
+                                .aTime(LocalDateTime.now())
                                 .mId(memberId)
                                 .rId(String.valueOf(reservationId))
                                 .bId(String.valueOf(busId))
@@ -167,7 +166,7 @@ public class FcmService {
                         )
                         .data(CancelReservationMessage.Data.builder()
                                 .alarmType("cancelReservation")
-                                .aTime(LocalTime.now())
+                                .aTime(LocalDateTime.now())
                                 .mId(memberId)
                                 .rId(String.valueOf(reservationId))
                                 .build())
