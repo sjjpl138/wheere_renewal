@@ -1,6 +1,9 @@
 package kr.ac.kumoh.sjjpl138.wheere.member.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistDriverException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistMemberException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.ReservationException;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
 import kr.ac.kumoh.sjjpl138.wheere.member.response.RetrieveRoutesResult;
 import kr.ac.kumoh.sjjpl138.wheere.member.RetrieveRoutesRequest;
@@ -13,6 +16,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -57,52 +61,73 @@ public class MemberApiController {
     /**
      * 사용자 정보 조회 (로그인)
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
-    public MemberLogInResponse memberList(@RequestBody MemberLoginRequest member) {
+    public ResponseEntity memberList(@RequestBody MemberLoginRequest member) {
         String mId = member.getMId();
         String fcmToken = member.getFcmToken();
-        Member findMember = memberService.logIn(new MemberLoginRequest(mId, fcmToken));
+        try {
+            Member findMember = memberService.logIn(new MemberLoginRequest(mId, fcmToken));
+            MemberLogInResponse response = new MemberLogInResponse(mId, findMember.getUsername(),
+                    findMember.getSex(), findMember.getBirthDate(), findMember.getPhoneNumber(), fcmToken);
 
-        return new MemberLogInResponse(mId, findMember.getUsername(),
-                findMember.getSex(), findMember.getBirthDate(), findMember.getPhoneNumber(), fcmToken);
+            return new ResponseEntity(response, HttpStatus.OK);
+        } catch (NotExistMemberException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     /**
      * 사용자 로그아웃
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/logout")
-    public void memberLogout(@RequestBody Map<String, String> memberIdRequest) {
+    public ResponseEntity memberLogout(@RequestBody Map<String, String> memberIdRequest) {
         String memberId = memberIdRequest.get("mId");
-        memberService.logout(memberId);
+        try {
+            memberService.logout(memberId);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (NotExistMemberException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**
      * 사용자 정보 수정
      */
-    @ResponseStatus(HttpStatus.OK)
     @PutMapping
-    public void memberModify(@RequestBody MemberInfoDto memberDto) {
-        memberService.update(memberDto);
+    public ResponseEntity memberModify(@RequestBody MemberInfoDto memberDto) {
+        try {
+            memberService.update(memberDto);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (NotExistMemberException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**
      * 사용자 삭제 (회원탈퇴)
      */
-    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{mId}")
-    public void memberRemove(@PathVariable("mId") String mId) {
-        memberService.delete(mId);
+    public ResponseEntity memberRemove(@PathVariable("mId") String mId) {
+        try {
+            memberService.delete(mId);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (NotExistMemberException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
-    
+
     /**
      * 평점 남기기
      */
-    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/rate")
-    public void memberRate(@RequestBody MemberRateRequest request) {
-        memberService.rateDriver(request.rId, request.bId, request.rate);
+    public ResponseEntity memberRate(@RequestBody MemberRateRequest request) {
+        try {
+            memberService.rateDriver(request.rId, request.bId, request.rate);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (ReservationException | NotExistDriverException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 
@@ -123,7 +148,7 @@ public class MemberApiController {
         @JsonProperty("fcmToken")
         private String fcmToken;
     }
-    
+
     @Data
     static class MemberRateRequest {
         @JsonProperty("rId")
