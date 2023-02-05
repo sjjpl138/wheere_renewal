@@ -2,6 +2,9 @@ package kr.ac.kumoh.sjjpl138.wheere.member.service;
 
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistDriverException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistMemberException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.ReservationException;
 import kr.ac.kumoh.sjjpl138.wheere.member.*;
 import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberLoginRequest;
 import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberInfoDto;
@@ -101,10 +104,11 @@ public class MemberService {
         String memberId = request.getMId();
         String fcmToken = request.getFcmToken();
 
-        Member member = memberRepository.findById(memberId).get();
-        member.registerToken(fcmToken);
+        Member findMember = memberRepository.findById(memberId).get();
+        if (findMember == null) throw new NotExistMemberException("존재하지 않는 회원입니다.");
+        findMember.registerToken(fcmToken);
 
-        return member;
+        return findMember;
     }
 
     /**
@@ -116,6 +120,8 @@ public class MemberService {
     @Transactional
     public void logout(String memberId) {
         Member findMember = memberRepository.findById(memberId).get();
+        if (findMember == null) throw new NotExistMemberException("존재하지 않는 회원입니다.");
+
         findMember.deleteToken();
     }
 
@@ -126,6 +132,7 @@ public class MemberService {
     public void update(MemberInfoDto memberDto) {
         String id = memberDto.getMId();
         Member findMember = memberRepository.findById(id).get();
+        if (findMember == null) throw new NotExistMemberException("존재하지 않는 회원입니다.");
 
         findMember.updateMemberInfo(memberDto);
     }
@@ -138,18 +145,24 @@ public class MemberService {
     @Transactional
     public void delete(String mId) {
         Member findMember = memberRepository.findById(mId).get();
+        if (findMember == null) throw new NotExistMemberException("존재하지 않는 회원입니다.");
+
         memberRepository.delete(findMember);
     }
 
     /**
-     * 버스 기사 평점 메기기
+     * 버스 기사 평점 매기기
      *
      * @param rating
      */
     @Transactional
     public void rateDriver(Long rId, Long bId, double rating) {
         Reservation resv = reservationRepository.findResvById(rId);
+        if (resv == null) throw new ReservationException("존재하지 않는 예약입니다.");
+
         Driver driver = driverRepository.findByBusId(bId).get();
+        if (driver == null) throw new NotExistDriverException("존재하지 않는 버스 기사입니다.");
+
         driver.calculateRating(rating);
         changeStateToComp(resv);
     }
