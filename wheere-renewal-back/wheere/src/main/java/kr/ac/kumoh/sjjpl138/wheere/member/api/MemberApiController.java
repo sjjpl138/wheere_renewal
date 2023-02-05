@@ -2,7 +2,7 @@ package kr.ac.kumoh.sjjpl138.wheere.member.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
-import kr.ac.kumoh.sjjpl138.wheere.member.RetrieveRoutesResult;
+import kr.ac.kumoh.sjjpl138.wheere.member.response.RetrieveRoutesResult;
 import kr.ac.kumoh.sjjpl138.wheere.member.RetrieveRoutesRequest;
 import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberLoginRequest;
 import kr.ac.kumoh.sjjpl138.wheere.member.dto.MemberInfoDto;
@@ -13,7 +13,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -27,22 +26,23 @@ public class MemberApiController {
 
     private final MemberService memberService;
 
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/request-routes")
-    public ResponseEntity<RetrieveRoutesResult> retrieveRoutes(@RequestBody RetrieveRoutesRequest retrieveRoutesRequest)  {
+    public RetrieveRoutesResult retrieveRoutes(@RequestBody RetrieveRoutesRequest retrieveRoutesRequest) {
 
         // 모든 경우의 수 추출
         Optional<AllCourseCase> allRouteCase = memberService.checkRoutes(retrieveRoutesRequest);
 
         // 경우의 수가 없는 경우
         if (allRouteCase.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new RetrieveRoutesResult();
         }
 
         AllCourseCase allCourseCase = allRouteCase.get();
         LocalDate rDate = retrieveRoutesRequest.getRDate();
         RetrieveRoutesResult retrieveRoutesResult = memberService.checkBusTime(allCourseCase, rDate);
 
-        return new ResponseEntity<>(retrieveRoutesResult, HttpStatus.OK);
+        return retrieveRoutesResult;
     }
 
     /**
