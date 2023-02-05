@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -17,7 +19,8 @@ class RemoteLoginDataSource implements BaseRemoteDataSource {
       String? mId = FirebaseAuth.instance.currentUser?.uid;
       var fcmToken = await FirebaseMessaging.instance
           .getToken(vapidKey: dotenv.env['FIREBASE_WEB_PUSH']);
-      if(fcmToken == null) throw Exception();
+      log(fcmToken ?? "null");
+      if (fcmToken == null) throw Exception();
       return mId != null ? LoginDTO(mId: mId, fcmToken: fcmToken) : null;
     } catch (e) {
       return null;
