@@ -1,16 +1,16 @@
 class RequestReservationBusDTO{
-  String dId;
+  int bId;
   int sStationId;
   int eStationId;
 
   RequestReservationBusDTO({
-    required this.dId,
+    required this.bId,
     required this.sStationId,
     required this.eStationId
   });
 
   Map<String, dynamic> toJson() => {
-    'dId': dId,
+    'bId': bId,
     'sStationId': sStationId,
     'eStationId': eStationId,
   };

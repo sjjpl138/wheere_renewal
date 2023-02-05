@@ -17,7 +17,7 @@ class SearchViewModel extends ChangeNotifier {
 
   PlaceInfo? sPlaceInfo;
   PlaceInfo? ePlaceInfo;
-  String rDate = dateFormat.format(DateTime.now());
+  String searchDate = dateTimeFormat.format(DateTime.now());
 
   Future searchStartPlaces(BuildContext context) async {
     await _searchPlaces(context).then((value) {
@@ -41,9 +41,13 @@ class SearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void onSearchDateChanged(DateTime value) {
+    searchDate = dateTimeFormat.format(value);
+    notifyListeners();
+  }
+
   Future searchRoutes(BuildContext context, mounted) async {
-    // TODO : 테스트 코드 삭제 필요
-    List<RouteData> routes = [
+   /* List<RouteData> routes = [
       RouteData(
         sWalkingTime: 'sWalkingTime',
         payment: 1400,
@@ -108,7 +112,6 @@ class SearchViewModel extends ChangeNotifier {
 
     bool isContinue = true;
     if (routeFullList.outTrafficCheck == 1) {
-      // TODO : 계속하기 팝업 띄우기
       await showDialog(
               context: context, builder: (context) => const TransferDialog())
           .then((value) => isContinue = value);
@@ -123,9 +126,9 @@ class SearchViewModel extends ChangeNotifier {
           ),
         ),
       );
-    }
+    }*/
 
-    /*if (sPlaceInfo == null || ePlaceInfo == null) return;
+    if (sPlaceInfo == null || ePlaceInfo == null) return;
 
     await _requestRouteService
         .requestRoute(RequestRouteDTO(
@@ -133,7 +136,7 @@ class SearchViewModel extends ChangeNotifier {
       sy: sPlaceInfo!.y,
       ex: ePlaceInfo!.x,
       ey: ePlaceInfo!.y,
-      rDate: rDate,
+      rDate: searchDate,
     ))
         .then((value) async {
       if (value != null) {
@@ -150,13 +153,13 @@ class SearchViewModel extends ChangeNotifier {
             MaterialPageRoute(
               builder: (context) => SelectPage(
                 routeFullList: RouteFullList.fromRouteFullListDTO(value),
-                rDate: rDate,
+                rDate: searchDate,
               ),
             ),
           );
         }
       }
-    });*/
+    });
   }
 
   Future<PlacesDetailsResponse?> _searchPlaces(BuildContext context) async {
