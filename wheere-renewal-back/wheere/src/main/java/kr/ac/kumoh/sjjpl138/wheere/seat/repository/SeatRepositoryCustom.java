@@ -1,7 +1,5 @@
 package kr.ac.kumoh.sjjpl138.wheere.seat.repository;
 
-import org.springframework.data.repository.query.Param;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
