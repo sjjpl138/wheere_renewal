@@ -1,10 +1,10 @@
 class BusData {
-  String bId;
+  int bId;
   String bNo;
-  String sStationId;
+  int sStationId;
   String sStationName;
   String sTime;
-  String eStationId;
+  int eStationId;
   String eStationName;
   String eTime;
   String eWalkingTime;
