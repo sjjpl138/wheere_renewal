@@ -22,20 +22,4 @@ class BusData {
     required this.eWalkingTime,
     required this.leftSeats,
   });
-
-  factory BusData.fromJson(Map<String, dynamic> json) {
-    return BusData(
-      bId: json['bId'],
-      bNo: json['bNo'],
-      sStationId: json['sStationId'],
-      sStationName: json['sStationName'],
-      sTime: json['sTime'],
-      eStationId: json['eStationId'],
-      eStationName: json['eStationName'],
-      eTime: json['eTime'],
-      eWalkingTime: json['eWalkingTime'],
-      leftSeats: json['leftSeats'],
-    );
-  }
-
 }

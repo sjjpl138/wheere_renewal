@@ -13,23 +13,14 @@ class RouteFullList {
     required this.routeByHoursList,
   });
 
-  factory RouteFullList.fromJson(Map<String, dynamic> json) {
-    var list = json['selects'] as List;
-    List<RoutesByHours> getList =
-        list.map((i) => RoutesByHours.fromJson(i)).toList();
-    return RouteFullList(
-      outTrafficCheck: json['outTrafficCheck'],
-      routeByHoursList: getList,
-    );
-  }
+  static final NumberFormat _numberFormat = NumberFormat("00");
 
   factory RouteFullList.fromRouteFullListDTO(
       RouteFullListDTO routeFullListDTO) {
-    final NumberFormat numberFormat = NumberFormat("00");
     List<RoutesByHours> routeByHoursList = [];
     for (int i = 0; i < 24; i++) {
       routeByHoursList
-          .add(RoutesByHours(selectTime: numberFormat.format(i), routes: []));
+          .add(RoutesByHours(selectTime: _numberFormat.format(i), routes: []));
     }
     for (int k = 0; k < routeFullListDTO.routes.length; k++) {
       var routeDTO = routeFullListDTO.routes[k];
@@ -52,7 +43,7 @@ class RouteFullList {
             ));
           } else {
             fullBuses[k] = [];
-            for(var i =0;i<busRouteDTO.bIdList.length;i++){
+            for (var i = 0; i < busRouteDTO.bIdList.length; i++) {
               fullBuses[k]!.add([]);
             }
             fullBuses[k]![j] = [
@@ -75,22 +66,8 @@ class RouteFullList {
 
       for (int i in fullBuses.keys) {
         RouteDTO routeDTO = routeFullListDTO.routes[i];
-        // TODO : dfs로 n중 for문 구현하기
-        for (List<BusData> busDataList in fullBuses[i]!) {
-          routeByHoursList[numberFormat
-                  .parse(busDataList[0].sTime.substring(0, 1))
-                  .toInt()]
-              .routes
-              .add(RouteData(
-                  payment: routeDTO.payment,
-                  buses: busDataList,
-                  sWalkingTime: routeDTO.subRoutes[0].sectionTime.toString()));
-
-          RouteData(
-              payment: routeDTO.payment,
-              buses: busDataList,
-              sWalkingTime: routeDTO.subRoutes[0].sectionTime.toString());
-        }
+        _dfs(routeDTO, fullBuses[i]!, routeByHoursList, [], 0,
+            routeDTO.subRoutes.length ~/ 2);
       }
     }
     return RouteFullList(
@@ -98,20 +75,27 @@ class RouteFullList {
       routeByHoursList: routeByHoursList,
     );
   }
-}
 
-class IndexType {
-  int routeIndex;
-  int busRouteIndex;
-
-  IndexType({
-    required this.routeIndex,
-    required this.busRouteIndex,
-  });
-
-  @override
-  int get hashCode => routeIndex.hashCode;
-
-  @override
-  bool operator ==(covariant IndexType other) => routeIndex == other.routeIndex;
+  static void _dfs(
+      RouteDTO routeDTO,
+      List<List<BusData>> fullBuses,
+      List<RoutesByHours> routeByHoursList,
+      List<BusData> temp,
+      int depth,
+      int n) {
+    if (depth == n) {
+      routeByHoursList[
+              _numberFormat.parse(temp[0].sTime.substring(0, 1)).toInt()]
+          .routes
+          .add(RouteData(
+              payment: routeDTO.payment,
+              buses: temp,
+              sWalkingTime: routeDTO.subRoutes[0].sectionTime.toString()));
+      return;
+    }
+    for (var i = 0; i < fullBuses[n].length; i++) {
+      temp[depth] = fullBuses[depth][i];
+      _dfs(routeDTO, fullBuses, routeByHoursList, temp, depth + 1, n);
+    }
+  }
 }
