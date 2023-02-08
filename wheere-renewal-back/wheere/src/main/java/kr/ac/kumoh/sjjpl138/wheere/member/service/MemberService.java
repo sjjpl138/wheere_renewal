@@ -1,5 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.member.service;
 
+import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.member.*;
@@ -563,6 +564,10 @@ public class MemberService {
                 List<String> busNoList = findBusLane.getBusNoList();
 
                 for (String busNo : busNoList) {
+                    List<Bus> findBus = busRepository.findByBusNoAndBusDate(busNo, rDate);
+                    if (findBus.isEmpty()) {
+                        continue;
+                    }
                     routeCase.add(index, busNo);
                 }
 
@@ -631,7 +636,7 @@ public class MemberService {
                     routes.add(route);
                 }
             }
-        } else {
+        } else if(routeCase.size() == 1){
 
             for (String firstBusNo : firstBusNoList) {
 
