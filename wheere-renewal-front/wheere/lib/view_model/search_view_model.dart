@@ -132,10 +132,10 @@ class SearchViewModel extends ChangeNotifier {
 
     await _requestRouteService
         .requestRoute(RequestRouteDTO(
-      sx: sPlaceInfo!.x,
-      sy: sPlaceInfo!.y,
-      ex: ePlaceInfo!.x,
-      ey: ePlaceInfo!.y,
+      sx: sPlaceInfo!.x, //128.7077189612571,
+      sy: sPlaceInfo!.y,//35.83024605453422,
+      ex: ePlaceInfo!.x,//128.67410033572702,
+      ey: ePlaceInfo!.y,//35.82704251894367,
       rDate: searchDate,
     ))
         .then((value) async {

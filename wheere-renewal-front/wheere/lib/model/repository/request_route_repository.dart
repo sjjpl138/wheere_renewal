@@ -5,6 +5,7 @@ class RequestRouteRepository {
   final RequestRouteDataSource _requestRouteDataSource = RequestRouteDataSource();
 
   Future<RouteFullListDTO?> requestRoute(RequestRouteDTO requestRouteDTO) async {
-    return await _requestRouteDataSource.writeWithRemote(requestRouteDTO);
+    RouteFullListDTO? routeFullListDTO = await _requestRouteDataSource.writeWithRemote(requestRouteDTO);
+    return routeFullListDTO;
   }
 }
