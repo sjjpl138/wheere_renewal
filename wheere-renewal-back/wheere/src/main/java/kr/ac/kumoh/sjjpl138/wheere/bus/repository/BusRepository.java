@@ -13,6 +13,7 @@ public interface BusRepository extends JpaRepository<Bus, Long> {
     Optional<Bus> findBusByVehicleNoAndBusNoAndBusDate(String vehicleNo, String busNo, LocalDate operationDate);
 
     List<Bus> findByBusNo(String busNo);
+    List<Bus> findByBusNoAndBusDate(String busNo, LocalDate busDate);
 
     List<Bus> findByIdIn(List<Long> busIds);
 
