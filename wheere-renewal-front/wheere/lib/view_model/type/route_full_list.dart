@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:wheere/model/dto/dtos.dart';
+import 'package:wheere/util/date_formats.dart';
 import 'package:wheere/view_model/type/bus_data.dart';
 import 'package:wheere/view_model/type/route_data.dart';
 import 'routes_by_hours.dart';
@@ -94,6 +95,14 @@ class RouteFullList {
       return;
     }
     for (var i = 0; i < fullBuses[n].length; i++) {
+      if (depth != 0 &&
+          vanillaTimeFormat.parse(temp[depth - 1].eTime).compareTo(
+                  vanillaTimeFormat.parse(fullBuses[depth][i].sTime).add(
+                      Duration(
+                          minutes:
+                              int.parse(fullBuses[depth][i].eWalkingTime)))) >
+              0) return;
+      temp[depth] = fullBuses[depth][i];
       temp[depth] = fullBuses[depth][i];
       _dfs(routeDTO, fullBuses, routeByHoursList, temp, depth + 1, n);
     }
