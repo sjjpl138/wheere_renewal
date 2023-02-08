@@ -24,14 +24,14 @@ class BusRouteDTO {
   factory BusRouteDTO.fromJson(Map<String, dynamic> json) {
     return BusRouteDTO(
       bNo: json["bNo"],
-      bIdList: json["bIdList"],
+      bIdList: json["busId"].cast<int>(),
       sStationId: json["sStationId"],
       sStationName: json["sStationName"],
-      sTimeList: json["sTimeList"],
+      sTimeList: json["sTime"].cast<String>(),
       eStationId: json["eStationId"],
       eStationName: json["eStationName"],
-      eTimeList: json["eTimeList"],
-      leftSeatsList: json["leftSeatsList"],
+      eTimeList: json["eTime"].cast<String>(),
+      leftSeatsList: json["leftSeats"].cast<int>(),
     );
   }
 }

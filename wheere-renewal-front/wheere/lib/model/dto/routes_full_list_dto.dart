@@ -10,7 +10,7 @@ class RouteFullListDTO {
   });
 
   factory RouteFullListDTO.fromJson(Map<String, dynamic> json) {
-    var list = json['selects'] as List;
+    var list = json['routes'] as List;
     List<RouteDTO> getList = list.map((i) => RouteDTO.fromJson(i)).toList();
     return RouteFullListDTO(
       outTrafficCheck: json['outTrafficCheck'],

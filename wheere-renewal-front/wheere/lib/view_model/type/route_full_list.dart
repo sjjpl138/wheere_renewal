@@ -23,14 +23,14 @@ class RouteFullList {
       routeByHoursList
           .add(RoutesByHours(selectTime: _numberFormat.format(i), routes: []));
     }
+    Map<int, List<List<BusData>>> fullBuses = {};
     for (int k = 0; k < routeFullListDTO.routes.length; k++) {
       var routeDTO = routeFullListDTO.routes[k];
-      Map<int, List<List<BusData>>> fullBuses = {};
       for (int i = 1; i < routeDTO.subRoutes.length; i += 2) {
         BusRouteDTO busRouteDTO = routeDTO.subRoutes[i].busRoute!;
         for (int j = 0; j < busRouteDTO.bIdList.length; j++) {
           if (fullBuses[k] != null) {
-            fullBuses[k]![j].add(BusData(
+            fullBuses[k]![i ~/ 2].add(BusData(
               bId: busRouteDTO.bIdList[j],
               bNo: busRouteDTO.bNo,
               sStationId: busRouteDTO.sStationId,
@@ -44,10 +44,10 @@ class RouteFullList {
             ));
           } else {
             fullBuses[k] = [];
-            for (var i = 0; i < busRouteDTO.bIdList.length; i++) {
+            for (var i = 0; i < routeDTO.subRoutes.length ~/ 2; i++) {
               fullBuses[k]!.add([]);
             }
-            fullBuses[k]![j] = [
+            fullBuses[k]![i ~/ 2] = [
               BusData(
                 bId: busRouteDTO.bIdList[j],
                 bNo: busRouteDTO.bNo,
@@ -64,12 +64,11 @@ class RouteFullList {
           }
         }
       }
-
-      for (int i in fullBuses.keys) {
-        RouteDTO routeDTO = routeFullListDTO.routes[i];
-        _dfs(routeDTO, fullBuses[i]!, routeByHoursList, [], 0,
-            routeDTO.subRoutes.length ~/ 2);
-      }
+    }
+    for (int i in fullBuses.keys) {
+      RouteDTO routeDTO = routeFullListDTO.routes[i];
+      _dfs(routeDTO, fullBuses[i]!, routeByHoursList, [], 0,
+          routeDTO.subRoutes.length ~/ 2);
     }
     return RouteFullList(
       outTrafficCheck: routeFullListDTO.outTrafficCheck,
@@ -86,7 +85,7 @@ class RouteFullList {
       int n) {
     if (depth == n) {
       routeByHoursList[
-              _numberFormat.parse(temp[0].sTime.substring(0, 1)).toInt()]
+              _numberFormat.parse(temp[0].sTime.substring(0, 2)).toInt()]
           .routes
           .add(RouteData(
               payment: routeDTO.payment,
@@ -94,17 +93,18 @@ class RouteFullList {
               sWalkingTime: routeDTO.subRoutes[0].sectionTime.toString()));
       return;
     }
-    for (var i = 0; i < fullBuses[n].length; i++) {
+    List<BusData> nextTemp;
+    for (var i = 0; i < fullBuses[depth].length; i++) {
+      nextTemp = [...temp];
       if (depth != 0 &&
-          vanillaTimeFormat.parse(temp[depth - 1].eTime).compareTo(
+          vanillaTimeFormat.parse(nextTemp[depth - 1].eTime).compareTo(
                   vanillaTimeFormat.parse(fullBuses[depth][i].sTime).add(
                       Duration(
                           minutes:
                               int.parse(fullBuses[depth][i].eWalkingTime)))) >
               0) return;
-      temp[depth] = fullBuses[depth][i];
-      temp[depth] = fullBuses[depth][i];
-      _dfs(routeDTO, fullBuses, routeByHoursList, temp, depth + 1, n);
+      nextTemp.add(fullBuses[depth][i]);
+      _dfs(routeDTO, fullBuses, routeByHoursList, nextTemp, depth + 1, n);
     }
   }
 }
