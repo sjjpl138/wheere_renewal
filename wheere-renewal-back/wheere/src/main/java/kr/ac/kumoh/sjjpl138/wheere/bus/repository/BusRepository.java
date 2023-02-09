@@ -19,4 +19,7 @@ public interface BusRepository extends JpaRepository<Bus, Long> {
 
     @Query("select b.id from Bus b where b.busNo = :busNo")
     List<Long> findBusIdByBusNo(@Param("busNo") String busNo);
+
+    @Query("select b.id from Bus b where b.busNo = :busNo and b.busDate = :busDate")
+    List<Long> findBusIdByBusNoAndBusDate(@Param("busNo") String busNo, @Param("busDate") LocalDate busDate);
 }
