@@ -673,7 +673,7 @@ public class MemberService {
             subRoute.setSectionTime(busSubRoute.getSectionTime());
 
             // 특정 버스 번호에 대해 BusId를 모두 조회하기
-            List<Long> findBusIds = busRepository.findBusIdByBusNo(busNo);
+            List<Long> findBusIds = busRepository.findBusIdByBusNoAndBusDate(busNo, rDate);
 
             List<Long> runBusNoList = new ArrayList<>();
             List<LocalTime> startStationArrivalTimes = new ArrayList<>();
