@@ -7,5 +7,6 @@
 - MYSQL (H2)
 - Gradle
 - Lombok
+- Java11
 
 ### Flutter
