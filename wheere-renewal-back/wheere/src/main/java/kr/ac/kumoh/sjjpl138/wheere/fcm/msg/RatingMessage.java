@@ -31,6 +31,8 @@ public class RatingMessage {
         private LocalDate rDate;
         @JsonProperty("bNo")
         private String bNo;
+        @JsonProperty("bId")
+        private String bId;
         @JsonFormat(pattern = "HH:mm:ss")
         private LocalTime sTime;
         @JsonProperty("sStationName")

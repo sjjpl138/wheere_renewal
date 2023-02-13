@@ -31,7 +31,6 @@ public class FcmService {
     private String API_URL = "https://fcm.googleapis.com/v1/projects/wheere-abb78/messages:send";
     private final ObjectMapper objectMapper;
 
-    //@TODO("사용자 버스 하차 후 평점 알림 서비스 구현")
     public void sendRatingMessage(String memberToken, Bus bus, Reservation reservation, List<Platform> platforms) throws IOException {
 
         String message = makeRatingMessage(memberToken, bus, reservation, platforms);
@@ -56,6 +55,7 @@ public class FcmService {
         LocalDate reservationDate = reservation.getReservationDate();
 
         String busNo = bus.getBusNo();
+        Long bId = bus.getId();
 
         Platform startPlatform = platforms.get(0);
         LocalTime startPlatformArrivalTime = startPlatform.getArrivalTime();
@@ -80,6 +80,7 @@ public class FcmService {
                                 .rId(String.valueOf(reservationId))
                                 .rDate(reservationDate)
                                 .bNo(busNo)
+                                .bId(String.valueOf(bId))
                                 .sTime(startPlatformArrivalTime)
                                 .sStationName(startStationName)
                                 .eTime(endPlatformArrivalTime)
