@@ -159,7 +159,7 @@ public class ReservationApiController {
      * 예약 상태 변경 및 사용자에게 평점 알림 보내기
      */
     @PostMapping("/{rId}/get-off-bus")
-    public ResponseEntity getOffBus(@PathVariable Long rId, @RequestBody Map<String, Long> messageBody) {
+    public ResponseEntity<?> getOffBus(@PathVariable Long rId, @RequestBody Map<String, Long> messageBody) {
 
         // 예약 상태 변경 (RESERVED | PAID) -> RVW_WAIT
         reservationService.changeReservationStationToRVW_WAIT(rId);
@@ -169,7 +169,7 @@ public class ReservationApiController {
 
         Optional<Reservation> optionalReservation = reservationRepository.findReservationWithMemberById(rId);
 
-        if (optionalBus.isEmpty() | optionalReservation.isEmpty()) {
+        if (optionalBus.isEmpty() || optionalReservation.isEmpty()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
