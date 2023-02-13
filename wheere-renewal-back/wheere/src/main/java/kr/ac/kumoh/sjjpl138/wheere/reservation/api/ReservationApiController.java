@@ -151,7 +151,10 @@ public class ReservationApiController {
             String findBusDriverToken = findBus.getToken();
 
             try {
-                fcmService.sendCancelReservationMessage(findBusDriverToken, mId, rId);
+                if (findBusDriverToken != null) {
+
+                    fcmService.sendCancelReservationMessage(findBusDriverToken, mId, rId);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -189,11 +192,13 @@ public class ReservationApiController {
         List<Platform> findPlatforms = platformRepository.findPlatformByStationNameIn(stationNameList);
 
         try {
-//             사용자에게 평점 알림 보내기
-//             reservation
-//             bus
-//             platform (start, end) - station 페치 조인
-            fcmService.sendRatingMessage(memberToken, findBus, findReservation, findPlatforms);
+            if (memberToken != null) {
+                // 사용자에게 평점 알림 보내기
+                // reservation
+                // bus
+                // platform (start, end) - station 페치 조인
+                fcmService.sendRatingMessage(memberToken, findBus, findReservation, findPlatforms);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
