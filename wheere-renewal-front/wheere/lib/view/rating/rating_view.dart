@@ -25,7 +25,7 @@ class _RatingViewState extends State<RatingView> {
         context,
         title: "평점 작성하기",
         leading: BackIconButton(
-          onPressed: _ratingViewModel.navigatePop,
+          onPressed: () => _ratingViewModel.navigatePop(context),
         ),
       ),
       body: SingleChildScrollView(
@@ -34,72 +34,64 @@ class _RatingViewState extends State<RatingView> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kPaddingLargeSize),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ListView.builder(itemBuilder: (BuildContext context, int index) {
-                  BusesDTO bus = _ratingViewModel.reservation.buses[index];
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: kPaddingLargeSize),
-                      const Text(
-                        "탑승 정보",
-                        style: kTextMainStyleLarge,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: kPaddingLargeSize),
+                  const Text(
+                    "탑승 정보",
+                    style: kTextMainStyleLarge,
+                  ),
+                  const SizedBox(height: kPaddingLargeSize),
+                  ReservationInfoListItem(
+                    bNo: _ratingViewModel.reservation.bNo,
+                    rDate: _ratingViewModel.reservation.rDate,
+                    sStationName: _ratingViewModel.reservation.sStationName,
+                    sStationTime: _ratingViewModel.reservation.sTime,
+                    eStationName: _ratingViewModel.reservation.eStationName,
+                    eStationTime: _ratingViewModel.reservation.eTime,
+                  ),
+                  const Text(
+                    "평점",
+                    style: kTextMainStyleLarge,
+                  ),
+                  const SizedBox(height: kPaddingLargeSize),
+                  Flexible(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: CustomColor.backGroundSubColor,
+                        borderRadius: BorderRadius.circular(kBorderRadiusSize),
                       ),
-                      const SizedBox(height: kPaddingLargeSize),
-                      ReservationInfoListItem(
-                        bNo: bus.bNo,
-                        rDate: _ratingViewModel.reservation.rDate,
-                        sStationName: bus.sStationName,
-                        sStationTime: bus.sTime,
-                        eStationName: bus.eStationName,
-                        eStationTime: bus.eTime,
-                      ),
-                      const Text(
-                        "평점",
-                        style: kTextMainStyleLarge,
-                      ),
-                      const SizedBox(height: kPaddingLargeSize),
-                      Flexible(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: CustomColor.backGroundSubColor,
-                            borderRadius: BorderRadius.circular(kBorderRadiusSize),
+                      child: Center(
+                        child: RatingBar.builder(
+                          initialRating: _ratingViewModel.rating,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemPadding: const EdgeInsets.symmetric(
+                            horizontal: kPaddingLargeSize,
+                            vertical: kPaddingMiddleSize,
                           ),
-                          child: Center(
-                            child: RatingBar.builder(
-                              initialRating: _ratingViewModel.rating,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemPadding: const EdgeInsets.symmetric(
-                                horizontal: kPaddingLargeSize,
-                                vertical: kPaddingMiddleSize,
-                              ),
-                              unratedColor: CustomColor.itemDisabledColor,
-                              itemBuilder: (context, _) => const Icon(
-                                Icons.star,
-                                color: CustomColor.itemSubColor,
-                              ),
-                              onRatingUpdate: _ratingViewModel.updateRating,
-                            ),
+                          unratedColor: CustomColor.itemDisabledColor,
+                          itemBuilder: (context, _) => const Icon(
+                            Icons.star,
+                            color: CustomColor.itemSubColor,
                           ),
+                          onRatingUpdate: _ratingViewModel.updateRating,
                         ),
                       ),
-                      const SizedBox(height: kPaddingLargeSize),
-                    ],
-                  );
-                }),
-                CustomOutlinedButton(
-                  onPressed: _ratingViewModel.sendRating,
-                  text: "평점 작성",
-                )
-              ],
-            ),
+                    ),
+                  ),
+                  const SizedBox(height: kPaddingLargeSize),
+                  CustomOutlinedButton(
+                    onPressed: () => _ratingViewModel.sendRating(
+                      context,
+                      mounted,
+                    ),
+                    text: "평점 작성",
+                  ),
+                ]),
           ),
         ),
       ),

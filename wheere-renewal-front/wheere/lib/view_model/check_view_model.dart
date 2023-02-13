@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/service/services.dart';
 import 'package:wheere/view/bus_current_info/bus_current_info_page.dart';
+import 'package:wheere/view/rating/rating_page.dart';
 import 'type/types.dart';
 
 class CheckViewModel extends ChangeNotifier {
@@ -37,15 +38,30 @@ class CheckViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future navigateToBusCurrentInfoPage (
+  void classifyNavigateTo(BuildContext context, ReservationData reservation,
+      String rState, bool mounted) async {
+    switch (rState) {
+      case "PAID":
+        navigateToBusCurrentInfoPage(context, reservation, mounted);
+        break;
+      case "RVW_WAIT":
+        navigateToRatingPage(context, reservation);
+        break;
+      default:
+        return;
+    }
+  }
+
+  Future navigateToBusCurrentInfoPage(
       BuildContext context, ReservationData reservation, bool mounted) async {
-    BusLocationDTO? busLocationDTO = await requestBusLocationService.requestLocation(
+    BusLocationDTO? busLocationDTO =
+        await requestBusLocationService.requestLocation(
       reservation.routeId,
       reservation.bId,
       reservation.vNo,
     );
-    if(busLocationDTO != null) {
-      if(mounted) return;
+    if (busLocationDTO != null) {
+      if (mounted) return;
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -56,6 +72,27 @@ class CheckViewModel extends ChangeNotifier {
         ),
       );
     }
+  }
+
+  void navigateToRatingPage(
+      BuildContext context, ReservationData reservation) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RatingPage(
+          reservation: AlarmReservationDTO(
+            rId: reservation.rId,
+            rDate: reservation.rDate,
+            bId: reservation.bId,
+            bNo: reservation.bNo,
+            sStationName: reservation.sStationName,
+            eStationName: reservation.eStationName,
+            sTime: reservation.sStationTime,
+            eTime: reservation.eStationTime,
+          ),
+        ),
+      ),
+    );
   }
 
   void checkReservation() async {

@@ -1,4 +1,5 @@
 class ReservationData {
+  final int rId;
   final int bId;
   final String bNo;
   final String vNo;
@@ -11,6 +12,7 @@ class ReservationData {
 
 
   const ReservationData({
+    required this.rId,
     required this.bNo,
     required this.bId,
     required this.vNo,

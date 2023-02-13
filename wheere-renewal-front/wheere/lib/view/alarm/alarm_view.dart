@@ -17,6 +17,7 @@ class _AlarmViewState extends State<AlarmView> {
 
   @override
   Widget build(BuildContext context) {
+    _alarmViewModel.getAlarms(context, mounted);
     return Scaffold(
       appBar: CustomAppBar.build(
         context,

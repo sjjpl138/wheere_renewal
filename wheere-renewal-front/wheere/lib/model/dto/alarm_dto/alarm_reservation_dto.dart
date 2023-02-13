@@ -1,6 +1,7 @@
 class AlarmReservationDTO{
-  String rId;
+  int rId;
   String rDate;
+  int bId;
   String bNo;
   String sTime;
   String sStationName;
@@ -11,6 +12,7 @@ class AlarmReservationDTO{
     return AlarmReservationDTO(
       rId: json['rId'],
       rDate: json['rDate'],
+      bId: json['bId'],
       bNo: json['bNo'],
       sStationName: json['sStationName'],
       eStationName: json['eStationName'],
@@ -22,6 +24,7 @@ class AlarmReservationDTO{
   AlarmReservationDTO({
     required this.rId,
     required this.rDate,
+    required this.bId,
     required this.bNo,
     required this.sStationName,
     required this.eStationName,
@@ -33,6 +36,7 @@ class AlarmReservationDTO{
     return {
       "rId": rId,
       "rDate": rDate,
+      "bId" : bId,
       "bNo": bNo,
       "sStationName": sStationName,
       "eStationName": eStationName,

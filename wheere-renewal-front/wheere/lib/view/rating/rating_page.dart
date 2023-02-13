@@ -5,7 +5,7 @@ import 'package:wheere/view/rating/rating_view.dart';
 import 'package:wheere/view_model/rating_view_model.dart';
 
 class RatingPage extends StatelessWidget {
-  final ReservationDTO reservation;
+  final AlarmReservationDTO reservation;
 
   const RatingPage({super.key, required this.reservation});
 
