@@ -23,5 +23,7 @@ public interface TransferRepository extends JpaRepository<Transfer, Long>{
     List<Transfer> findTransferByBusId(@Param("busId")Long bId);
 
     @EntityGraph(attributePaths = {"bus"})
+    List<Transfer> findWithBusByReservation(Reservation reservation);
+
     List<Transfer> findByReservation(Reservation reservation);
 }
