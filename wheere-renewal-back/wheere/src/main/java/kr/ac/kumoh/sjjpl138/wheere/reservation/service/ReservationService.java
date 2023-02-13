@@ -83,19 +83,21 @@ public class ReservationService {
             Long bId = dto.getBId();
             List<Long> sIdList = List.of(dto.getSStationId(), dto.getEStationId());
             List<Platform> findPlatforms = getPlatformsBySIds(bId, sIdList);
-            platformMap.put(bId, findPlatforms);
 
             // 예약하려는 버스 출발 시간이 현재 시간 이전이라면 예약 불가
             compareNowWithReservationDateTime(resvDate, findPlatforms.get(0));
 
-            // 동일 버스에 대한 기존 예약이 존재하고 기존 예약의 상태가 취소 상태가 아니라면 예약 불가
-            List<Transfer> transfers = transferRepository.findByMemberIdAndBusIdAndReservationDate(memberId, bId, resvDate);
-            if (!transfers.isEmpty()) {
-                for (Transfer transfer : transfers) {
-                    List<Reservation> reservations = reservationRepository.findByTransferId(transfer.getId());
-                    reservations.forEach(this::checkResvStatus);
-                }
+            // 동일 버스가 포함되어 있는 Reservation 객체가 있으면 예약 불가 - 취소 상태가 아니라면
+            // memberId, resvStatus resvDate만으로 취소 상태가 아닌 Reservation 조회 후 해당 Reservation 객체로 모든 transfer 조회 -> 우리가 예약하고자 하는 bId가 포함되어 있으면 예외 발생
+            List<Reservation> findReservations = reservationRepository.findCancelReservation(memberId, resvDate);
+            for (Reservation findReservation : findReservations) {
+
+                transferRepository.findByReservation(findReservation).forEach(transfer -> {
+                    existThenThrowException(bId, transfer.getBus().getId());
+                });
             }
+
+            platformMap.put(bId, findPlatforms);
         }
 
         // 예약 생성
@@ -128,6 +130,12 @@ public class ReservationService {
         return reservation;
     }
 
+    private void existThenThrowException(Long bId, Long findBId) {
+        if (bId == findBId) {
+            throw new ReservationException("이미 해당 버스에 대한 예약이 존재합니다.");
+        }
+    }
+
     private List<Integer> getSeqList(Long bId, Long startSId, Long endSId) {
         List<Integer> allocationList = platformRepository.findAllocationSeqByBusIdAndStationIdList(bId, List.of(startSId, endSId));
         List<Integer> seqList = new ArrayList<>();
@@ -135,11 +143,6 @@ public class ReservationService {
             seqList.add(i);
         }
         return seqList;
-    }
-
-    private void checkResvStatus(Reservation r) {
-        if (r.getReservationStatus() != ReservationStatus.CANCEL)
-            throw new ReservationException("이미 해당 버스에 대한 예약이 존재합니다.");
     }
 
     private void compareNowWithReservationDateTime(LocalDate resvDate, Platform platform) {
@@ -256,7 +259,7 @@ public class ReservationService {
 
             List<ReservationBus> buses = new ArrayList<>();
 
-            List<Transfer> findTransferList = transferRepository.findByReservation(r);
+            List<Transfer> findTransferList = transferRepository.findWithBusByReservation(r);
             for (Transfer transfer : findTransferList) {
 
                 ReservationBus reservationBus = new ReservationBus();
