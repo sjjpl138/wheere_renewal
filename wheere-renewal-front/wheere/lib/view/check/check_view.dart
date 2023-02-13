@@ -94,6 +94,7 @@ class _CheckViewState extends State<CheckView>
                           child: ReservationInfoList(
                             reservationDataList: reservation.buses
                                 .map((e) => ReservationData(
+                                      rId: reservation.rId,
                                       bNo: e.bNo,
                                       bId: e.bId,
                                       vNo: e.vNo,
@@ -106,9 +107,10 @@ class _CheckViewState extends State<CheckView>
                                     ))
                                 .toList(),
                             onTap: (ReservationData e) =>
-                                _checkViewModel.navigateToBusCurrentInfoPage(
+                                _checkViewModel.classifyNavigateTo(
                               context,
                               e,
+                              reservation.rState,
                               mounted,
                             ),
                           ),
