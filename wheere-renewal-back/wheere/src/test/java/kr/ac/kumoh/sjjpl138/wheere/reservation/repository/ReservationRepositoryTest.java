@@ -181,7 +181,7 @@ class ReservationRepositoryTest {
 
     @Test
     public void findCancelReservationTest() {
-        List<Reservation> reservations = reservationRepository.findCancelReservation("member1", ReservationStatus.CANCEL, LocalDate.now().minusDays(30));
+        List<Reservation> reservations = reservationRepository.findCancelReservation("member1",  LocalDate.now().minusDays(30));
 
         assertThat(reservations.size()).isEqualTo(7);
         assertThat(reservations).extracting("reservationStatus").containsExactly(
@@ -192,6 +192,5 @@ class ReservationRepositoryTest {
                 ReservationStatus.RVW_COMP,
                 ReservationStatus.RESERVED,
                 ReservationStatus.PAID);
-
     }
 }
