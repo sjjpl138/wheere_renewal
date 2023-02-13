@@ -42,8 +42,8 @@ class PaymentViewModel extends ChangeNotifier {
 
   Future payForReservations() async {}
 
-  Future makeReservation(BuildContext context) async {
-    _makeReservationService.makeReservation(RequestReservationDTO(
+  Future makeReservation(BuildContext context, bool mounted) async {
+    await _makeReservationService.makeReservation(RequestReservationDTO(
       mId: member!.mId,
       rDate: rDate,
       startStationId: routeData.buses[0].sStationId,
@@ -53,6 +53,6 @@ class PaymentViewModel extends ChangeNotifier {
               bId: e.bId, sStationId: e.sStationId, eStationId: e.eStationId))
           .toList(), rState: 'PAID', rPrice: routeData.payment,
     ));
-    Navigator.pop(context, true);
+    if(mounted) Navigator.pop(context, true);
   }
 }

@@ -24,6 +24,7 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
       if(res == null) throw Exception("res is null");
       List<dynamic> item =
           json.decode(json.encode(res['response']['body']['items']['item']));
+      // type 'String' is not a subtype of type 'int' of 'index'
       var stationName = "stationName";
       for (var bus in item) {
         if (bus['vehicleno'] == vNo) {

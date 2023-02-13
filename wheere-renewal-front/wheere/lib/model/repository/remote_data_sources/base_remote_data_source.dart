@@ -24,7 +24,8 @@ abstract class BaseRemoteDataSource {
 
   static Future<Map<String, dynamic>?> getWithParams(String path, Map<String, dynamic> queryParams) async {
     try {
-      var uri = Uri.parse(path).replace(queryParameters: queryParams);
+      var uri = Uri.parse(_baseUrl + path).replace(queryParameters: queryParams);
+      print(uri);
       const headers = {"Accept": "application/json"};
       final res = await http.get(uri, headers: headers);
       log(res.body);
@@ -42,6 +43,7 @@ abstract class BaseRemoteDataSource {
           return null;
       }
     } catch (e) {
+      print(e);
       return null;
     }
   }

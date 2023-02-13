@@ -23,8 +23,8 @@ class RequestReservationDTO {
     final Map<String, dynamic> data = <String, dynamic>{};
     List<Map<String, dynamic>> busesJson = this.buses.map((i) => i.toJson()).toList();
     data['mId'] = mId;
-    data['startStationId'] = busesJson[0]['sStationId'];
-    data['endStationId'] = busesJson[-1]['eStationId'];
+    data['startStationId'] = busesJson.first['sStationId'];
+    data['endStationId'] = busesJson.last['eStationId'];
     data['buses'] = busesJson;
     data['rState'] = rState;
     data['rPrice'] = rPrice;

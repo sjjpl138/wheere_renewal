@@ -6,12 +6,14 @@ class CustomDatePicker extends StatelessWidget {
   final void Function(DateTime) onDateTimeChanged;
   final String title;
   final DateTime initDate;
+  final int overDate;
 
   const CustomDatePicker({
     Key? key,
     required this.onDateTimeChanged,
     required this.initDate,
     required this.title,
+    required this.overDate,
   }) : super(key: key);
 
   @override
@@ -62,10 +64,10 @@ class CustomDatePicker extends StatelessWidget {
                 ),
               ),
               child: CupertinoDatePicker(
-                minimumYear: 1900,
-                maximumYear: DateTime.now().year,
+                minimumYear: overDate == 0 ? 1900 : DateTime.now().year,
+                maximumYear: DateTime.now().add(Duration(days: overDate)).year,
                 initialDateTime: initDate,
-                maximumDate: DateTime.now(),
+                maximumDate: DateTime.now().add(Duration(days: overDate)),
                 onDateTimeChanged: onDateTimeChanged,
                 mode: CupertinoDatePickerMode.date,
               ),
