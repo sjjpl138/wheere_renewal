@@ -16,6 +16,7 @@ import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.request.SaveResvRequest;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationListResponse;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.service.ReservationService;
 import lombok.AllArgsConstructor;
@@ -74,15 +75,15 @@ public class ReservationApiController {
      */
     @PostMapping
     public ResponseEntity<SaveResvResponse> reservationSave(@RequestBody SaveResvRequest request) {
+
         String mId = request.getMId();
-        Long startStationId = request.getStartStationId();
-        Long endStationId = request.getEndStationId();
         ReservationStatus rState = request.getRState();
         LocalDate rDate = request.getRDate();
         List<ReservationBusInfo> reservationBusInfo = request.getBuses();
+
         try {
             // 예약 생성
-            Reservation reservation = reservationService.saveReservation(mId, startStationId, endStationId, rState, rDate, reservationBusInfo);
+            Reservation reservation = reservationService.saveReservation(request);
 
             Long rId = reservation.getId();
 
@@ -195,22 +196,6 @@ public class ReservationApiController {
         }
 
         return new ResponseEntity(HttpStatus.OK);
-    }
-
-
-    @Data
-    static class SaveResvRequest {
-        @JsonProperty("mId")
-        private String mId;
-        private Long startStationId;
-        private Long endStationId;
-        private List<ReservationBusInfo> buses;
-        @JsonProperty("rState")
-        private ReservationStatus rState;
-        @JsonProperty("rPrice")
-        private int rPrice;
-        @JsonProperty("rDate")
-        private LocalDate rDate;
     }
 
     @Data
