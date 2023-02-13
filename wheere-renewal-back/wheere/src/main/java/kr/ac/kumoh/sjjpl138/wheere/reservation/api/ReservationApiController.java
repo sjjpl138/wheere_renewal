@@ -103,14 +103,17 @@ public class ReservationApiController {
 
                 String findBusDriverToken = findBus.getToken();
 
-                Platform startPlatform = platforms.get(0);
-                Platform endPlatform = platforms.get(1);
-
-                int startSeq = startPlatform.getStationSeq();
-                int endSeq = endPlatform.getStationSeq();
-
                 // 버스 기사에게 예약 생성 알림 보내기
-                fcmService.sendNewReservationMessageToDriver(findBusDriverToken, mId, rId, bId, startSeq, endSeq);
+                if (findBusDriverToken != null) {
+
+                    Platform startPlatform = platforms.get(0);
+                    Platform endPlatform = platforms.get(1);
+
+                    int startSeq = startPlatform.getStationSeq();
+                    int endSeq = endPlatform.getStationSeq();
+
+                    fcmService.sendNewReservationMessageToDriver(findBusDriverToken, mId, rId, bId, startSeq, endSeq);
+                }
 
                 String sStationName = platforms.get(0).getStation().getName();
                 String eStationName = platforms.get(1).getStation().getName();
