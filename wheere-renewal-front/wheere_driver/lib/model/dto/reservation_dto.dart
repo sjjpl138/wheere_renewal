@@ -2,8 +2,8 @@ import 'package:wheere_driver/model/dto/dtos.dart';
 
 class ReservationDTO {
   MemberDTO member;
-  String rId;
-  String bId;
+  int rId;
+  int bId;
   int startSeq;
   int endSeq;
 
