@@ -86,7 +86,7 @@ public class ReservationService {
             platformMap.put(bId, findPlatforms);
 
             // 예약하려는 버스 출발 시간이 현재 시간 이전이라면 예약 불가
-            compareNowWithReservationDateTime(resvDate, findPlatforms);
+            compareNowWithReservationDateTime(resvDate, findPlatforms.get(0));
 
             // 동일 버스에 대한 기존 예약이 존재하고 기존 예약의 상태가 취소 상태가 아니라면 예약 불가
             List<Transfer> transfers = transferRepository.findByMemberIdAndBusIdAndReservationDate(memberId, bId, resvDate);
@@ -142,8 +142,8 @@ public class ReservationService {
             throw new ReservationException("이미 해당 버스에 대한 예약이 존재합니다.");
     }
 
-    private void compareNowWithReservationDateTime(LocalDate resvDate, List<Platform> findPlatforms) {
-        if ((isNowAfterArrivalTime(findPlatforms) && isNotNowBeforeResvDate(resvDate)) || isNowAfterResvDate(resvDate))
+    private void compareNowWithReservationDateTime(LocalDate resvDate, Platform platform) {
+        if ((isNowAfterArrivalTime(platform) && isNotNowAfterResvDate(resvDate)) || isNowAfterResvDate(resvDate))
             throw new ReservationException("해당 버스에 대해 예약이 불가능합니다.");
     }
 
@@ -151,12 +151,12 @@ public class ReservationService {
         return LocalDate.now().isAfter(resvDate);
     }
 
-    private boolean isNotNowBeforeResvDate(LocalDate resvDate) {
-        return !LocalDate.now().isBefore(resvDate);
+    private boolean isNotNowAfterResvDate(LocalDate resvDate) {
+        return !LocalDate.now().isAfter(resvDate); // 당일이거나 과거인 경우
     }
 
-    private boolean isNowAfterArrivalTime(List<Platform> findPlatforms) {
-        return LocalTime.now().isAfter(findPlatforms.get(0).getArrivalTime());
+    private boolean isNowAfterArrivalTime(Platform platform) {
+        return LocalTime.now().isAfter(platform.getArrivalTime());
     }
 
     private void calcSubLeftSeats(List<Seat> findSeats) {
