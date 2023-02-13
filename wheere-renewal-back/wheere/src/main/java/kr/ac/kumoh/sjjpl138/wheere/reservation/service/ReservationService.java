@@ -15,6 +15,7 @@ import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchConditio
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.repository.ReservationRepository;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.request.SaveResvRequest;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationBus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.response.ReservationListResponse;
 import kr.ac.kumoh.sjjpl138.wheere.seat.Seat;
@@ -52,8 +53,16 @@ public class ReservationService {
      * @return 생성된 Reservation 객체
      */
     @Transactional
-    public Reservation saveReservation(String memberId, Long startStationId, Long endStationId,
-                                       ReservationStatus resvStatus, LocalDate resvDate, List<ReservationBusInfo> busInfo) {
+    public Reservation saveReservation(SaveResvRequest request) {
+
+
+        String memberId = request.getMId();
+        Long startStationId = request.getStartStationId();
+        Long endStationId = request.getEndStationId();
+        ReservationStatus resvStatus = request.getRState();
+        LocalDate resvDate = request.getRDate();
+        List<ReservationBusInfo> busInfo = request.getBuses();
+
         Optional<Member> findMemberOptional = memberRepository.findById(memberId);
         if (findMemberOptional.isEmpty()) {
             throw new NotExistMemberException("존재하지 않는 사용자입니다.");
@@ -86,7 +95,7 @@ public class ReservationService {
             if (!transfers.isEmpty()) {
                 for (Transfer transfer : transfers) {
                     List<Reservation> reservations = reservationRepository.findByTransferId(transfer.getId());
-                    reservations.stream().forEach(r -> checkResvStatus(r));
+                    reservations.forEach(this::checkResvStatus);
                 }
             }
         }
@@ -136,7 +145,7 @@ public class ReservationService {
     }
 
     private void compareBusDepartureTime(LocalDate busDate, LocalDate resvDate, List<Platform> findPlatforms) {
-        if ((isNowAfterArrivalTime(findPlatforms) && isNowBeforeResvDate(resvDate)) || isNowAfterResvDate(resvDate) || isBusDateBeforeResvDate(busDate, resvDate))
+        if ((isNowAfterArrivalTime(findPlatforms) && isNotNowBeforeResvDate(resvDate)) || isNowAfterResvDate(resvDate) || isBusDateBeforeResvDate(busDate, resvDate))
             throw new ReservationException("해당 버스에 대해 예약이 불가능합니다.");
     }
 
@@ -148,7 +157,7 @@ public class ReservationService {
         return LocalDate.now().isAfter(resvDate);
     }
 
-    private boolean isNowBeforeResvDate(LocalDate resvDate) {
+    private boolean isNotNowBeforeResvDate(LocalDate resvDate) {
         return !LocalDate.now().isBefore(resvDate);
     }
 
