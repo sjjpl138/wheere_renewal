@@ -21,6 +21,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
     @EntityGraph(attributePaths = {"member"})
     Optional<Reservation> findReservationWithMemberById(Long id);
 
-    @Query("select r from Reservation r join r.member m where m.id = :mId and r.reservationStatus <> :rStatus and r.reservationDate = :rDate")
-    List<Reservation> findCancelReservation(@Param("mId") String mId, @Param("rStatus")ReservationStatus rStatus, @Param("rDate") LocalDate rDate);
+    @Query("select r from Reservation r join r.member m where m.id = :mId and r.reservationStatus <> 'CANCEL' and r.reservationDate = :rDate")
+    List<Reservation> findCancelReservation(@Param("mId") String mId, @Param("rDate") LocalDate rDate);
 }
