@@ -17,6 +17,7 @@ import 'package:wheere/view/login/login_page.dart';
 import 'package:wheere/view/login/login_view.dart';
 import 'package:wheere/view/main/main_page.dart';
 import 'package:wheere/view/payment/payment_page.dart';
+import 'package:wheere/view/rating/rating_page.dart';
 import 'package:wheere/view/search/search_page.dart';
 import 'package:wheere/view/search/search_view.dart';
 import 'package:wheere/view/select/select_page.dart';
@@ -37,8 +38,20 @@ class Test extends StatefulWidget {
 class _TestState extends State<Test> {
   Payment? groupValue = Payment.onSite;
   bool isNewAlarm = true;
+
   @override
   Widget build(BuildContext context) {
+    return RatingPage(
+        reservation: AlarmReservationDTO(
+      rId: 0,
+      rDate: "rDate",
+      bNo: "bNo",
+      sStationName: "sStationName",
+      eStationName: "eStationName",
+      sTime: "sTime",
+      eTime: "eTime",
+      bId: 0,
+    ));
     /*return BusCurrentInfoPage(
       reservation: const ReservationData(
         bNo: "bNo",
@@ -65,7 +78,7 @@ class _TestState extends State<Test> {
 //    return const SelectTabPage();
 //    return const SelectPage();
 //    return const MainPage();
-    return const HomePage();
+//    return const HomePage();
 //    return SearchView(searchViewModel: SearchViewModel());
 //    return LoginView(loginViewModel: LoginViewModel());
   }
