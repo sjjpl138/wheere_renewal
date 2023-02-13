@@ -55,7 +55,6 @@ public class ReservationService {
     @Transactional
     public Reservation saveReservation(SaveResvRequest request) {
 
-
         String memberId = request.getMId();
         Long startStationId = request.getStartStationId();
         Long endStationId = request.getEndStationId();
@@ -71,11 +70,11 @@ public class ReservationService {
         Member findMember = findMemberOptional.get();
         int busCount = busInfo.size();
 
-        // 출발 정류장, 도착 정류장 조회
+        // 최초 출발 정류장, 최종 도착 정류장 조회
         List<Long> stationIds = List.of(startStationId, endStationId);
         List<Station> stations = stationRepository.findStationByIdIn(stationIds);
-        String startStation = stations.get(0).getName();
-        String endStation = stations.get(1).getName();
+        String startStationName = stations.get(0).getName();
+        String endStationName = stations.get(1).getName();
 
         Map<Long, List<Platform>> platformMap = new HashMap<>(); // bId - 출발 정류장, 도착 정류장
 
@@ -101,7 +100,7 @@ public class ReservationService {
         }
 
         // 예약 생성
-        Reservation reservation = Reservation.createReservation(findMember, resvStatus, startStation, endStation, resvDate, busCount);
+        Reservation reservation = Reservation.createReservation(findMember, resvStatus, startStationName, endStationName, resvDate, busCount);
         reservationRepository.save(reservation);
 
         // Transfer 생성
