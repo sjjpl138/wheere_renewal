@@ -145,12 +145,12 @@ public class ReservationService {
     }
 
     private void compareBusDepartureTime(LocalDate busDate, LocalDate resvDate, List<Platform> findPlatforms) {
-        if ((isNowAfterArrivalTime(findPlatforms) && isNotNowBeforeResvDate(resvDate)) || isNowAfterResvDate(resvDate) || isBusDateBeforeResvDate(busDate, resvDate))
+        if ((isNowAfterArrivalTime(findPlatforms) && isNotNowBeforeResvDate(resvDate)) || isNowAfterResvDate(resvDate) || isNotBusDateEqualResvDate(busDate, resvDate))
             throw new ReservationException("해당 버스에 대해 예약이 불가능합니다.");
     }
 
-    private boolean isBusDateBeforeResvDate(LocalDate busDate, LocalDate resvDate) {
-        return busDate.isBefore(resvDate);
+    private boolean isNotBusDateEqualResvDate(LocalDate busDate, LocalDate resvDate) {
+        return !busDate.isEqual(resvDate);
     }
 
     private boolean isNowAfterResvDate(LocalDate resvDate) {
