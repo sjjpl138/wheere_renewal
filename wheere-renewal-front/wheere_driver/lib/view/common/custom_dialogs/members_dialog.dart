@@ -5,8 +5,8 @@ import 'package:wheere_driver/view/common/commons.dart';
 
 class MembersDialog extends StatelessWidget {
   final BusStationInfo busStationInfo;
-  final void Function(MemberDTO memberDTO) showRideMemberDialog;
-  final void Function(MemberDTO memberDTO) showQuitMemberDialog;
+  final void Function(ReservationDTO reservationDTO) showRideMemberDialog;
+  final void Function(ReservationDTO reservationDTO) showQuitMemberDialog;
 
   const MembersDialog({
     Key? key,
@@ -34,8 +34,13 @@ class MembersDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("탑승자", style: kTextMainStyleLarge,),
-            const SizedBox(height: kPaddingMiddleSize,),
+            const Text(
+              "탑승자",
+              style: kTextMainStyleLarge,
+            ),
+            const SizedBox(
+              height: kPaddingMiddleSize,
+            ),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -45,11 +50,16 @@ class MembersDialog extends StatelessWidget {
                   CustomOutlinedButton(
                 onPressed: () =>
                     showRideMemberDialog(busStationInfo.ridePeople[index]),
-                text: busStationInfo.ridePeople[index].mName,
+                text: busStationInfo.ridePeople[index].member.mName,
               ),
             ),
-            const Text("하차자", style: kTextMainStyleLarge,),
-            const SizedBox(height: kPaddingMiddleSize,),
+            const Text(
+              "하차자",
+              style: kTextMainStyleLarge,
+            ),
+            const SizedBox(
+              height: kPaddingMiddleSize,
+            ),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -59,7 +69,7 @@ class MembersDialog extends StatelessWidget {
                   CustomOutlinedButton(
                 onPressed: () =>
                     showQuitMemberDialog(busStationInfo.quitPeople[index]),
-                text: busStationInfo.quitPeople[index].mName,
+                text: busStationInfo.quitPeople[index].member.mName,
               ),
             ),
           ],

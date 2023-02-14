@@ -61,13 +61,13 @@ class MainViewModel extends ChangeNotifier {
     for (var element in Driver().driver!.reservations) {
       busStationInfoList[element.startSeq - Driver().driver!.route.first.sSeq]
           .ridePeople
-          .add(element.member);
+          .add(element);
       for (var i = element.startSeq; i < element.endSeq; i++) {
         busStationInfoList[i - Driver().driver!.route.first.sSeq].leftSeats--;
       }
       busStationInfoList[element.endSeq - Driver().driver!.route.first.sSeq]
           .quitPeople
-          .add(element.member);
+          .add(element);
     }
     notifyListeners();
     _getBusCurrentLocation();
@@ -75,12 +75,12 @@ class MainViewModel extends ChangeNotifier {
 
   void _makeBusStationInfo() {
     busStationInfoList = Driver()
-        .driver
-        ?.route
-        .map((e) => BusStationInfo(
-      stationName: e.sName,
-    ))
-        .toList() ??
+            .driver
+            ?.route
+            .map((e) => BusStationInfo(
+                  stationName: e.sName,
+                ))
+            .toList() ??
         [
           BusStationInfo(
             stationName: "stationName",
@@ -119,13 +119,13 @@ class MainViewModel extends ChangeNotifier {
     Driver().driver!.reservations.add(reservation);
     busStationInfoList[reservation.startSeq - Driver().driver!.route.first.sSeq]
         .ridePeople
-        .add(reservation.member);
+        .add(reservation);
     for (var i = reservation.startSeq; i < reservation.endSeq; i++) {
       busStationInfoList[i - Driver().driver!.route.first.sSeq].leftSeats--;
     }
     busStationInfoList[reservation.endSeq - Driver().driver!.route.first.sSeq]
         .quitPeople
-        .add(reservation.member);
+        .add(reservation);
     notifyListeners();
   }
 
@@ -135,13 +135,13 @@ class MainViewModel extends ChangeNotifier {
         Driver().driver!.reservations.remove(element);
         busStationInfoList[element.startSeq - Driver().driver!.route.first.sSeq]
             .ridePeople
-            .remove(element.member);
+            .remove(element);
         for (var i = element.startSeq; i < element.endSeq; i++) {
           busStationInfoList[i - Driver().driver!.route.first.sSeq].leftSeats++;
         }
         busStationInfoList[element.endSeq - Driver().driver!.route.first.sSeq]
             .quitPeople
-            .remove(element.member);
+            .remove(element);
         break;
       }
     }
@@ -213,36 +213,41 @@ class MainViewModel extends ChangeNotifier {
       context: context,
       builder: (BuildContext context) => MembersDialog(
         busStationInfo: busStationInfo,
-        showRideMemberDialog: (MemberDTO memberDTO) =>
-            _showRideMemberDialog(context, memberDTO),
-        showQuitMemberDialog: (MemberDTO memberDTO) =>
-            _showQuitMemberDialog(context, memberDTO),
+        showRideMemberDialog: (ReservationDTO reservationDTO) =>
+            _showRideMemberDialog(context, reservationDTO),
+        showQuitMemberDialog: (ReservationDTO reservationDTO) =>
+            _showQuitMemberDialog(context, reservationDTO),
       ),
     );
   }
 
   Future _showRideMemberDialog(
-      BuildContext context, MemberDTO memberDTO) async {
+      BuildContext context, ReservationDTO reservationDTO) async {
     await showDialog(
       context: context,
-      builder: (BuildContext context) => RideMemberDialog(memberDTO: memberDTO),
+      builder: (BuildContext context) =>
+          RideMemberDialog(memberDTO: reservationDTO.member),
     ).then((value) {
       if (value) {
         // TODO : 승차 API 전송...?
-        log(memberDTO.toJson().toString());
+        log(reservationDTO.toJson().toString());
       }
     });
   }
 
   Future _showQuitMemberDialog(
-      BuildContext context, MemberDTO memberDTO) async {
+      BuildContext context, ReservationDTO reservationDTO) async {
     await showDialog(
       context: context,
-      builder: (BuildContext context) => QuitMemberDialog(memberDTO: memberDTO),
+      builder: (BuildContext context) =>
+          QuitMemberDialog(memberDTO: reservationDTO.member),
     ).then((value) {
       if (value) {
-        _busGetOffService.sendReservationStateChange(Driver().driver!.bId);
-        log(memberDTO.toJson().toString());
+        _busGetOffService.sendReservationStateChange(BusGetOffDTO(
+          bId: Driver().driver!.bId,
+          rId: reservationDTO.rId,
+        ));
+        log(reservationDTO.toJson().toString());
       }
     });
   }
