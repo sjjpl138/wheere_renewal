@@ -11,8 +11,8 @@ class RequestBusLocationService {
       String vNo,
       ) async {
     RequestBusLocationDTO requestDTO = RequestBusLocationDTO(routeId: routeId);
-    BusLocationDTO? busLocationDTO = await _requestBusLocationRepository
+    BusLocationDTO? busLocationStationsDTO = await _requestBusLocationRepository
         .requestLocation(requestDTO, bId, vNo);
-    return busLocationDTO;
+    return busLocationStationsDTO;
   }
 }

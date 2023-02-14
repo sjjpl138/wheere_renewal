@@ -11,3 +11,4 @@ export 'member_dto.dart';
 export 'station_dto.dart';
 export 'station_list_dto.dart';
 export 'bus_getoff_dto.dart';
+export 'item_dto.dart';

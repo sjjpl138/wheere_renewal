@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02c2f7f4-74fa-4a95-8e8d-80d7f020278f" name="Changes" comment="feature: (driver) driver update 수정">
-      <change afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/dto/bus_getoff_dto.dart" afterDir="false" />
+    <list default="true" id="02c2f7f4-74fa-4a95-8e8d-80d7f020278f" name="Changes" comment="feature: (driver) bus getoff 수정">
+      <change afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/dto/item_dto.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/dto/dtos.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/dto/dtos.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/dto/reservation_dto.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/dto/reservation_dto.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/repository/bus_getoff_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/repository/bus_getoff_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/repository/remote_data_sources/bus_getoff_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/repository/remote_data_sources/bus_getoff_data_source.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/service/bus_getoff_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/service/bus_getoff_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/repository/remote_data_sources/request_bus_location_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/repository/remote_data_sources/request_bus_location_data_source.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/service/request_bus_location_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/service/request_bus_location_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +17,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="feature/login" />
+    <option name="BRANCH" value="feature/reservation" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
