@@ -38,7 +38,7 @@ class Driver extends ChangeNotifier {
     ],
     reservations: [
       ReservationDTO(
-        rId: "rId",
+        rId: 0,
         startSeq: 10,
         endSeq: 11,
         member: MemberDTO(
@@ -48,9 +48,11 @@ class Driver extends ChangeNotifier {
           mBirthDate: "mBirthDate",
           mNum: "mNum",
         ),
-        bId: 'bId',
+        bId: 1,
       ),
-    ], fcmToken: '', totalSeats: 2,
+    ],
+    fcmToken: '',
+    totalSeats: 2,
   );
 
   Future login(FirebaseLoginDTO firebaseLoginDTO) async {
