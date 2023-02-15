@@ -35,7 +35,7 @@ class ReservationList extends ChangeNotifier {
       if (value != null) {
         _reservationListDTO?.reservationsList?.add(value);
         currentPage = 0;
-        await checkReservation("latest", "PAID");
+        await checkReservation("PAID");
         notifyListeners();
       }
     });
@@ -46,12 +46,12 @@ class ReservationList extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future checkReservation(String order, String rState,
+  Future checkReservation(String rState,
       {bool isNew = false}) async {
     print("checkReservation");
     if (isNew) currentPage = 0;
-    await Future.delayed(const Duration(seconds: 1));
-    /*ReservationListDTO value = ReservationListDTO([
+    /* await Future.delayed(const Duration(seconds: 1));
+    ReservationListDTO value = ReservationListDTO([
       ReservationDTO(
         rId: 1,
         rDate: 'rDate',
@@ -154,7 +154,6 @@ class ReservationList extends ChangeNotifier {
         .checkReservation(
       RequestReservationCheckDTO(
         mId: Member().member!.mId,
-        order: order,
         rState: rState,
         size: 5,
         page: currentPage++,
@@ -162,7 +161,7 @@ class ReservationList extends ChangeNotifier {
     )
         .then((value) {
       if (value != null) {
-        if (currentPage == 0) {
+        if (currentPage == 1) {
           _reservationListDTO = ReservationListDTO(value.reservations);
         } else {
           _reservationListDTO!.reservationsList!.addAll(value.reservations);

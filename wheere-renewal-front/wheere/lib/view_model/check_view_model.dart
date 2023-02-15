@@ -12,10 +12,9 @@ class CheckViewModel extends ChangeNotifier {
 
   bool isMoreRequesting = false;
   double _dragDistance = 0.0;
-  String order = "latest";
-  String rState = "RESERVED";
-  List<String> orderList = ["latest", "oldest"];
+  String rState = "ALL";
   List<String> rStateList = [
+    "ALL",
     "RESERVED",
     "PAID",
     "CANCEL",
@@ -25,12 +24,10 @@ class CheckViewModel extends ChangeNotifier {
 
   CheckViewModel() {
     print("checkViewModel is created");
-    ReservationList().checkReservation("", "");
-  }
-
-  void onOrderChanged(dynamic value) {
-    order = value;
-    notifyListeners();
+    ReservationList().checkReservation(
+      rState,
+      isNew: true,
+    );
   }
 
   void onRStateChanged(dynamic value) {
@@ -42,17 +39,17 @@ class CheckViewModel extends ChangeNotifier {
       String rState, bool mounted) async {
     switch (rState) {
       case "PAID":
-        navigateToBusCurrentInfoPage(context, reservation, mounted);
+        _navigateToBusCurrentInfoPage(context, reservation, mounted);
         break;
       case "RVW_WAIT":
-        navigateToRatingPage(context, reservation);
+        _navigateToRatingPage(context, reservation);
         break;
       default:
         return;
     }
   }
 
-  Future navigateToBusCurrentInfoPage(
+  Future _navigateToBusCurrentInfoPage(
       BuildContext context, ReservationData reservation, bool mounted) async {
     BusLocationDTO? busLocationDTO =
         await requestBusLocationService.requestLocation(
@@ -74,7 +71,7 @@ class CheckViewModel extends ChangeNotifier {
     }
   }
 
-  void navigateToRatingPage(
+  void _navigateToRatingPage(
       BuildContext context, ReservationData reservation) {
     Navigator.push(
       context,
@@ -97,7 +94,6 @@ class CheckViewModel extends ChangeNotifier {
 
   void checkReservation() async {
     await ReservationList().checkReservation(
-      order,
       rState,
       isNew: true,
     );
@@ -143,7 +139,7 @@ class CheckViewModel extends ChangeNotifier {
           isMoreRequesting = true;
           notifyListeners();
           // 서버에서 데이터 가져온다.
-          ReservationList().checkReservation(order, rState).then((value) {
+          ReservationList().checkReservation(rState).then((value) {
             // 다 가져오면 하단 표시 서클 제거
             isMoreRequesting = false;
             notifyListeners();

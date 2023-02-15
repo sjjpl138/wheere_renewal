@@ -41,7 +41,7 @@ class _TestState extends State<Test> {
 
   @override
   Widget build(BuildContext context) {
-    return RatingPage(
+    /*return RatingPage(
         reservation: AlarmReservationDTO(
       rId: 0,
       rDate: "rDate",
@@ -51,7 +51,7 @@ class _TestState extends State<Test> {
       sTime: "sTime",
       eTime: "eTime",
       bId: 0,
-    ));
+    ));*/
     /*return BusCurrentInfoPage(
       reservation: const ReservationData(
         bNo: "bNo",
@@ -78,7 +78,7 @@ class _TestState extends State<Test> {
 //    return const SelectTabPage();
 //    return const SelectPage();
 //    return const MainPage();
-//    return const HomePage();
+    return const HomePage();
 //    return SearchView(searchViewModel: SearchViewModel());
 //    return LoginView(loginViewModel: LoginViewModel());
   }

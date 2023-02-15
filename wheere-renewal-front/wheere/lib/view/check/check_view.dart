@@ -46,12 +46,6 @@ class _CheckViewState extends State<CheckView>
                   ),
                   const Spacer(),
                   CustomDropDownButton(
-                    value: _checkViewModel.order,
-                    items: _checkViewModel.orderList,
-                    onChanged: (value) => _checkViewModel.onOrderChanged(value),
-                  ),
-                  const SizedBox(width: kPaddingSmallSize),
-                  CustomDropDownButton(
                     value: _checkViewModel.rState,
                     items: _checkViewModel.rStateList,
                     onChanged: (value) =>

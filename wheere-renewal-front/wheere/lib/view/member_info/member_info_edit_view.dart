@@ -67,6 +67,7 @@ class _MemberInfoEditViewState extends State<MemberInfoEditView> {
                           _memberInfoEditViewModel.birthDate,
                         ),
                         title: '생년월일',
+                        overDate: 0,
                       ),
                       const SizedBox(height: kPaddingLargeSize),
                       CustomTextFormField(

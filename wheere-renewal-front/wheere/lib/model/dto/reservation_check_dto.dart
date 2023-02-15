@@ -24,7 +24,7 @@ class ReservationCheckDTO {
   });
 
   factory ReservationCheckDTO.fromJson(Map<String, dynamic> json) {
-    var list = json['reservations'] as List;
+    var list = json['content'] as List;
     List<ReservationDTO> getList = list.map((i) => ReservationDTO.fromJson(i)).toList();
     return ReservationCheckDTO(
         reservations: getList,
