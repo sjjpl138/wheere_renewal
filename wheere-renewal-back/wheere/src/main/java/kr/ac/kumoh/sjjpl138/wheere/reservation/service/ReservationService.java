@@ -275,7 +275,7 @@ public class ReservationService {
                 String alightStation = transfer.getAlightStation();
 
                 List<String> stationNames = Arrays.asList(boardStation, alightStation);
-                List<Platform> findPlatformList = platformRepository.findByStationName(stationNames);
+                List<Platform> findPlatformList = platformRepository.findByStationNameAndBusId(stationNames, findBus.getId());
                 Platform boardPlatform = findPlatformList.get(0);
                 Station findBoardStation = boardPlatform.getStation();
                 Platform alightPlatform = findPlatformList.get(1);
