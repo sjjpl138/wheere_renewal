@@ -22,12 +22,13 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
     try {
       Map<String, dynamic>? res = await getWithParams(path, queryParams);
       if(res == null) throw Exception("res is null");
-      List<dynamic> item =
-      json.decode(json.encode(res['response']['body']['items']['item']));
+      Map<String, dynamic> items = res['items'];
+      var itemList = items['item'] as List;
+      List<ItemDTO> item = itemList.map((i) => ItemDTO.fromJson(i)).toList();
       var stationName = "stationName";
       for (var bus in item) {
-        if (bus['vehicleno'] == vNo) {
-          stationName = bus['nodenm'];
+        if (bus.vehicleno == vNo) {
+          stationName = bus.nodenm;
           break;
         }
       }
@@ -38,6 +39,26 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
       print(e);
       return null;
     }
+
+    // try {
+    //   Map<String, dynamic>? res = await getWithParams(path, queryParams);
+    //   if(res == null) throw Exception("res is null");
+    //   List<dynamic> item =
+    //   json.decode(json.encode(res['response']['body']['items']['item']));
+    //   var stationName = "stationName";
+    //   for (var bus in item) {
+    //     if (bus['vehicleno'] == vNo) {
+    //       stationName = bus['nodenm'];
+    //       break;
+    //     }
+    //   }
+    //   BusLocationStationsDTO busLocationStations = BusLocationStationsDTO(
+    //       stationName: stationName);
+    //   return busLocationStations;
+    // } catch (e) {
+    //   print(e);
+    //   return null;
+    // }
   }
 
   static Future<Map<String, dynamic>?> getWithParams(

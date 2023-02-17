@@ -22,18 +22,18 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
     try {
       Map<String, dynamic>? res = await getWithParams(path, queryParams);
       if(res == null) throw Exception("res is null");
-      List<dynamic> item =
-          json.decode(json.encode(res['response']['body']['items']['item']));
-      // type 'String' is not a subtype of type 'int' of 'index'
+      Map<String, dynamic> items = res['items'];
+      var itemList = items['item'] as List;
+      List<ItemDTO> item = itemList.map((i) => ItemDTO.fromJson(i)).toList();
       var stationName = "stationName";
       for (var bus in item) {
-        if (bus['vehicleno'] == vNo) {
-          stationName = bus['nodenm'];
+        if (bus.vehicleno == vNo) {
+          stationName = bus.nodenm;
           break;
         }
       }
 
-      path = "/api/resvs/${bId}";
+      path = "/api/resvs/$bId";
       Map<String, dynamic>? res_station = await BaseRemoteDataSource.get(path);
       BusLocationDTO busLocation = BusLocationDTO(
           stationName: stationName,
