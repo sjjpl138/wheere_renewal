@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:wheere/model/dto/dtos.dart';
 import 'base_remote_data_source.dart';
 import 'package:http/http.dart' as http;
@@ -22,7 +23,9 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
     try {
       Map<String, dynamic>? res = await getWithParams(path, queryParams);
       if(res == null) throw Exception("res is null");
-      Map<String, dynamic> items = res['items'];
+      log(json.encode(res));
+      Map<String, dynamic> items = res["response"]["body"]["items"];
+      log(json.encode(items));
       var itemList = items['item'] as List;
       List<ItemDTO> item = itemList.map((i) => ItemDTO.fromJson(i)).toList();
       var stationName = "stationName";

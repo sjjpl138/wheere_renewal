@@ -28,7 +28,7 @@ abstract class BaseRemoteDataSource {
       print(uri);
       const headers = {"Accept": "application/json"};
       final res = await http.get(uri, headers: headers);
-      log(res.body);
+      log(json.encode(json.decode(utf8.decode(res.bodyBytes))));
       // var uri = Uri(
       //   scheme: "https",
       //   // host: '', //host 넣어줘야함?
