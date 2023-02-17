@@ -23,8 +23,8 @@ public interface PlatformRepository extends JpaRepository<Platform, Long>, Platf
     List<Platform> findPlatformByBusId(@Param("busId") Long busId);
 
     @EntityGraph(attributePaths = {"station"})
-    @Query("select p from Platform p join p.station s where s.name in :stationNames")
-    List<Platform> findByStationName(@Param("stationNames") List<String> stationNames);
+    @Query("select p from Platform p join p.bus b join p.station s where s.name in :stationNames and b.id = :bId")
+    List<Platform> findByStationNameAndBus(@Param("stationNames") List<String> stationNames, @Param("bId") Long bId);
 
     @EntityGraph(attributePaths = {"station"})
     @Query("select p from Platform p join p.station s where s.id in :stationIds")
