@@ -28,3 +28,4 @@ export 'pageable_dto.dart';
 export 'reservation_buses_dto.dart';
 export 'alarm_dto/alarm_reservation_dto.dart';
 export 'alarm_dto/base_alarm_dto.dart';
+export 'item_dto.dart';

@@ -17,7 +17,7 @@ class SearchViewModel extends ChangeNotifier {
 
   PlaceInfo? sPlaceInfo;
   PlaceInfo? ePlaceInfo;
-  String searchDate = dateTimeFormat.format(DateTime.now());
+  String searchDate = dateNoTimeFormat.format(DateTime.now());
 
   Future searchStartPlaces(BuildContext context) async {
     await _searchPlaces(context).then((value) {
