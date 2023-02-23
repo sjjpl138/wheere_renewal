@@ -9,10 +9,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +26,8 @@ public class PlatformApiController {
      * @param bId
      * @return
      */
-    @GetMapping
-    public ResponseEntity<StationResponse> stationList(@RequestParam("bId") Long bId) {
+    @GetMapping("/{bId}")
+    public ResponseEntity<StationResponse> stationList(@PathVariable("bId") Long bId) {
         List<Station> stationList = new ArrayList<>();
         List<Platform> platformList = platformRepository.findPlatformByBusId(bId);
         for (Platform platform : platformList) {
