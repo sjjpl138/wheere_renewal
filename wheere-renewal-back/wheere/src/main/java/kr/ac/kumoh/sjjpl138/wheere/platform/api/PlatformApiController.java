@@ -2,7 +2,7 @@ package kr.ac.kumoh.sjjpl138.wheere.platform.api;
 
 
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
-import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
+import kr.ac.kumoh.sjjpl138.wheere.platform.service.PlatformService;
 import kr.ac.kumoh.sjjpl138.wheere.station.Station;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,17 +19,18 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/stations")
 @RequiredArgsConstructor
 public class PlatformApiController {
-    private final PlatformRepository platformRepository;
+    private final PlatformService platformService;
 
     /**
      * 정류장 조회
-     * @param bId
+     * @param busId
+     * @param stationName
      * @return
      */
     @GetMapping("/{bId}")
-    public ResponseEntity<StationResponse> stationList(@PathVariable("bId") Long bId) {
+    public ResponseEntity<StationResponse> stationList(@PathVariable("bId") Long busId, @RequestParam("sName")String stationName) {
         List<Station> stationList = new ArrayList<>();
-        List<Platform> platformList = platformRepository.findPlatformByBusId(bId);
+        List<Platform> platformList = platformService.findStationNamesByStationName(busId, stationName);
         for (Platform platform : platformList) {
             stationList.add(platform.getStation());
         }
