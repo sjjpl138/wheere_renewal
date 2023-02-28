@@ -1,5 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.platform.service;
 
+import kr.ac.kumoh.sjjpl138.wheere.exception.PlatformException;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationDto;
@@ -29,5 +30,24 @@ public class PlatformService {
         List<StationDto> route = platforms.stream().map(s -> new StationDto(s)).collect(Collectors.toList());
         return route;
     }
-    
+
+    /**
+     * 정류장 조회
+     * @param busId
+     * @param stationName
+     * @return
+     */
+    public List<Platform> findStationNamesByStationName(Long busId, String stationName) {
+        List<Integer> stationSeqList = platformRepository.findAllocationSeqByBusIdAndStationNameList(busId, List.of(stationName));
+        if (stationSeqList.isEmpty()) throw new PlatformException("존재하지 않는 정류소 명입니다.");
+
+        int stationSeq = stationSeqList.get(0);
+        int offset;
+        if (stationSeq < 6)
+            offset = 0;
+        else
+            offset = stationSeq - 6;
+
+        return platformRepository.findPagedStationsByBusIdAndStationSeq(busId, offset, stationSeq);
+    }
 }
