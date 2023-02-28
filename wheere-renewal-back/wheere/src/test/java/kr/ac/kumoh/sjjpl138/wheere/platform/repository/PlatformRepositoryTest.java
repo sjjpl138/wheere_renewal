@@ -41,10 +41,14 @@ class PlatformRepositoryTest {
         Station station2 = new Station(2L, "사월동");
         Station station3 = new Station(3L, "수성교");
         Station station4 = new Station(4L, "노원네거리");
+        Station station5 = new Station(5L, "station5");
+        Station station6 = new Station(6L, "station6");
         em.persist(station1);
         em.persist(station2);
         em.persist(station3);
         em.persist(station4);
+        em.persist(station5);
+        em.persist(station6);
 
         Bus bus = new Bus(1L,  "route1", "138안 1234", 1, "430", LocalDate.now(), "busFcmToken");
         em.persist(bus);
@@ -53,10 +57,14 @@ class PlatformRepositoryTest {
         Platform platform2 = new Platform(2L, station2, bus, LocalTime.of(5, 40), 2);
         Platform platform3= new Platform(3L, station3, bus, LocalTime.of(5, 50), 3);
         Platform platform4 = new Platform(4L, station4, bus, LocalTime.of(6, 0), 4);
+        Platform platform5 = new Platform(5L, station5, bus, LocalTime.of(6, 10), 5);
+        Platform platform6 = new Platform(6L, station6, bus, LocalTime.of(6, 20), 6);
         em.persist(platform1);
         em.persist(platform2);
         em.persist(platform3);
         em.persist(platform4);
+        em.persist(platform5);
+        em.persist(platform6);
 
         Driver driver = new Driver("driver1", bus, "버스기사1" , 0, 0);
         em.persist(driver);
@@ -172,5 +180,16 @@ class PlatformRepositoryTest {
         // Then
         assertThat(platforms).extracting("arrivalTime").containsExactly( LocalTime.of(5, 30),  LocalTime.of(5, 50));
         assertThat(platforms).extracting("stationSeq").containsExactly( 1, 3);
+    }
+
+    @Test
+    void findPagedStationsByStationNameTest() {
+        // Given
+
+        // When
+        List<Platform> findStationNames = platformRepository.findPagedStationsByBusIdAndStationSeq(1L, 1, 6);
+
+        // Then
+        assertThat(findStationNames).extracting(Platform::getStation).extracting(Station::getName).containsExactly("사월동", "수성교", "노원네거리", "station5", "station6");
     }
 }
