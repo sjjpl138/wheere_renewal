@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:wheere/model/dto/dtos.dart';
 import 'package:wheere/model/service/services.dart';
@@ -59,10 +57,9 @@ class CheckViewModel extends ChangeNotifier {
       reservation.bId,
       reservation.vNo,
     );
-    // TODO : 이놈 반환값이 null임 - 수정 필요
     print("before : $busLocationDTO");
     if (busLocationDTO != null) {
-      if (mounted) return;
+      if (!mounted) return;
       print("after :  $busLocationDTO");
       Navigator.push(
         context,

@@ -20,8 +20,10 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
     };
 
     try {
+      path =
+          "http://apis.data.go.kr/1613000/BusLcInfoInqireService/getRouteAcctoBusLcList";
       Map<String, dynamic>? res = await getWithParams(path, queryParams);
-      if(res == null) throw Exception("res is null");
+      if (res == null) throw Exception("res is null");
       List<dynamic> item =
           json.decode(json.encode(res['response']['body']['items']['item']));
       // type 'String' is not a subtype of type 'int' of 'index'
@@ -33,6 +35,7 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
         }
       }
 
+      print(stationName);
       path = "/api/stations/${bId}";
       Map<String, dynamic>? res_station = await BaseRemoteDataSource.get(path);
       BusLocationDTO busLocation = BusLocationDTO(
@@ -48,9 +51,12 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
   static Future<Map<String, dynamic>?> getWithParams(
       String path, Map<String, dynamic> queryParams) async {
     try {
+      print('start getWithParams');
       var uri = Uri.parse(path).replace(queryParameters: queryParams);
-      const headers = {"Accept": "application/json"};
+      const headers = {"Content-Type": "application/json"};
+      print('before get : $uri');
       final res = await http.get(uri, headers: headers);
+      print(json.decode(utf8.decode(res.bodyBytes)));
       switch (res.statusCode) {
         case 200:
           return json.decode(utf8.decode(res.bodyBytes));
@@ -58,6 +64,7 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
           return null;
       }
     } catch (e) {
+      print(e);
       return null;
     }
   }
