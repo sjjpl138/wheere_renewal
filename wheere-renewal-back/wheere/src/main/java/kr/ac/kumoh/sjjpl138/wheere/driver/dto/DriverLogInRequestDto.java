@@ -14,6 +14,7 @@ public class DriverLogInRequestDto {
     private String driverId;
     @JsonProperty("vNo")
     private String vehicleNo;
+    @JsonProperty("bOutNo")
     private int busOutNo; // 버스 차고지 출발 순서
     @JsonProperty("bNo")
     private String busNo;

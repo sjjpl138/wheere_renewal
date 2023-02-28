@@ -262,32 +262,15 @@ public class ReservationService {
             List<Transfer> findTransferList = transferRepository.findWithBusByReservation(r);
             for (Transfer transfer : findTransferList) {
 
-                ReservationBus reservationBus = new ReservationBus();
-
                 Bus findBus = transfer.getBus();
-
-                reservationBus.setBId(findBus.getId());
-                reservationBus.setBNo(findBus.getBusNo());
-                reservationBus.setRouteId(findBus.getRouteId());
-                reservationBus.setVNo(findBus.getVehicleNo());
 
                 String boardStation = transfer.getBoardStation();
                 String alightStation = transfer.getAlightStation();
 
                 List<String> stationNames = Arrays.asList(boardStation, alightStation);
-                List<Platform> findPlatformList = platformRepository.findByStationName(stationNames);
-                Platform boardPlatform = findPlatformList.get(0);
-                Station findBoardStation = boardPlatform.getStation();
-                Platform alightPlatform = findPlatformList.get(1);
-                Station findAlightStation = alightPlatform.getStation();
+                List<Platform> findPlatformList = platformRepository.findByStationNameAndBusId(stationNames, findBus.getId());
 
-                reservationBus.setSTime(boardPlatform.getArrivalTime());
-                reservationBus.setSStationId(findBoardStation.getId());
-                reservationBus.setSStationName(findBoardStation.getName());
-
-                reservationBus.setETime(alightPlatform.getArrivalTime());
-                reservationBus.setEStationId(findAlightStation.getId());
-                reservationBus.setEStationName(findAlightStation.getName());
+                ReservationBus reservationBus = ReservationBus.createReservationBus(findBus, findPlatformList);
 
                 buses.add(reservationBus);
             }

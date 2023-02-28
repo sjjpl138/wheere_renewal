@@ -61,8 +61,8 @@ class BusCurrentInfo extends StatelessWidget {
 class BusStationInfo {
   final String stationName;
   bool isCurrentStation = false;
-  List<MemberDTO> ridePeople = [];
-  List<MemberDTO> quitPeople = [];
+  List<ReservationDTO> ridePeople = [];
+  List<ReservationDTO> quitPeople = [];
   int leftSeats = 2;
 
   BusStationInfo({

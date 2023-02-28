@@ -1,6 +1,6 @@
 class CanceledReservationDTO {
   String mId;
-  String rId;
+  int rId;
 
   CanceledReservationDTO({
     required this.mId,
