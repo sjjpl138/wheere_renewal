@@ -152,15 +152,15 @@ class MainViewModel extends ChangeNotifier {
 
   void _getBusCurrentLocation() {
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
-      // TODO : 테스트 코드 삭제
+/*      // TODO : 테스트 코드 삭제
       testStationName++;
       log("sName$testStationName");
       _updateBusCurrentLocation(
         BusLocationDTO(
           stationName: "sName$testStationName",
         ),
-      );
-/*      await _busLocationService
+      );*/
+      await _busLocationService
           .requestRoute(
             RequestBusLocationDTO(routeId: Driver().driver!.routeId),
             Driver().driver!.bId,
@@ -171,7 +171,7 @@ class MainViewModel extends ChangeNotifier {
                     BusLocationDTO(
                       stationName: "stationName",
                     ),
-              ));*/
+              ));
     });
   }
 

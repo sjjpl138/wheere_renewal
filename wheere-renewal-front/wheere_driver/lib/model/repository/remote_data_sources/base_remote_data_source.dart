@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 abstract class BaseRemoteDataSource {
-  static const _baseUrl = "";
+  static const _baseUrl = "http://10.0.2.2:8080";
   static const _headers = {"Accept": "application/json"};
 
   static Future<Map<String, dynamic>?> get(String path) async {
@@ -43,6 +43,8 @@ abstract class BaseRemoteDataSource {
   static Future<Map<String, dynamic>?> post(
       String path, Map<String, dynamic> body) async {
     try {
+      print(Uri.parse(_baseUrl + path));
+      print(jsonEncode(body));
       final res = await http.post(Uri.parse(_baseUrl + path),
           headers: _headers, body: jsonEncode(body));
       switch (res.statusCode) {

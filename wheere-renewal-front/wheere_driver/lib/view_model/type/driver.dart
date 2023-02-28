@@ -1,8 +1,5 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wheere_driver/model/dto/dtos.dart';
-import 'package:wheere_driver/model/dto/member_dto.dart';
 import 'package:wheere_driver/model/service/login_service.dart';
 import 'package:wheere_driver/model/service/logout_service.dart';
 
@@ -20,8 +17,9 @@ class Driver extends ChangeNotifier {
 
   DriverDTO? get driver => _driverDTO;
 
-  // TODO : 테스트 코드 삭제
-  DriverDTO? _driverDTO = DriverDTO(
+  DriverDTO? _driverDTO;
+
+  /* = DriverDTO(
     dName: "dName",
     bId: 1,
     vNo: "vNo",
@@ -53,10 +51,12 @@ class Driver extends ChangeNotifier {
     ],
     fcmToken: '',
     totalSeats: 2,
-  );
+  );*/
 
   Future login(FirebaseLoginDTO firebaseLoginDTO) async {
-    await _loginService.loginWithRemote(firebaseLoginDTO);
+    await _loginService
+        .loginWithRemote(firebaseLoginDTO)
+        .then((value) => _driverDTO = value);
     notifyListeners();
   }
 
