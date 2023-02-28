@@ -42,12 +42,16 @@ public class PlatformService {
         if (stationSeqList.isEmpty()) throw new PlatformException("존재하지 않는 정류소 명입니다.");
 
         int stationSeq = stationSeqList.get(0);
-        int offset;
-        if (stationSeq < 6)
+        int offset, limit;
+        if (stationSeq < 6) {
             offset = 0;
-        else
+            limit = stationSeq;
+        }
+        else {
             offset = stationSeq - 6;
+            limit = 6;
+        }
 
-        return platformRepository.findPagedStationsByBusIdAndStationSeq(busId, offset, stationSeq);
+        return platformRepository.findPagedStationsByBusIdAndStationSeq(busId, offset, limit);
     }
 }
