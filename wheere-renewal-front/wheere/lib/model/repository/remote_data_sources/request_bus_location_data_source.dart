@@ -36,7 +36,7 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
       }
 
       print(stationName);
-      path = "/api/stations/${bId}";
+      path = "/api/stations/$bId?sName=$stationName";
       Map<String, dynamic>? res_station = await BaseRemoteDataSource.get(path);
       BusLocationDTO busLocation = BusLocationDTO(
           stationName: stationName,
