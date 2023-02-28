@@ -13,14 +13,14 @@ class CheckViewModel extends ChangeNotifier {
   bool isMoreRequesting = false;
   double _dragDistance = 0.0;
   String rState = "ALL";
-  List<String> rStateList = [
-    "ALL",
-    "RESERVED",
-    "PAID",
-    "CANCEL",
-    "RVW_WAIT",
-    "RVW_COMP"
-  ];
+  Map<String, String> rStateList = {
+    "ALL" : "전체",
+    "RESERVED" : "예약됨",
+    "PAID" : "결제됨",
+    "CANCEL" : "취소함",
+    "RVW_WAIT" : "리뷰필요",
+    "RVW_COMP" : "리뷰완료"
+  };
 
   CheckViewModel() {
     print("checkViewModel is created");
@@ -30,8 +30,16 @@ class CheckViewModel extends ChangeNotifier {
     );
   }
 
+  String _changeStringToRState(value) {
+    for(String i in rStateList.keys){
+      if(rStateList[i] == value) return i;
+    }
+    return '';
+  }
+
   void onRStateChanged(dynamic value) {
-    rState = value;
+    rState = _changeStringToRState(value);
+    print(rState);
     notifyListeners();
   }
 

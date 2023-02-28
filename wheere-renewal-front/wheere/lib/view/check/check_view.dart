@@ -46,8 +46,8 @@ class _CheckViewState extends State<CheckView>
                   ),
                   const Spacer(),
                   CustomDropDownButton(
-                    value: _checkViewModel.rState,
-                    items: _checkViewModel.rStateList,
+                    value: _checkViewModel.rStateList[_checkViewModel.rState]!,
+                    items: _checkViewModel.rStateList.values.toList(),
                     onChanged: (value) =>
                         _checkViewModel.onRStateChanged(value),
                   ),

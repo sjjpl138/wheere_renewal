@@ -27,9 +27,12 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
       List<dynamic> item =
           json.decode(json.encode(res['response']['body']['items']['item']));
       // type 'String' is not a subtype of type 'int' of 'index'
+      print(item);
       var stationName = "stationName";
+      var ourVNo = vNo.replaceAll(RegExp('\\s'), "");
       for (var bus in item) {
-        if (bus['vehicleno'] == vNo) {
+        print("${bus['vehicleno']} : $ourVNo");
+        if (bus['vehicleno'] == ourVNo) {
           stationName = bus['nodenm'];
           break;
         }
@@ -51,12 +54,9 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
   static Future<Map<String, dynamic>?> getWithParams(
       String path, Map<String, dynamic> queryParams) async {
     try {
-      print('start getWithParams');
       var uri = Uri.parse(path).replace(queryParameters: queryParams);
       const headers = {"Content-Type": "application/json"};
-      print('before get : $uri');
       final res = await http.get(uri, headers: headers);
-      print(json.decode(utf8.decode(res.bodyBytes)));
       switch (res.statusCode) {
         case 200:
           return json.decode(utf8.decode(res.bodyBytes));
