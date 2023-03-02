@@ -1,5 +1,6 @@
 package kr.ac.kumoh.sjjpl138.wheere.reservation.service;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.ac.kumoh.sjjpl138.wheere.bus.Bus;
 import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistMemberException;
@@ -11,6 +12,7 @@ import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
+import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ResvRequestMemberInfo;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.request.ReservationSearchCondition;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.ReservationStatus;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ReservationBusInfo;
@@ -290,7 +292,9 @@ public class ReservationService {
         for (Transfer transfer : transfers) {
             List<Integer> allocSeqList = platformRepository.findAllocationSeqByBusIdAndStationNameList(bId, List.of(transfer.getBoardStation(), transfer.getAlightStation()));
             Reservation reservation = transfer.getReservation();
-            ResvDto resvDto = new ResvDto(reservation.getId(), allocSeqList.get(0), allocSeqList.get(1));
+            Member reservedMember = reservation.getMember();
+            ResvRequestMemberInfo memberInfo = new ResvRequestMemberInfo(reservedMember.getId(), reservedMember.getUsername(), reservedMember.getSex(), reservedMember.getBirthDate(), reservedMember.getPhoneNumber());
+            ResvDto resvDto = new ResvDto(reservation.getId(), allocSeqList.get(0), allocSeqList.get(1), bId, memberInfo);
 
             // 예약 상태가 RESERVED 혹은 PAID 인 예약만 보여줌
             ReservationStatus status = reservation.getReservationStatus();
