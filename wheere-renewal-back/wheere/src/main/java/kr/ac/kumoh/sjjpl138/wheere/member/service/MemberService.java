@@ -675,7 +675,7 @@ public class MemberService {
             // 특정 버스 번호에 대해 BusId를 모두 조회하기
             List<Long> findBusIds = busRepository.findBusIdByBusNoAndBusDate(busNo, rDate);
 
-            List<Long> runBusNoList = new ArrayList<>();
+            List<Long> runBusIdList = new ArrayList<>();
             List<LocalTime> startStationArrivalTimes = new ArrayList<>();
             List<LocalTime> endStationArrivalTimes = new ArrayList<>();
             List<Integer> findLeftSeats = new ArrayList<>();
@@ -687,21 +687,33 @@ public class MemberService {
                 // 출발, 도착 정류장 모두를 지나면 runBusNoList에 추가
                 List<Platform> findPlatforms = platformRepository.findPlatformByBusIdAndStationId(findBusId, stationIdList);
 
-                busPlatformMap.put(findBusId, findPlatforms);
-
                 if (findPlatforms.size() != 2) {
                     continue;
                 }
 
-                Platform startPlatform = findPlatforms.get(0);
-                Platform endPlatform = findPlatforms.get(1);
+                busPlatformMap.put(findBusId, findPlatforms);
 
-                runBusNoList.add(findBusId);
+                Platform startPlatform;
+                Platform endPlatform;
+
+                Platform firstTmpPlatform = findPlatforms.get(0);
+                Platform secondTmpPlatform = findPlatforms.get(1);
+
+                if (firstTmpPlatform.getArrivalTime().isBefore(secondTmpPlatform.getArrivalTime())) {
+
+                    startPlatform = firstTmpPlatform;
+                    endPlatform = secondTmpPlatform;
+                } else {
+                    startPlatform = secondTmpPlatform;
+                    endPlatform = firstTmpPlatform;
+                }
+
+                runBusIdList.add(findBusId);
                 startStationArrivalTimes.add(startPlatform.getArrivalTime());
                 endStationArrivalTimes.add(endPlatform.getArrivalTime());
             }
 
-            Map<Long, List<LocalTime>> combineTimes = combineLists(runBusNoList, startStationArrivalTimes, endStationArrivalTimes);
+            Map<Long, List<LocalTime>> combineTimes = combineLists(runBusIdList, startStationArrivalTimes, endStationArrivalTimes);
 
             // 출발 시간을 기준으로 combineTimes 정렬
             Map<Long, List<LocalTime>> timePerBus = combineTimes.entrySet().stream()
@@ -763,14 +775,14 @@ public class MemberService {
         }
     }
 
-    public static Map<Long, List<LocalTime>> combineLists(List<Long> idList, List<LocalTime> timeList1, List<LocalTime> timeList2) {
-        if (idList.size() != timeList1.size() || idList.size() != timeList2.size()) {
+    public static Map<Long, List<LocalTime>> combineLists(List<Long> idList, List<LocalTime> startStationArrivalTimes, List<LocalTime> endStationArrivalTimes) {
+        if (idList.size() != startStationArrivalTimes.size() || idList.size() != endStationArrivalTimes.size()) {
             throw new IllegalArgumentException("Lists must have the same size");
         }
 
         return IntStream.range(0, idList.size())
                 .boxed()
-                .map(index -> new AbstractMap.SimpleEntry<>(idList.get(index), List.of(timeList1.get(index), timeList2.get(index))))
+                .map(index -> new AbstractMap.SimpleEntry<>(idList.get(index), List.of(startStationArrivalTimes.get(index), endStationArrivalTimes.get(index))))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }
