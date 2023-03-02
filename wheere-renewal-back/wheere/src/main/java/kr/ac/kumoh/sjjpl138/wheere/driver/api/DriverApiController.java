@@ -47,9 +47,10 @@ public class DriverApiController {
         String vNo = request.getVNo();
         String bNo = request.getBNo();
         LocalDate busDate = LocalDate.now();
+        int busAllocationSeq = request.getBusOutNo();
 
         try {
-            driverService.changeBus(dId, vNo, bNo, busDate);
+            driverService.changeBus(dId, vNo, bNo, busDate, busAllocationSeq);
             return new ResponseEntity(HttpStatus.OK);
         } catch (NotExistBusException | NotExistDriverException e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -83,5 +84,6 @@ public class DriverApiController {
         private String vNo;
         @JsonProperty("bNo")
         private String bNo;
+        private int busOutNo;
     }
 }

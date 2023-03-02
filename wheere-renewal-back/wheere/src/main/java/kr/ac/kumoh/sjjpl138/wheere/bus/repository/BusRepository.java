@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BusRepository extends JpaRepository<Bus, Long> {
-    Optional<Bus> findBusByVehicleNoAndBusNoAndBusDate(String vehicleNo, String busNo, LocalDate operationDate);
+    Optional<Bus> findBusByVehicleNoAndBusNoAndBusDateAndBusAllocationSeq(String vehicleNo, String busNo, LocalDate operationDate, int busAllocationSeq);
 
     List<Bus> findByBusNo(String busNo);
     List<Bus> findByBusNoAndBusDate(String busNo, LocalDate busDate);

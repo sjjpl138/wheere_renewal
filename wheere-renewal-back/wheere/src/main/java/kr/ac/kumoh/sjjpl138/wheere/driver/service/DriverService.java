@@ -39,9 +39,10 @@ public class DriverService {
         String busNo = logInRequestDto.getBusNo();
         LocalDate operationDate = LocalDate.now();
         String fcmToken = logInRequestDto.getFcmToken();
+        int busAllocationSeq = logInRequestDto.getBusOutNo();
 
         // 버스 토큰 저장
-        Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDate(vehicleNo, busNo, operationDate).get();
+        Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDateAndBusAllocationSeq(vehicleNo, busNo, operationDate, busAllocationSeq).get();
         findBus.registerToken(fcmToken);
 
         // 버스 배정
@@ -82,9 +83,9 @@ public class DriverService {
      * @return
      */
     @Transactional
-    public Bus changeBus(String driverId, String vehicleNo, String busNo, LocalDate busDate) {
+    public Bus changeBus(String driverId, String vehicleNo, String busNo, LocalDate busDate, int busAllocationSeq) {
         Driver findDriver = driverRepository.findById(driverId).get();
-        Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDate(vehicleNo, busNo, busDate).get();
+        Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDateAndBusAllocationSeq(vehicleNo, busNo, busDate, busAllocationSeq).get();
         findDriver.assignBus(findBus);
 
         return findBus;
