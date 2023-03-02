@@ -57,7 +57,9 @@ class RouteFullList {
                 eStationId: busRouteDTO.eStationId,
                 eStationName: busRouteDTO.eStationName,
                 eTime: busRouteDTO.eTimeList[j],
-                eWalkingTime: routeDTO.subRoutes[i + 1].sectionTime.toString(),
+                eWalkingTime:
+                    (routeDTO.subRoutes[i + 1].sectionTime * 100 ~/ 79 + 5)
+                        .toString(),
                 leftSeats: busRouteDTO.leftSeatsList[j],
               )
             ];
@@ -69,6 +71,11 @@ class RouteFullList {
       RouteDTO routeDTO = routeFullListDTO.routes[i];
       _dfs(routeDTO, fullBuses[i]!, routeByHoursList, [], 0,
           routeDTO.subRoutes.length ~/ 2);
+    }
+    for (RoutesByHours routesByHours in routeByHoursList) {
+      routesByHours.routes.sort((a, b) => vanillaTimeFormat
+          .parse(a.buses.first.sTime)
+          .compareTo(vanillaTimeFormat.parse(b.buses.first.sTime)));
     }
     return RouteFullList(
       outTrafficCheck: routeFullListDTO.outTrafficCheck,
@@ -90,21 +97,23 @@ class RouteFullList {
           .add(RouteData(
               payment: routeDTO.payment,
               buses: temp,
-              sWalkingTime: routeDTO.subRoutes[0].sectionTime.toString()));
+              sWalkingTime: (routeDTO.subRoutes[0].sectionTime * 100 ~/ 79 + 5)
+                  .toString()));
       return;
     }
     List<BusData> nextTemp;
     for (var i = 0; i < fullBuses[depth].length; i++) {
       nextTemp = [...temp];
       if (depth != 0 &&
-          vanillaTimeFormat.parse(nextTemp[depth - 1].eTime).compareTo(
-                  vanillaTimeFormat.parse(fullBuses[depth][i].sTime).add(
+          vanillaTimeFormat.parse(fullBuses[depth][i].sTime).compareTo(
+                  vanillaTimeFormat.parse(nextTemp[depth - 1].eTime).add(
                       Duration(
                           minutes:
-                              int.parse(fullBuses[depth][i].eWalkingTime)))) >
-              0) return;
+                              int.parse(nextTemp[depth - 1].eWalkingTime)))) <
+              0) continue;
       nextTemp.add(fullBuses[depth][i]);
       _dfs(routeDTO, fullBuses, routeByHoursList, nextTemp, depth + 1, n);
+      if (depth != 0) break;
     }
   }
 }

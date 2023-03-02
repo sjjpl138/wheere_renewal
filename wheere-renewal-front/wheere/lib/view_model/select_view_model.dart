@@ -18,7 +18,7 @@ class SelectViewModel extends ChangeNotifier {
   void initTabs() {
     for (RoutesByHours element in routeFullList.routeByHoursList) {
       if(element.routes.isEmpty) continue;
-      tabs[Tab(text: element.selectTime)] = SelectTabPage(
+      tabs[Tab(text: "${element.selectTime}시")] = SelectTabPage(
         routesByHoursDTO: element,
         rDate: rDate,
       );
