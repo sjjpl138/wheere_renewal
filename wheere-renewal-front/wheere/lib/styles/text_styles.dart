@@ -7,6 +7,7 @@ const TextStyle kTextMainStyleLarge = TextStyle(
   fontSize: kTextLargeSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
 );
 
 const TextStyle kTextReverseStyleLarge = TextStyle(
@@ -14,6 +15,7 @@ const TextStyle kTextReverseStyleLarge = TextStyle(
   fontSize: kTextLargeSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
 );
 
 const TextStyle kTextPointStyleLarge = TextStyle(
@@ -21,6 +23,7 @@ const TextStyle kTextPointStyleLarge = TextStyle(
   fontSize: kTextLargeSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
 );
 
 const TextStyle kTextMainStyleMiddle = TextStyle(
@@ -28,6 +31,7 @@ const TextStyle kTextMainStyleMiddle = TextStyle(
   fontSize: kTextMiddleSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
 );
 
 const TextStyle kTextPointStyleMiddle = TextStyle(
@@ -35,6 +39,15 @@ const TextStyle kTextPointStyleMiddle = TextStyle(
   fontSize: kTextMiddleSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
+);
+
+const TextStyle kTextPointStyleSmall = TextStyle(
+  color: CustomColor.pointColor,
+  fontSize: kTextSmallSize,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
 );
 
 const TextStyle kTextReverseStyleMiddle = TextStyle(
@@ -42,6 +55,7 @@ const TextStyle kTextReverseStyleMiddle = TextStyle(
   fontSize: kTextMiddleSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
 );
 
 const TextStyle kTextMainStyleSmall = TextStyle(
@@ -49,6 +63,7 @@ const TextStyle kTextMainStyleSmall = TextStyle(
   fontSize: kTextSmallSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
 );
 
 const TextStyle kTextReverseStyleSmall = TextStyle(
@@ -56,6 +71,7 @@ const TextStyle kTextReverseStyleSmall = TextStyle(
   fontSize: kTextSmallSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
 );
 
 const TextStyle kTextMainStyleMini = TextStyle(
@@ -63,6 +79,7 @@ const TextStyle kTextMainStyleMini = TextStyle(
   fontSize: kTextMiniSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
 );
 
 const TextStyle kTextReverseStyleMini = TextStyle(
@@ -70,4 +87,5 @@ const TextStyle kTextReverseStyleMini = TextStyle(
   fontSize: kTextMiniSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.ellipsis,
+  height: kTextHeight,
 );

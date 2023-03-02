@@ -9,10 +9,11 @@ class RequestBusLocationService {
     String routeId,
     int bId,
     String vNo,
+    String sStationName,
   ) async {
     RequestBusLocationDTO requestDTO = RequestBusLocationDTO(routeId: routeId);
     BusLocationDTO? busLocationDTO = await _requestBusLocationRepository
-        .requestLocation(requestDTO, bId, vNo);
+        .requestLocation(requestDTO, bId, vNo, sStationName);
     return busLocationDTO;
   }
 }

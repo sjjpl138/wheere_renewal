@@ -39,7 +39,8 @@ class RouteFullList {
               eStationId: busRouteDTO.eStationId,
               eStationName: busRouteDTO.eStationName,
               eTime: busRouteDTO.eTimeList[j],
-              eWalkingTime: routeDTO.subRoutes[i + 1].sectionTime.toString(),
+              eWalkingTime: (routeDTO.subRoutes[i + 1].sectionTime * 100 ~/ 79 + 5)
+                  .toString(),
               leftSeats: busRouteDTO.leftSeatsList[j],
             ));
           } else {
@@ -110,7 +111,11 @@ class RouteFullList {
                       Duration(
                           minutes:
                               int.parse(nextTemp[depth - 1].eWalkingTime)))) <
-              0) continue;
+              0) {
+        print(
+            "${fullBuses[depth][i].sTime} : ${nextTemp[depth - 1].eTime} : ${nextTemp[depth - 1].eWalkingTime}");
+        continue;
+      }
       nextTemp.add(fullBuses[depth][i]);
       _dfs(routeDTO, fullBuses, routeByHoursList, nextTemp, depth + 1, n);
       if (depth != 0) break;

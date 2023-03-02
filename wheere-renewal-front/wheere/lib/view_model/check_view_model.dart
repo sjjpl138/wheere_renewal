@@ -14,12 +14,12 @@ class CheckViewModel extends ChangeNotifier {
   double _dragDistance = 0.0;
   String rState = "ALL";
   Map<String, String> rStateList = {
-    "ALL" : "전체",
-    "RESERVED" : "예약됨",
-    "PAID" : "결제됨",
-    "CANCEL" : "취소함",
-    "RVW_WAIT" : "리뷰필요",
-    "RVW_COMP" : "리뷰완료"
+    "ALL": "전체",
+    "RESERVED": "예약됨",
+    "PAID": "결제됨",
+    "CANCEL": "취소함",
+    "RVW_WAIT": "리뷰필요",
+    "RVW_COMP": "리뷰완료"
   };
 
   CheckViewModel() {
@@ -31,8 +31,8 @@ class CheckViewModel extends ChangeNotifier {
   }
 
   String _changeStringToRState(value) {
-    for(String i in rStateList.keys){
-      if(rStateList[i] == value) return i;
+    for (String i in rStateList.keys) {
+      if (rStateList[i] == value) return i;
     }
     return '';
   }
@@ -64,6 +64,7 @@ class CheckViewModel extends ChangeNotifier {
       reservation.routeId,
       reservation.bId,
       reservation.vNo,
+      reservation.sStationName,
     );
     print("before : $busLocationDTO");
     if (busLocationDTO != null) {

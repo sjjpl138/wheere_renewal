@@ -9,7 +9,7 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
       "http://apis.data.go.kr/1613000/BusLcInfoInqireService/getRouteAcctoBusLcList";
 
   Future<BusLocationDTO?> readWithRemote(
-      RequestBusLocationDTO requestDTO, int bId, String vNo) async {
+      RequestBusLocationDTO requestDTO, int bId, String vNo, String sStationName) async {
     Map<String, dynamic> queryParams = {
       "serviceKey": requestDTO.serviceKey,
       "pageNo": requestDTO.pageNo.toString(),
@@ -39,7 +39,7 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
       }
 
       print(stationName);
-      path = "/api/stations/$bId?sName=$stationName";
+      path = "/api/stations/$bId?sName=$sStationName";
       Map<String, dynamic>? res_station = await BaseRemoteDataSource.get(path);
       BusLocationDTO busLocation = BusLocationDTO(
           stationName: stationName,

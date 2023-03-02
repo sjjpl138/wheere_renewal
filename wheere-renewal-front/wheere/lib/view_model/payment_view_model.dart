@@ -51,8 +51,13 @@ class PaymentViewModel extends ChangeNotifier {
       buses: routeData.buses
           .map((e) => RequestReservationBusDTO(
               bId: e.bId, sStationId: e.sStationId, eStationId: e.eStationId))
-          .toList(), rState: 'PAID', rPrice: routeData.payment,
+          .toList(),
+      rState: 'PAID',
+      rPrice: routeData.payment,
     ));
-    if(mounted) Navigator.pop(context, true);
+    for (BusData i in routeData.buses) {
+      print('Bus ID : ${i.bId}');
+    }
+    if (mounted) Navigator.pop(context, true);
   }
 }

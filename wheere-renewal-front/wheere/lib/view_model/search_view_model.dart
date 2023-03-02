@@ -130,12 +130,16 @@ class SearchViewModel extends ChangeNotifier {
 
     if (sPlaceInfo == null || ePlaceInfo == null) return;
 
+    print('sPlaceInfo!.x : ${sPlaceInfo!.x}, sPlaceInfo!.y : ${sPlaceInfo!.y}');
+    print('ePlaceInfo!.x : ${ePlaceInfo!.x}, ePlaceInfo!.y : ${ePlaceInfo!.y}');
+
+    // TODO : 테스트 코드 삭제
     await _requestRouteService
         .requestRoute(RequestRouteDTO(
-      sx: sPlaceInfo!.x,//128.69480689460647, // //128.7077189612571,
-      sy: sPlaceInfo!.y,//35.82917810084985, ////35.83024605453422,
-      ex: ePlaceInfo!.x,//128.63359955026564, ////128.67410033572702,
-      ey: ePlaceInfo!.y,//35.82955723876407, ////35.82704251894367,
+      sx: 128.7077189612571,//sPlaceInfo!.x,//128.69480689460647, // //
+      sy: 35.83024605453422,//sPlaceInfo!.y,//35.82917810084985, ////
+      ex: 128.67410033572702,//ePlaceInfo!.x,//128.63359955026564, ////
+      ey: 35.82704251894367,//ePlaceInfo!.y,//35.82955723876407, ////
       rDate: searchDate,
     ))
         .then((value) async {
