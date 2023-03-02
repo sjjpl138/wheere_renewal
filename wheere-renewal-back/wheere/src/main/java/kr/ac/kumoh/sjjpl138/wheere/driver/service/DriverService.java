@@ -65,7 +65,6 @@ public class DriverService {
         result.setBId(findBus.getId());
         result.setVNo(vehicleNo);
         result.setBNo(busNo);
-        result.setBAllocationSeq(findBus.getBusAllocationSeq());
         result.setRouteId(findBus.getRouteId());
         result.setTotalSeats(2);
         result.setFcmToken(fcmToken);
