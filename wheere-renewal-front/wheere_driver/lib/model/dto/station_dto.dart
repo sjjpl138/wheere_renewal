@@ -13,7 +13,7 @@ class StationDTO{
     return StationDTO(
       sId: json['sId'],
       sSeq: json['sSeq'],
-      sName: json['name'],
+      sName: json['sName'],
     );
   }
 }

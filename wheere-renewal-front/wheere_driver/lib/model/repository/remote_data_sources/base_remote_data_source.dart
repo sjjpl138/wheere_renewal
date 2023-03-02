@@ -3,7 +3,7 @@ import 'dart:convert';
 
 abstract class BaseRemoteDataSource {
   static const _baseUrl = "http://10.0.2.2:8080";
-  static const _headers = {"Accept": "application/json"};
+  static const _headers = {"Content-Type": "application/json"};
 
   static Future<Map<String, dynamic>?> get(String path) async {
     try {
@@ -47,6 +47,7 @@ abstract class BaseRemoteDataSource {
       print(jsonEncode(body));
       final res = await http.post(Uri.parse(_baseUrl + path),
           headers: _headers, body: jsonEncode(body));
+      print(json.decode(utf8.decode(res.bodyBytes)));
       switch (res.statusCode) {
         case 200:
           return json.decode(utf8.decode(res.bodyBytes));
@@ -54,6 +55,8 @@ abstract class BaseRemoteDataSource {
           return null;
       }
     } catch (e) {
+      print('e3');
+      print('e');
       return null;
     }
   }

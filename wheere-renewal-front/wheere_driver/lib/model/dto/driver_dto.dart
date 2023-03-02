@@ -29,8 +29,10 @@ class DriverDTO {
         getRouteList.map((i) => StationDTO.fromJson(i)).toList();
 
     var getReservationList = json['reservations'] as List;
+    print(getReservationList.first);
     List<ReservationDTO> reservations =
         getReservationList.map((i) => ReservationDTO.fromJson(i)).toList();
+    print('fasfsd');
     return DriverDTO(
       dName: json["dName"],
       bId: json["bId"],

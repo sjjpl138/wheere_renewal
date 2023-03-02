@@ -54,9 +54,10 @@ class Driver extends ChangeNotifier {
   );*/
 
   Future login(FirebaseLoginDTO firebaseLoginDTO) async {
-    await _loginService
-        .loginWithRemote(firebaseLoginDTO)
-        .then((value) => _driverDTO = value);
+    await _loginService.loginWithRemote(firebaseLoginDTO).then((value) {
+      print(value == null);
+      _driverDTO = value;
+    });
     notifyListeners();
   }
 

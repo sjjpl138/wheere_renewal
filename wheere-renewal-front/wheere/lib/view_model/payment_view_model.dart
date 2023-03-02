@@ -18,7 +18,11 @@ class PaymentViewModel extends ChangeNotifier {
 
   Payment payment = Payment.kakaoPay;
 
-  PaymentViewModel({required this.routeData, required this.rDate});
+  PaymentViewModel({required this.routeData, required this.rDate}) {
+    for (BusData i in routeData.buses) {
+      print('Bus ID : ${i.bId}');
+    }
+  }
 
   List<ReservationInfoListItem> get reservationInfoList => routeData.buses
       .map((e) => ReservationInfoListItem(
@@ -55,9 +59,6 @@ class PaymentViewModel extends ChangeNotifier {
       rState: 'PAID',
       rPrice: routeData.payment,
     ));
-    for (BusData i in routeData.buses) {
-      print('Bus ID : ${i.bId}');
-    }
     if (mounted) Navigator.pop(context, true);
   }
 }

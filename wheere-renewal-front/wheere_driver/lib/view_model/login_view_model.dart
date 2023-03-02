@@ -23,7 +23,7 @@ class LoginViewModel extends ChangeNotifier {
           bOutNo: int.parse(outNoController.text),
           bNo: busNoController.text,
         ),
-      );
+      ).then((value) => print(_driver.driver == null));
     }
   }
 }
