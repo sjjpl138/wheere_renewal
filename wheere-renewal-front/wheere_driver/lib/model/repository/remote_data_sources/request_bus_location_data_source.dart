@@ -20,18 +20,25 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
     };
 
     try {
+      path = "http://apis.data.go.kr/1613000/BusLcInfoInqireService/getRouteAcctoBusLcList";
       Map<String, dynamic>? res = await getWithParams(path, queryParams);
       if(res == null) throw Exception("res is null");
-      Map<String, dynamic> items = res['items'];
-      var itemList = items['item'] as List;
-      List<ItemDTO> item = itemList.map((i) => ItemDTO.fromJson(i)).toList();
+      // Map<String, dynamic> items = res['items'];
+      // var itemList = items['item'] as List;
+      // List<ItemDTO> item = itemList.map((i) => ItemDTO.fromJson(i)).toList();
+      List<dynamic> item =
+      json.decode(json.encode(res['response']['body']['items']['item']));
+      print(item);
       var stationName = "stationName";
+      var ourVNo = vNo.replaceAll(RegExp('\\s'), "");
       for (var bus in item) {
-        if (bus.vehicleno == vNo) {
-          stationName = bus.nodenm;
+        print("${bus['vehicleno']} : $ourVNo");
+        if (bus['vehicleno'] == ourVNo) {
+          stationName = bus['nodenm'];
           break;
         }
       }
+      print(stationName);
       BusLocationDTO busLocation = BusLocationDTO(
           stationName: stationName);
       return busLocation;
@@ -74,6 +81,7 @@ class RequestBusLocationDataSource implements BaseRemoteDataSource {
           return null;
       }
     } catch (e) {
+      print(e);
       return null;
     }
   }
