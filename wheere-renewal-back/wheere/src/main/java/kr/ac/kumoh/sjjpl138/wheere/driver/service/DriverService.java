@@ -5,6 +5,8 @@ import kr.ac.kumoh.sjjpl138.wheere.bus.repository.BusRepository;
 import kr.ac.kumoh.sjjpl138.wheere.driver.Driver;
 import kr.ac.kumoh.sjjpl138.wheere.driver.dto.DriverLogInRequestDto;
 import kr.ac.kumoh.sjjpl138.wheere.driver.dto.DriverLoginResponseDto;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistBusException;
+import kr.ac.kumoh.sjjpl138.wheere.exception.NotExistDriverException;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.dto.ResvDto;
 import kr.ac.kumoh.sjjpl138.wheere.driver.repository.DriverRepository;
 import kr.ac.kumoh.sjjpl138.wheere.platform.dto.StationDto;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -42,11 +45,19 @@ public class DriverService {
         int busAllocationSeq = logInRequestDto.getBusOutNo();
 
         // 버스 토큰 저장
-        Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDateAndBusAllocationSeq(vehicleNo, busNo, operationDate, busAllocationSeq).get();
+        Optional<Bus> findBusOptional = busRepository.findBusByVehicleNoAndBusNoAndBusDateAndBusAllocationSeq(vehicleNo, busNo, operationDate, busAllocationSeq);
+        if (findBusOptional.isEmpty()) {
+            throw new NotExistBusException("존재하지 않는 버스입니다.");
+        }
+        Bus findBus = findBusOptional.get();
         findBus.registerToken(fcmToken);
 
         // 버스 배정
-        Driver findDriver = driverRepository.findById(driverId).get();
+        Optional<Driver> findDriverOptional = driverRepository.findById(driverId);
+        if (findDriverOptional.isEmpty()) {
+            throw new NotExistDriverException("존재하지 않는 버스 기사입니다.");
+        }
+        Driver findDriver = findDriverOptional.get();
         findDriver.assignBus(findBus);
 
         DriverLoginResponseDto result = new DriverLoginResponseDto();
@@ -85,10 +96,13 @@ public class DriverService {
     @Transactional
     public Bus changeBus(String driverId, String vehicleNo, String busNo, LocalDate busDate, int busAllocationSeq) {
         Driver findDriver = driverRepository.findById(driverId).get();
-        Bus findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDateAndBusAllocationSeq(vehicleNo, busNo, busDate, busAllocationSeq).get();
-        findDriver.assignBus(findBus);
+        Optional<Bus> findBus = busRepository.findBusByVehicleNoAndBusNoAndBusDateAndBusAllocationSeq(vehicleNo, busNo, busDate, busAllocationSeq);
+        if (findBus.isEmpty()) {
+            throw new NotExistBusException("존재하지 않는 버스입니다.");
+        }
+        findDriver.assignBus(findBus.get());
 
-        return findBus;
+        return findBus.get();
     }
 
     /**
@@ -97,7 +111,11 @@ public class DriverService {
      */
     @Transactional
     public void logout(String driverId) {
-        Driver findDriver = driverRepository.findById(driverId).get();
+        Optional<Driver> findDriverOptional = driverRepository.findById(driverId);
+        if (findDriverOptional.isEmpty()) {
+            throw new NotExistDriverException("존재하지 않는 버스 기사입니다");
+        }
+        Driver findDriver = findDriverOptional.get();
         Bus busForDriver = findDriver.getBus();
 
         findDriver.cancelBus();

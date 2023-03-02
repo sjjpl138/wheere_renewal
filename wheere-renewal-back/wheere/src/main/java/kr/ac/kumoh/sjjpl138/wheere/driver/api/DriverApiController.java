@@ -31,7 +31,7 @@ public class DriverApiController {
         try {
             DriverLoginResponseDto responseDto = driverService.logIn(requestDto);
             return new ResponseEntity(responseDto, HttpStatus.OK);
-        } catch(NotExistBusException e) {
+        } catch(NotExistBusException | NotExistDriverException e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
