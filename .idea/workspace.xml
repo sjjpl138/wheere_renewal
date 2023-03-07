@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="02c2f7f4-74fa-4a95-8e8d-80d7f020278f" name="Changes" comment="fix: (user) bus location 조회 path 변경">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/dto/update_driver_dto.dart" beforeDir="false" afterPath="$PROJECT_DIR$/wheere-renewal-front/wheere_driver/lib/model/dto/update_driver_dto.dart" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="feature/reservation" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/reservation" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2KPwixYv2ATdUcQzWt1SMPQQc6z" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/wheere-renewal-front" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="02c2f7f4-74fa-4a95-8e8d-80d7f020278f" name="Changes" comment="" />
+      <created>1673889657991</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1673889657991</updated>
+    </task>
+    <task id="LOCAL-00001" summary="feature: (driver) 예약확인 구현">
+      <created>1675349195114</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1675349195114</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feature: (driver) busLocationDTO 수정">
+      <created>1675390585716</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1675390585716</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feature: (driver) driver lgoin 수정">
+      <created>1675569102564</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1675569102564</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feature: (driver) driver update 수정">
+      <created>1675569332854</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1675569332854</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feature: (driver) bus location 수정">
+      <created>1676335041071</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1676335041071</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fix: (user) bus location 조회 path 변경">
+      <created>1677570027204</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1677570027204</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feature: (user) 정류장 조회 구현" />
+    <MESSAGE value="feature: (driver) 예약확인 구현" />
+    <MESSAGE value="feature: (driver) 예약확인, 버스위치 수정" />
+    <MESSAGE value="feature: (driver) busLocationDTO 수정" />
+    <MESSAGE value="feature: (user) 경로조회dto 수정" />
+    <MESSAGE value="feature: (driver) driver lgoin 수정" />
+    <MESSAGE value="feature: (driver) driver update 수정" />
+    <MESSAGE value="feature: (driver) bus location 수정" />
+    <MESSAGE value="fix: (user) bus location 조회 path 변경" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: (user) bus location 조회 path 변경" />
+  </component>
+</project>

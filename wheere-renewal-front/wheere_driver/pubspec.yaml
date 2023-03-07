@@ -1,0 +1,44 @@
+name: wheere_driver
+description: 교통약자를 위한 저상버스 탑승 예약 시스템 - 버스기사용
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.2 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  http: ^0.13.5
+
+  # firebase
+  firebase_core: ^2.4.1
+  firebase_auth: ^4.2.5
+
+  # firebase Messaging
+  firebase_messaging: ^14.2.1
+  flutter_local_notifications: ^13.0.0
+
+  # Validator
+  validators: ^3.0.0
+
+  # provider
+  provider: ^6.0.5
+
+  # dotenv
+  flutter_dotenv: ^5.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env
