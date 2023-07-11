@@ -46,7 +46,7 @@ public class DriverApiController {
         String dId = request.getDId();
         String vNo = request.getVNo();
         String bNo = request.getBNo();
-        LocalDate busDate = LocalDate.now();
+        LocalDate busDate = LocalDate.of(2023, 2, 28);
         int busAllocationSeq = request.getBusOutNo();
 
         try {

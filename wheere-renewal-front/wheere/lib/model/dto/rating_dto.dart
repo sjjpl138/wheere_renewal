@@ -1,6 +1,6 @@
 class RatingDTO{
-  int rId;
-  int bId;
+  String rId;
+  String bId;
   double rate;
 
   RatingDTO({

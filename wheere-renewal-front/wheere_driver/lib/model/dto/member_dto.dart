@@ -20,12 +20,13 @@ class MemberDTO {
   bool operator ==(covariant MemberDTO other) => mId.compareTo(other.mId) == 0;
 
   factory MemberDTO.fromJson(Map<String, dynamic> json) {
+    print(json);
     return MemberDTO(
-      mId: json["mId"],
-      mName: json["mName"],
-      mSex: json["mSex"],
-      mBirthDate: json["mBirthDate"],
-      mNum: json["mNum"],
+      mId: json["mId"].toString(),
+      mName: json["mName"].toString(),
+      mSex: json["mSex"].toString(),
+      mBirthDate: json["mBirthDate"].toString(),
+      mNum: json["mNum"].toString(),
     );
   }
 

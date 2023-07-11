@@ -40,7 +40,7 @@ public class DriverService {
         String driverId = logInRequestDto.getDriverId();
         String vehicleNo = logInRequestDto.getVehicleNo();
         String busNo = logInRequestDto.getBusNo();
-        LocalDate operationDate = LocalDate.now();
+        LocalDate operationDate = LocalDate.of(2023, 2, 28);
         String fcmToken = logInRequestDto.getFcmToken();
         int busAllocationSeq = logInRequestDto.getBusOutNo();
 
@@ -69,7 +69,7 @@ public class DriverService {
         result.setTotalSeats(2);
         result.setFcmToken(fcmToken);
 
-        setRoute(vehicleNo, busNo, result);
+        setRoute(vehicleNo, busNo, busAllocationSeq, result);
         setReservations(findBus, result);
 
         return result;
@@ -80,8 +80,8 @@ public class DriverService {
         result.setReservations(resvDtoList);
     }
 
-    private void setRoute(String vehicleNo, String busNo, DriverLoginResponseDto result) {
-        List<StationDto> route = platformService.findRoute(busNo, vehicleNo);
+    private void setRoute(String vehicleNo, String busNo, int busAllocationSeq, DriverLoginResponseDto result) {
+        List<StationDto> route = platformService.findRoute(busNo, vehicleNo, busAllocationSeq);
         result.setRoute(route);
     }
 

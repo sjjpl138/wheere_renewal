@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 abstract class BaseRemoteDataSource {
-  static const _baseUrl = "http://10.0.2.2:8080";
+  static const _baseUrl = "https://wheere.loca.lt";
   static const _headers = {"Content-Type": "application/json"};
 
   static Future<Map<String, dynamic>?> get(String path) async {

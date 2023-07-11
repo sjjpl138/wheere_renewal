@@ -32,6 +32,7 @@ class _BusCurrentInfoViewState extends State<BusCurrentInfoView> {
           child: Column(
             children: [
               _busCurrentInfoViewModel.reservationInfo,
+              const SizedBox(height: kPaddingLargeSize),
               BusCurrentInfo(
                   busStationInfoList:
                       _busCurrentInfoViewModel.busStationInfoList),

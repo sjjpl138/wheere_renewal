@@ -87,7 +87,7 @@ public class ReservationService {
             List<Platform> findPlatforms = getPlatformsBySIds(bId, sIdList);
 
             // 예약하려는 버스 출발 시간이 현재 시간 이전이라면 예약 불가
-            compareNowWithReservationDateTime(resvDate, findPlatforms.get(0));
+            // compareNowWithReservationDateTime(resvDate, findPlatforms.get(0));
 
             // 동일 버스가 포함되어 있는 Reservation 객체가 있으면 예약 불가 - 취소 상태가 아니라면
             // memberId, resvStatus resvDate만으로 취소 상태가 아닌 Reservation 조회 후 해당 Reservation 객체로 모든 transfer 조회 -> 우리가 예약하고자 하는 bId가 포함되어 있으면 예외 발생

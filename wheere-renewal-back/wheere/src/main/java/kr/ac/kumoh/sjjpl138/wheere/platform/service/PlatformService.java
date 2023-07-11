@@ -25,8 +25,8 @@ public class PlatformService {
      * @param vehicleNo
      * @return
      */
-    public List<StationDto> findRoute(String busNo, String vehicleNo) {
-        List<Platform> platforms = platformRepository.findPlatformsByBus(busNo, vehicleNo);
+    public List<StationDto> findRoute(String busNo, String vehicleNo, int busAllocationSeq) {
+        List<Platform> platforms = platformRepository.findPlatformsByBus(busNo, vehicleNo, busAllocationSeq);
         List<StationDto> route = platforms.stream().map(s -> new StationDto(s)).collect(Collectors.toList());
         return route;
     }

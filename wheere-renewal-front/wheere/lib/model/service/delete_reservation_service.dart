@@ -4,7 +4,7 @@ import 'package:wheere/model/dto/dtos.dart';
 class DeleteReservationService {
   final DeleteReservationRepository _deleteReservationRepository = DeleteReservationRepository();
 
-  Future deleteReservation(int rId) async {
-    return await _deleteReservationRepository.deleteReservation(rId);
+  Future deleteReservation(String mId, int rId, List<int> bIds) async {
+    return await _deleteReservationRepository.deleteReservation(mId, rId, bIds);
   }
 }

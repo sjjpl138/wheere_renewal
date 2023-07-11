@@ -6,16 +6,21 @@ class CustomOutlinedButton extends StatelessWidget {
 
   final String text;
 
-  const CustomOutlinedButton(
-      {Key? key, required this.onPressed, required this.text})
-      : super(key: key);
+  final Color color;
+
+  const CustomOutlinedButton({
+    Key? key,
+    required this.onPressed,
+    required this.text,
+    this.color = CustomColor.buttonMainColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
-        backgroundColor: CustomColor.buttonMainColor,
+        backgroundColor: color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kBorderRadiusSize),
         ),

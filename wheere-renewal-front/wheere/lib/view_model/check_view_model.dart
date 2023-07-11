@@ -10,13 +10,27 @@ class CheckViewModel extends ChangeNotifier {
       RequestBusLocationService();
   final ScrollController scrollController = ScrollController();
 
+  final DeleteReservationService _deleteReservationService =
+      DeleteReservationService();
+
+  late Member _member;
+
+  Future deleteReservation(int rId, List<BusesDTO> buses) async {
+    await _deleteReservationService.deleteReservation(
+      _member.member!.mId,
+      rId,
+      buses.map((e) => e.bId).toList(),
+    );
+    notifyListeners();
+  }
+
   bool isMoreRequesting = false;
   double _dragDistance = 0.0;
-  String rState = "ALL";
+  String rState = "PAID";
   Map<String, String> rStateList = {
+    "PAID": "결제됨",
     "ALL": "전체",
     "RESERVED": "예약됨",
-    "PAID": "결제됨",
     "CANCEL": "취소함",
     "RVW_WAIT": "리뷰필요",
     "RVW_COMP": "리뷰완료"
@@ -24,6 +38,7 @@ class CheckViewModel extends ChangeNotifier {
 
   CheckViewModel() {
     print("checkViewModel is created");
+    _member = Member();
     ReservationList().checkReservation(
       rState,
       isNew: true,
@@ -89,9 +104,9 @@ class CheckViewModel extends ChangeNotifier {
       MaterialPageRoute(
         builder: (context) => RatingPage(
           reservation: AlarmReservationDTO(
-            rId: reservation.rId,
+            rId: reservation.rId.toString(),
             rDate: reservation.rDate,
-            bId: reservation.bId,
+            bId: reservation.bId.toString(),
             bNo: reservation.bNo,
             sStationName: reservation.sStationName,
             eStationName: reservation.eStationName,

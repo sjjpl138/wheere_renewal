@@ -65,6 +65,16 @@ void main() async {
     sound: true,
   );
 
+  FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
   runApp(MyApp());
 }
 
@@ -100,6 +110,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false, // 디버그 표시 지우기
       title: 'Flutter Demo',
       home: Test(),
       localizationsDelegates: [

@@ -19,8 +19,6 @@ class ReservationList extends ChangeNotifier {
       MakeReservationService();
   final CheckReservationService _checkReservationService =
       CheckReservationService();
-  final DeleteReservationService _deleteReservationService =
-      DeleteReservationService();
 
   List<ReservationDTO> get reservationList =>
       _reservationListDTO?.reservationsList ?? [];
@@ -39,11 +37,6 @@ class ReservationList extends ChangeNotifier {
         notifyListeners();
       }
     });
-  }
-
-  Future deleteReservation(int rId) async {
-    await _deleteReservationService.deleteReservation(rId);
-    notifyListeners();
   }
 
   Future checkReservation(String rState,

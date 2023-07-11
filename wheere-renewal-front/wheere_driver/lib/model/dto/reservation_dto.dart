@@ -2,7 +2,7 @@ import 'package:wheere_driver/model/dto/dtos.dart';
 
 class ReservationDTO {
   MemberDTO member;
-  int rId;
+  String rId;
   int bId;
   int startSeq;
   int endSeq;
@@ -22,12 +22,13 @@ class ReservationDTO {
       required this.endSeq});
 
   factory ReservationDTO.fromJson(Map<String, dynamic> json) {
+    print(json);
     return ReservationDTO(
-      member: MemberDTO.fromJson(json["member"]),
-      rId: json["rId"],
-      bId: json["bId"],
-      startSeq: json["startSeq"],
-      endSeq: json["endSeq"],
+      member: MemberDTO.fromJson(json["member"] ?? json),
+      rId: json["rId"] is String? json["rId"] : json["rId"].toString(),
+      bId: json["bid"] is int ? json["bid"] : int.parse(json["bid"]),
+      startSeq: json["startSeq"] is int ? json["startSeq"] :int.parse(json["startSeq"]),
+      endSeq: json["endSeq"] is int ? json["endSeq"] :int.parse(json["endSeq"]),
     );
   }
 
@@ -35,7 +36,7 @@ class ReservationDTO {
     return {
       "member": member.toJson(),
       "rId": rId,
-      "bId": bId,
+      "bid": bId,
       "startSeq": startSeq,
       "endSeq": endSeq,
     };

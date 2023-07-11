@@ -107,6 +107,8 @@ class _CheckViewState extends State<CheckView>
                               reservation.rState,
                               mounted,
                             ),
+                            deleteReservation: () => _checkViewModel
+                                .deleteReservation(reservation.rId, reservation.buses),
                           ),
                         ),
                       );

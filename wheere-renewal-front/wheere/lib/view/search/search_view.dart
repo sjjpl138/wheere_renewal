@@ -67,7 +67,7 @@ class _SearchViewState extends State<SearchView>
                 const SizedBox(height: kPaddingLargeSize),
                 CustomDatePicker(
                   onDateTimeChanged: _searchViewModel.onSearchDateChanged,
-                  initDate: DateTime.now(),
+                  initDate: DateTime(2023, 2, 28),
                   title: '탑승날짜',
                   overDate: 3,
                 ),

@@ -1,7 +1,7 @@
 class AlarmReservationDTO{
-  int rId;
+  String rId;
   String rDate;
-  int bId;
+  String bId;
   String bNo;
   String sTime;
   String sStationName;

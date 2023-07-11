@@ -7,6 +7,7 @@ import kr.ac.kumoh.sjjpl138.wheere.bus.service.BusService;
 import kr.ac.kumoh.sjjpl138.wheere.exception.*;
 import kr.ac.kumoh.sjjpl138.wheere.fcm.service.FcmService;
 import kr.ac.kumoh.sjjpl138.wheere.member.Member;
+import kr.ac.kumoh.sjjpl138.wheere.member.repository.MemberRepository;
 import kr.ac.kumoh.sjjpl138.wheere.platform.Platform;
 import kr.ac.kumoh.sjjpl138.wheere.platform.repository.PlatformRepository;
 import kr.ac.kumoh.sjjpl138.wheere.reservation.Reservation;
@@ -41,6 +42,7 @@ public class ReservationApiController {
     private final ReservationService reservationService;
     private final BusService busService;
     private final PlatformRepository platformRepository;
+    private final MemberRepository memberRepository;
 
     private final FcmService fcmService;
     private final BusRepository busRepository;
@@ -79,7 +81,9 @@ public class ReservationApiController {
         LocalDate rDate = request.getRDate();
         List<ReservationBusInfo> reservationBusInfo = request.getBuses();
 
-        try {
+      Member findMember = memberRepository.findById(mId).get();
+
+      try {
             // 예약 생성
             Reservation reservation = reservationService.saveReservation(request);
 
@@ -97,7 +101,7 @@ public class ReservationApiController {
 
                 Long sStationId = busInfo.getSStationId();
                 Long eStationId = busInfo.getEStationId();
-                List<Platform> platforms = platformRepository.findPlatformByStationIds(List.of(sStationId, eStationId));
+                List<Platform> platforms = platformRepository.findPlatformByStationIdsAndBusId(List.of(sStationId, eStationId), bId);
 
                 String findBusDriverToken = findBus.getToken();
 
@@ -110,7 +114,7 @@ public class ReservationApiController {
                     int startSeq = startPlatform.getStationSeq();
                     int endSeq = endPlatform.getStationSeq();
 
-                    fcmService.sendNewReservationMessageToDriver(findBusDriverToken, mId, rId, bId, startSeq, endSeq);
+                    fcmService.sendNewReservationMessageToDriver(findBusDriverToken, findMember, rId, bId, startSeq, endSeq);
                 }
 
                 String sStationName = platforms.get(0).getStation().getName();

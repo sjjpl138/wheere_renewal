@@ -245,7 +245,7 @@ class MainViewModel extends ChangeNotifier {
       if (value) {
         _busGetOffService.sendReservationStateChange(BusGetOffDTO(
           bId: Driver().driver!.bId,
-          rId: reservationDTO.rId,
+          rId: int.parse(reservationDTO.rId),
         ));
         log(reservationDTO.toJson().toString());
       }

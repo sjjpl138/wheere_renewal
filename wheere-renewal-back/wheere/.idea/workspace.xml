@@ -5,7 +5,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1bc2ea27-f98c-4d52-9feb-8ac098eb5753" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/driver/api/DriverApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/driver/api/DriverApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/driver/service/DriverService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/driver/service/DriverService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/fcm/msg/NewReservationMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/fcm/msg/NewReservationMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/fcm/service/FcmService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/fcm/service/FcmService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/platform/repository/PlatformRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/platform/repository/PlatformRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/platform/service/PlatformService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/platform/service/PlatformService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/reservation/api/ReservationApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/reservation/api/ReservationApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/reservation/service/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/ac/kumoh/sjjpl138/wheere/reservation/service/ReservationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/model/repository/delete_reservation_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/model/repository/delete_reservation_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/model/repository/remote_data_sources/delete_reservation_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/model/repository/remote_data_sources/delete_reservation_data_source.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/model/service/delete_reservation_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/model/service/delete_reservation_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/view/bus_current_info/bus_current_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/view/bus_current_info/bus_current_info_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/view/check/check_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/view/check/check_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/view/common/custom_outlined_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/view/common/custom_outlined_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/view/common/reservation_info/reservation_info_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/view/common/reservation_info/reservation_info_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/view_model/check_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/view_model/check_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/view_model/type/reservation_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/lib/view_model/type/reservation_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/linux/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere/windows/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/lib/model/dto/driver_dto.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/lib/model/dto/driver_dto.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/lib/model/dto/reservation_dto.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/lib/model/dto/reservation_dto.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/lib/model/repository/remote_data_sources/base_remote_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/lib/model/repository/remote_data_sources/base_remote_data_source.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/linux/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/linux/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../../wheere-renewal-front/wheere_driver/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +88,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2LHhPm1npt5wuTaq3wIfvNXyraH" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -52,13 +98,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/PC22096/Desktop/wheere_renewal/wheere-renewal-back/wheere/build.gradle"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/AndroidStudioProjects/wheere_renewal/wheere-renewal-back/wheere&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;8e26281dd53a2cf99230b838f79ba869&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\User\AndroidStudioProjects\wheere_renewal\wheere-renewal-back\wheere\src\main\resources\keystore" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="wheere.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="kr.ac.kumoh.sjjpl138.wheere.WheereApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -67,8 +141,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1675533895241</updated>
+      <workItem from="1688533706486" duration="36000" />
+      <workItem from="1688533749936" duration="42000" />
+      <workItem from="1688969928814" duration="2291000" />
+      <workItem from="1688973943478" duration="12421000" />
+      <workItem from="1689056603175" duration="6540000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -80,5 +162,12 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="resvBusInfos" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
