@@ -2,7 +2,11 @@
 > 교통약자를 위한 모바일 버스 예약 시스템
 
 ## 💡 Demo (youtube)
-유튜브 링크 올라올 예정
+### 일반 사용자
+[![Watch the video](http://img.youtube.com/vi/U0e595ACjAQ/0.jpg)](https://youtu.be/U0e595ACjAQ)
+
+### 버스 운전자
+[![Watch the video](http://img.youtube.com/vi/9TPDUBRLFWc/0.jpg)](https://www.youtube.com/watch?v=9TPDUBRLFWc)
 
 ## ☑️ 핵심기능 설명
 #### ✔️ 버스 예약
@@ -63,7 +67,7 @@
 - 이지현: 설계, 로그인 기능, 데이터 크롤링, 서버 연동
 
 ## 📦 Dependencies
-#### Server
+#### 🖥️Server
 ```gradle
 {
   dependencies {
@@ -94,7 +98,7 @@
 }
 ```
 
-#### Mobile
+#### 📱Mobile
 ```yaml
 {
   dependencies:
